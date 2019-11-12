@@ -1,38 +1,30 @@
----
 
-# <font size="48" color="4A68CA"> Ocean Health Index for the Baltic </font>
+# <font size="48" color="4A68CA"> Baltic Ocean Health Index Dashboard </font>
+**Interactive data visualization of Baltic Sea health and environmental resource management**
+
+<br>
+
+The Dashboard is a data exploration tool, for visualizing the results as well as input data for the assessment. The Baltic Health Index is a regional study under the global Ocean Health Index framework. The aim is to maintain and continually improve a tool that can be used by decision-makers to guide management of the Baltic Sea region towards increased sustainability. Oceans in general provide a diverse array of benefits to humans, often with tradeoffs between benefits. Managing these requires a method of measurement that is both comprehensive and quantitative; establishing such a method was the motivation behind the Ocean Health Index. We strive to use the best open source tools available, to make our ocean health metrics,  results and underlying data easily accessible and entirely transparent
 
 
-### `BHI 2.0`
+### `BHI 2.0` 
 
 As of January of 2019, we began working on our second Baltic Health Index assessment! We will be building on the earlier goal models, making improvements where possible, and including new datasets where relevant. We hope also to be able to conduct scenario testing and sensitivity analysis, create features for interactive data exploration/presentation, and assess interconnectivity of goals.
 
+<br>
 
-**Explore the BHI on GitHub:** <br/>
+**Explore the BHI on GitHub:**
+
+[Baltic Health Index](https://github.com/OHI-Science/bhi)  
 [Functions for calculating Status and Trend](https://github.com/OHI-Science/bhi/blob/master/baltic/conf/functions.R)  
 [Video about following BHI progress in GitHub](https://www.youtube.com/watch?v=u5BRx05Wmwo)  
 [Data preparation](https://github.com/OHI-Science/bhi-prep/tree/master/prep) 
 
----
+**Learn more about the Ocean Health Index:**
 
-## BHI regions
-Our region of focus is the [Baltic Sea](https://www.google.se/maps/place/Baltic+Sea/@59.9996367,11.5210982,1517181m/data=!3m1!1e3!4m5!3m4!1s0x46f4d7d988201b2b:0xb43097ae8474cb3!8m2!3d58.487952!4d19.863281). The BHI regions are based upon Baltic Sea basins used in the HELCOM HOLAS assessement and the exclusive economic zones of the nations surrounding the Baltic Sea. Each of the 42 BHI regions belongs to a single bio-physcial basin and is associated with a single nation. The map below shows the 42 regions used in the assessment.
-
-<br/>
-
-![](supplement/web/BHI_regions_plot.png)  
-
-<br/>
-
----
-
-### Learn more about the Baltic Health Index <br/>
 [BHI at the Stockholm Resilience Centre](http://www.stockholmresilience.org/research/research-themes/marine/baltic-health-index.html)  
-[BHI at the Baltic Sea Center in English](http://www.su.se/ostersjocentrum/english/baltic-eye/research/baltic-health-index)  
-[BHI at the Baltic Sea Center in Swedish](http://www.su.se/ostersjocentrum/baltic-eye/forskning/baltic-health-index)  
 [Ocean Health Index](http://www.oceanhealthindex.org/about)  
 [Ocean Health Index Science](http://ohi-science.org)
-
 
 ---
 
