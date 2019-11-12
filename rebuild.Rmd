@@ -1,0 +1,85 @@
+---
+title: "Rebuild Shiny Dash"
+output: html_document
+---
+
+```{r libraries}
+library(httr)
+library(magrittr)
+```
+
+```{r functions and directories}
+source(file.path(here::here(), "R", "rebuilding.R"))
+
+bhi_version <- "v2019"
+assess_year <- 2019
+
+## should connect to the most recent versions of everything
+gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/v2019/"
+gh_raw_bhi <- "https://raw.githubusercontent.com/OHI-Science/bhi/master/"
+
+"https://raw.githubusercontent.com/OHI-Science/bhi/master/baltic/conf/goals.csv"
+"https://raw.githubusercontent.com/OHI-Science/bhi/master/R/setup.R"
+
+gh_api_bhiprep <- "https://api.github.com/repos/OHI-Science/bhi-prep/git/trees/master?recursive=1"
+gh_api_bhi <- "api url connecting to bhi repo"
+
+## connect to the BHI main database
+bhi_db_con <- "connection to BHI database"
+# bhi_db_file <- "/Users/eleanorecampbell/Desktop/bhi-config.sqlite"
+# bhi_db_con <- DBI::dbConnect(RSQLite::SQLite(), bhi_db_file)
+```
+
+<br>
+
+## Get Most-Recent Data for Dashboard
+
+```{r extract configuration data for app and write to data folder}
+## extract data from main BHI database, only need a small subset of data used in calculaing index
+## load earlier configuration data to confirm/ compare
+```
+
+```{r extract relevant data from bhiprep github repo and write to data folder}
+## which raw or intermediate layers to include for different goals...
+# scenario_layers <- list_prep_layers(gh_api_bhiprep)
+# get_layers(gh_raw_bhiprep, scenario_layers)
+
+## which datasets to obtain for which goals? need a way to determine/record
+```
+
+<br>
+
+## Configuration
+
+```{r make sure everything is synced with main bhi repos}
+## e.g. goal summaries, theme color palettes etc
+
+bhi_theme <- readLines(paste0(gh_raw_bhi, "R/setup.R"))
+bhi_theme <- bhi_theme[grep(pattern = "apply_bhi_theme", bhi_theme):length(bhi_theme)]
+writeLines(bhi_theme, file.path(here::here(), "R", "theme.R"))
+```
+
+<br>
+
+## Wrangling Global Datasets
+
+```{r spatial data wrangling}
+## make lower resolution files for visualization, dont need same resolution as for analysis
+## join with datasets and save so things load faster in the app
+```
+
+```{r create merged layers dataframe}
+## include most recent version of the data in the app
+## the bhi layers were downloaded above (code chunk 4) from the bhiprep repo
+```
+
+<br>
+
+## Update/Repair Links
+
+```{r update links to dataprep documents}
+```
+
+```{r check for any broken links}
+```
+
