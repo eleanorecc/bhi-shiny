@@ -4,24 +4,27 @@ output: html_document
 ---
 
 ```{r libraries}
-library(httr)
+library(here)
 library(magrittr)
+library(readr)
+library(stringr)
+library(dplyr)
 ```
 
 ```{r functions and directories}
-source(file.path(here::here(), "R", "rebuilding.R"))
+source(here("R", "rebuilding.R"))
 
-bhi_version <- "v2019"
 assess_year <- 2019
+bhi_version <- "v2019"
+scenario_folder <- "baltic"
 
-## should connect to the most recent versions of everything
-gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/v2019/"
+## these urls should connect to the most recent versions of everything
+# gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/v2019/"
+gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-1.0-archive/draft/baltic2015/"
 gh_raw_bhi <- "https://raw.githubusercontent.com/OHI-Science/bhi/master/"
 
-"https://raw.githubusercontent.com/OHI-Science/bhi/master/baltic/conf/goals.csv"
-"https://raw.githubusercontent.com/OHI-Science/bhi/master/R/setup.R"
-
-gh_api_bhiprep <- "https://api.github.com/repos/OHI-Science/bhi-prep/git/trees/master?recursive=1"
+# gh_api_bhiprep <- "https://api.github.com/repos/OHI-Science/bhi-prep/git/trees/master?recursive=1"
+gh_api_bhiprep <- "https://api.github.com/repos/OHI-Science/bhi-1.0-archive/git/trees/draft?recursive=1"
 gh_api_bhi <- "api url connecting to bhi repo"
 
 ## connect to the BHI main database
@@ -37,14 +40,30 @@ bhi_db_con <- "connection to BHI database"
 ```{r extract configuration data for app and write to data folder}
 ## extract data from main BHI database, only need a small subset of data used in calculaing index
 ## load earlier configuration data to confirm/ compare
+
+## lookup tables
+tbl(bhi_db_con, "basins") %>% 
+  collect() %>% 
+  write_csv(here("data", "basins.csv"))
+
+tbl(bhi_db_con, "regions") %>% 
+  collect() %>% 
+  write_csv(here("data", "regions.csv"))
+
+## plotting configuration
+tbl(bhi_db_con, "plot_conf") %>% 
+  collect() %>% 
+  write_csv(here("data", "plot_conf.csv"))
 ```
 
 ```{r extract relevant data from bhiprep github repo and write to data folder}
-## which raw or intermediate layers to include for different goals...
-# scenario_layers <- list_prep_layers(gh_api_bhiprep)
-# get_layers(gh_raw_bhiprep, scenario_layers)
+## assessment scores
+read_csv(paste0(gh_raw_bhiprep, "scores.csv")) %>% 
+  write_csv(here("data", "scores.csv"))
 
-## which datasets to obtain for which goals? need a way to determine/record
+## which raw or intermediate layers to include for different goals...
+## which datasets to obtain for which goals? 
+## need a way to determine/record this...
 ```
 
 <br>
@@ -52,11 +71,12 @@ bhi_db_con <- "connection to BHI database"
 ## Configuration
 
 ```{r make sure everything is synced with main bhi repos}
-## e.g. goal summaries, theme color palettes etc
-
+## theme color palettes etc
 bhi_theme <- readLines(paste0(gh_raw_bhi, "R/setup.R"))
 bhi_theme <- bhi_theme[grep(pattern = "apply_bhi_theme", bhi_theme):length(bhi_theme)]
-writeLines(bhi_theme, file.path(here::here(), "R", "theme.R"))
+writeLines(bhi_theme, here("R", "theme.R"))
+
+## goal summaries...
 ```
 
 <br>
@@ -64,13 +84,94 @@ writeLines(bhi_theme, file.path(here::here(), "R", "theme.R"))
 ## Wrangling Global Datasets
 
 ```{r spatial data wrangling}
+## copy over original shapefiles wherever they are saved, currently BHI_share...
 ## make lower resolution files for visualization, dont need same resolution as for analysis
-## join with datasets and save so things load faster in the app
+## save as rds files
+
+## regions shapefile:
+if(!file.exists(here("data", "regions.rds"))){
+  
+  bhi_rgns_shp <- sf::st_read("/Volumes/BHI_share/Shapefiles/BHI_shapefile", "BHI_shapefile") %>%
+    dplyr::mutate(Subbasin = as.character(Subbasin)) %>%
+    dplyr::mutate(Subbasin = ifelse(
+      Subbasin == "Bothian Sea", # NEED TO FIX THIS TYPO!!!
+      "Bothnian Sea", Subbasin
+    ))
+  rmapshaper::ms_simplify(input = bhi_rgns_shp) %>%
+    sf::st_as_sf() %>% 
+    write_rds(here("data", "regions.rds"))
+  
+} else(
+  message(
+    "regions.rds already exists. if you really want to replace it, select and run relevant lines above"
+  )
+)
+
+## subbasins shapefile:
+if(!file.exists(here("data", "subbasins.rds"))){
+  
+  subbasins_shp <- sf::st_read(
+    "/Volumes/BHI_share/Shapefiles/HELCOM_subbasins_holasbasins",
+    "HELCOM_subbasins_holasbasins"
+  )
+  subbasins_shp <- rmapshaper::ms_simplify(input = subbasins_shp) %>%
+    sf::st_as_sf() %>% 
+    dplyr::select(Name, AreaKM2, HELCOM_ID) %>% # keep only necessary columns for shiny
+    write_rds(here("data", "subbasins.rds"))
+  
+} else(
+  message(
+    "subbasins.rds already exists. if you really want to replace it, select and run relevant lines above"
+  )
+)
 ```
 
 ```{r create merged layers dataframe}
 ## include most recent version of the data in the app
-## the bhi layers were downloaded above (code chunk 4) from the bhiprep repo
+scenario_layers <- intersect(
+  read_csv(paste0(gh_raw_bhiprep, "layers.csv"), col_types = cols())$filename %>% str_remove(".csv"), 
+  list_prep_layers(gh_api_bhiprep)
+) %>% grep(pattern = "^rgn_", invert = TRUE, value = TRUE)
+
+get_layers(gh_raw_bhiprep, scenario_layers, 2014) %>% 
+  write_csv(here("data", "layers_data.csv"))
+```
+
+<br>
+
+## Revise select-input menus for UI
+
+```{r recreate UI select menus for pressure and layers pages}
+## pressures timeseries plot, select 'pressure variable' menu options
+
+## layers scatterplot, select variables menu options
+
+```
+
+<br>
+
+## Precalculate Flowerplots
+
+```{r create all the flowerplots ahead of time because its slow}
+source(here::here("R", "flowerplot.R"))
+source(here::here("R", "theme.R"))
+
+flower_data <- readr::read_csv(here("data", "scores.csv"))
+fp_weights <- readr::read_csv(here("data", "layers_data.csv")) %>% 
+  dplyr::filter(str_detect(layer, "wildcaught_weight")) %>% 
+  dplyr::select(year, region_id, value)
+
+make_flower_plot(
+    rgn_scores = flower_data,
+    rgns = c(0, 1:42, 501:517),
+    plot_year = 2014, # max(flower_data$year)
+    dim = "score",
+    color_pal = NA,
+    color_by = "goal",
+    include_ranges = TRUE, 
+    labels = "arc",
+    fis_mar_petals = fp_weights
+)
 ```
 
 <br>
