@@ -4,7 +4,20 @@ library(readr)
 library(dplyr)
 library(tidyr)
 
-
+#' create leaflet map
+#'
+#' @param goal_code the two or three letter code indicating which goal/subgoal to create the plot for
+#' @param mapping_data_sp  sf object associating scores with spatial polygons,
+#' i.e. having goal score and geometries information
+#' @param basins_or_rgns one of 'subbasins' or 'regions' to indicate which spatial units should be represented
+#' @param scores_csv scores dataframe with goal, dimension, region_id, year and score columns,
+#' e.g. output of ohicore::CalculateAll typically from calculate_scores.R
+#' @param dim the dimension the object/plot should represent,
+#' typically 'score' but could be any one of the scores.csv 'dimension' column elements e.g. 'trend' or 'pressure'
+#' @param year the scenario year to filter the data to, by default the current assessment year
+#' @param legend_title text to be used as the legend title
+#'
+#' @return leaflet map with BHI goal scores by BHI region or Subbasins
 leaflet_map <- function(goal_code, mapping_data_sp, basins_or_rgns = "subbasins",
                         scores_csv = NULL, dim = "score", year = assess_year,
                         legend_title){
@@ -66,8 +79,8 @@ leaflet_map <- function(goal_code, mapping_data_sp, basins_or_rgns = "subbasins"
   )
   
   ## create leaflet map ----
-  leaflet_map <- leaflet::leaflet(data = leaflet_plotting_sf) %>%
-    addProviderTiles(providers$CartoDB.Positron) %>% # "Stamen.TonerLite"
+  map <- leaflet::leaflet(data = leaflet_plotting_sf) %>%
+    addProviderTiles(providers$CartoDB.Positron) %>%
     setView(18, 59, zoom = 5) %>%
     addLegend(
       "bottomright", 
@@ -90,7 +103,7 @@ leaflet_map <- function(goal_code, mapping_data_sp, basins_or_rgns = "subbasins"
   
   ## return list result with dataframe too ----
   leaflet_fun_result <- list(
-    map = leaflet_map,
+    map = map,
     data_sf = leaflet_plotting_sf
   )
   

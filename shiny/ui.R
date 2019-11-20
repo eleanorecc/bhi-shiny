@@ -1,5 +1,3 @@
-source(file.path(here::here(), "shiny", "global.R"))
-
 ## Setting up Dashboard
 dashboardPage(
   dashboardHeader(
@@ -346,7 +344,7 @@ dashboardPage(
 
     ## PAGES ----
     tabItems(
-      ## welcome ----
+      ## § welcome ----
       tabItem(
         tabName = "welcome",
 

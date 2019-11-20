@@ -19,7 +19,7 @@ flowerplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL){
     list(
       p(sub_title_text),
       addSpinner(
-        imageOutput(ns("flowerplot"), height = 380),
+        imageOutput(ns("flowerplot"), height = 480),
         spin = "rotating-plane",
         color = "#d7e5e8"
       )
@@ -34,9 +34,14 @@ flowerplotCard <- function(input, output, session, dimension, flower_rgn_selecte
   dim <- dimension
   
   output$flowerplot <- renderImage({
-    
     fig <- list.files(here::here("shiny", "figures")) %>% 
       grep(pattern = paste0("flowerplot", rgn_id), value = TRUE)
-    list(src = here::here("shiny", "figures", fig), contentType = "image/jpeg")
-  })
+    list(
+      src = here::here("shiny", "figures", fig), 
+      contentType = "image/jpeg", 
+      width = "455px", 
+      height = "415px"
+    )
+  },
+  deleteFile = FALSE)
 }

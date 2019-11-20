@@ -33,20 +33,21 @@ mapCard <- function(input, output, session,
                     legend_title, popup_title = NA, popup_add_field = NA, popup_add_field_title = NA){
 
   
+  rgn_id <- flower_rgn_selected()
+  
   output$plot <- renderLeaflet({
-    
     ## scores data and spatial data
     scores_csv <- full_scores_csv %>%
       filter(dimension == dimension_selected())
 
     ## create selected-region overlay, based on spatial unit and flowerplot region
-    if(!is.null(flower_rgn_selected() & flower_rgn_selected() %in% c(1:42, 501:517))){
+    if(!is.null(rgn_id) && rgn_id %in% c(1:42, 501:517)){
       
-      if(flower_rgn_selected() %in% 1:42){
+      if(rgn_id %in% 1:42){
         rgn_select <- rgns_shp %>% 
           dplyr::select(BHI_ID) %>% 
-          dplyr::filter(BHI_ID == flower_rgn_selected())
-      } else if(flower_rgn_selected() %in% 501:517){
+          dplyr::filter(BHI_ID == rgn_id)
+      } else if(rgn_id %in% 501:517){
         rgn_select <- subbasins_shp %>% 
           dplyr::select(HELCOM_ID) %>% 
           dplyr::left_join(
@@ -55,15 +56,19 @@ mapCard <- function(input, output, session,
               dplyr::mutate(HELCOM_ID = as.factor(HELCOM_ID)),
             by = "HELCOM_ID"
           ) %>%
-          dplyr::filter(BHI_ID == flower_rgn_selected())
+          dplyr::filter(BHI_ID == rgn_id)
       }
     }
+    
+   if(spatial_unit_selected() == "subbasins"){
+     mapping_data_sp <- subbasins_shp
+   } else {mapping_data_sp <- rgns_shp}
     
     ## create leaflet map
     result <- leaflet_map(
       goal_code, 
+      mapping_data_sp,
       spatial_unit_selected(), 
-      mapping_data_sp = NULL,
       scores_csv, 
       dim = dimension_selected(), 
       year = assess_year,
@@ -79,16 +84,25 @@ mapCard <- function(input, output, session,
     )
     
     ## return leaflet map with popup added
-    result$map %>%
-      addPolygons(
-        data = rgn_select,
-        stroke = TRUE, weight = 4,
-        opacity = 0.6, fillOpacity = 0, color = "red",
-        smoothFactor = 3) %>%
-      addPolygons(
-        popup = popup_text,
-        fillOpacity = 0,
-        stroke = FALSE
-      )
+    if(!is.null(rgn_id) && rgn_id %in% c(1:42, 501:517)){
+      result$map %>%
+        addPolygons(
+          data = rgn_select,
+          stroke = TRUE, weight = 4,
+          opacity = 0.6, fillOpacity = 0, color = "red",
+          smoothFactor = 3) %>%
+        addPolygons(
+          popup = popup_text,
+          fillOpacity = 0,
+          stroke = FALSE
+        )
+    } else {
+      result$map %>%
+        addPolygons(
+          popup = popup_text,
+          fillOpacity = 0,
+          stroke = FALSE
+        )
+    }
   })
 }
