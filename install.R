@@ -11,6 +11,6 @@ install.packages("plotly")
 install.packages("leaflet")
 install.packages("DT")
 ## issue with sf package dependance on units...
-install.packages('udunits2', type = 'source', repo = 'cran.rstudio.com', configure.args = "--with-udunits2-lib=/usr/local/Cellar/udunits/2.2.20/lib/")
+install.packages("udunits2",configure.args='--with-udunits2-include=/usr/include/udunits2')
 install.packages('units', type = 'source')
 install.packages("sf")
