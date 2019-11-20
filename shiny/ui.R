@@ -15,10 +15,10 @@ dashboardPage(
     chooseSliderSkin("Flat"),
 
     sidebarMenu(
-      ## >> welcome ----
+      ## welcome ----
       menuItem("WELCOME", tabName = "welcome"),
 
-      ## >> explore goals ----
+      ## explore goals ----
       convertMenuItem(
         menuItem(
           "EXPLORE THE GOALS",
@@ -97,7 +97,7 @@ dashboardPage(
         ), # end explore goals menu item
       tabName = "explore"), # end explore goals collapse menu item
 
-      ## >> compare and summarize ----
+      ## compare and summarize ----
       menuItem(
         "COMPARE & SUMMARIZE",
         tabName = "summaries",
@@ -121,44 +121,37 @@ dashboardPage(
         )
       ), # end compare and summarize sidebar
 
-      ## >> view options ----
+      ## view options ----
       menuItem(
         "VIEW OPTIONS",
         tabName = "summaries",
         startExpanded = FALSE,
 
         ## input year ----
-        # sliderInput("view_year", "Year",
-        #             min = min(full_scores_csv$year), max = max(full_scores_csv$year),
-        #             value = assess_year, step = 1),
         sliderInput("view_year", "Year", 2012, 2019, 2014, step = 1, sep = ""),
 
         ## input region ----
         selectInput(
           "flower_rgn",
-          "Flowerplot Region",
+          "Select Region",
           list(
             `Baltic Sea` = 0,
-
             `Aland Sea` = c(
               `Aland Sea` = 514,
               `Aland Sea, Sweden` = 35,
               `Aland Sea, Finland` = 36
             ),
-
             `Arkona Basin` = c(
               `Arkona Basin` = 506,
               `Arkona Basin, Sweden` = 11,
               `Arkona Basin, Denmark` = 12,
               `Arkona Basin, Germany` = 13
             ),
-
             `Bay of Mecklenburg` = c(
               `Bay of Mecklenburg` = 505,
               `Bay of Mecklenburg, Denmark` = 9,
               `Bay of Mecklenburg, Germany` = 10
             ),
-
             `Bornholm Basin` = c(
               `Bornholm Basin` = 507,
               `Bornholm Basin, Sweden` = 14,
@@ -166,19 +159,16 @@ dashboardPage(
               `Bornholm Basin, Germany` = 16,
               `Bornholm Basin, Poland` = 17
             ),
-
             `Bothnian Bay` = c(
               `Bothnian Bay` = 517,
               `Bothnian Bay, Sweden` = 41,
               `Bothnian Bay, Finland` = 42
             ),
-
             `Bothnian Sea` = c(
               `Bothnian Sea` = 515,
               `Bothnian Sea, Sweden` = 37,
               `Bothnian Sea, Finland` = 38
             ),
-
             `Eastern Gotland Basin` = c(
               `Eastern Gotland Basin` = 509,
               `Eastern Gotland Basin, Sweden` = 20,
@@ -188,63 +178,53 @@ dashboardPage(
               `Eastern Gotland Basin, Latvia` = 24,
               `Eastern Gotland Basin, Estonia` = 25
             ),
-
             `Gdansk Basin` = c(
               `Gdansk Basin` = 508,
               `Gdansk Basin, Poland` = 18,
               `Gdansk Basin, Russia` = 19
             ),
-
             `Great Belt` = c(
               `Great Belt` = 502,
               `Great Belt, Denmark` = 3,
               `Great Belt, Germany` = 4
             ),
-
             `Gulf of Finland` = c(
               `Gulf of Finland` = 513,
               `Gulf of Finland, Finland` = 32,
               `Gulf of Finland, Russia` = 33,
               `Gulf of Finland, Estonia` = 34
             ),
-
             `Gulf of Riga` = c(
               `Gulf of Riga` = 511,
               `Gulf of Riga, Latvia` = 27,
               `Gulf of Riga, Estonia` = 28
             ),
-
             `Kattegat` = c(
               `Kattegat` = 501,
               `Kattegat, Sweden` = 1,
               `Kattegat, Denmark` = 2
             ),
-
             `Kiel Bay` = c(
               `Kiel Bay` = 504,
               `Kiel Bay, Denmark` = 7,
               `Kiel Bay, Germany` = 8
             ),
-
             `Northern Baltic Proper` = c(
               `Northern Baltic Proper` = 500,
               `Northern Baltic Proper, Sweden` = 29,
               `Northern Baltic Proper, Finland` = 30,
               `Northern Baltic Proper, Estonia` = 31
             ),
-
             `The Quark` = c(
               `The Quark` = 516,
               `The Quark, Sweden` = 39,
               `The Quark, Finland` = 40
             ),
-
             `The Sound` = c(
               `The Sound` = 503,
               `The Sound, Sweden` = 5,
               `The Sound, Denmark` = 6
             ),
-
             `Western Gotland Basin` = c(
               `Western Gotland Basin` = 510,
               `Western Gotland Basin, Sweden` = 26
@@ -256,8 +236,10 @@ dashboardPage(
         selectInput(
           "spatial_unit",
           "Spatial Units",
-          choices = c(`Subbasins` = "subbasins",
-                      `BHI Regions` = "regions"),
+          choices = c(
+            `Subbasins` = "subbasins",
+            `BHI Regions` = "regions"
+          ),
           selected = "subbasins"
         ),
 
@@ -265,12 +247,14 @@ dashboardPage(
         selectInput(
           "dimension",
           "Index Dimension",
-          choices = c(`Score` = "score",
-                      `Likely Future` = "future",
-                      `Pressures` = "pressures",
-                      `Resilience` = "resilience",
-                      `Current Status` = "status",
-                      `Short Term Trend` = "trend"),
+          choices = c(
+            `Score` = "score",
+            `Likely Future` = "future",
+            `Pressures` = "pressures",
+            `Resilience` = "resilience",
+            `Current Status` = "status",
+            `Short Term Trend` = "trend"
+          ),
           selected = "score"
         )
       ) # end view options sidebar
@@ -362,7 +346,7 @@ dashboardPage(
 
     ## PAGES ----
     tabItems(
-      ## >> welcome ----
+      ## welcome ----
       tabItem(
         tabName = "welcome",
 
@@ -403,7 +387,7 @@ dashboardPage(
             sub_title_text = "",
             box_width = 2
           ),
-          mapRgnCardUI(
+          mapCardUI(
             id = "index_map",
             title_text = "Map of Index Scores",
             sub_title_text = "This map shows scores from the previous assessment (2014)",
@@ -412,7 +396,7 @@ dashboardPage(
         )
       ), # end welcome tab
 
-      ## >> ao ----
+      ## § (AO) artisanal opp. ----
       ## Artisanal Fishing Opportunity
       tabItem(
         tabName = "ao",
@@ -469,7 +453,7 @@ dashboardPage(
         )
       ), # end AO tab item
 
-      ## >> bd ----
+      ## § (BD) biodiversity ----
       ## Biodiversity
       tabItem(
         tabName = "bd",
@@ -529,7 +513,7 @@ dashboardPage(
         )
       ), # end BD tab item
 
-      ## >> cs ----
+      ## § (CS) carbon storage ----
       ## Carbon Storage
       tabItem(
         tabName = "cs",
@@ -587,7 +571,7 @@ dashboardPage(
         )
       ), # end CS tab item
 
-      ## >> cw ----
+      ## § (CW) clean water ----
       ## Clean Water
       tabItem(
         tabName = "cw",
@@ -643,7 +627,7 @@ dashboardPage(
         )
       ), # end CW tab item
 
-      ## >> con ----
+      ## § (CON) contaminants ----
       ## Contaminants
       tabItem(
         tabName = "con",
@@ -703,7 +687,7 @@ dashboardPage(
         )
       ), # end CON tab item
 
-      ## >> eut ----
+      ## § (EUT) eutrophication ----
       ## Eutrophication
       tabItem(
         tabName = "eut",
@@ -763,7 +747,7 @@ dashboardPage(
         )
       ), # end EUT tab item
 
-      ## >> tra ----
+      ## § (TRA) trash ----
       ## Trash
       tabItem(
         tabName = "tra",
@@ -823,7 +807,7 @@ dashboardPage(
         )
       ), # end TRA tab item
 
-      ## >> fp ----
+      ## § (FP) food provision ----
       ## Food Provision
       tabItem(
         tabName = "fp",
@@ -879,7 +863,7 @@ dashboardPage(
         )
       ), # end FP tab item
 
-      ## >> fis ----
+      ## § (FIS) fisheries ----
       ## Wild-Caught Fisheries
       tabItem(
         tabName = "fis",
@@ -939,7 +923,7 @@ dashboardPage(
         )
       ), # end FIS tab item
 
-      ## >> mar ----
+      ## § (MAR) mariculture ----
       ## Mariculture
       tabItem(
         tabName = "mar",
@@ -999,7 +983,7 @@ dashboardPage(
         )
       ), # end MAR tab item
 
-      ## >> le ----
+      ## § (LE) livelihoods and econ.----
       ## Livelihoods & Economies
       tabItem(
         tabName = "le",
@@ -1051,7 +1035,7 @@ dashboardPage(
         )
       ), # end LE tab item
 
-      ## >> eco ----
+      ## § (ECO) economies ----
       ## Economies
       tabItem(
         tabName = "eco",
@@ -1111,7 +1095,7 @@ dashboardPage(
         )
       ), # end ECO tab item
 
-      ## >> liv ----
+      ## § (LIV) livelihoods ----
       ## Livelihoods
       tabItem(
         tabName = "liv",
@@ -1171,7 +1155,7 @@ dashboardPage(
         )
       ), # end LIV tab item
 
-      ## >> sp ----
+      ## § (SP) sense of place ----
       ## Sense of Place
       tabItem(
         tabName = "sp",
@@ -1223,7 +1207,7 @@ dashboardPage(
         )
       ), # end SP tab item
 
-      ## >> ico ----
+      ## § (ICO) iconic species ----
       ## Iconic Species
       tabItem(
         tabName = "ico",
@@ -1283,7 +1267,7 @@ dashboardPage(
         )
       ), # end ICO tab item
 
-      ## >> lsp ----
+      ## § (LSP) lasting special places ----
       ## Lasting Special Places
       tabItem(
         tabName = "lsp",
@@ -1343,7 +1327,7 @@ dashboardPage(
         )
       ), # end LSP tab item
 
-      ## >> np ----
+      ## § (NP) natrual products ----
       ## Natural Products
       tabItem(
         tabName = "np",
@@ -1399,7 +1383,7 @@ dashboardPage(
         )
       ), # end NP tab item
 
-      ## >> tr ----
+      ## § (TR) tourism ----
       ## Tourism
       tabItem(
         tabName = "tr",
@@ -1459,9 +1443,10 @@ dashboardPage(
         )
       ), # end TR tab item
 
-      ## >> compare and summarize
+      ## COMPARE AND SUMMARIZE ----
+      ## compare and summarize
 
-      ## >> futures tab ----
+      ## § futures ----
       tabItem(
         tabName = "futures",
         fluidRow(
@@ -1476,7 +1461,7 @@ dashboardPage(
         )
       ), # end futures tab item
 
-      ## >> pressures tab ----
+      ## § pressures ----
       tabItem(
         tabName = "pressures",
         fluidRow(
@@ -1494,23 +1479,25 @@ dashboardPage(
             width = 9,
             addSpinner(plotlyOutput("pressure_ts"), spin = "rotating-plane", color = "#d7e5e8")
           ),
-          ## pressure ts plot select var ----
+          ## pressure timeseries plot select var
           box(
             width = 3,
-
             selectInput(
               "press_var",
               label = "Pressure Variable to Plot",
-              choices = c(`Eutrophication` = "eut_time_data",
-                          `Contaminants PCB` = "con_pcb_time_data",
-                          `Contaminants Dioxin` = "con_dioxin_time_data",
-                          `Anoxia Pressure` = "anoxia_press",
-                          `Nitrogen Load Tonnes` = "N_basin_tonnes")
+              choices = c(
+                `Eutrophication` = "eut_time_data",
+                `Contaminants PCB` = "con_pcb_time_data",
+                `Contaminants Dioxin` = "con_dioxin_time_data",
+                `Anoxia Pressure` = "anoxia_press",
+                `Nitrogen Load Tonnes` = "N_basin_tonnes"
+              )
             )
-          )
+          ) # end pressure timeseries plot select var
         )
-      ), # end pressures tab item ----
-      ## >> scenarios tab ----
+      ), # end pressures item
+      
+      ## § scenarios ----
       tabItem(
         tabName = "scenarios",
         fluidRow(
@@ -1519,13 +1506,13 @@ dashboardPage(
             width = 12
           ),
           box(
-            p("SOMETHING ABOUT SCENARIOS TESTING APPROACHES,  TRIALS,  RESULTS"),
+            p("SOMETHING ABOUT SCENARIOS TESTING APPROACHES, TRIALS, RESULTS"),
             width = 12
           )
         )
-      ), # end scenarios tab item
+      ), # end scenarios item
 
-      ## >> layers tab ----
+      ## § layers ----
       tabItem(
         tabName = "layers",
         fluidRow(
@@ -1542,225 +1529,26 @@ dashboardPage(
           box(
             width = 9,
             plotOutput("layers_scatter")
-          ),
-          ## layers scatterplot select vars ----
-          box(
-            width = 3,
-
-            selectInput(
-              "layerscatter_var_x",
-              label = "Select Layer X",
-              choices = c(
-                `AO_STOCK_SLOPE` = "ao_stock_slope_bhi2015.csv",
-                `AO_STOCK_STATUS` = "ao_stock_status_bhi2015.csv",
-                `BD_SPP_STATUS` = "bd_spp_status_bhi2015.csv",
-                `CC_SAL_DEEP` = "cc_sal_deep_bhi2015.csv",
-                `CC_SAL_SURF` = "cc_sal_surf_bhi2015.csv",
-                `CC_SST` = "cc_sst_bhi2015.csv",
-                `CS_STATUS` = "cs_status_bhi2015.csv",
-                `CW_CON_DIOXIN_STATUS` = "cw_con_dioxin_status_bhi2015.csv",
-                `CW_CON_ICES6_STATUS` = "cw_con_ices6_status_bhi2015.csv",
-                `CW_CON_PENALTY` = "cw_con_penalty_bhi2015.csv",
-                `CW_CON_PFOS_STATUS` = "cw_con_pfos_status_bhi2015.csv",
-                `CW_EUT_STATUS_SCORE` = "cw_eut_status_score_bhi2015.csv",
-                `CW_NUT_ANOXIA_STATUS` = "cw_nut_anoxia_status_bhi2015.csv",
-                `FIS_BBMSY` = "fis_bbmsy_bhi2015.csv",
-                `FIS_FFMSY` = "fis_ffmsy_bhi2015.csv",
-                `FIS_LANDINGS` = "fis_landings_bhi2015.csv",
-                `FP_OVER_HARVEST` = "fp_over_harvest_bhi2015.csv",
-                `FP_WILDCAUGHT_WEIGHT` = "fp_wildcaught_weight_bhi2015.csv",
-                `HAB_ANOXIA` = "hab_anoxia_bhi2015.csv",
-                `HAB_BOTTOM_TRAWL` = "hab_bottom_trawl_bhi2015.csv",
-                `HAB_COASTAL_POP` = "hab_coastal_pop_bhi2015.csv",
-                `HAB_ILLEGAL_OIL` = "hab_illegal_oil_bhi2015.csv",
-                `ICO_STATUS` = "ico_status_bhi2015.csv",
-                `LE_GDP_COUNTRY` = "le_gdp_country_bhi2015.csv",
-                `LE_GDP_REGION` = "le_gdp_region_bhi2015.csv",
-                `LIV_NATIONAL_EMPLOY` = "liv_national_employ_bhi2015.csv",
-                `LIV_REGIONAL_EMPLOY` = "liv_regional_employ_bhi2015.csv",
-                `LSP_STATUS_BY_RGN` = "lsp_status_by_rgn_bhi2015.csv",
-                `MAR_COASTALPOPN2005_INLAND25KM` = "mar_coastalpopn2005_inland25km_bhi2015.csv",
-                `MAR_HARVEST_SPECIES` = "mar_harvest_species_bhi2015.csv",
-                `MAR_HARVEST_TONNES` = "mar_harvest_tonnes_bhi2015.csv",
-                `MAR_SUSTAINABILITY_SCORE` = "mar_sustainability_score_bhi2015.csv",
-                `NP_BBMSY` = "np_bbmsy_bhi2015.csv",
-                `NP_FFMSY` = "np_ffmsy_bhi2015.csv",
-                `NP_LANDINGS` = "np_landings_bhi2015.csv",
-                `PO_ATMOS_PCB153` = "po_atmos_pcb153_bhi2015.csv",
-                `PO_ATMOS_PCDDF` = "po_atmos_pcddf_bhi2015.csv",
-                `PO_INVERSE_SECCHI` = "po_inverse_secchi_bhi2015.csv",
-                `PO_NLOAD` = "po_nload_bhi2015.csv",
-                `PO_PLOAD` = "po_pload_bhi2015.csv",
-                `PO_TRASH` = "po_trash_bhi2015.csv",
-                `RES_BIODIVERSITY` = "res_biodiversity_bhi2015.csv",
-                `RES_REG_BIRDS` = "res_reg_birds_bhi2015.csv",
-                `RES_REG_BSAP` = "res_reg_bsap_bhi2015.csv",
-                `RES_REG_BWD` = "res_reg_bwd_bhi2015.csv",
-                `RES_REG_CBD` = "res_reg_cbd_bhi2015.csv",
-                `RES_REG_CFP` = "res_reg_cfp_bhi2015.csv",
-                `RES_REG_CITES` = "res_reg_cites_bhi2015.csv",
-                `RES_REG_COP21` = "res_reg_cop21_bhi2015.csv",
-                `RES_REG_HD` = "res_reg_hd_bhi2015.csv",
-                `RES_REG_HELCOM` = "res_reg_helcom_bhi2015.csv",
-                `RES_REG_IED` = "res_reg_ied_bhi2015.csv",
-                `RES_REG_MSFD` = "res_reg_msfd_bhi2015.csv",
-                `RES_REG_MSPD` = "res_reg_mspd_bhi2015.csv",
-                `RES_REG_ND` = "res_reg_nd_bhi2015.csv",
-                `RES_REG_NEC` = "res_reg_nec_bhi2015.csv",
-                `RES_REG_POP` = "res_reg_pop_bhi2015.csv",
-                `RES_REG_REACH` = "res_reg_reach_bhi2015.csv",
-                `RES_REG_UWWTD` = "res_reg_uwwtd_bhi2015.csv",
-                `RES_REG_WFD` = "res_reg_wfd_bhi2015.csv",
-                `SP_INVASIVES` = "sp_invasives_bhi2015.csv",
-                `SPP_DIV_VULN` = "spp_div_vuln_bhi2015.csv",
-                `SS_WGI` = "ss_wgi_bhi2015.csv",
-                `TR_ACCOMMODATION_STAYS` = "tr_accommodation_stays_bhi2015.csv",
-                `WGI_ALL` = "wgi_all_bhi2015.csv"
-              )
-            ),
-            selectInput(
-              "layerscatter_var_y",
-              label = "Select Layer Y",
-              choices = c(
-                `AO_STOCK_SLOPE` = "ao_stock_slope_bhi2015.csv",
-                `AO_STOCK_STATUS` = "ao_stock_status_bhi2015.csv",
-                `BD_SPP_STATUS` = "bd_spp_status_bhi2015.csv",
-                `CC_SAL_DEEP` = "cc_sal_deep_bhi2015.csv",
-                `CC_SAL_SURF` = "cc_sal_surf_bhi2015.csv",
-                `CC_SST` = "cc_sst_bhi2015.csv",
-                `CS_STATUS` = "cs_status_bhi2015.csv",
-                `CW_CON_DIOXIN_STATUS` = "cw_con_dioxin_status_bhi2015.csv",
-                `CW_CON_ICES6_STATUS` = "cw_con_ices6_status_bhi2015.csv",
-                `CW_CON_PENALTY` = "cw_con_penalty_bhi2015.csv",
-                `CW_CON_PFOS_STATUS` = "cw_con_pfos_status_bhi2015.csv",
-                `CW_EUT_STATUS_SCORE` = "cw_eut_status_score_bhi2015.csv",
-                `CW_NUT_ANOXIA_STATUS` = "cw_nut_anoxia_status_bhi2015.csv",
-                `FIS_BBMSY` = "fis_bbmsy_bhi2015.csv",
-                `FIS_FFMSY` = "fis_ffmsy_bhi2015.csv",
-                `FIS_LANDINGS` = "fis_landings_bhi2015.csv",
-                `FP_OVER_HARVEST` = "fp_over_harvest_bhi2015.csv",
-                `FP_WILDCAUGHT_WEIGHT` = "fp_wildcaught_weight_bhi2015.csv",
-                `HAB_ANOXIA` = "hab_anoxia_bhi2015.csv",
-                `HAB_BOTTOM_TRAWL` = "hab_bottom_trawl_bhi2015.csv",
-                `HAB_COASTAL_POP` = "hab_coastal_pop_bhi2015.csv",
-                `HAB_ILLEGAL_OIL` = "hab_illegal_oil_bhi2015.csv",
-                `ICO_STATUS` = "ico_status_bhi2015.csv",
-                `LE_GDP_COUNTRY` = "le_gdp_country_bhi2015.csv",
-                `LE_GDP_REGION` = "le_gdp_region_bhi2015.csv",
-                `LIV_NATIONAL_EMPLOY` = "liv_national_employ_bhi2015.csv",
-                `LIV_REGIONAL_EMPLOY` = "liv_regional_employ_bhi2015.csv",
-                `LSP_STATUS_BY_RGN` = "lsp_status_by_rgn_bhi2015.csv",
-                `MAR_COASTALPOPN2005_INLAND25KM` = "mar_coastalpopn2005_inland25km_bhi2015.csv",
-                `MAR_HARVEST_SPECIES` = "mar_harvest_species_bhi2015.csv",
-                `MAR_HARVEST_TONNES` = "mar_harvest_tonnes_bhi2015.csv",
-                `MAR_SUSTAINABILITY_SCORE` = "mar_sustainability_score_bhi2015.csv",
-                `NP_BBMSY` = "np_bbmsy_bhi2015.csv",
-                `NP_FFMSY` = "np_ffmsy_bhi2015.csv",
-                `NP_LANDINGS` = "np_landings_bhi2015.csv",
-                `PO_ATMOS_PCB153` = "po_atmos_pcb153_bhi2015.csv",
-                `PO_ATMOS_PCDDF` = "po_atmos_pcddf_bhi2015.csv",
-                `PO_INVERSE_SECCHI` = "po_inverse_secchi_bhi2015.csv",
-                `PO_NLOAD` = "po_nload_bhi2015.csv",
-                `PO_PLOAD` = "po_pload_bhi2015.csv",
-                `PO_TRASH` = "po_trash_bhi2015.csv",
-                `RES_BIODIVERSITY` = "res_biodiversity_bhi2015.csv",
-                `RES_REG_BIRDS` = "res_reg_birds_bhi2015.csv",
-                `RES_REG_BSAP` = "res_reg_bsap_bhi2015.csv",
-                `RES_REG_BWD` = "res_reg_bwd_bhi2015.csv",
-                `RES_REG_CBD` = "res_reg_cbd_bhi2015.csv",
-                `RES_REG_CFP` = "res_reg_cfp_bhi2015.csv",
-                `RES_REG_CITES` = "res_reg_cites_bhi2015.csv",
-                `RES_REG_COP21` = "res_reg_cop21_bhi2015.csv",
-                `RES_REG_HD` = "res_reg_hd_bhi2015.csv",
-                `RES_REG_HELCOM` = "res_reg_helcom_bhi2015.csv",
-                `RES_REG_IED` = "res_reg_ied_bhi2015.csv",
-                `RES_REG_MSFD` = "res_reg_msfd_bhi2015.csv",
-                `RES_REG_MSPD` = "res_reg_mspd_bhi2015.csv",
-                `RES_REG_ND` = "res_reg_nd_bhi2015.csv",
-                `RES_REG_NEC` = "res_reg_nec_bhi2015.csv",
-                `RES_REG_POP` = "res_reg_pop_bhi2015.csv",
-                `RES_REG_REACH` = "res_reg_reach_bhi2015.csv",
-                `RES_REG_UWWTD` = "res_reg_uwwtd_bhi2015.csv",
-                `RES_REG_WFD` = "res_reg_wfd_bhi2015.csv",
-                `SP_INVASIVES` = "sp_invasives_bhi2015.csv",
-                `SPP_DIV_VULN` = "spp_div_vuln_bhi2015.csv",
-                `SS_WGI` = "ss_wgi_bhi2015.csv",
-                `TR_ACCOMMODATION_STAYS` = "tr_accommodation_stays_bhi2015.csv",
-                `WGI_ALL` = "wgi_all_bhi2015.csv"
-              )
-            # ),
-            # selectizeInput(
-            #   "layers_dt_vars",
-            #   label = "Data Table Variables",
-            #   choices = c(
-            #     # `AO_STOCK_SLOPE` = "ao_stock_slope_bhi2015.csv",
-            #     # `AO_STOCK_STATUS` = "ao_stock_status_bhi2015.csv",
-            #     # `BD_SPP_STATUS` = "bd_spp_status_bhi2015.csv",
-            #     `CC_SAL_DEEP` = "cc_sal_deep_bhi2015.csv",
-            #     `CC_SAL_SURF` = "cc_sal_surf_bhi2015.csv",
-            #     `CC_SST` = "cc_sst_bhi2015.csv",
-            #     `CS_STATUS` = "cs_status_bhi2015.csv",
-            #     `CW_CON_DIOXIN_STATUS` = "cw_con_dioxin_status_bhi2015.csv",
-            #     `CW_CON_ICES6_STATUS` = "cw_con_ices6_status_bhi2015.csv",
-            #     `CW_CON_PENALTY` = "cw_con_penalty_bhi2015.csv",
-            #     `CW_CON_PFOS_STATUS` = "cw_con_pfos_status_bhi2015.csv",
-            #     `CW_EUT_STATUS_SCORE` = "cw_eut_status_score_bhi2015.csv",
-            #     `CW_NUT_ANOXIA_STATUS` = "cw_nut_anoxia_status_bhi2015.csv"
-            #     # `FIS_BBMSY` = "fis_bbmsy_bhi2015.csv",
-            #     # `FIS_FFMSY` = "fis_ffmsy_bhi2015.csv",
-            #     # `FIS_LANDINGS` = "fis_landings_bhi2015.csv",
-            #     # `FP_OVER_HARVEST` = "fp_over_harvest_bhi2015.csv",
-            #     # `FP_WILDCAUGHT_WEIGHT` = "fp_wildcaught_weight_bhi2015.csv",
-            #     # `HAB_ANOXIA` = "hab_anoxia_bhi2015.csv",
-            #     # `HAB_BOTTOM_TRAWL` = "hab_bottom_trawl_bhi2015.csv",
-            #     # `HAB_COASTAL_POP` = "hab_coastal_pop_bhi2015.csv",
-            #     # `HAB_ILLEGAL_OIL` = "hab_illegal_oil_bhi2015.csv",
-            #     # `ICO_STATUS` = "ico_status_bhi2015.csv",
-            #     # `LE_GDP_COUNTRY` = "le_gdp_country_bhi2015.csv",
-            #     # `LE_GDP_REGION` = "le_gdp_region_bhi2015.csv",
-            #     # `LIV_NATIONAL_EMPLOY` = "liv_national_employ_bhi2015.csv",
-            #     # `LIV_REGIONAL_EMPLOY` = "liv_regional_employ_bhi2015.csv",
-            #     # `LSP_STATUS_BY_RGN` = "lsp_status_by_rgn_bhi2015.csv",
-            #     # `MAR_COASTALPOPN2005_INLAND25KM` = "mar_coastalpopn2005_inland25km_bhi2015.csv",
-            #     # `MAR_HARVEST_SPECIES` = "mar_harvest_species_bhi2015.csv",
-            #     # `MAR_HARVEST_TONNES` = "mar_harvest_tonnes_bhi2015.csv",
-            #     # `MAR_SUSTAINABILITY_SCORE` = "mar_sustainability_score_bhi2015.csv",
-            #     # `NP_BBMSY` = "np_bbmsy_bhi2015.csv",
-            #     # `NP_FFMSY` = "np_ffmsy_bhi2015.csv",
-            #     # `NP_LANDINGS` = "np_landings_bhi2015.csv",
-            #     # `PO_ATMOS_PCB153` = "po_atmos_pcb153_bhi2015.csv",
-            #     # `PO_ATMOS_PCDDF` = "po_atmos_pcddf_bhi2015.csv",
-            #     # `PO_INVERSE_SECCHI` = "po_inverse_secchi_bhi2015.csv",
-            #     # `PO_NLOAD` = "po_nload_bhi2015.csv",
-            #     # `PO_PLOAD` = "po_pload_bhi2015.csv",
-            #     # `PO_TRASH` = "po_trash_bhi2015.csv",
-            #     # `RES_BIODIVERSITY` = "res_biodiversity_bhi2015.csv",
-            #     # `RES_REG_BIRDS` = "res_reg_birds_bhi2015.csv",
-            #     # `RES_REG_BSAP` = "res_reg_bsap_bhi2015.csv",
-            #     # `RES_REG_BWD` = "res_reg_bwd_bhi2015.csv",
-            #     # `RES_REG_CBD` = "res_reg_cbd_bhi2015.csv",
-            #     # `RES_REG_CFP` = "res_reg_cfp_bhi2015.csv",
-            #     # `RES_REG_CITES` = "res_reg_cites_bhi2015.csv",
-            #     # `RES_REG_COP21` = "res_reg_cop21_bhi2015.csv",
-            #     # `RES_REG_HD` = "res_reg_hd_bhi2015.csv",
-            #     # `RES_REG_HELCOM` = "res_reg_helcom_bhi2015.csv",
-            #     # `RES_REG_IED` = "res_reg_ied_bhi2015.csv",
-            #     # `RES_REG_MSFD` = "res_reg_msfd_bhi2015.csv",
-            #     # `RES_REG_MSPD` = "res_reg_mspd_bhi2015.csv",
-            #     # `RES_REG_ND` = "res_reg_nd_bhi2015.csv",
-            #     # `RES_REG_NEC` = "res_reg_nec_bhi2015.csv",
-            #     # `RES_REG_POP` = "res_reg_pop_bhi2015.csv",
-            #     # `RES_REG_REACH` = "res_reg_reach_bhi2015.csv",
-            #     # `RES_REG_UWWTD` = "res_reg_uwwtd_bhi2015.csv",
-            #     # `RES_REG_WFD` = "res_reg_wfd_bhi2015.csv",
-            #     # `SP_INVASIVES` = "sp_invasives_bhi2015.csv",
-            #     # `SPP_DIV_VULN` = "spp_div_vuln_bhi2015.csv",
-            #     # `SS_WGI` = "ss_wgi_bhi2015.csv",
-            #     # `TR_ACCOMMODATION_STAYS` = "tr_accommodation_stays_bhi2015.csv",
-            #     # `WGI_ALL` = "wgi_all_bhi2015.csv"
-            #   )
-            )
           )
+          ## layers scatterplot select vars ----
+          # box(
+          #   width = 3,
+          #   selectInput(
+          #     "layerscatter_var_x",
+          #     label = "Select Layer X",
+          #     choices = c()
+          #   ),
+          #   selectInput(
+          #     "layerscatter_var_y",
+          #     label = "Select Layer Y",
+          #     choices = c()
+          #   ),
+          #   selectizeInput(
+          #     "layers_dt_vars",
+          #     label = "Data Table Variables",
+          #     choices = c()
+          #   )
+          # ) # end layers scatterplot select vars
         ),
         fluidRow(
           box(
@@ -1768,8 +1556,7 @@ dashboardPage(
             DTOutput("layers_datatab")
           )
         )
-      ) # end layers tab item ----
-
-    ) # end tabItems ----
-  ) # end dashboardBody ----
-) # end dashboardPage ----
+      ) # end layers item
+    ) # end tabItems
+  ) # end dashboardBody
+) # end dashboardPage

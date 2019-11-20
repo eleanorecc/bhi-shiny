@@ -12,33 +12,41 @@ function(input, output, session){
   observeEvent(
     eventExpr = input$flower_rgn, {
       values$flower_rgn <- input$flower_rgn
-
       flower_rgn <- reactive(values$flower_rgn)
-      callModule(flowerplotCard, "baltic_flowerplot",
-                 dimension = "score",
-                 flower_rgn_selected = flower_rgn)
+      callModule(
+        flowerplotCard, 
+        "baltic_flowerplot",
+        dimension = "score",
+        flower_rgn_selected = flower_rgn
+      )
     }, ignoreNULL = FALSE
   )
-
-  callModule(barplotCard, "index_barplot",
-             goal_code = "Index",
-             dimension_selected = dimension,
-             spatial_unit_selected = spatial_unit)
-
+  
+  callModule(
+    barplotCard, 
+    "index_barplot",
+    goal_code = "Index",
+    dimension_selected = dimension,
+    spatial_unit_selected = spatial_unit
+  )
+  
   observeEvent(
     eventExpr = input$flower_rgn, {
       values$flower_rgn <- input$flower_rgn
-
       flower_rgn <- reactive(values$flower_rgn)
-      callModule(mapRgnCard, "index_map",
-                 goal_code = "Index",
-                 dimension_selected = dimension,
-                 spatial_unit_selected = spatial_unit,
-                 flower_rgn_selected = flower_rgn,
-                 legend_title = "Scores",
-                 popup_title = "Score:",
-                 popup_add_field = "Name",
-                 popup_add_field_title = "Name:")
+      
+      callModule(
+        mapCard, 
+        "index_map",
+        goal_code = "Index",
+        dimension_selected = dimension,
+        spatial_unit_selected = spatial_unit,
+        flower_rgn_selected = flower_rgn,
+        legend_title = "Scores",
+        popup_title = "Score:",
+        popup_add_field = "Name",
+        popup_add_field_title = "Name:"
+      )
     }, ignoreNULL = FALSE
   )
 
@@ -60,18 +68,23 @@ function(input, output, session){
     },
     ignoreNULL = FALSE
   )
-  callModule(mapCard, "ao_map",
-             goal_code = "AO",
-             dimension_selected = dimension,
-             spatial_unit_selected = spatial_unit,
-             legend_title = "Scores",
-             popup_title = "Score:",
-             popup_add_field = "Name",
-             popup_add_field_title = "Name:")
-  callModule(barplotCard, "ao_barplot",
-             goal_code = "AO",
-             dimension_selected = dimension,
-             spatial_unit_selected = spatial_unit)
+  callModule(
+    mapCard, 
+    "ao_map",
+    goal_code = "AO",
+    dimension_selected = dimension,
+    spatial_unit_selected = spatial_unit,
+    legend_title = "Scores",
+    popup_title = "Score:",
+    popup_add_field = "Name",
+    popup_add_field_title = "Name:"
+  )
+  callModule(
+    barplotCard, "ao_barplot",
+    goal_code = "AO",
+    dimension_selected = dimension,
+    spatial_unit_selected = spatial_unit
+  )
 
 
   ## BD ----
@@ -91,20 +104,25 @@ function(input, output, session){
     },
     ignoreNULL = FALSE
   )
-  callModule(mapCard, "bd_map",
-             goal_code = "BD",
-             dimension_selected = dimension,
-             spatial_unit_selected = spatial_unit,
-             legend_title = "Scores",
-             popup_title = "Score:",
-             popup_add_field = "Name",
-             popup_add_field_title = "Name:")
-  callModule(barplotCard, "bd_barplot",
-             goal_code = "BD",
-             dimension_selected = dimension,
-             spatial_unit_selected = spatial_unit)
-
-
+  callModule(
+    mapCard, "bd_map",
+    goal_code = "BD",
+    dimension_selected = dimension,
+    spatial_unit_selected = spatial_unit,
+    legend_title = "Scores",
+    popup_title = "Score:",
+    popup_add_field = "Name",
+    popup_add_field_title = "Name:"
+  )
+  callModule(
+    barplotCard, 
+    "bd_barplot",
+    goal_code = "BD",
+    dimension_selected = dimension,
+    spatial_unit_selected = spatial_unit
+  )
+  
+  
   ## CS ----
   ## Carbon Storage
   observeEvent(
@@ -122,19 +140,25 @@ function(input, output, session){
     },
     ignoreNULL = FALSE
   )
-  callModule(mapCard, "cs_map",
-             goal_code = "CS",
-             dimension_selected = dimension,
-             spatial_unit_selected = spatial_unit,
-             legend_title = "Scores",
-             popup_title = "Score:",
-             popup_add_field = "Name",
-             popup_add_field_title = "Name:")
-  callModule(barplotCard, "cs_barplot",
-             goal_code = "CS",
-             dimension_selected = dimension,
-             spatial_unit_selected = spatial_unit)
-
+  callModule(
+    mapCard,
+    "cs_map",
+    goal_code = "CS",
+    dimension_selected = dimension,
+    spatial_unit_selected = spatial_unit,
+    legend_title = "Scores",
+    popup_title = "Score:",
+    popup_add_field = "Name",
+    popup_add_field_title = "Name:"
+  )
+  callModule(
+    barplotCard, 
+    "cs_barplot",
+    goal_code = "CS",
+    dimension_selected = dimension,
+    spatial_unit_selected = spatial_unit
+  )
+  
 
   ## CW ----
   ## Clean Water
