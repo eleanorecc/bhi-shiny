@@ -1,8 +1,7 @@
-library(readr)
+source(here::here("R", "theme.R"))
 library(dplyr)
 library(ggplot2)
 library(plotly)
-source(here::here("R", "theme.R"))
 
 #' create barplot to accompany maps
 #'
@@ -10,20 +9,18 @@ source(here::here("R", "theme.R"))
 #' intended to present side-by-side with map, to show distances from reference points/room for improvement
 #'
 #' e.g. output of ohicore::CalculateAll typically from calculate_scores.R
+#' @param scores_csv scores dataframe e.g. output of ohicore::CalculateAll
 #' @param basins_or_rgns one of 'subbasins' or 'regions' to indicate which spatial units should be represented
 #' @param goal_code the two or three letter code indicating which goal/subgoal to create the plot for
 #' @param dim the dimension the barplot should represent (typically OHI 'score')
 #' @param uniform_width if TRUE all subbasin bars will be the same width, otherwise a function of area
-#' @param make_html if TRUE, will create an hmtl/plottly version rather than ggplot to use e.g. for the website or shiny app
 #'
 #' @return returns ggplot or html plotly widget if 'make_html' arg is true
 
-scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code = "Index", dim = "score", 
-                           uniform_width = FALSE, make_html = FALSE){
+scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code = "Index", dim = "score", uniform_width = FALSE){
   
   ## apply bhi_theme, in this case the same as for flowerplot
   thm <- apply_bhi_theme(plot_type = "flowerplot")
-  
   
   ## wrangle scores and join info to create plotting dataframe ----
   scores <- scores_csv
@@ -41,36 +38,32 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
   ## which regions to plot, bhi or subbasins
   if(basins_or_rgns == "subbasins"){
     
-    order_df <- readr::read_csv(here("data", "basins.csv")) %>%
+    order_df <- subbasins_df %>%
       dplyr::select(name = subbasin, order) %>%
       dplyr::mutate(order = as.factor(order))
     
-    areas_df <- readr::read_csv(here("data", "basins.csv")) %>%
-      dplyr::select(name = subbasin, area_km2)
+    areas_df <- dplyr::select(subbasins_df, name = subbasin, area_km2)
     
     scores <- scores %>%
       dplyr::filter(region_id >= 500) %>%
       dplyr::left_join(
-        readr::read_csv(here("data", "basins.csv")) %>%
-          dplyr::select(region_id = subbasin_id, name = subbasin),
+        dplyr::select(subbasins_df, region_id = subbasin_id, name = subbasin),
         by = "region_id"
       ) %>%
       dplyr::select(name, score)
     
   } else {
-    order_df <- readr::read_csv(here("data", "regions.csv")) %>%
+    order_df <- regions_df %>%
       dplyr::select(name = region_id, order) %>%
       dplyr::mutate(order = as.factor(order))
     
-    areas_df <- readr::read_csv(here("data", "regions.csv")) %>%
-      dplyr::select(name = region_id, area_km2)
+    areas_df <- dplyr::select(regions_df, name = region_id, area_km2)
     
     scores <- scores %>%
       dplyr::filter(region_id < 100 & region_id != 0) %>%
       dplyr::rename(name = region_id) %>%
       dplyr::left_join(
-        readr::read_csv(here("data", "regions.csv"))%>%
-          dplyr::select(name = region_id, region_name), 
+        dplyr::select(regions_df, name = region_id, region_name), 
         by = "name"
       )
   }
@@ -131,7 +124,6 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
       width = weight, fill = score_unrounded
     )
   ) +
-    
     geom_bar(
       aes(y = 100),
       stat = "identity",
@@ -140,7 +132,6 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
       alpha = 0.6,
       fill = "white"
     ) +
-    
     geom_bar(
       stat = "identity",
       size = 0.2,
@@ -148,7 +139,6 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
       alpha = 0.8,
       show.legend = FALSE
     ) +
-    
     scale_fill_gradientn(
       colours = c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#0278a7"),
       breaks = c(15, 40, 60, 75, 90, 100),
@@ -158,7 +148,6 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
   
   ## overlay light grey for NAs
   if(any(!is.na(plot_df$plotNAs))){
-    
     plot_obj <- plot_obj +
       geom_bar(
         aes(y = plotNAs),
@@ -176,18 +165,6 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
     coord_flip() +
     theme(axis.text.y = element_blank())
   
-  ## html plotly vs standard ggplot ----
-  if(!make_html){
-    plot_obj <- plot_obj +
-      ggrepel::geom_text_repel(
-        aes(label = Name),
-        family = "Helvetica",
-        size = 3, angle = 0, direction = "x",
-        segment.alpha = 0.1, segment.size = 0.1, box.padding = 0.8,
-        show.legend = FALSE
-      )
-    
-  } else {plot_obj <- plotly::ggplotly(plot_obj, tooltip = "text")}
-
+  plot_obj <- plotly::ggplotly(plot_obj, tooltip = "text")
   return(invisible(plot_obj))
 }

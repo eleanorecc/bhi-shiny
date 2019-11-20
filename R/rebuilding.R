@@ -45,33 +45,31 @@ get_layers <- function(gh_raw_bhiprep, layers, default_year){
     layer = character(), 
     value = numeric()
   )
+  matchcols <- c("rgn_id", "year", "value", "category", "layer")
+  
   ## download and reformat data layers
   for(lyr in layers){
-    lyr_df <- readr::read_csv(paste0(gh_raw_bhiprep, "layers/", unlist(lyr),  ".csv")) %>% 
+    lyr_df <- readr::read_csv(paste0(gh_raw_bhiprep, "layers/", unlist(lyr),  ".csv"), col_types = cols()) %>% 
       dplyr::mutate(layer = unlist(lyr))
     
-    if(1 %in% dim(lyr_df)){
+    if(any(1:2 %in% dim(lyr_df))){
       message(sprintf("excluding layer %s, insufficient rows of data", unlist(lyr)))
     } else {
       
-      ## generally reshape columns into a consistent format...
+      ## reshape columns into a consistent format...
       if(!"year" %in% names(lyr_df)){
         lyr_df <- dplyr::mutate(lyr_df, year = default_year)
       }
-      if(any(str_detect(names(lyr_df), "pressure"))){
-        lyr_df <- dplyr::mutate(lyr_df, category = "pressure")
-      }
-      if(any(str_detect(names(lyr_df), "resilience"))){
-        lyr_df <- dplyr::mutate(lyr_df, category = "resilience")
-      }
-      if(any(str_detect(names(lyr_df), "trend"))){
-        lyr_df <- dplyr::mutate(lyr_df, category = "trend")
-      }
-      if(any(str_detect(names(lyr_df), "score")) & !any(str_detect(names(lyr_df), "dimension"))){
-        lyr_df <- dplyr::mutate(lyr_df, category = "score")
-      }
       if("dimension" %in% names(lyr_df)){
         lyr_df <- dplyr::rename(lyr_df, category = dimension)
+      } else if(any(str_detect(names(lyr_df), "pressure")) | str_detect(lyr, "pressure")){
+        lyr_df <- dplyr::mutate(lyr_df, category = "pressure")
+      } else if(any(str_detect(names(lyr_df), "resilience")) | str_detect(lyr, "resilience")){
+        lyr_df <- dplyr::mutate(lyr_df, category = "resilience")
+      } else if(any(str_detect(names(lyr_df), "trend")) | str_detect(lyr, "trend")){
+        lyr_df <- dplyr::mutate(lyr_df, category = "trend")
+      } else {
+        lyr_df <- dplyr::mutate(lyr_df, category = "status")
       }
       colnames(lyr_df) <- gsub("::score$", "value", colnames(lyr_df))
       colnames(lyr_df) <- gsub("score$", "value", colnames(lyr_df))
@@ -79,12 +77,47 @@ get_layers <- function(gh_raw_bhiprep, layers, default_year){
       ## ugh why are there such random column names
       ## if missing value columns still
       ## if after all this there are columns other than region_id, year, category...
-      matchcols <- c("rgn_id", "year", "value", "category", "layer")
       extracol <- setdiff(names(lyr_df), matchcols)
       
       if(!"value" %in% names(lyr_df) & length(extracol) == 1){
         if(class(dplyr::select(lyr_df, !!sym(extracol))[[1]]) == "numeric"){
           lyr_df <- dplyr::rename(lyr_df, value = !!sym(extracol))
+        }
+      }
+      ## have value column already, so extra column must be a categorical variable...
+      else if("value" %in% names(lyr_df) & length(extracol) == 1){
+        if(class(dplyr::select(lyr_df, !!sym(extracol))[[1]]) %in% c("character", "factor")){
+          lyr_df <- lyr_df %>% 
+            mutate(category = paste(ifelse(
+              !"category" %in% names(lyr_df), "score", category),
+              !!sym(extracol), 
+              sep = ", ")
+            ) %>% 
+            dplyr::select(-!!sym(extracol))
+        }
+      }
+      ## if two cols left over, assume one with more unique vals is score and other is a categorical var
+      else if(!"value" %in% names(lyr_df) & length(extracol) == 2){
+        if(length(unique(lyr_df[[sym(extracol[1])]])) > length(unique(lyr_df[[sym(extracol[2])]]))){
+          
+          lyr_df <- lyr_df %>% 
+            mutate(category = paste(ifelse(
+              !"category" %in% names(lyr_df), "score", category),
+              !!sym(extracol[2]), 
+              sep = ", ")
+            ) %>% 
+            dplyr::select(-!!sym(extracol[2])) %>% 
+            dplyr::rename(value = !!sym(extracol[1]))
+          
+        } else {
+          lyr_df <- lyr_df %>% 
+            mutate(category = paste(ifelse(
+              !"category" %in% names(lyr_df), "score", category),
+              !!sym(extracol[1]), 
+              sep = ", ")
+            ) %>% 
+            dplyr::select(-!!sym(extracol[1])) %>% 
+            dplyr::rename(value = !!sym(extracol[2]))
         }
       }
       ## row bind to complete layers dataframe
@@ -94,6 +127,10 @@ get_layers <- function(gh_raw_bhiprep, layers, default_year){
           all_lyrs_df, 
           dplyr::select(lyr_df, year, region_id = rgn_id, category, layer, value)
         )
+        message(sprintf("successfully added layer %s to merged layers_data table", lyr))
+        
+      } else {
+        message(sprintf("excluding layer %s because of column names mismatch...", lyr))
       }
     }
   }
@@ -164,116 +201,148 @@ goal_layers <- function(gh_raw_bhi, scenario_folder, goal_code = "all"){
   return(functionsR_layers)
 }
 
-#' make sf obj with subbasin-aggregated goal scores
+#' layers scatterplot variables selection menu
 #'
-#' @param subbasins_shp a shapefile read into R as a sf (simple features) object;
-#' must have an attribute column with subbasin full names
-#' @param scores_csv scores dataframe with goal, dimension, region_id, year and score columns,
-#' e.g. output of ohicore::CalculateAll typically from calculate_scores.R
-#' @param dim the dimension the object/plot should represent,
-#' typically 'score' but could be any one of the scores.csv 'dimension' column elements e.g. 'trend' or 'pressure'
-#' @param year the scenario year to filter the data to, by default the current assessment yearr
+#' @param layers_dir directory containing the layers
+#' @param print boolean indicating whether to print copy-and-pasteable text in console
 #'
-#' @return sf obj with subbasin-aggregated goal scores
+#' @return no returned object; prints helpful info in console
 
-make_subbasin_sf <- function(subbasins_shp, scores_csv, dim = "score", year = assess_year){
+make_lyrs_menu <- function(layers_dir, print = FALSE){
   
-  ## raster::select conflict w dplyr...
-  if("raster" %in% (.packages())){
-    detach("package:raster",  unload = TRUE)
-    library(tidyverse)
+  lyrs <- list.files(layers_dir) %>%
+    grep(pattern = "_bhi2015.csv", value = TRUE) %>%
+    grep(pattern = "_trend", value = TRUE, invert = TRUE) %>%
+    grep(pattern = "_scores", value = TRUE, invert = TRUE) %>%
+    sort()
+  
+  cat("\n\n")
+  for(f in lyrs){
+    cat(
+      sprintf(
+        "`%s` = \"%s\"",
+        f %>%
+          str_remove(pattern  = "_bhi2015.csv+") %>%
+          str_to_upper(),
+        f
+      ),
+      sep = ", \n"
+    )
   }
-  if("year" %in% colnames(scores_csv)){
-    scores_csv <- scores_csv %>%
-      dplyr::filter(year == year) %>%
-      select(-year)
-  } else {
-    message("no year column in given scores_csv, assuming it has been properly filtered by year")
-  }
-
-  subbasin_data <- scores_csv %>%
-    dplyr::filter(region_id >= 500) %>%
-    dplyr::collect() %>%
-    dplyr::left_join(
-      readr::read_csv(here("data", "basins.csv")) %>%
-        select(region_id = subbasin_id, subbasin, area_km2) %>%
-        collect(),
-      by = "region_id"
-    ) %>%
-    dplyr::filter(!is.na(subbasin))
   
-  ## filter and spread data by goal
-  mapping_data <- subbasin_data %>%
-    dplyr::filter(dimension == dim) %>%
-    dplyr::select(score, goal, Name = subbasin) %>%
-    tidyr::spread(key = goal, value = score) %>%
-    dplyr::filter(!is.na(Name)) %>%
-    dplyr::mutate(dimension = dim)
-  
-  ## simplify the polygons for plotting
-  subbasins_shp <- rmapshaper::ms_simplify(input = subbasins_shp) %>%
-    sf::st_as_sf()
-  
-  ## join with spatial information from subbasin shapfile
-  mapping_data_sp <- subbasins_shp %>%
-    dplyr::mutate(Name = as.character(Name)) %>%
-    dplyr::mutate(Name = ifelse(
-      Name == "Åland Sea",
-      "Aland Sea", Name)
-    ) %>%
-    dplyr::left_join(mapping_data, by = "Name") %>%
-    sf::st_transform(crs = 4326)
-  
-  return(mapping_data_sp)
+  vec <- lyrs
+  names(vec) <- lyrs %>%
+    str_remove(pattern  = "_bhi2015.csv+") %>%
+    str_to_upper()
+  return(vec)
 }
 
-#' make bhi-regiomns sf obj joined with goal scores
+#' print in console goal-pages ui and server code
 #'
-#' @param bhi_rgns_shp a shapefile of the BHI regions, as a sf (simple features) object
-#' @param scores_csv scores dataframe with goal, dimension, region_id, year and score columns,
-#' e.g. output of ohicore::CalculateAll typically from calculate_scores.R
-#' @param goal_code the two or three letter code indicating which goal/subgoal to create the plot for
-#' @param dim the dimension the object/plot should represent,
-#' typically 'score' but could be any one of the scores.csv 'dimension' column elements e.g. 'trend' or 'pressure'
-#' @param year the scenario year to filter the data to, by default the current assessment yearr
-#' @param simplify_level number of times rmapshaper::ms_simplify function should be used on the shapefile,
-#' to simplify polygons for display
+#' helper/timesaver function, could maybe be a module but thats another layer of complexity...
 #'
-#' @return bhi-regions sf obj joined with goal scores
+#' @param goal_code the goal for which to input information /create code chunk
+#' @param goal_code_templatize the goal to use as a template
+#' @param ui_server one of either ui or server, whichever code is to be generated for
+#'
+#' @return
 
-make_rgn_sf <- function(bhi_rgns_shp, scores_csv, dim = "score", year = assess_year){
+templatize_goalpage <- function(goal_code, goal_code_templatize, ui_server){
   
-  # bhi_rgns_shp <- sf::st_read("/Volumes/BHI_share/Shapefiles/BHI_shapefile", "BHI_shapefile") %>%
-  #   dplyr::mutate(Subbasin = as.character(Subbasin)) %>%
-  #   dplyr::mutate(Subbasin = ifelse(Subbasin == "Bothian Sea", "Bothnian Sea", Subbasin)) # NEED TO FIX THIS TYPO!!!!!!!!
-  
-  rgn_lookup <- readr:.read_csv(here("data", "regions")) %>%
-    select(region_id, Name = region_name)
-  
-  if("year" %in% colnames(scores_csv)){
-    scores_csv <- scores_csv %>%
-      dplyr::filter(year == year) %>%
-      select(-year)
+  if(ui_server  ==  "ui"){
+    ## ui template, read then parse to goal to copy/templatize
+    templatetxt <- scan(file.path(getwd(), "ui.R"),
+                        what = "character",
+                        sep = "\n")
+    breaks <- templatetxt %>% grep(pattern = "##\\s>>\\s[a-z]{2,3}\\s----")
+    breakstart <- templatetxt %>% grep(pattern = sprintf("## >> %s ----", str_to_lower(goal_code_templatize)))
+    breakend <- min(breaks[which(breaks > breakstart)]) - 1
+    templatetxt <- templatetxt[breakstart:breakend]
+    
+  } else if(ui_server  ==  "server"){
+    ## server template, read then parse to goal to copy/templatize
+    templatetxt <- scan(file.path(getwd(), "server.R"),
+                        what = "character",
+                        sep = "\n")
+    breaks <- templatetxt %>% grep(pattern = "##\\s[A-Z]{2,3}\\s----")
+    breakstart <- templatetxt %>%
+      grep(
+        pattern = sprintf(
+          "##\\s%s\\s----",
+          str_to_upper(goal_code_templatize)
+        )
+      )
+    breakend <- min(breaks[which(breaks > breakstart)]) - 1
+    templatetxt <- templatetxt[breakstart:breakend]
+    
   } else {
-    message("no year column in given scores_csv, assuming it has been properly filtered by year")
+    message("ui_server argument must be one of 'ui' or 'server'")
   }
   
-  ## wrangle/reshape and join with spatial info to make sf for plotting
-  mapping_data <- scores_csv %>%
-    dplyr::filter(dimension == dim, region_id %in% rgn_lookup$region_id) %>%
-    dplyr::left_join(rgn_lookup, by = "region_id") %>%
-    dplyr::select(-dimension) %>%
-    tidyr::spread(key = goal, value = score) %>%
-    dplyr::mutate(dimension = dim)
- 
-  ## simplify the polygons for plotting
-  bhi_rgns_shp <- rmapshaper::ms_simplify(input = bhi_rgns_shp) %>%
-    sf::st_as_sf()
+  ## replacement info
+  goalinfo <- tbl(bhi_db_con, "plot_conf") %>%
+    select(name, goal, parent) %>%
+    collect() %>%
+    filter(goal %in% c(str_to_upper(goal_code), str_to_upper(goal_code_templatize)))
   
-  ## join with spatial information from subbasin shapfile
-  mapping_data_sp <- bhi_rgns_shp %>%
-    dplyr::mutate(Name = sprintf("%s, %s", Subbasin, rgn_nam)) %>%
-    dplyr::left_join(mapping_data, by = "Name")
+  ## inject info for new goal
+  txt <- templatetxt
+  for(p in c("\"%s\"", " %s ", "\"%s_", " %s_")){
+    pttn <- sprintf(p, str_to_lower(goal_code_templatize))
+    repl <- sprintf(p, str_to_lower(goal_code)) # print(paste(pttn, "-->", repl))
+    txt <- str_replace_all(txt, pattern = pttn, replacement = repl)
+  }
+  for(p in c("\"%s\"", " %s ", "\"%s ", " %s\"", "/%s/", "%s\\)")){
+    pttn <- sprintf(p, str_to_upper(goal_code_templatize))
+    repl <- sprintf(p, str_to_upper(goal_code)) # print(paste(pttn, "-->", repl))
+    txt <- str_replace_all(txt, pattern = pttn, replacement = repl)
+  }
+  # if(any(!is.na(goalinfo$parent))){"?"}
+  for(p in c("\"%s\"", " %s ", "%s ", " %s", "\"%s ", " %s\"", "/%s/", "%s\\)")){
+    pttn <- sprintf(p, filter(goalinfo, goal == goal_code_templatize)$name)
+    repl <- sprintf(p, filter(goalinfo, goal == goal_code)$name) # print(paste(pttn, "-->", repl))
+    txt <- str_replace_all(txt , pattern = pttn, replacement = repl)
+  }
+  #biodiversity --> #artisanal-fishing-opportunities
   
-  return(mapping_data_sp)
+  txt <- txt %>%
+    str_replace_all(
+      pattern = sprintf(
+        "#%s",
+        filter(goalinfo, goal == goal_code_templatize)$name %>%
+          str_to_lower() %>%
+          str_replace_all(pattern = " ", replacement = "-")
+      ),
+      replacement = sprintf(
+        "#%s",
+        filter(goalinfo, goal == goal_code)$name %>%
+          str_to_lower() %>%
+          str_replace_all(pattern = " ", replacement = "-")
+      )) %>%
+    str_replace_all(pattern = "p\\(\"[A-Za-z0-9 ]+\"\\)", replacement = "p(\"\")")
+  
+  ## print result in console
+  cat(txt, sep = "\n")
+}
+
+#' print in console pieces to create region menu code
+#'
+#' @param rgn_tab_con
+#'
+#' @return no returned object; prints helpful info in console
+
+make_rgn_menu <- function(rgn_tab_con = bhi_db_con){
+  
+  rgn <- tbl(rgn_tab_con, "regions") %>%
+    select(region_id, subbasin, region_name) %>%
+    collect() %>%
+    arrange(subbasin) %>%
+    mutate(print_col = sprintf("`%s` = %s", region_name, region_id))
+  
+  cat(paste0("`", unique(rgn$subbasin), "` = c(`", unique(rgn$subbasin), "` = )", sep =  "\n"))
+  
+  cat("\n\n")
+  for(s in unique(rgn$subbasin)){
+    cat(filter(rgn, subbasin  == s)$print_col, sep = ", \n")
+  }
 }

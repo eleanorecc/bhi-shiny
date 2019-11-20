@@ -1,24 +1,13 @@
-## Libraries
-source(file.path(here::here(), "R", "setup.R"))
+source(here::here("R", "theme.R"))
 library(ggplot2)
-library(ggthemes)
-library(grDevices)
-library(formattable)
-library(circlize) # https://jokergoo.github.io/circlize_book/book/
+library(circlize)
 library(magick)
-library(htmltools)
-library(htmlwidgets)
-library(webshot) # webshot::install_phantomjs()
 
-
-## Functions
-
-
-#' create a BHI flowerplot
+#' create a BHI flowerplots
 #'
 #' This function creates BHI/OHI flower plots
-#' requires a dataframe of OHI scores filtered to the region of interest
-#' reads in information from supplement/tables/
+#' requires a dataframe of OHI scores
+#' reads in information from shiny/data
 #'
 #' @param rgn_scores scores dataframe e.g. output of ohicore::CalculateAll (typically from calculate_scores.R),
 #' filtered to region
@@ -26,33 +15,21 @@ library(webshot) # webshot::install_phantomjs()
 #' @param plot_year year by which to filter region score input dataframe;
 #' defaults to current year or maximum year in score data input
 #' @param dim the dimension the flowerplot petals should represent (typically OHI 'score')
+#' @param labels one of "none", "regular", "curved"
 #' @param color_pal a color palette that will map to values of specified dimension 'dim';
 #' ideally discrete for color_by 'goal' and continuous otherise
 #' @param color_by either "goal" or "score"
-#' @param gradient a boolean indicating whether flowerplot petals should have a gradient,
-#' i.e. more intense color near center and more transparent towards edges
-#' @param legend_tab boolean indicating if legend should be included or not
-#' @param update_legend a boolean indicating whether legend will need to be recalculated for a new plot
-#' (creating the legend takes time so avoid if possible)
-#' @param labels one of "none", "regular", "curved"
-#' @param center_val a boolean indicating whether the region average value should be included in the center of the flower plot
 #' @param include_ranges whether range bars should be calculated and displayed on plot, only for area-weighted averages ie region id = 0
-#' @param critical_value value at which a light red line should drawn overlying the plot,
-#' to indicate a 'critical point' of some kind...
-#' @param save the plot will not be saved if 'save' is FALSE or NA, will be saved to file.path(save) if a string,
-#' or to "reports/figures" directory if TRUE
+#' @param fis_mar_petals a dataframe idicating how each subgoal of food provision should be presented (petal width) on the flowerplot
 #'
 #' @return result is a flower plot; if curved labels or legend table are included,
 #' the resulting class is magick-image, otherwise the result is a ggplot object
-
-make_flower_plot <- function(rgn_scores, rgns = NA, plot_year = NA, dim = "score",
-                             color_pal = NA, color_by = "goal", gradient = FALSE, legend_tab = FALSE, update_legend = FALSE,
-                             labels = "none", center_val = TRUE, include_ranges = FALSE, critical_value = 0, save = NA){
-
+#' 
+make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal = NA, color_by = "goal", include_ranges = FALSE, fis_mar_petals){
   ## from PlotFlower.R from ohicore package
   ## original function by Casey O'Hara, Julia Lowndes, Melanie Frazier
   ## find original script in R folder of ohicore github repo (as of Mar 27, 2019)
-
+  
   ## WRANGLING & CHECKS ----
   ## region scores data checks ----
   ## filtering/wrangling of rgn_scores for years and dimension
@@ -74,9 +51,12 @@ make_flower_plot <- function(rgn_scores, rgns = NA, plot_year = NA, dim = "score
       message(paste("plotting using most recent year in the input data:", plot_year,"\n"))
     }
   }
+  ## filter to plot_year and dimension
   rgn_scores <- rgn_scores %>%
     dplyr::filter(year == plot_year, dimension == dim)
-
+  
+  ## check all/only BHI regions included, 
+  ## for including ranges on overall BHI flowerplot...
   rgn_scores_summary <- rgn_scores %>%
     group_by(goal, dimension, year) %>%
     summarize(
@@ -86,7 +66,7 @@ make_flower_plot <- function(rgn_scores, rgns = NA, plot_year = NA, dim = "score
       scores_range = list(range(score, na.rm = TRUE) %>% round(digits = 1))
     ) %>%
     ungroup()
-  if(!is.na(rgns)){
+  if(!any(is.na(rgns))){
     if(!any(rgns == 0)){
       rgn_scores_summary <- rgn_scores_summary %>%
         select(-scores_range)
@@ -97,67 +77,52 @@ make_flower_plot <- function(rgn_scores, rgns = NA, plot_year = NA, dim = "score
   if(length(unlist(rgn_scores_summary$missing_rgn)) != 0 & isTRUE(include_ranges)){
     message("note: some missing regions for some goals... rgn_scores must be full scores.csv to include valid/actual ranges!")
   }
-
-  ## fis and mar ----
-  ## weights for fis vs. mar, uses layers/fp_wildcaught_weight.csv
-  ## csv info determines relative width in the flowerplot of the two food provision subgoals
-  w_fn <- list.files(file.path(dir_assess, "layers"),
-                     pattern = "fp_wildcaught_weight",
-                     full.names = TRUE)
-  if(length(w_fn) != 1){
-    if(length(w_fn) > 1){
-      message("fp_wildcaught_weight.csv not unique...")
-    } else {message("fp_wildcaught_weight.csv not found in layers...")}
-    w_fn <- NULL
+  
+  ## FIS and MAR ----
+  ## weights for fis vs. mar, uses fp_wildcaught_weight.csv layer
+  ## info determines relative width in the flowerplot of the two food provision subgoals
+  wgts <- fis_mar_petals %>%
+    dplyr::filter(year == plot_year) %>%
+    dplyr::select(-year)
+  
+  if(length(wgts$value) != 0){
+    mean_wgt <- mean(wgts$value) # mean across regions within the year of interest
+    
+    ## area weighted subbasin means
+    wgts_basin <- readr::read_csv(here("data", "regions.csv"), col_types = cols()) %>%
+      dplyr::select(region_id, area_km2, subbasin) %>% 
+      dplyr::left_join(wgts, by = "region_id") %>%
+      dplyr::group_by(subbasin) %>%
+      dplyr::summarize(value = weighted.mean(value, area_km2)) %>%
+      dplyr::left_join(
+        readr::read_csv(here("data", "basins.csv"), col_types = cols()) %>%
+          dplyr::select(subbasin, region_id = subbasin_id),
+        by = "subbasin"
+      ) %>%
+      ungroup() %>%
+      dplyr::select(region_id, value)
+    
+    wgts <- rbind(
+      data.frame(region_id = 0, value = mean_wgt),
+      dplyr::filter(wgts, region_id %in% unique_rgn),
+      wgts_basin
+    )
   } else {
-    wgts <- readr::read_csv(w_fn) %>%
-      dplyr::filter(year == plot_year) %>%
-      dplyr::select(-year)
-    if(length(wgts$w_fis) != 0){
-      mean_wgt <- mean(wgts$w_fis) # mean across regions within the year of interest
-
-      ## area weighted subbasin means
-      wgts_basin <- tbl(bhi_db_con, "regions") %>%
-        select(rgn_id = region_id, area_km2, subbasin) %>%
-        collect() %>%
-        left_join(wgts, by = "rgn_id") %>%
-        group_by(subbasin) %>%
-        summarize(w_fis = weighted.mean(w_fis, area_km2)) %>%
-        left_join(
-          tbl(bhi_db_con, "basins") %>%
-            select(subbasin, rgn_id = subbasin_id) %>%
-            collect(),
-          by = "subbasin"
-        ) %>%
-        ungroup() %>%
-        select(rgn_id, w_fis)
-
-      wgts <- rbind(
-        data.frame(rgn_id = 0, w_fis = mean_wgt),
-        dplyr::filter(wgts, rgn_id %in% unique_rgn),
-        wgts_basin
-      )
-
-    } else {
-      message(paste("fp_wildcaught_weight.csv doesn't have data for the plot_year:", plot_year))
-      w_fn <- NULL
-    }
+    message(paste("fp_wildcaught_weight.csv doesn't have data for the plot_year:", plot_year))
+    fis_mar_petals <- NULL
   }
-  if(is.null(w_fn)){message("plotting FIS and MAR with equal weighting\n")}
-
-  ## PLOTTING CONFIGURATION
+  if(is.null(fis_mar_petals)){message("plotting FIS and MAR with equal weighting\n")}
+  
+  ## PLOTTING CONFIGURATION & THEME
   ## sub/supra goals and positioning ----
   ## pos, pos_end, and pos_supra indicate positions, how wide different petals should be based on weightings
-  # plot_config <- readr::read_csv(file.path(dir_assess, "conf", "goals.csv"),
-  #                                col_types = cols()) # dir_assess from common.R
-  plot_config <- readr::read_csv(file.path(dir_assess, "conf", "plot_config_adjust.csv"),
-                                 col_types = cols()) # dir_assess from common.R
+  plot_config <- readr::read_csv(here::here("data", "plot_conf.csv"), col_types = cols())
   goals_supra <- na.omit(unique(plot_config$parent))
-
+  
   supra_lookup <- plot_config %>%
     dplyr::filter(goal %in% goals_supra) %>%
     dplyr::select(parent = goal, name_supra = name_flower)
-
+  
   plot_config <- plot_config %>%
     dplyr::left_join(supra_lookup, by = "parent") %>%
     dplyr::filter(!(goal %in% goals_supra)) %>%
@@ -174,10 +139,9 @@ make_flower_plot <- function(rgn_scores, rgns = NA, plot_year = NA, dim = "score
         f2 = ifelse(order_hierarchy <= max(plot_config$order_hierarchy)/1.5, f[2], f[1])) %>%
       dplyr::select(-f)
   }
-
-  ## some color palette and theme stuff ----
-  thm <- apply_bhi_theme(plot_type = "flowerplot") # theme_update for bhi flowerplot
-
+  
+  thm <- apply_bhi_theme(plot_type = "flowerplot")
+  
   color_by <- str_to_lower(color_by)
   if(color_by == "goal"){
     if(length(plot_config$goal) > length(color_pal)){
@@ -188,20 +152,14 @@ make_flower_plot <- function(rgn_scores, rgns = NA, plot_year = NA, dim = "score
       color_df <- tibble::tibble(goal = plot_config$goal, color = color_pal)
     }
   }
-  if(isTRUE(gradient)){
-    message("since plotting with a gradient is so intensive, plotting only for first region!!!\n")
-    unique_rgn <- unique_rgn[1]
-  }
-
-  ## start looping over regions ----
+  
+  ## LOOP OVER REGIONS ----
   ## region-specific configuration and then plotting
   for(r in unique_rgn){
-    if(!is.null(w_fn)){ # mar vs fis weights differ between regions
-      plot_config$weight[plot_config$goal == "FIS"] <- wgts$w_fis[wgts$rgn_id == r]
-      plot_config$weight[plot_config$goal == "MAR"] <- 1 - wgts$w_fis[wgts$rgn_id == r]
-    }
-
-    ## join plot_config w scores to create plot_df ----
+    plot_config$weight[plot_config$goal == "FIS"] <- wgts$value[wgts$region_id == r]
+    plot_config$weight[plot_config$goal == "MAR"] <- 1 - wgts$value[wgts$region_id == r]
+    
+    ## create plot_df ----
     plot_df <- rgn_scores %>%
       dplyr::filter(region_id == r) %>%
       dplyr::inner_join(plot_config, by = "goal") %>%
@@ -223,101 +181,84 @@ make_flower_plot <- function(rgn_scores, rgns = NA, plot_year = NA, dim = "score
     ## for including goal ranges for overall index
     if(r == 0 & isTRUE(include_ranges)){
       plot_df <- plot_df %>%
-        left_join(rgn_scores_summary %>%
-                    select(goal, scores_range),
-                  by = "goal") %>%
+        left_join(
+          rgn_scores_summary %>%
+            select(goal, scores_range),
+          by = "goal"
+        ) %>%
         rowwise() %>%
-        mutate(min_score = unlist(scores_range)[1],
-               max_score = unlist(scores_range)[2])
+        mutate(
+          min_score = unlist(scores_range)[1],
+          max_score = unlist(scores_range)[2]
+        )
     }
-
-    ## if plotting with a gradient, expand plot_df with y column indicating
-    ##  plot_df and  plot_df0 will be same if no gradient on petals
-    plot_df0 <- plot_df
-    if(isTRUE(gradient)){
-      plot_df <- plot_df %>%
-        dplyr::mutate(x = pos - (weight/2), x_end = pos + (weight/2)) %>%
-        dplyr::mutate(y_end = ifelse(is.na(score), 0, score)) %>%
-        dplyr::rowwise() %>%
-        dplyr::mutate( # this sequence, together w alpha + size params in geom_segement, create gradient...
-          y = list(Filter(function(x) x < y_end, 11^(seq(0, 1, 0.001))*10-10))) %>%
-        dplyr::mutate(y = if(length(unlist(y)) > 0){list(y)} else {list(0)}) %>%
-        dplyr::ungroup() %>%
-        tidyr::unnest(y) %>%
-        dplyr::mutate(
-          name_flower = ifelse(y != 0, NA, name_flower),
-          name_supra = ifelse(y != 0, NA, name_supra)) %>%
-        dplyr::select(-y_end)
-    }
-
-    ## CREATING THE FLOWERPLOTS ----
-
-    ## with a gradient ----
-    if(isTRUE(gradient)){
-      plot_obj <- ggplot(plot_df, aes(x = x, xend = x_end, y = y, yend = y)) +
-        geom_rect(inherit.aes = FALSE, aes(xmin = x, xmax = x_end, ymin = 0, ymax = 100),
-                  size = 0.15, color = thm$cols$light_grey2, fill = "white")
-      if(color_by == "goal"){
-        plot_obj <- plot_obj +
-          geom_segment(aes(color = goal),
-                       size = 0.15, alpha = 0.15,
-                       show.legend = FALSE,
-                       arrow = arrow(length = unit(0.01, "cm"))) +
-          scale_color_manual(values = unique(plot_df$color), na.value = "black")
-      } else {
-        plot_obj <- plot_obj +
-          geom_segment(aes(color = y),
-                       size = 0.2, alpha = 0.3,
-                       show.legend = FALSE,
-                       arrow = arrow(length = unit(0.02, "cm"))) +
-          scale_color_gradient2(low = color_pal[1],
-                                mid = color_pal[length(color_pal)/2],
-                                high = color_pal[length(color_pal)], midpoint = 50)
-      }
-      if(any(!is.na(plot_df$plot_NA))){ # overlay light grey background for NAs
-        plot_obj <- plot_obj +
-          geom_rect(data = filter(plot_df, !is.na(plot_NA)),
-                    inherit.aes = FALSE, aes(xmin = x, xmax = x_end, ymin = 0, ymax = plot_NA),
-                    fill = thm$cols$light_grey1)
-      }
-      plot_obj <- plot_obj +
-        geom_segment(aes(x = min(plot_df$x), xend = max(plot_df$x_end), y = 0, yend = 0),
-                     size = 0.5, color = thm$cols$dark_grey3) +
-        geom_segment(aes(x = min(plot_df$x), xend = max(plot_df$x_end), y = critical_value, yend = critical_value),
-                     size = 0.1, color = thm$cols$accent_bright) +
-        geom_segment(aes(x = min(plot_df$x), xend = max(plot_df$x_end), y = 109, yend = 109),
-                     size = 5, color = thm$cols$light_grey1)
-
-    ## without a gradient ----
+    
+    ## FLOWERPLOTS ----
+    if(color_by == "goal"){
+      plot_obj <- ggplot(plot_df, aes(x = pos, y = score, width = weight, fill = goal)) +
+        geom_bar(
+          aes(y = 100), 
+          stat = "identity",
+          size = 0.2, 
+          color = thm$cols$med_grey3, 
+          fill = "white"
+        ) +
+        geom_bar(
+          stat = "identity",
+          size = 0.2, 
+          color = thm$cols$med_grey3, 
+          show.legend = FALSE
+        ) +
+        scale_fill_manual(values = plot_df$color, na.value = "black")
+      
     } else {
-      if(color_by == "goal"){
-        plot_obj <- ggplot(plot_df, aes(x = pos, y = score, width = weight, fill = goal)) +
-          geom_bar(aes(y = 100), stat = "identity",
-                   size = 0.2, color = thm$cols$med_grey3, fill = "white") +
-          geom_bar(stat = "identity",
-                   size = 0.2, color = thm$cols$med_grey3, show.legend = FALSE) +
-          scale_fill_manual(values = plot_df$color, na.value = "black")
-      } else {
-        plot_obj <- ggplot(plot_df, aes(x = pos, y = score, width = weight, fill = score)) +
-          geom_bar(aes(y = 100), stat = "identity",
-                   size = 0.2, color = thm$cols$med_grey3, fill ="white") +
-          geom_bar(stat = "identity", size = 0.2, color = thm$cols$med_grey3, show.legend = FALSE) +
-          scale_fill_gradientn(colors = color_pal, na.value = "black", limits = c(0, 100))
-      }
-      if(any(!is.na(plot_df$plot_NA))){ # overlay light grey background for NAs
-        plot_obj <- plot_obj +
-          geom_bar(aes(y = plot_NA), stat = "identity",
-                   size = 0.2, color = thm$cols$med_grey3, fill = thm$cols$light_grey1)
-      }
-      plot_obj <- plot_obj +
-        geom_errorbar(aes(x = pos, ymin = 0, ymax = 0), # bolded baseline at zero
-                      size = 0.5, show.legend = NA, color = thm$cols$dark_grey3) +
-        geom_errorbar(aes(x = pos, ymin = critical_value, ymax = critical_value), # some kind of tipping-point line?
-                      size = 0.25,show.legend = NA, color = thm$cols$accent_bright) +
-        geom_errorbar(aes(x = pos, ymin = 109, ymax = 109), # outer ring indicating room for even more progress?
-                      size = 5, show.legend = NA, color = thm$cols$light_grey1)
+      plot_obj <- ggplot(plot_df, aes(x = pos, y = score, width = weight, fill = score)) +
+        geom_bar(
+          aes(y = 100), 
+          stat = "identity",
+          size = 0.2, 
+          color = thm$cols$med_grey3, 
+          fill = "white"
+        ) +
+        geom_bar(
+          stat = "identity", 
+          size = 0.2, 
+          color = thm$cols$med_grey3, 
+          show.legend = FALSE
+        ) +
+        scale_fill_gradientn(colors = color_pal, na.value = "black", limits = c(0, 100))
     }
-
+    
+    if(any(!is.na(plot_df$plot_NA))){ # overlay light grey background for NAs
+      plot_obj <- plot_obj +
+        geom_bar(
+          aes(y = plot_NA), 
+          stat = "identity",
+          size = 0.2, 
+          color = thm$cols$med_grey3, 
+          fill = thm$cols$light_grey1
+        )
+    }
+    plot_obj <- plot_obj +
+      geom_errorbar(
+        aes(x = pos, ymin = 0, ymax = 0), # bolded baseline at zero
+        size = 0.5, 
+        show.legend = NA, 
+        color = thm$cols$dark_grey3
+      ) +
+      geom_errorbar(
+        aes(x = pos, ymin = 0, ymax = 0), # some kind of tipping-point line? currently zero...
+        size = 0.25,
+        show.legend = NA, 
+        color = thm$cols$accent_bright
+      ) +
+      geom_errorbar(
+        aes(x = pos, ymin = 109, ymax = 109), # outer ring indicating room for even more progress?
+        size = 5, 
+        show.legend = NA, 
+        color = thm$cols$light_grey1
+      )
+    
     ## general flowerplot elements ----
     goal_labels <- dplyr::select(plot_df, goal, name_flower)
     name_and_title <- thm$rgn_name_lookup %>%
@@ -331,190 +272,232 @@ make_flower_plot <- function(rgn_scores, rgns = NA, plot_year = NA, dim = "score
                          breaks = plot_df$pos,
                          limits = c(0, max(plot_df$pos_end))) +
       scale_y_continuous(limits = c(blank_circle_rad, ifelse(first(goal_labels == TRUE)|is.data.frame(goal_labels), 150, 100)))
-    ## include average value in center if center_val is true
-    if(isTRUE(center_val)){
-      score_index <- rgn_scores %>%
-        dplyr::filter(region_id == r, goal == "Index", dimension == "score") %>%
-        dplyr::select(region_id, score) %>%
-        dplyr::mutate(score = round(score))
+    ## include average value in center
+    score_index <- rgn_scores %>%
+      dplyr::filter(region_id == r, goal == "Index", dimension == "score") %>%
+      dplyr::select(region_id, score) %>%
+      dplyr::mutate(score = round(score))
+    
+    plot_obj <- plot_obj +
+      geom_text(
+        data = score_index, # include central value
+        inherit.aes = FALSE, aes(label = score_index$score),
+        x = 0, y = blank_circle_rad, 
+        hjust = 0.5, vjust = 0.5,
+        size = 9, 
+        color = thm$cols$dark_grey3
+      )
+    
+    ## ranges for overall BHI flowerplot if include_ranges is true
+    if(r == 0 & isTRUE(include_ranges)){
       plot_obj <- plot_obj +
-        geom_text(data = score_index, # include central value
-                  inherit.aes = FALSE, aes(label = score_index$score),
-                  x = 0, y = blank_circle_rad, hjust = 0.5, vjust = 0.5,
-                  size = 9, color = thm$cols$dark_grey3)
+        geom_errorbar(
+          aes(ymin = min_score, ymax = max_score),
+          alpha = 0.4, 
+          width = 0.05
+        ) +
+        geom_errorbar(
+          aes(ymin = min_score, ymax = max_score),
+          alpha = 0.3,
+          width = 0.05, 
+          color = plot_df$color
+        )
     }
-    ## ranges for overall BHI if score_ranges is true
-    if(isTRUE(include_ranges)){
-      plot_obj <- plot_obj +
-        geom_errorbar(aes(ymin = min_score, ymax = max_score),
-                      alpha = 0.4, width = 0) +
-        geom_errorbar(aes(ymin = min_score, ymax = max_score),
-                      alpha = 0.3, width = 0, color = plot_df$color)
-    }
-
-    ## LABELING AND LEGENDS ----
-
-    ## labeling with sub/supra goal names + legend stuff, using magick ----
-    if(labels %in% c("regular","standard","normal","level")){
+    
+    ## LABELS ----
+    
+    ## labeling with sub/supra goal names
+    if(labels %in% c("regular", "standard", "normal", "level")){
       plot_obj <- plot_obj +
         # labs(title = name_and_title$plot_title) +
-        geom_text(aes(label = name_supra, x = pos_supra, y = 150),
-                  size = 3.4, hjust = 0.4, vjust = 0.8,
-                  color = thm$cols$med_grey1) +
-        geom_text(aes(label = name_flower, x = pos, y = 120),
-                  size = 3, hjust = 0.5, vjust = 0.5,
-                  color = thm$cols$dark_grey3)
+        geom_text(
+          aes(label = name_supra, x = pos_supra, y = 150),
+          size = 3.4, 
+          hjust = 0.4, vjust = 0.8,
+          color = thm$cols$med_grey1
+        ) +
+        geom_text(
+          aes(label = name_flower, x = pos, y = 120),
+          size = 3, 
+          hjust = 0.5, vjust = 0.5,
+          color = thm$cols$dark_grey3
+        )
     }
-    if(labels %in% c("curved", "arc")||isTRUE(legend_tab)){
-      temp_plot <- file.path(dir_assess, "temp", paste0("flowerplot_", name_and_title$name, ".png"))
-      ggplot2::ggsave(filename = temp_plot, plot = plot_obj, device = "png", bg = "transparent",
-                      height = 6, width = 8, units = "in", dpi = 300) # causes a hangup when plot has gradient...
-      img_plot0 <- magick::image_read(temp_plot)
-
-      if(labels %in% c("curved", "arc")){
-        temp_labels <- file.path(dir_assess, "temp", paste0("flower_curvetxt_", name_and_title$name, ".png"))
-
-        if(!file.exists(temp_labels)){ # don't recreate curved labels if already exist....
-          circ_df <- plot_df0 %>%
-            # dplyr::mutate(f1 = ifelse(weight <= 0.01, "", f1)) %>%
-            # dplyr::mutate(f2 = ifelse(weight <= 0.01, "", f2)) %>%
-            dplyr::select("goal", "f1", "f2", "name_supra", "weight", "order_hierarchy") %>%
-            dplyr::mutate(weight = 0.15 + weight) %>% # spacing of labels around the circle based on weights...
-            dplyr::mutate(x = sum(weight) - (cumsum(weight) - weight), x_end = sum(weight) - (cumsum(weight))) %>%
-            tidyr::gather("start_end", "range", -goal, -name_supra, -weight, -order_hierarchy, -f1, -f2) %>%
-            dplyr::select(-start_end, -weight, -goal) %>%
-            dplyr::arrange(order_hierarchy)
-
-          ## start creating plot and save with grDevices function
-          # jpeg(temp_labels, width = 2450, height = 2450, quality = 220) # jpeg format is lossy, png seems better...
-          png(temp_labels, width = 2490, height = 2490)
-          message("creating curved labels for plot:\n")
-
-          ## curved labels created with 'circlize' package ----
-          circos.clear()
-          circos.par("track.height" = 0.1, cell.padding = c(0.02, 0, 0.02, 0), "clock.wise" = FALSE, start.degree = 5)
-          circos.initialize(factors = circ_df$order_hierarchy, x = circ_df$range)
-
-          circos.track(factors = circ_df$order_hierarchy, y = circ_df$range, panel.fun = function(x, y){
-            circos.text(CELL_META$xcenter, CELL_META$ycenter,
-                        CELL_META$sector.index, col = "white")},
-            bg.col = NA, bg.border = FALSE)
-          circos.track(factors = circ_df$order_hierarchy, y = circ_df$range, panel.fun = function(x, y){
-            circos.text(CELL_META$xcenter, CELL_META$ycenter,
-                        circ_df$f1[circ_df$order_hierarchy == as.numeric(CELL_META$sector.index)][1],
-                        cex = 5, col = thm$cols$med_grey3, adj = c(0.4, 1),
-                        facing = "bending.inside", niceFacing = TRUE)},
-            bg.col = NA, bg.border = FALSE)
-          circos.track(factors = circ_df$order_hierarchy, y = circ_df$range, panel.fun = function(x, y){
-            circos.text(CELL_META$xcenter, CELL_META$ycenter,
-                        circ_df$f2[circ_df$order_hierarchy == as.numeric(CELL_META$sector.index)][1],
-                        cex = 5, col = thm$cols$med_grey3, adj = c(0.5, 0),
-                        facing = "bending.inside", niceFacing = TRUE)},
-            bg.col = NA, bg.border = FALSE)
-
-          ## add supra goal labeling ----
-          highlight.sector(circ_df$order_hierarchy[circ_df$name_supra != "Food Provision"|is.na(circ_df$name_supra)],
-                           track.index = 1, text = "Food Provision", cex = 6.5, padding = c(0, 0, 0, 2.67),
-                           text.col = thm$cols$light_grey2, col = NA,
-                           facing = "bending.outside", niceFacing = TRUE)
-          highlight.sector(circ_df$order_hierarchy[circ_df$name_supra != "Coastal Livelihoods & Economies"|is.na(circ_df$name_supra)],
-                           track.index = 1, text = "Coastal Livelihoods & Economies", cex = 6.5,
-                           text.col = thm$cols$light_grey2, col = NA,
-                           facing = "bending.outside", niceFacing = TRUE)
-          highlight.sector(circ_df$order_hierarchy[circ_df$name_supra != "Sense of Place"|is.na(circ_df$name_supra)],
-                           track.index = 1, text = "Sense of Place", cex = 6.5, padding = c(0, 0, 0, 2.62),
-                           text.col = thm$cols$light_grey2, col = NA,
-                           facing = "bending.outside", niceFacing = TRUE)
-          highlight.sector(circ_df$order_hierarchy[circ_df$name_supra != "Clean Waters"|is.na(circ_df$name_supra)],
-                           track.index = 1, text = "Clean Waters", cex = 6.5, padding = c(0, 0.16, 0, 0),
-                           text.col = thm$cols$light_grey2, col = NA,
-                           facing = "bending.outside", niceFacing = TRUE)
-
-          ## end saving labels image with grDevices function
-          dev.off()
-        }
-
-        ## combine plot and labels into one graphic
-        img_text <- magick::image_read(temp_labels)
-        img_plot <- img_plot0 %>%
-          image_trim() %>%
-          image_background("none")
-        img_plot <- image_composite(image_scale(img_text, 550), image_scale(img_plot, 330), offset = "+110+110")
+    
+    if(labels %in% c("curved", "arc")){
+      temp_plot <- here::here(
+        "shiny", "figures", 
+        sprintf("flowerplot%s_%s.png", name_and_title$region_id, name_and_title$name)
+      )
+      ggplot2::ggsave(
+        filename = temp_plot, 
+        plot = plot_obj, 
+        device = "png",
+        height = 6, width = 8, units = "in", dpi = 300
+      )
+      
+      temp_labels <- here::here("shiny", "figures", paste0("flower_curvetxt_", name_and_title$name, ".png"))
+      ## don't recreate curved labels if already exist....
+      if(!file.exists(temp_labels)){
+        circ_df <- plot_df %>%
+          # dplyr::mutate(f1 = ifelse(weight <= 0.01, "", f1)) %>%
+          # dplyr::mutate(f2 = ifelse(weight <= 0.01, "", f2)) %>%
+          dplyr::select("goal", "f1", "f2", "name_supra", "weight", "order_hierarchy") %>%
+          dplyr::mutate(weight = 0.15 + weight) %>% # spacing of labels around the circle based on weights...
+          dplyr::mutate(x = sum(weight)-(cumsum(weight)-weight), x_end = sum(weight)-(cumsum(weight))) %>%
+          tidyr::gather("start_end", "range", -goal, -name_supra, -weight, -order_hierarchy, -f1, -f2) %>%
+          dplyr::select(-start_end, -weight, -goal) %>%
+          dplyr::arrange(order_hierarchy)
+        
+        ## start creating plot and save with grDevices function
+        # jpeg(temp_labels, width = 2450, height = 2450, quality = 220) # jpeg format is lossy, png seems better...
+        png(temp_labels, width = 2490, height = 2490, bg = "transparent")
+        message("creating curved labels for plot:\n")
+        
+        ## curved labels created with 'circlize' package ----
+        ## setup/initialize new circlize plot
+        circos.clear()
+        circos.par(
+          "track.height" = 0.1, 
+          cell.padding = c(0.02, 0, 0.02, 0), 
+          "clock.wise" = FALSE, 
+          start.degree = 5
+        )
+        circos.initialize(
+          factors = circ_df$order_hierarchy,
+          x = circ_df$range
+        )
+        
+        ## make tracks
+        circos.track(
+          factors = circ_df$order_hierarchy,
+          y = circ_df$range, 
+          panel.fun = function(x, y){
+            circos.text(CELL_META$xcenter, CELL_META$ycenter, CELL_META$sector.index, col = "white")},
+          bg.col = NA, 
+          bg.border = FALSE
+        )
+        circos.track(
+          factors = circ_df$order_hierarchy, 
+          y = circ_df$range, 
+          panel.fun = function(x, y){
+            circos.text(
+              CELL_META$xcenter, 
+              CELL_META$ycenter,
+              circ_df$f1[circ_df$order_hierarchy == as.numeric(CELL_META$sector.index)][1],
+              cex = 5, 
+              col = thm$cols$med_grey3, 
+              adj = c(0.4, 1),
+              facing = "bending.inside", 
+              niceFacing = TRUE
+            )
+          },
+          bg.col = NA, 
+          bg.border = FALSE
+        )
+        circos.track(
+          factors = circ_df$order_hierarchy, 
+          y = circ_df$range, 
+          panel.fun = function(x, y){
+            circos.text(
+              CELL_META$xcenter, 
+              CELL_META$ycenter,
+              circ_df$f2[circ_df$order_hierarchy == as.numeric(CELL_META$sector.index)][1],
+              cex = 5, 
+              col = thm$cols$med_grey3, 
+              adj = c(0.5, 0),
+              facing = "bending.inside", 
+              niceFacing = TRUE
+            )
+          },
+          bg.col = NA, 
+          bg.border = FALSE
+        )
+        
+        ## add supra goal labeling
+        highlight.sector(
+          circ_df$order_hierarchy[circ_df$name_supra != "Food Provision"|is.na(circ_df$name_supra)],
+          track.index = 1, 
+          text = "Food Provision", 
+          cex = 6.5, 
+          padding = c(0, 0, 0, 2.67),
+          text.col = thm$cols$light_grey2, 
+          col = NA,
+          facing = "bending.outside", 
+          niceFacing = TRUE
+        )
+        highlight.sector(
+          circ_df$order_hierarchy[circ_df$name_supra != "Coastal Livelihoods & Economies"|is.na(circ_df$name_supra)],
+          track.index = 1, 
+          text = "Coastal Livelihoods & Economies", 
+          cex = 6.5,
+          text.col = thm$cols$light_grey2, 
+          col = NA,
+          facing = "bending.outside",
+          niceFacing = TRUE
+        )
+        highlight.sector(
+          circ_df$order_hierarchy[circ_df$name_supra != "Sense of Place"|is.na(circ_df$name_supra)],
+          track.index = 1, 
+          text = "Sense of Place", 
+          cex = 6.5, 
+          padding = c(0, 0, 0, 2.62),
+          text.col = thm$cols$light_grey2, 
+          col = NA,
+          facing = "bending.outside",
+          niceFacing = TRUE
+        )
+        highlight.sector(
+          circ_df$order_hierarchy[circ_df$name_supra != "Clean Waters"|is.na(circ_df$name_supra)],
+          track.index = 1, 
+          text = "Clean Waters",
+          cex = 6.5, 
+          padding = c(0, 0.16, 0, 0),
+          text.col = thm$cols$light_grey2, 
+          col = NA,
+          facing = "bending.outside", 
+          niceFacing = TRUE
+        )
+        dev.off() # end saving labels image with grDevices function
       }
-
-      ## create legend table to accompany the plot
-      if(isTRUE(legend_tab)){
-
-        temp_legend <- file.path(dir_assess, "temp", paste0("flowerlegend_by_", color_by, "_", name_and_title$name, ".jpg"))
-        if(isTRUE(update_legend)||!file.exists(temp_legend)){
-          message("creating legend table for plot:\n")
-
-          legend_df <- plot_config %>%
-            dplyr::select(goal, parent, name, name_supra) %>%
-            dplyr::left_join(dplyr::filter(rgn_scores, region_id == r), by = "goal")
-          if(color_by == "goal"){
-            legend_cols <- dplyr::mutate(left_join(legend_df, color_df, by = "goal"),
-                                         color = ifelse(is.na(score), NA, color))$color
-          } else { legend_cols <- dplyr::mutate(legend_df, color = color_pal[length(color_pal)*score/100])$color }
-          legend_cols[is.na(legend_cols)] <- "#DDDDDD"
-
-          legend_df <- legend_df %>%
-            dplyr::mutate(
-              Key = "*******",
-              Goal = paste(ifelse(is.na(name_supra),"", paste(name_supra, ": ")),
-                           name,"(",ifelse(is.na(parent), goal, paste(parent, goal)),")")) %>%
-            dplyr::select(Goal, Key, score)
-          names(legend_df) <- c("Goal", "Key", stringr::str_to_title(dim))
-
-          tab <- formattable(legend_df, align = c("l","l","r"), list(
-            `Goal` = formatter("span", style = ~ style(color = "grey")),
-            `Score` = formatter("span", style = x ~ style(color = ifelse(is.na(x), "white", "grey"))),
-            `Key` = formatter("span", style = x ~ style("background-color" = legend_cols,
-                                                        color = ifelse(is.na(x), "#DDDDDD", legend_cols)))
-          )
-          )
-          ## must have phantomjs installed- can do this with webshot::install_phantomjs()
-          path <- htmltools::html_print(as.htmlwidget(tab, width = "48%", height = NULL),
-                                        background = "white", viewer = NULL)
-          url <- paste0("file:///", gsub("\\\\", "/", normalizePath(path)))
-          webshot::webshot(url, file = temp_legend, selector = ".formattable_widget", delay = 0.2)
-        }
-        img_legend <- magick::image_read(temp_legend)
-
-        img_plot <- img_plot %>%
-          image_trim() %>%
-          image_background("white") %>%
-          image_border("white", "80x60") %>%
-          image_scale(800)
-        img_legend <- img_legend %>%
-          image_border("white", "20x92") %>%
-          image_scale(600)
-        img_plot <- image_append(c(img_plot, img_legend))
-      }
-      plot_obj <- img_plot
+      ## combine plot and labels into one graphic
+      img_text <- magick::image_read(temp_labels)
+      img_plot <- magick::image_read(temp_plot)
+      
+      plot_obj <- image_composite(
+        img_plot,
+        image_scale(img_text, 1810), 
+        offset = "+305-15"
+      ) %>% image_crop(geometry_area(1750, 1620, 325, 120))
     }
-
-    ## SAVING PLOTS
-    ## saving with method based on plot_obj class ----
-    save_loc <- NULL
-    if(is.character(save)){
-      if(file.exists(save)){
-        save_loc <- file.path(save, paste0("flowerplot_", name_and_title$name, ".png"))
-      }
-    }
-    if(isTRUE(save)){
-      save_loc <- file.path(dir_assess, "reports", "figures", paste0("flowerplot_", name_and_title$name, ".png"))
-    }
-    if(!is.null(save_loc)){
-      if(class(plot_obj) == "magick-image"){
-        magick::image_write(plot_obj, path = save_loc, format = "png")
-      } else {
-        ggplot2::ggsave(filename = save_loc, plot = plot_obj, device = "png",
-                        height = 3.5, width = 5, units = "in", dpi = 400)
-      }
+    
+    ## SAVE PLOT
+    ## saving with method based on plot_obj class
+    if(class(plot_obj) == "magick-image"){
+      magick::image_write(
+        image_scale(plot_obj, 600), # can adjust here to make smaller, sacrificing image quality...
+        path = here::here(
+          "shiny", "figures", 
+          sprintf("flowerplot%s_%s.png", name_and_title$region_id, name_and_title$name)
+        ), 
+        format = "png"
+      )
+    } else {
+      ggplot2::ggsave(
+        filename = here::here(
+          "shiny", "figures", 
+          sprintf("flowerplot%s_%s.png", name_and_title$region_id, name_and_title$name)
+        ), 
+        plot = plot_obj, 
+        device = "png",
+        height = 3.5, width = 5, units = "in", dpi = 400
+      )
     }
   }
-  ## wrap up function ----
-  # theme_set(initial_theme) # set theme back to whatever it was initially
-  return(invisible(plot_obj)) # note: will only return the last plot
+  ## remove curvedtext labels from figures folder, these were only needed for interm. steps...
+  file.remove(
+    list.files(here::here("shiny", "figures"), full.names = TRUE) %>% 
+      grep(pattern = "flower_curvetxt", value = TRUE)
+  )
+  return(invisible(plot_obj)) # note this will only return the last plot
 }

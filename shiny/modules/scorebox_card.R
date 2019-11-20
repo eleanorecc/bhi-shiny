@@ -11,15 +11,10 @@ scoreBoxUI <- function(id){
 }
 
 ## scorebox server function ----
-scoreBox<- function(input,
-                    output,
-                    session,
-                    goal_code,
-                    flower_rgn_selected){
-
+scoreBox<- function(input, output, session, goal_code, flower_rgn_selected){
 
   scores <- full_scores_csv %>%
-    filter(goal == goal_code, dimension == "score")
+    dplyr::filter(goal == goal_code, dimension == "score")
 
   output$goal_scorebox <- renderInfoBox(
     infoBox(
@@ -39,11 +34,6 @@ scoreBox<- function(input,
           "font-size: 260%; text-align:center; font-weight: lighter;",
           "font-size: 210%; text-align:center; font-weight: lighter;"
         )
-        # style = ifelse(
-        #   flower_rgn_selected() == 0,
-        #   "font-size: 225%; text-align:center; font-weight: lighter;",
-        #   "font-size: 185%; font-weight: lighter;"
-        # )
       ),
       icon = icon(thm$icons[[goal_code]]),
       color =  filter(thm$palettes$goalpal_shiny, goal == goal_code)$color,

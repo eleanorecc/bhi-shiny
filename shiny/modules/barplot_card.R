@@ -5,38 +5,33 @@
 #' \code{mapBarplotCard} generates the plot shown in the card
 
 ## barplot card ui function ----
-barplotCardUI <- function(id,
-                          title_text = NULL,
-                          sub_title_text = NULL,
-                          source_text = NULL,
-                          box_width = 12){
+barplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL, source_text = NULL, box_width = 12){
 
   ns <- shiny::NS(id)
   items <- plotlyOutput(ns("barplot"), height = 490)
-  tagList(box(collapsible = TRUE,
-              title = title_text,
-              list(p(sub_title_text), items, p(source_text)),
-              width = box_width))
+  tagList(box(
+    collapsible = TRUE,
+    title = title_text,
+    list(p(sub_title_text), items, p(source_text)),
+    width = box_width
+  ))
 }
 
 
 ## map card server function ----
-barplotCard <- function(input, output, session,
-                        goal_code, dimension_selected, spatial_unit_selected){
-
+barplotCard <- function(input, output, session, goal_code, dimension_selected, spatial_unit_selected){
 
   output$barplot <- renderPlotly({
-    ## scores data from bhi database
+    ## scores data matching selected dimension
     d <- dimension_selected()
-
-    scores_csv <- tbl(bhi_db_con, "scores2015") %>%
-      filter(dimension == d) %>%
-      collect()
-    ## map barplot
-    scores_barplot(scores_csv,
-                   basins_or_rgns = spatial_unit_selected(),
-                   goal_code,
-                   dim = dimension_selected(),
-                   make_html = TRUE)
+    scores_csv <- filter(full_scores_csv, dimension == d)
+    
+    ## barplot
+    scores_barplot(
+      scores_csv,
+      basins_or_rgns = spatial_unit_selected(),
+      goal_code,
+      dim = dimension_selected()
+    )
   })
 }
