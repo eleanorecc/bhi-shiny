@@ -1,3 +1,4 @@
+## install packages for shiny on mybinder
 install.packages("here")
 install.packages("shiny")
 install.packages("shinyjs")
@@ -9,7 +10,7 @@ install.packages("ggplot2")
 install.packages("plotly")
 install.packages("leaflet")
 install.packages("DT")
-
-install.packages('udunits2', type = 'source', repo = 'cran.rstudio.com')
+## issue with sf package dependance on units...
+install.packages('udunits2', type = 'source', repo = 'cran.rstudio.com', configure.args = "--with-udunits2-lib=/usr/local/Cellar/udunits/2.2.20/lib/")
 install.packages('units', type = 'source')
 install.packages("sf")
