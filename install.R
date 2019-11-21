@@ -12,5 +12,6 @@ install.packages("leaflet")
 install.packages("DT")
 ## issue with sf package dependance on units...
 install.packages("udunits2",configure.args='--with-udunits2-include=/usr/include/udunits2')
-install.packages('units', type = 'source')
+# install.packages("udunits2_0.13.tar.gz",configure.args='--with-udunits2-include=/usr/include/udunits2')
+install.packages("units", type = "binary")
 install.packages("sf")
