@@ -97,9 +97,15 @@ if(!file.exists(here("data", "regions.rds"))){
       Subbasin == "Bothian Sea", # NEED TO FIX THIS TYPO!!!
       "Bothnian Sea", Subbasin
     ))
-  rmapshaper::ms_simplify(input = bhi_rgns_shp) %>%
-    sf::st_as_sf() %>% 
-    write_rds(here("data", "regions.rds"))
+  # rmapshaper::ms_simplify(input = bhi_rgns_shp) %>%
+  #   sf::st_as_sf() %>% 
+  #   write_rds(here("data", "regions.rds"))
+  
+  ## spatial rather than simple features...
+  bhi_rgns_shp_simp <- rmapshaper::ms_simplify(input = bhi_rgns_shp) %>%
+    sf::st_as_sf()
+  sf::as_Spatial(bhi_rgns_shp_simp) %>% 
+    saveRDS(here("data", "regions.rds"))
   
 } else(
   message(
@@ -114,10 +120,16 @@ if(!file.exists(here("data", "subbasins.rds"))){
     "/Volumes/BHI_share/Shapefiles/HELCOM_subbasins_holasbasins",
     "HELCOM_subbasins_holasbasins"
   )
-  subbasins_shp <- rmapshaper::ms_simplify(input = subbasins_shp) %>%
-    sf::st_as_sf() %>% 
-    dplyr::select(Name, AreaKM2, HELCOM_ID) %>% # keep only necessary columns for shiny
-    write_rds(here("data", "subbasins.rds"))
+  # subbasins_shp <- rmapshaper::ms_simplify(input = subbasins_shp) %>%
+  #   sf::st_as_sf() %>% 
+  #   dplyr::select(Name, AreaKM2, HELCOM_ID) %>% # keep only necessary columns for shiny
+  #   write_rds(here("data", "subbasins.rds"))
+  
+  ## spatial rather than simple features...
+  subbasins_shp_simp <- rmapshaper::ms_simplify(input = subbasins_shp) %>%
+    sf::st_as_sf()
+  sf::as_Spatial(subbasins_shp_simp) %>% 
+    saveRDS(here("data", "subbasins.rds"))
   
 } else(
   message(
@@ -135,17 +147,6 @@ scenario_layers <- intersect(
 
 get_layers(gh_raw_bhiprep, scenario_layers, 2014) %>% 
   write_csv(here("data", "layers_data.csv"))
-```
-
-<br>
-
-## Revise select-input menus for UI
-
-```{r recreate UI select menus for pressure and layers pages}
-## pressures timeseries plot, select 'pressure variable' menu options
-
-## layers scatterplot, select variables menu options
-
 ```
 
 <br>
@@ -172,6 +173,17 @@ make_flower_plot(
     labels = "arc",
     fis_mar_petals = fp_weights
 )
+```
+
+<br>
+
+## Revise select-input menus for UI
+
+```{r recreate UI select menus for pressure and layers pages}
+## pressures timeseries plot, select 'pressure variable' menu options
+
+## layers scatterplot, select variables menu options
+
 ```
 
 <br>
