@@ -4,6 +4,11 @@
 
 <br>
 
+**View the Dashboard:** [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/eleanorecc/bhi-shiny/master?filepath=shiny%2Fdashboard%2F)
+
+
+<br>
+
 The Dashboard is a data exploration tool, for visualizing the results as well as input data for the assessment. The Baltic Health Index is a regional study under the global Ocean Health Index framework. The aim is to maintain and continually improve a tool that can be used by decision-makers to guide management of the Baltic Sea region towards increased sustainability. Oceans in general provide a diverse array of benefits to humans, often with tradeoffs between benefits. Managing these requires a method of measurement that is both comprehensive and quantitative; establishing such a method was the motivation behind the Ocean Health Index. We strive to use the best open source tools available, to make our ocean health metrics,  results and underlying data easily accessible and entirely transparent
 
 
