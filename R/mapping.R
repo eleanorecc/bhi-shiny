@@ -1,5 +1,4 @@
 library(sp)
-library(rgdal)
 library(dplyr)
 library(readr)
 library(leaflet)
@@ -176,8 +175,6 @@ make_subbasin_sf <- function(subbasins_shp, scores_csv, dim = "score", year = as
     ) %>%
     dplyr::left_join(mapping_data, by = "Name")
   subbasins_shp@data <- subbasins_shp_tab
-  ## subbasins_shp@proj4string is initially epsg 3035, need epsg 4326 crs for mapping
-  mapping_data_sp <- spTransform(subbasins_shp, CRS("+init=epsg:4326"))
   
   return(mapping_data_sp)
 }
@@ -213,11 +210,6 @@ make_rgn_sf <- function(bhi_rgns_shp, scores_csv, dim = "score", year = assess_y
     dplyr::select(-dimension) %>%
     tidyr::spread(key = goal, value = score) %>%
     dplyr::mutate(dimension = dim, year = year)
-  
-  ## join with spatial information from subbasin shapfile
-  # mapping_data_sp <- bhi_rgns_shp %>%
-  #   dplyr::mutate(Name = sprintf("%s, %s", Subbasin, rgn_nam)) %>%
-  #   dplyr::left_join(mapping_data, by = "Name")
   
   ## join with spatial information from subbasin shapfile
   ## spatialdataframes with sp package, rather than sf...

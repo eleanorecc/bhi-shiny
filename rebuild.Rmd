@@ -9,6 +9,7 @@ library(magrittr)
 library(readr)
 library(stringr)
 library(dplyr)
+library(sp)
 ```
 
 ```{r functions and directories}
@@ -128,7 +129,9 @@ if(!file.exists(here("data", "subbasins.rds"))){
   ## spatial rather than simple features...
   subbasins_shp_simp <- rmapshaper::ms_simplify(input = subbasins_shp) %>%
     sf::st_as_sf()
+  ## subbasins_shp_simp@proj4string is initially epsg 3035, need epsg 4326 crs for mapping
   sf::as_Spatial(subbasins_shp_simp) %>% 
+    spTransform(CRS("+init=epsg:4326")) %>% 
     saveRDS(here("data", "subbasins.rds"))
   
 } else(
