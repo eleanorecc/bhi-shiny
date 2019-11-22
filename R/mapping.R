@@ -106,7 +106,7 @@ leaflet_map <- function(goal_code, mapping_data_sp, basins_or_rgns = "subbasins"
   ## return list result with dataframe too ----
   leaflet_fun_result <- list(
     map = map,
-    data_sf = leaflet_plotting_sf
+    data_sf = leaflet_plotting_sf@data
   )
   
   return(leaflet_fun_result)
