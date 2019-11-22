@@ -21,10 +21,6 @@ source(here::here("shiny", "modules", "scorebox_card.R"))
 
 setwd(here::here("shiny"))
 assess_year = 2014
-thm <- apply_bhi_theme()
- 
-## Theme for shinydash and visualizations
-# thm <- apply_bhi_theme()
 
 
 ## Functions for Shiny App UI ----
@@ -87,3 +83,6 @@ subbasins_shp <- make_subbasin_sf(
   dim = "score", 
   year = assess_year
 )
+
+## Theme for shinydash and visualizations
+thm <- apply_bhi_theme()
