@@ -176,7 +176,7 @@ make_subbasin_sf <- function(subbasins_shp, scores_csv, dim = "score", year = as
     dplyr::left_join(mapping_data, by = "Name")
   subbasins_shp@data <- subbasins_shp_tab
   
-  return(mapping_data_sp)
+  return(subbasins_shp)
 }
 
 #' make bhi-regiomns sf obj joined with goal scores
@@ -217,7 +217,6 @@ make_rgn_sf <- function(bhi_rgns_shp, scores_csv, dim = "score", year = assess_y
     dplyr::mutate(Name = sprintf("%s, %s", Subbasin, rgn_nam)) %>%
     dplyr::left_join(mapping_data, by = "Name")
   bhi_rgns_shp@data <- bhi_rgns_shp_tab
-  mapping_data_sp <- bhi_rgns_shp
   
-  return(mapping_data_sp)
+  return(bhi_rgns_shp)
 }
