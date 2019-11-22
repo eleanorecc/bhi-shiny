@@ -4,8 +4,8 @@
 
 <br>
 
-**View the Dashboard:** [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/eleanorecc/bhi-shiny/master?filepath=shiny%2Fdashboard%2F)
-
+**View the Dashboard:** 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/eleanorecc/bhi-shiny/master?urlpath=shiny%2Fdashboard%2F)
 
 <br>
 
