@@ -9,6 +9,7 @@ library(magrittr)
 library(readr)
 library(stringr)
 library(dplyr)
+library(tidyr)
 library(sp)
 ```
 
@@ -60,6 +61,8 @@ tbl(bhi_db_con, "plot_conf") %>%
 ```{r extract relevant data from bhiprep github repo and write to data folder}
 ## assessment scores
 read_csv(paste0(gh_raw_bhiprep, "scores.csv")) %>% 
+  ## expand with NAs so won't get mapping/plotting error messages
+  tidyr::complete(goal, dimension, region_id) %>% 
   write_csv(here("dashboard", "data", "scores.csv"))
 
 ## which raw or intermediate layers to include for different goals...
