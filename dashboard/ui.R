@@ -1475,14 +1475,14 @@ dashboardPage(
           ## pressures time series plot
           box(
             width = 9,
-            addSpinner(plotlyOutput("pressure_ts"), spin = "rotating-plane", color = "#d7e5e8")
+            addSpinner(plotlyOutput("pressure_ts", height = "750px"), spin = "rotating-plane", color = "#d7e5e8")
           ),
           ## pressure timeseries plot select var
           box(
             width = 3,
             selectInput(
               "press_var",
-              label = "Pressure Variable to Plot",
+              label = "Pressure Variables to Plot",
               choices = c(
                 `Eutrophication` = "eut_time_data",
                 `Contaminants PCB` = "con_pcb_time_data",

@@ -757,42 +757,61 @@ function(input, output, session){
   ## PRESSURES ----
   output$pressure_ts <- renderPlotly({
 
-    press_var <- input$press_var
-    
-    press_dat <- readr::read_csv(here::here("data", "layers_data.csv")) %>% 
+    # press_var <- input$press_var
+    press_dat <- readr::read_csv(here::here("dashboard", "data", "layers_data.csv")) %>% 
       dplyr::left_join(
-        select(thm$rgn_name_lookup, region_id, plot_title),
+        select(thm$rgn_name_lookup, region_id, plot_title, subbasin),
         by = "region_id"
       ) %>% 
-      dplyr::filter(layer == press_var) %>% 
-      dplyr::rename(Name = plot_title, Pressure = value, Year = year)
+      # dplyr::filter(layer == press_var) %>% 
+      dplyr::filter(category == "pressure") %>% 
+      dplyr::rename(Name = plot_title, Pressure = value, Year = year) %>% 
+      dplyr::mutate(
+        layername = layer %>% 
+          stringr::str_remove("_bhi2.*") %>% 
+          stringr::str_replace_all("_", " ") %>% 
+          stringr::str_to_upper()
+      )
+
     
     if(spatial_unit() == "subbasins"){
       press_dat <- press_dat %>%
-        dplyr::filter(region_id %in% 501:517)
+        left_join(
+          readr::read_csv(here::here("dashboard", "data", "regions.csv")) %>% 
+            select(region_id, area_km2), 
+          by = "region_id"
+        ) %>% 
+        group_by(subbasin, layer, layername, Year) %>% 
+        summarize(Pressure = weighted.mean(Pressure, area_km2) %>% round(3)) %>% 
+        rename(Name = subbasin)
     } else {
       press_dat <- press_dat %>%
-        dplyr::filter(region_id %in% 1:42)
+        dplyr::filter(region_id %in% 1:42) %>% 
+        select(Name, layer, layername, Year, Pressure) %>% 
+        mutate(Pressure = round(Pressure, 3))
     }
-    if(nrow(press_dat) == 0){
-      stop("no pressure data...")
-    } else {
-
-      plot_obj <- ggplot2::ggplot(
-        data = press_dat,
-        aes(x = Year, y = Pressure,
-          color = Name,
-          text =  sprintf("%s:\n%s", str_replace(Name, ", ", "\n"), Pressure)
-        )
-      )
-
-      plot_obj <- plot_obj +
-        geom_line() +
-        theme_bw() +
-        theme(legend.position = "none")
-
-      plotly::ggplotly(plot_obj, tooltip = "text")
-    }
+    
+    pressure_cols <- colorRampPalette(RColorBrewer::brewer.pal(8, "Set2")[c(1:7)])(16)
+    # pressure_cols <- colorRampPalette(RColorBrewer::brewer.pal(12, "Set3"))(16)
+    plot_obj <- ggplot2::ggplot(data = press_dat) +
+      geom_col(
+        aes(
+          x = Name,
+          y = Pressure,
+          fill = layer,
+          text = sprintf("%s\n%s\nScore (scale 0-1):  %s", Name, layername, Pressure)
+         ),
+        position = position_stack()
+      ) + 
+      scale_fill_manual(values = pressure_cols) +
+      theme_bw() +
+      theme(
+        legend.position = "none",
+        axis.text.x = element_text(size = 8, angle = 40, color = "grey40")
+      ) +
+      labs(x = NULL, y = NULL, main = "Cumulative Pressures \n")
+    plotly::ggplotly(plot_obj, tooltip = "text")
+    
   })
 
   ## DATA LAYERS ----
