@@ -18,7 +18,7 @@ source(here("rebuild", "rebuilding.R"))
 
 assess_year <- 2019
 bhi_version <- "v2019"
-scenario_folder <- "baltic"
+scenario_folder <- "baltic2015"
 
 ## these urls should connect to the most recent versions of everything
 # gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/v2019/"
@@ -58,13 +58,91 @@ tbl(bhi_db_con, "plot_conf") %>%
   write_csv(here("dashboard", "data", "plot_conf.csv"))
 ```
 
-```{r extract relevant data from bhiprep github repo and write to data folder}
+```{r extract scores data from bhiprep github repo and write to data folder}
+
+## assessment raw datasets, metadata
+data_info <- read_csv(paste0(gh_raw_bhi, scenario_folder, "/layers_metadata.csv"), col_types = cols())
+write_csv(data_info, here("dashboard", "data", "data_info.csv"))
+
 ## assessment scores
-read_csv(paste0(gh_raw_bhiprep, "scores.csv")) %>% 
-  ## expand with NAs so won't get mapping/plotting error messages
+bhiscores <- read_csv(paste0(gh_raw_bhi, scenario_folder, "/scores.csv"), col_types = cols()) %>% 
+  left_join(
+    read_csv(paste0(gh_raw_bhi, scenario_folder, "/regions_lookup_complete_wide.csv")) %>% 
+      select(region_id, subbasin = subbasin_name, area_km2 = area_km2_rgn),
+    # read_csv(here("dashboard", "data", "regions.csv"), col_types = cols()) %>% 
+      # select(region_id, subbasin, area_km2),
+    by = "region_id"
+  ) %>% 
+  filter(region_id %in% 1:42, goal != "Index")
+
+## scores.csv only has some dimensions for basins and full baltic, want to have all dimensions
+## supragoals dont have pressure/resilience, so need to calculate these from their respective subgoals
+basinscores <- bhiscores %>% 
+    group_by(goal, dimension, subbasin) %>% 
+    summarise(basinscore = weighted.mean(score, area_km2, na.rm = TRUE)) %>%
+    ## any NaN values are because all NAs and thus filtered out in weighted mean, nothin/area...
+    mutate(score = ifelse(is.nan(basinscore), NA, round(basinscore, 2))) %>% 
+    left_join(
+      read_csv(here("dashboard", "data", "basins.csv"), col_types = cols()) %>% 
+        select(region_id = subbasin_id, subbasin),
+      by = "subbasin"
+    ) %>% 
+    select(goal, dimension, region_id, score)
+
+
+
+basinscores <- rbind(
+  basinscores %>% 
+    filter(!(goal %in% c("CW", "FP", "LE", "SP") & dimension %in% c("pressures", "resilience"))),
+  basinscores %>% 
+    
+  
+)
+
+
+
+
+supragoals <- list(list())
+lapply(
+  
+)
+
+balticscores <- rbind(
+  ## goal scores for baltic, all dimensions
+  bhiscores %>% 
+    group_by(goal, dimension) %>% 
+    summarize(balticscore = weighted.mean(score, area_km2, na.rm = TRUE)) %>%
+    mutate(
+      score = ifelse(is.nan(balticscore), NA, round(balticscore, 2)), 
+      region_id = 0
+    ) %>% 
+    ungroup() %>% 
+    select(goal, dimension, region_id, score),
+  
+  ## index scores for the baltic, all dimensions
+  bhiscores %>% 
+    filter(str_length(goal) == 2, !is.na(score)) %>% 
+    group_by(dimension) %>% 
+    summarize(balticscore = weighted.mean(score, area_km2, na.rm = TRUE)) %>%
+    mutate(
+      score = ifelse(is.nan(balticscore), NA, round(balticscore, 2)), 
+      region_id = 0,
+      goal = "Index"
+    ) %>% 
+    ungroup() %>% 
+    select(goal, dimension, region_id, score)
+)
+## whats going on... should be 77.12 score and 72.99 future...
+ 
+## bind and expand with NAs so won't get mapping/plotting error messages
+## save data to dashboard data folder
+rbind(select(bhiscores, goal, dimension, region_id, score), balticscores, basinscores) %>% 
   tidyr::complete(goal, dimension, region_id) %>% 
   write_csv(here("dashboard", "data", "scores.csv"))
+```
 
+
+```{r extract other relevant data from bhiprep github repo and write to data folder}
 ## which raw or intermediate layers to include for different goals...
 ## which datasets to obtain for which goals? 
 ## need a way to determine/record this...
@@ -76,7 +154,7 @@ read_csv(paste0(gh_raw_bhiprep, "scores.csv")) %>%
 
 ```{r make sure everything is synced with main bhi repos}
 ## theme color palettes etc
-bhi_theme <- readLines(paste0(gh_raw_bhi, "R/setup.R"))
+bhi_theme <- readLines(paste0(gh_raw_bhi, "R/theme.R"))
 bhi_theme <- bhi_theme[grep(pattern = "apply_bhi_theme", bhi_theme):length(bhi_theme)]
 writeLines(bhi_theme, here("dashboard", "R", "theme.R"))
 

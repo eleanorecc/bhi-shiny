@@ -35,7 +35,9 @@ list_prep_layers <- function(gh_api_bhiprep){
 
 get_layers <- function(gh_raw_bhiprep, layers, default_year){
   ## create data folder if needed
-  if(!file.exists(here::here("data"))){dir.create(here::here("data"))}
+  if(!file.exists(here::here("dashboard", "data"))){
+    dir.create(here::here("dashboard", "data"))
+  }
   
   ## initialize dataframe for all layers
   all_lyrs_df <- data.frame(
@@ -251,7 +253,8 @@ make_lyrs_menu <- function(str_match = "_bhi2015", print = FALSE){
 goalpage_from_template <- function(goal_code, replace_current = FALSE){
   
   ## replacement info
-  goalinfo <- tbl(bhi_db_con, "plot_conf") %>%
+  # goalinfo <- tbl(bhi_db_con, "plot_conf") %>%
+  goalinfo <- read_csv(here("dashboard", "data", "plot_conf.csv"), col_types = cols()) %>%
     select(name, goal, parent) %>%
     collect() %>% 
     filter(goal == goal_code)
@@ -301,6 +304,10 @@ goalpage_from_template <- function(goal_code, replace_current = FALSE){
           str_to_lower() %>%
           str_replace_all(pattern = " ", replacement = "-")
       )
+    ) %>% 
+    str_replace_all(
+      pattern = "\\$goalcode_",
+      replacement = sprintf("$%s_", str_to_lower(goal_code))
     )
     
   ## where have paragraphs of text, replace with empty paragraph html

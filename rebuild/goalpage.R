@@ -3,7 +3,7 @@
 ## § (GOALCODE) GOALNAME ----
 ## GOALNAME
 tabItem(
-  tabName = "GOALCODE",
+  tabName = "goalcode",
   
   ## header with scorebox and goal intro
   fluidRow(
@@ -25,18 +25,18 @@ tabItem(
   ## target info and key messages
   fluidRow(
     box(
-      title = "Target", 
-      status = "info", 
-      solidHeader = TRUE,
-      "Box content here", br(), "More box content",
-      width = 6
-    ),
-    box(
       title = "Key Messages", 
       status = "info", 
       solidHeader = TRUE,
-      "Box content here", br(), "More box content",
-      width = 6
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "info", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
     )
   ),
   
@@ -46,13 +46,14 @@ tabItem(
       id = "goalcode_map",
       title_text = "GOALNAME Scores Around the Baltic",
       sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
       box_width = 8,
-      ht = 555
+      ht = 550
     ),
     barplotCardUI(
       id = "goalcode_barplot",
-      title_text = "Shortfall/Headway in GOALNAME",
-      sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
+      title_text = "Shortfall/Headway towards GOALNAME Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
       box_width = 4
     )
   ),
@@ -60,14 +61,18 @@ tabItem(
   ## key information and data layers table
   fluidRow(
     box(
-      title = "Key Information", 
-      background = "teal", 
+      width = 12, 
+      title = "Key Information",
+      status = "info", 
       solidHeader = TRUE,
       "Box content here", br(), "More box content"
     )
   ),
   fluidRow(
     box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
       title = "Data Layers", 
       DT::dataTableOutput("goalcode_datatable")
     )
@@ -85,25 +90,36 @@ tabItem(
   
   ## methods link, plus data considerations, improvements
   fluidRow(
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS",
-      sprintf("%s/GOALCODE/goalcode_prep.md", gh_prep)
+    column(
+      width = 12, 
+      align = "center",
+      text_links(
+        "CLICK HERE FOR DETAILED METHODS",
+        sprintf("%s/GOALCODE/goalcode_prep.md", gh_prep)
+      )
     )
   ),
   fluidRow(
     box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
       title = "Data Considerations & Potential Improvements",
       "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
       br(),
       br(),
       tags$ul(
         tags$li(
-          tags$b("bold text:"),
-          "bullet point one."
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
         tags$li(
-          tags$b("bold text:"),
-          "bullet point two."
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
       )
     )
@@ -153,7 +169,7 @@ callModule(
 output$goalcode_datatable = renderDataTable({
   datatable(
     data_info %>% 
-      filter(goal == "goalcode") %>% 
+      filter(goal == "GOALCODE") %>% 
       select(-goal),
     options = list(dom = "t"),
     rownames = FALSE,
