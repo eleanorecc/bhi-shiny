@@ -134,14 +134,7 @@ get_layers <- function(gh_raw_bhiprep, layers, default_year){
       }
     }
   }
-  ## to download all individual files to data folder...
-  # lapply(
-  #   paste0(layers, ".csv"),
-  #   function(x){
-  #     read_csv(paste0(gh_raw_bhiprep, "layers/", unlist(x))) %>% 
-  #       write_csv(here("data", unlist(x)))
-  #   }
-  # )
+  
   return(all_lyrs_df)
 }
 
@@ -152,14 +145,15 @@ get_layers <- function(gh_raw_bhiprep, layers, default_year){
 #'
 #' @return character vector naming layers
 
-#' list functions.R goals
+#' returns layers and functions in functions.R for requested goals
 #'
-#' @param functionsR_path location of functions.R to extract goal from
-#' @param functionsR_text list of funcitons.R lines read eg using scan (if functionsR_path is not provided)
+#' @param gh_raw_bhi raw.githubusercontent url directing to bhi github repository
+#' @param scenario_folder folder within the bhi repo containing the functions.R to extract goal info from
+#' @param goal_code goal or goals for which to identify layers and functions
 #'
-#' @return goal codes character vector for goals having functions defined in functions.R
+#' @return list by goal code with layers and function text identified for each
 
-goal_layers <- function(gh_raw_bhi, scenario_folder, goal_code = "all"){
+goal_info <- function(gh_raw_bhi, scenario_folder, goal_code = "all"){
   
   functions_txt <- readLines(paste0(gh_raw_bhi, scenario_folder, "/conf/functions.R"))
   
@@ -168,50 +162,58 @@ goal_layers <- function(gh_raw_bhi, scenario_folder, goal_code = "all"){
   funs_breaks <- grep(breaks_str, functions_txt)
   
   goal_code <- stringr::str_to_upper(goal_code) %>% unlist()
-  if(goal_code != "ALL" & any(!goal_code %in% funs_goals)){
+  if("ALL" %in% stringr::str_to_upper(goal_code)){
+    goal_code <- funs_goals
+  }
+  if(any(!goal_code %in% funs_goals)){
     print("note: no function for some of the given goals")
   }
-  if(stringr::str_to_upper(goal_code) == "ALL"){
-    txt <- grep(pattern = "\\s*#{1,}.*", functions_txt, value = TRUE, invert = TRUE)
-  } else {
+  goal_code <- intersect(goal_code, funs_goals)
+  
+  goalinfo <- list()
+  for(gc in goal_code){
     
-    txt <- vector()
-    for(gc in goal_code){
-      
-      fun_start <- grep(pattern = sprintf("^%s\\s<-\\sfunction\\(|^%s\\s=\\sfunction\\(", gc, gc), functions_txt)
-      fun_end <- funs_breaks[1 + which.min(abs(fun_start - funs_breaks))] - 1
-      
-      goal_fun <- functions_txt[fun_start:fun_end] %>% 
-        grep(pattern = "\\s*#{1,}.*", value = TRUE, invert = TRUE)
-      txt <- c(txt, goal_fun)
+    fun_start <- grep(pattern = sprintf("^%s\\s<-\\sfunction\\(|^%s\\s=\\sfunction\\(", gc, gc), functions_txt)
+    fun_end <- ifelse(
+      1 + which.min(abs(fun_start - funs_breaks)) > length(funs_breaks),
+      length(functions_txt),
+      funs_breaks[1 + which.min(abs(fun_start - funs_breaks))] - 1
+    )
+    txt <- functions_txt[fun_start:fun_end]
+    if(fun_end != length(functions_txt)){
+      txt <- grep(pattern = "\\s*#{1,}.*", x = txt, value = TRUE, invert = TRUE)
     }
+    goalinfo[[gc]]["function"] <- list(txt)
+    
+    ## extract names of layers specified in functions.R (i.e. which do functions.R require)
+    goalinfo[[gc]]["layers"]  <- txt %>%
+      gsub(pattern = "layer_nm\\s{1,}=\\s{1,}", replacement = "layer_nm=") %>%
+      # gsub(pattern = "", replacement = "layer_nm=") %>% # to catch pressure + resilience layers given with a different pattern
+      stringr::str_split(" ") %>%
+      unlist() %>%
+      stringr::str_subset("layer_nm.*") %>% # pattern to ID layer fed into a function within fuctions.R
+      stringr::str_extract("\"[a-z0-9_]*\"|\'[a-z0-9_]*\'") %>%
+      stringr::str_sort() %>%
+      stringr::str_remove_all("\"|\'") %>% # remove any quotation marks around
+      list()
+    
   }
   
-  ## extract names of layers specified in functions.R (i.e. which do functions.R require)
-  functionsR_layers <- txt %>%
-    gsub(pattern = "layer_nm\\s{1,}=\\s{1,}", replacement = "layer_nm=") %>%
-    # gsub(pattern = "", replacement = "layer_nm=") %>% # to catch pressure + resilience layers given with a different pattern
-    stringr::str_split(" ") %>%
-    unlist() %>%
-    stringr::str_subset("layer_nm.*") %>% # pattern to ID layer fed into a function within fuctions.R
-    stringr::str_extract("\"[a-z0-9_]*\"|\'[a-z0-9_]*\'") %>%
-    stringr::str_sort() %>%
-    stringr::str_remove_all("\"|\'") # remove any quotation marks around
-  
-  return(functionsR_layers)
+  return(goalinfo)
 }
 
 #' layers scatterplot variables selection menu
 #'
-#' @param layers_dir directory containing the layers
+#' @param str_match string or patial string to match in layers, to be included in result
 #' @param print boolean indicating whether to print copy-and-pasteable text in console
 #'
 #' @return no returned object; prints helpful info in console
 
-make_lyrs_menu <- function(layers_dir, print = FALSE){
+make_lyrs_menu <- function(str_match = "_bhi2015", print = FALSE){
   
-  lyrs <- list.files(layers_dir) %>%
-    grep(pattern = "_bhi2015.csv", value = TRUE) %>%
+  lyrs <- read_csv(here("dashboard", "data", "layers_data.csv"))$layer %>% 
+    unique() %>% 
+    grep(pattern = str_match, value = TRUE) %>%
     grep(pattern = "_trend", value = TRUE, invert = TRUE) %>%
     grep(pattern = "_scores", value = TRUE, invert = TRUE) %>%
     sort()
@@ -222,7 +224,7 @@ make_lyrs_menu <- function(layers_dir, print = FALSE){
       sprintf(
         "`%s` = \"%s\"",
         f %>%
-          str_remove(pattern  = "_bhi2015.csv+") %>%
+          str_remove(pattern  = paste0(str_match,"+")) %>%
           str_to_upper(),
         f
       ),
@@ -237,92 +239,118 @@ make_lyrs_menu <- function(layers_dir, print = FALSE){
   return(vec)
 }
 
-#' print in console goal-pages ui and server code
+#' make goal-pages ui and server code from template
 #'
 #' helper/timesaver function, could maybe be a module but thats another layer of complexity...
 #'
-#' @param goal_code the goal for which to input information /create code chunk
-#' @param goal_code_templatize the goal to use as a template
-#' @param ui_server one of either ui or server, whichever code is to be generated for
+#' @param goal_code the goal for which to input information/create code chunk
+#' @param replace_current logical indicating whether to overwrite current code chunks for the given goal
 #'
 #' @return
 
-templatize_goalpage <- function(goal_code, goal_code_templatize, ui_server){
-  
-  if(ui_server  ==  "ui"){
-    ## ui template, read then parse to goal to copy/templatize
-    templatetxt <- scan(file.path(getwd(), "ui.R"),
-                        what = "character",
-                        sep = "\n")
-    breaks <- templatetxt %>% grep(pattern = "##\\s>>\\s[a-z]{2,3}\\s----")
-    breakstart <- templatetxt %>% grep(pattern = sprintf("## >> %s ----", str_to_lower(goal_code_templatize)))
-    breakend <- min(breaks[which(breaks > breakstart)]) - 1
-    templatetxt <- templatetxt[breakstart:breakend]
-    
-  } else if(ui_server  ==  "server"){
-    ## server template, read then parse to goal to copy/templatize
-    templatetxt <- scan(file.path(getwd(), "server.R"),
-                        what = "character",
-                        sep = "\n")
-    breaks <- templatetxt %>% grep(pattern = "##\\s[A-Z]{2,3}\\s----")
-    breakstart <- templatetxt %>%
-      grep(
-        pattern = sprintf(
-          "##\\s%s\\s----",
-          str_to_upper(goal_code_templatize)
-        )
-      )
-    breakend <- min(breaks[which(breaks > breakstart)]) - 1
-    templatetxt <- templatetxt[breakstart:breakend]
-    
-  } else {
-    message("ui_server argument must be one of 'ui' or 'server'")
-  }
+goalpage_from_template <- function(goal_code, replace_current = FALSE){
   
   ## replacement info
   goalinfo <- tbl(bhi_db_con, "plot_conf") %>%
     select(name, goal, parent) %>%
-    collect() %>%
-    filter(goal %in% c(str_to_upper(goal_code), str_to_upper(goal_code_templatize)))
+    collect() %>% 
+    filter(goal == goal_code)
   
-  ## inject info for new goal
-  txt <- templatetxt
-  for(p in c("\"%s\"", " %s ", "\"%s_", " %s_")){
-    pttn <- sprintf(p, str_to_lower(goal_code_templatize))
-    repl <- sprintf(p, str_to_lower(goal_code)) # print(paste(pttn, "-->", repl))
+  ## template text
+  txt <- scan(
+    here("rebuild", "goalpage.R"),
+    what = "character",
+    sep = "\n",
+    blank.lines.skip = FALSE
+  )
+  
+  ## make replacements
+  for(p in c("\"%s\"", " %s ", "\"%s_", " %s_", "%s\\)")){
+    pttn <- sprintf(p, "goalcode")
+    repl <- sprintf(p, str_to_lower(goal_code))
     txt <- str_replace_all(txt, pattern = pttn, replacement = repl)
   }
   for(p in c("\"%s\"", " %s ", "\"%s ", " %s\"", "/%s/", "%s\\)")){
-    pttn <- sprintf(p, str_to_upper(goal_code_templatize))
-    repl <- sprintf(p, str_to_upper(goal_code)) # print(paste(pttn, "-->", repl))
+    pttn <- sprintf(p, "GOALCODE")
+    repl <- sprintf(p, str_to_upper(goal_code)) 
+    txt <- str_replace_all(txt, pattern = pttn, replacement = repl)
+  }
+  for(p in c("\"%s\"", " %s ", "%s ", " %s", "\"%s ", " %s\"", "/%s/", "%s\\)")){
+    pttn <- sprintf(p, "goalname")
+    repl <- sprintf(p, str_to_lower(goalinfo$name)) 
+    txt <- str_replace_all(txt, pattern = pttn, replacement = repl)
+  }
+  for(p in c("\"%s\"", " %s ", "%s ", " %s", "\"%s ", " %s\"", "/%s/", "%s\\)")){
+    pttn <- sprintf(p, "GOALNAME")
+    repl <- sprintf(p, goalinfo$name) 
     txt <- str_replace_all(txt, pattern = pttn, replacement = repl)
   }
   # if(any(!is.na(goalinfo$parent))){"?"}
-  for(p in c("\"%s\"", " %s ", "%s ", " %s", "\"%s ", " %s\"", "/%s/", "%s\\)")){
-    pttn <- sprintf(p, filter(goalinfo, goal == goal_code_templatize)$name)
-    repl <- sprintf(p, filter(goalinfo, goal == goal_code)$name) # print(paste(pttn, "-->", repl))
-    txt <- str_replace_all(txt , pattern = pttn, replacement = repl)
-  }
-  #biodiversity --> #artisanal-fishing-opportunities
   
+  ## for the urls
   txt <- txt %>%
     str_replace_all(
-      pattern = sprintf(
-        "#%s",
-        filter(goalinfo, goal == goal_code_templatize)$name %>%
-          str_to_lower() %>%
-          str_replace_all(pattern = " ", replacement = "-")
-      ),
+      pattern = "/goalcode_",
+      replacement = sprintf("/%s_", str_to_lower(goal_code))
+    ) %>%
+    str_replace_all(
+      pattern = "/#goalname",
       replacement = sprintf(
-        "#%s",
-        filter(goalinfo, goal == goal_code)$name %>%
+        "/#%s",
+        goalinfo$name %>%
           str_to_lower() %>%
           str_replace_all(pattern = " ", replacement = "-")
-      )) %>%
-    str_replace_all(pattern = "p\\(\"[A-Za-z0-9 ]+\"\\)", replacement = "p(\"\")")
+      )
+    )
+    
+  ## where have paragraphs of text, replace with empty paragraph html
+  txt <- str_replace_all(txt, pattern = "p\\(\"[A-Za-z0-9 ]+\"\\)", replacement = "p(\"\")")
   
-  ## print result in console
-  cat(txt, sep = "\n")
+  ## return or save results
+  if(!replace_current){
+    
+    ## just print result in console
+    cat(txt, sep = "\n")
+    
+  } else {
+    
+    ## directly replace current goal page code in ui and server scripts
+    
+    ## original ui and server text
+    txtUI <- scan(
+      here("dashboard", "ui.R"),
+      what = "character",
+      sep = "\n",
+      blank.lines.skip = FALSE
+    )
+    txtServer <- scan(
+      here("dashboard", "server.R"),
+      what = "character",
+      sep = "\n",
+      blank.lines.skip = FALSE
+    )
+    
+    ## identify breaks between goals
+    ui_breaks <- txtUI %>% grep(pattern = "##\\s§\\s\\([A-Z]{2,3}\\)")
+    ui_breakstart <- txtUI %>% grep(pattern = sprintf("##\\s§\\s\\(%s\\)", str_to_upper(goal_code)))
+    
+    serv_breaks <- txtServer %>% grep(pattern = "##\\s[A-Z]{2,3}\\s----")
+    serv_breakstart <- txtServer %>% grep(pattern = sprintf("##\\s%s\\s----", str_to_upper(goal_code)))
+    
+    ## replace goal chunks and save i.e. overwrite
+    txtUI_updated <- c(
+      txtUI[1:(ui_breakstart - 1)], 
+      txt[(grep(pattern = "## UI code ----", txt) + 1):(grep(pattern = "## Server code ----", txt) - 1)], 
+      txtUI[min(ui_breaks[which(ui_breaks > ui_breakstart)]):length(txtUI)]
+    )
+    txtServer_updated <- c(
+      txtServer[1:(serv_breakstart - 1)], 
+      txt[grep(pattern = "## Server code ----", txt):length(txt)], 
+      txtServer[min(serv_breaks[which(serv_breaks > serv_breakstart)]):length(txtServer)]
+    )
+    write_lines(txtUI_updated, here("dashboard", "ui2.R"))
+    write_lines(txtServer_updated, here("dashboard", "server2.R"))
+  }
 }
 
 #' print in console pieces to create region menu code
