@@ -19,7 +19,7 @@ mapCardUI <- function(id, title_text = NULL, sub_title_text = NULL, box_width = 
     title = title_text,
     
     list(
-      p(sub_title_text),
+      p(sub_title_text, br(), br()),
       addSpinner(items, spin = "rotating-plane", color = "#d7e5e8"),
       p(source_text)
     )

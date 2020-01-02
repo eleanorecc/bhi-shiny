@@ -284,6 +284,17 @@ function(input, output, session){
     spatial_unit_selected = spatial_unit
   )
   
+  output$eut_datatable = renderDataTable({
+    datatable(
+      data_info %>% 
+        filter(goal == "EUT") %>% 
+        select(-goal),
+      options = list(dom = "t"),
+      rownames = FALSE,
+      escape = FALSE
+    )
+  })
+  
 
   ## TRA ----
   ## Trash
@@ -783,7 +794,15 @@ function(input, output, session){
         ) %>% 
         group_by(subbasin, layer, layername, Year) %>% 
         summarize(Pressure = weighted.mean(Pressure, area_km2) %>% round(3)) %>% 
-        rename(Name = subbasin)
+        left_join(
+          readr::read_csv(here::here("dashboard", "data", "basins.csv")) %>% 
+            select(subbasin, order), 
+          by = "subbasin"
+        ) %>% 
+        arrange(order) %>% 
+        ungroup() %>% 
+        mutate(Name = as.factor(subbasin))
+    
     } else {
       press_dat <- press_dat %>%
         dplyr::filter(region_id %in% 1:42) %>% 
@@ -791,27 +810,33 @@ function(input, output, session){
         mutate(Pressure = round(Pressure, 3))
     }
     
-    pressure_cols <- colorRampPalette(RColorBrewer::brewer.pal(8, "Set2")[c(1:7)])(16)
-    # pressure_cols <- colorRampPalette(RColorBrewer::brewer.pal(12, "Set3"))(16)
+    ## create color palette, have 16 distinct pressure layers
+    pressure_cols <- colorRampPalette(RColorBrewer::brewer.pal(8, "Set2")[c(1:7)])(16) 
+    
+    ## bar plot
+    ## once have timeseries data, can make this a timeseries plot
     plot_obj <- ggplot2::ggplot(data = press_dat) +
+      
       geom_col(
+        position = position_stack(),
         aes(
           x = Name,
           y = Pressure,
           fill = layer,
           text = sprintf("%s\n%s\nScore (scale 0-1):  %s", Name, layername, Pressure)
-         ),
-        position = position_stack()
+         )
       ) + 
-      scale_fill_manual(values = pressure_cols) +
+      
       theme_bw() +
       theme(
-        legend.position = "none",
-        axis.text.x = element_text(size = 8, angle = 40, color = "grey40")
+        axis.text.x = element_text(size = 8, angle = 40, color = "grey40"),
+        legend.position = "none"
       ) +
+      scale_fill_manual(values = pressure_cols) +
       labs(x = NULL, y = NULL, main = "Cumulative Pressures \n")
-    plotly::ggplotly(plot_obj, tooltip = "text")
     
+    
+    plotly::ggplotly(plot_obj, tooltip = "text")
   })
 
   ## DATA LAYERS ----

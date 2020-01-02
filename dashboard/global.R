@@ -53,20 +53,22 @@ convertMenuItem <- function(mi, tabName){
 #' @return
 
 text_links <- function(title = NULL, url = NULL, box_width = 12){
-
-  box(class = "text_link_button",
-      h4(a(paste("\n", title), href = url, target = "_blank")),
-      width = box_width,
-      height = 65,
-      background = "light-blue",
-      status = "primary",
-      solidHeader = TRUE)
+  box(
+    class = "text_link_button",
+    h4(strong(a(paste("\n", title), href = url, target = "_blank"))),
+    width = box_width,
+    height = 65,
+    background = "light-blue",
+    status = "primary",
+    solidHeader = TRUE
+  )
 }
 
 ## Shiny Global Data ----
 
 full_scores_csv <- readr::read_csv(here("dashboard", "data", "scores.csv"))
 goals_csv <- readr::read_csv(here("dashboard", "data", "plot_conf.csv"))
+data_info <- readr::read_csv(here("dashboard", "data", "data_info.csv"))
 
 regions_df <- readr::read_csv(here("dashboard", "data", "regions.csv"))
 subbasins_df <- readr::read_csv(here("dashboard", "data", "basins.csv"))

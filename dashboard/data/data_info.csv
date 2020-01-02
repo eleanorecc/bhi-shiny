@@ -1,0 +1,2 @@
+goal,Layer,Description,Target,Source
+EUT,Pathogens,Number of beach day closures as recorded by the EPA Beach Closure Data,"100 days free of any beach closures, representing the average length of the swimming season for the region","<a href=""https://watersgeo.epa.gov/beacon2/"" target = ""_blank"">EPA BEACON 2.0</a>"
