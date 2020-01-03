@@ -685,192 +685,192 @@ dashboardPage(
         )
       ), # end CON tab item
 
-      ## § (EUT) Eutrophication ----
-      ## Eutrophication
-      tabItem(
-        tabName = "eut",
-        
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Eutrophication (Restructuring Pages, Example)", style = "color:#9b363d"),
-            # h1("Eutrophication"),
-            width = 8
-          ),
-          column(
-            width = 4,
-            scoreBoxUI(id = "eut_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "EUT")$short_def),
-            p(filter(goals_csv, goal == "EUT")$description),
-            width = 12
-          )
-        ),
-        
-        ## target info and key messages
-        fluidRow(
-          box(
-            title = "Key Messages", 
-            status = "info", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 8
-          ),
-          box(
-            title = "Target", 
-            status = "info", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 4
-          )
-        ),
-        
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "eut_map",
-            title_text = "Eutrophication Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(), 
-            box_width = 8,
-            ht = 550
-          ),
-          barplotCardUI(
-            id = "eut_barplot",
-            title_text = "Shortfall/Headway towards Eutrophication Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-        
-        ## key information and data layers table
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Key Information",
-            status = "info", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            # collapsed = TRUE,
-            width = 12,
-            title = "Data Layers", 
-            DT::dataTableOutput("eut_datatable")
-          )
-        ),
-        
-        ## additional goal-specific graphs etc
-        # fluidRow(
-        #   box(
-        #     title = "Key Information", 
-        #     background = "teal", 
-        #     solidHeader = TRUE,
-        #     plotOutput("plotename", height = 250)
-        #   )
-        # ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          column(
-            width = 12, 
-            align = "center",
-            text_links(
-              "CLICK HERE FOR DETAILED METHODS",
-              sprintf("%s/EUT/eut_prep.md", gh_prep)
-            )
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            tags$ul(
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point one."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point two."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point three."
-              )
-            )
-          )
-        )
-      ), # end EUT tab item
-
-      ## § (TRA) trash ----
-      ## Trash
-      tabItem(
-        tabName = "tra",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Trash"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "tra_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "TRA")$short_def),
-            p(filter(goals_csv, goal == "TRA")$description),
-            width = 12
-          )
-        ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "tra_barplot",
-            title_text = "Trash Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "tra_map",
-            title_text = "Map of  Trash (Clean Water) Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "TRA DATA PREP",
-              sprintf("%s/CW/trash/tra_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#clean-waters"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/CW/trash/raw"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
-        )
-      ), # end TRA tab item
+      # ## § (EUT) Eutrophication ----
+      # ## Eutrophication
+      # tabItem(
+      #   tabName = "eut",
+      #   
+      #   ## header with scorebox and goal intro
+      #   fluidRow(
+      #     box(
+      #       h1("Eutrophication (Restructuring Pages, Example)", style = "color:#9b363d"),
+      #       # h1("Eutrophication"),
+      #       width = 8
+      #     ),
+      #     column(
+      #       width = 4,
+      #       scoreBoxUI(id = "eut_infobox")
+      #     ),
+      #     box(
+      #       h4(filter(goals_csv, goal == "EUT")$short_def),
+      #       p(filter(goals_csv, goal == "EUT")$description),
+      #       width = 12
+      #     )
+      #   ),
+      #   
+      #   ## target info and key messages
+      #   fluidRow(
+      #     box(
+      #       title = "Key Messages", 
+      #       status = "info", 
+      #       solidHeader = TRUE,
+      #       "Box content here", br(), "More box content", br(),
+      #       width = 8
+      #     ),
+      #     box(
+      #       title = "Target", 
+      #       status = "info", 
+      #       solidHeader = TRUE,
+      #       "Box content here", br(), "More box content", br(),
+      #       width = 4
+      #     )
+      #   ),
+      #   
+      #   ## plots and maps and links
+      #   fluidRow(
+      #     mapCardUI(
+      #       id = "eut_map",
+      #       title_text = "Eutrophication Scores Around the Baltic",
+      #       sub_title_text = "This map shows scores from the previous assessment (2014)",
+      #       br(), 
+      #       box_width = 8,
+      #       ht = 550
+      #     ),
+      #     barplotCardUI(
+      #       id = "eut_barplot",
+      #       title_text = "Shortfall/Headway towards Eutrophication Target",
+      #       sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      #       box_width = 4
+      #     )
+      #   ),
+      #   
+      #   ## key information and data layers table
+      #   fluidRow(
+      #     box(
+      #       width = 12, 
+      #       title = "Key Information",
+      #       status = "info", 
+      #       solidHeader = TRUE,
+      #       "Box content here", br(), "More box content"
+      #     )
+      #   ),
+      #   fluidRow(
+      #     box(
+      #       collapsible = TRUE,
+      #       # collapsed = TRUE,
+      #       width = 12,
+      #       title = "Data Layers", 
+      #       DT::dataTableOutput("eut_datatable")
+      #     )
+      #   ),
+      #   
+      #   ## additional goal-specific graphs etc
+      #   # fluidRow(
+      #   #   box(
+      #   #     title = "Key Information", 
+      #   #     background = "teal", 
+      #   #     solidHeader = TRUE,
+      #   #     plotOutput("plotename", height = 250)
+      #   #   )
+      #   # ),
+      #   
+      #   ## methods link, plus data considerations, improvements
+      #   fluidRow(
+      #     column(
+      #       width = 12, 
+      #       align = "center",
+      #       text_links(
+      #         "CLICK HERE FOR DETAILED METHODS",
+      #         sprintf("%s/EUT/eut_prep.md", gh_prep)
+      #       )
+      #     )
+      #   ),
+      #   fluidRow(
+      #     box(
+      #       collapsible = TRUE,
+      #       collapsed = TRUE,
+      #       width = 12,
+      #       title = "Data Considerations & Potential Improvements",
+      #       "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      #       br(),
+      #       br(),
+      #       tags$ul(
+      #         tags$li(
+      #           tags$b("Bold text:"),
+      #           "Bullet point one."
+      #         ),
+      #         tags$li(
+      #           tags$b("Bold text:"),
+      #           "Bullet point two."
+      #         ),
+      #         tags$li(
+      #           tags$b("Bold text:"),
+      #           "Bullet point three."
+      #         )
+      #       )
+      #     )
+      #   )
+      # ), # end EUT tab item
+      # 
+      # ## § (TRA) trash ----
+      # ## Trash
+      # tabItem(
+      #   tabName = "tra",
+      # 
+      #   ## header with scorebox and goal intro
+      #   fluidRow(
+      #     box(
+      #       h1("Trash"),
+      #       width = 9
+      #     ),
+      #     column(
+      #       width = 3,
+      #       scoreBoxUI(id = "tra_infobox")
+      #     ),
+      #     box(
+      #       h4(filter(goals_csv, goal == "TRA")$short_def),
+      #       p(filter(goals_csv, goal == "TRA")$description),
+      #       width = 12
+      #     )
+      #   ),
+      # 
+      #   ## plots and maps and links
+      #   fluidRow(
+      #     barplotCardUI(
+      #       id = "tra_barplot",
+      #       title_text = "Trash Goal Headway",
+      #       sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
+      #       box_width = 3
+      #     ),
+      #     mapCardUI(
+      #       id = "tra_map",
+      #       title_text = "Map of  Trash (Clean Water) Scores",
+      #       sub_title_text = "This map shows scores from the previous assessment (2014)",
+      #       box_width = 6,
+      #       ht = 555
+      #     ),
+      # 
+      #     column(
+      #       width = 3,
+      #       text_links(
+      #         "TRA DATA PREP",
+      #         sprintf("%s/CW/trash/tra_prep.md", gh_prep)
+      #       ),
+      #       text_links(
+      #         "MEANING OF THE GOAL",
+      #         "https://ohi-science.org/goals/#clean-waters"
+      #       ),
+      #       text_links(
+      #         "GOAL DATA",
+      #         "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/CW/trash/raw"
+      #       ),
+      #       text_links(
+      #         "ALL DATA LAYERS",
+      #         "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
+      #       )
+      #     )
+      #   )
+      # ), # end TRA tab item
 
       ## § (FP) food provision ----
       ## Food Provision
