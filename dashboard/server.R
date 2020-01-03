@@ -284,16 +284,16 @@ function(input, output, session){
     spatial_unit_selected = spatial_unit
   )
   
-  # output$eut_datatable = renderDataTable({
-  #   datatable(
-  #     data_info %>% 
-  #       filter(goal == "EUT") %>% 
-  #       select(-goal),
-  #     options = list(dom = "t"),
-  #     rownames = FALSE,
-  #     escape = FALSE
-  #   )
-  # })
+  output$eut_datatable = renderDataTable({
+    datatable(
+      data_info %>%
+        filter(goal == "EUT") %>%
+        select(-goal),
+      options = list(dom = "t"),
+      rownames = FALSE,
+      escape = FALSE
+    )
+  })
   
 
   ## TRA ----

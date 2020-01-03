@@ -1,0 +1,282 @@
+---
+title: "Rebuild Shiny Dash"
+output: html_document
+---
+
+```{r libraries}
+library(here)
+library(magrittr)
+library(readr)
+library(stringr)
+library(dplyr)
+library(tidyr)
+library(sp)
+```
+
+```{r functions and directories}
+source(here("rebuild", "rebuilding.R"))
+
+assess_year <- 2019
+bhi_version <- "v2019"
+scenario_folder <- "baltic2015"
+
+## these urls should connect to the most recent versions of everything
+# gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/v2019/"
+gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-1.0-archive/draft/baltic2015/"
+gh_raw_bhi <- "https://raw.githubusercontent.com/OHI-Science/bhi/master/"
+
+# gh_api_bhiprep <- "https://api.github.com/repos/OHI-Science/bhi-prep/git/trees/master?recursive=1"
+gh_api_bhiprep <- "https://api.github.com/repos/OHI-Science/bhi-1.0-archive/git/trees/draft?recursive=1"
+gh_api_bhi <- "api url connecting to bhi repo"
+
+## connect to the BHI main database
+bhi_db_con <- "connection to BHI database"
+# bhi_db_file <- "/Users/eleanorecampbell/Desktop/bhi-config.sqlite"
+# bhi_db_con <- DBI::dbConnect(RSQLite::SQLite(), bhi_db_file)
+```
+
+<br>
+
+## Get Most-Recent Data for Dashboard
+
+```{r extract configuration data for app and write to data folder}
+## extract data from main BHI database, only need a small subset of data used in calculaing index
+## load earlier configuration data to confirm/ compare
+
+## lookup tables
+tbl(bhi_db_con, "basins") %>% 
+  collect() %>% 
+  write_csv(here("dashboard", "data", "basins.csv"))
+
+tbl(bhi_db_con, "regions") %>% 
+  collect() %>% 
+  write_csv(here("dashboard", "data", "regions.csv"))
+
+## plotting configuration
+tbl(bhi_db_con, "plot_conf") %>% 
+  collect() %>% 
+  write_csv(here("dashboard", "data", "plot_conf.csv"))
+```
+
+```{r extract scores data from bhiprep github repo and write to data folder}
+
+## assessment raw datasets, metadata
+data_info <- read_csv(paste0(gh_raw_bhi, scenario_folder, "/layers_metadata.csv"), col_types = cols())
+write_csv(data_info, here("dashboard", "data", "data_info.csv"))
+
+## assessment scores
+bhiscores <- read_csv(paste0(gh_raw_bhi, scenario_folder, "/scores.csv"), col_types = cols()) %>% 
+  left_join(
+    read_csv(paste0(gh_raw_bhi, scenario_folder, "/regions_lookup_complete_wide.csv")) %>% 
+      select(region_id, subbasin = subbasin_name, area_km2 = area_km2_rgn),
+    # read_csv(here("dashboard", "data", "regions.csv"), col_types = cols()) %>% 
+      # select(region_id, subbasin, area_km2),
+    by = "region_id"
+  ) %>% 
+  filter(region_id %in% 1:42, goal != "Index")
+
+## scores.csv only has some dimensions for basins and full baltic, want to have all dimensions
+## supragoals dont have pressure/resilience, so need to calculate these from their respective subgoals
+basinscores <- bhiscores %>% 
+    group_by(goal, dimension, subbasin) %>% 
+    summarise(basinscore = weighted.mean(score, area_km2, na.rm = TRUE)) %>%
+    ## any NaN values are because all NAs and thus filtered out in weighted mean, nothin/area...
+    mutate(score = ifelse(is.nan(basinscore), NA, round(basinscore, 2))) %>% 
+    left_join(
+      read_csv(here("dashboard", "data", "basins.csv"), col_types = cols()) %>% 
+        select(region_id = subbasin_id, subbasin),
+      by = "subbasin"
+    ) %>% 
+    select(goal, dimension, region_id, score)
+
+
+
+basinscores <- rbind(
+  basinscores %>% 
+    filter(!(goal %in% c("CW", "FP", "LE", "SP") & dimension %in% c("pressures", "resilience"))),
+  basinscores %>% 
+    
+  
+)
+
+
+
+
+supragoals <- list(list())
+lapply(
+  
+)
+
+balticscores <- rbind(
+  ## goal scores for baltic, all dimensions
+  bhiscores %>% 
+    group_by(goal, dimension) %>% 
+    summarize(balticscore = weighted.mean(score, area_km2, na.rm = TRUE)) %>%
+    mutate(
+      score = ifelse(is.nan(balticscore), NA, round(balticscore, 2)), 
+      region_id = 0
+    ) %>% 
+    ungroup() %>% 
+    select(goal, dimension, region_id, score),
+  
+  ## index scores for the baltic, all dimensions
+  bhiscores %>% 
+    filter(str_length(goal) == 2, !is.na(score)) %>% 
+    group_by(dimension) %>% 
+    summarize(balticscore = weighted.mean(score, area_km2, na.rm = TRUE)) %>%
+    mutate(
+      score = ifelse(is.nan(balticscore), NA, round(balticscore, 2)), 
+      region_id = 0,
+      goal = "Index"
+    ) %>% 
+    ungroup() %>% 
+    select(goal, dimension, region_id, score)
+)
+## whats going on... should be 77.12 score and 72.99 future...
+ 
+## bind and expand with NAs so won't get mapping/plotting error messages
+## save data to dashboard data folder
+rbind(select(bhiscores, goal, dimension, region_id, score), balticscores, basinscores) %>% 
+  tidyr::complete(goal, dimension, region_id) %>% 
+  write_csv(here("dashboard", "data", "scores.csv"))
+```
+
+
+```{r extract other relevant data from bhiprep github repo and write to data folder}
+## which raw or intermediate layers to include for different goals...
+## which datasets to obtain for which goals? 
+## need a way to determine/record this...
+```
+
+<br>
+
+## Configuration
+
+```{r make sure everything is synced with main bhi repos}
+## theme color palettes etc
+bhi_theme <- readLines(paste0(gh_raw_bhi, "R/theme.R"))
+bhi_theme <- bhi_theme[grep(pattern = "apply_bhi_theme", bhi_theme):length(bhi_theme)]
+writeLines(bhi_theme, here("dashboard", "R", "theme.R"))
+
+## goal summaries...
+```
+
+<br>
+
+## Wrangling Global Datasets
+
+```{r spatial data wrangling}
+## copy over original shapefiles wherever they are saved, currently BHI_share...
+## make lower resolution files for visualization, dont need same resolution as for analysis
+## save as rds files
+
+## regions shapefile:
+if(!file.exists(here("dashboard", "data", "regions.rds"))){
+  
+  bhi_rgns_shp <- sf::st_read("/Volumes/BHI_share/Shapefiles/BHI_shapefile", "BHI_shapefile") %>%
+    dplyr::mutate(Subbasin = as.character(Subbasin)) %>%
+    dplyr::mutate(Subbasin = ifelse(
+      Subbasin == "Bothian Sea", # NEED TO FIX THIS TYPO!!!
+      "Bothnian Sea", Subbasin
+    ))
+  # rmapshaper::ms_simplify(input = bhi_rgns_shp) %>%
+  #   sf::st_as_sf() %>% 
+  #   write_rds(here("data", "regions.rds"))
+  
+  ## spatial rather than simple features...
+  bhi_rgns_shp_simp <- rmapshaper::ms_simplify(input = bhi_rgns_shp) %>%
+    sf::st_as_sf()
+  sf::as_Spatial(bhi_rgns_shp_simp) %>% 
+    saveRDS(here("dashboard", "data", "regions.rds"))
+  
+} else(
+  message(
+    "regions.rds already exists. if you really want to replace it, select and run relevant lines above"
+  )
+)
+
+## subbasins shapefile:
+if(!file.exists(here("dashboard", "data", "subbasins.rds"))){
+  
+  subbasins_shp <- sf::st_read(
+    "/Volumes/BHI_share/Shapefiles/HELCOM_subbasins_holasbasins",
+    "HELCOM_subbasins_holasbasins"
+  )
+  # subbasins_shp <- rmapshaper::ms_simplify(input = subbasins_shp) %>%
+  #   sf::st_as_sf() %>% 
+  #   dplyr::select(Name, AreaKM2, HELCOM_ID) %>% # keep only necessary columns for shiny
+  #   write_rds(here("data", "subbasins.rds"))
+  
+  ## spatial rather than simple features...
+  subbasins_shp_simp <- rmapshaper::ms_simplify(input = subbasins_shp) %>%
+    sf::st_as_sf()
+  ## subbasins_shp_simp@proj4string is initially epsg 3035, need epsg 4326 crs for mapping
+  sf::as_Spatial(subbasins_shp_simp) %>% 
+    spTransform(CRS("+init=epsg:4326")) %>% 
+    saveRDS(here("dashboard", "data", "subbasins.rds"))
+  
+} else(
+  message(
+    "subbasins.rds already exists. if you really want to replace it, select and run relevant lines above"
+  )
+)
+```
+
+```{r create merged layers dataframe}
+## include most recent version of the data in the app
+scenario_layers <- intersect(
+  read_csv(paste0(gh_raw_bhiprep, "layers.csv"), col_types = cols())$filename %>% str_remove(".csv"), 
+  list_prep_layers(gh_api_bhiprep)
+) %>% grep(pattern = "^rgn_", invert = TRUE, value = TRUE)
+
+get_layers(gh_raw_bhiprep, scenario_layers, 2014) %>% 
+  write_csv(here("dashboard", "data", "layers_data.csv"))
+```
+
+<br>
+
+## Precalculate Flowerplots
+
+```{r create all the flowerplots ahead of time because its slow}
+source(here::here("rebuild", "flowerplot.R"))
+source(here::here("dashboard", "R", "theme.R"))
+
+flower_data <- readr::read_csv(here("dashboard", "data", "scores.csv"))
+fp_weights <- readr::read_csv(here("dashboard", "data", "layers_data.csv")) %>% 
+  dplyr::filter(str_detect(layer, "wildcaught_weight")) %>% 
+  dplyr::select(year, region_id, value)
+
+make_flower_plot(
+    rgn_scores = flower_data,
+    rgns = c(0, 1:42, 501:517),
+    plot_year = 2014, # max(flower_data$year)
+    dim = "score",
+    color_pal = NA,
+    color_by = "goal",
+    include_ranges = TRUE, 
+    labels = "arc",
+    fis_mar_petals = fp_weights
+)
+```
+
+<br>
+
+## Revise select-input menus for UI
+
+```{r recreate UI select menus for pressure and layers pages}
+## pressures timeseries plot, select 'pressure variable' menu options
+
+## layers scatterplot, select variables menu options
+
+```
+
+<br>
+
+## Update/Repair Links
+
+```{r update links to dataprep documents}
+```
+
+```{r check for any broken links}
+```
+
