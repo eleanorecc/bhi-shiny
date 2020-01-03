@@ -7,11 +7,11 @@
 ## scorebox ui function ----
 scoreBoxUI <- function(id){
   ns <- shiny::NS(id)
-  tagList(list(infoBoxOutput(ns("goal_scorebox"),  width = 12)))
+  tagList(list(infoBoxOutput(ns("goal_scorebox"), width = 4)))
 }
 
 ## scorebox server function ----
-scoreBox<- function(input, output, session, goal_code, flower_rgn_selected){
+scoreBox <- function(input, output, session, goal_code, flower_rgn_selected){
 
   scores <- full_scores_csv %>%
     dplyr::filter(goal == goal_code, dimension == "score")
@@ -31,8 +31,8 @@ scoreBox<- function(input, output, session, goal_code, flower_rgn_selected){
         ),
         style = ifelse(
           flower_rgn_selected() == 0,
-          "font-size: 260%; text-align:center; font-weight: lighter;",
-          "font-size: 210%; text-align:center; font-weight: lighter;"
+          "font-size: 260%; text-align:right; font-weight: lighter;",
+          "font-size: 210%; text-align:right; font-weight: lighter;"
         )
       ),
       icon = icon(thm$icons[[goal_code]]),

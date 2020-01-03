@@ -394,1119 +394,2167 @@ dashboardPage(
         )
       ), # end welcome tab
 
-      ## § (AO) artisanal opp. ----
-      ## Artisanal Fishing Opportunity
-      tabItem(
-        tabName = "ao",
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Artisanal Fishing Opportunity"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "ao_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "AO")$short_def),
-            p(filter(goals_csv, goal == "AO")$description),
-            width = 12
-          )
+## § (AO) Artisanal Fishing Opportunity ----
+## Artisanal Fishing Opportunity
+tabItem(
+  tabName = "ao",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Artisanal Fishing Opportunity"),
+      width = 8
+    ),
+    scoreBoxUI(id = "ao_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "AO")$short_def),
+      p(filter(goals_csv, goal == "AO")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "ao_map",
+      title_text = "Artisanal Fishing Opportunity Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "ao_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("ao_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/AO/ao_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "ao_barplot",
-            title_text = "Artisanal Fishing Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "ao_map",
-            title_text = "Map of Artisanal Fishing Opportunity Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-          column(
-            width = 3,
-            text_links(
-              "AO DATA PREP",
-              sprintf("%s/AO/ao_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "http://ohi-science.org/goals/#artisanal-fishing-opportunities"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/AO/ao_data_database"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end AO tab item
+      )
+    )
+  )
+), # end AO tab item
 
-      ## § (BD) biodiversity ----
-      ## Biodiversity
-      tabItem(
-        tabName = "bd",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Biodiversity"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "bd_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "BD")$short_def),
-            p(filter(goals_csv, goal == "BD")$description),
-            width = 12
-          )
+## § (BD) Biodiversity ----
+## Biodiversity
+tabItem(
+  tabName = "bd",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Biodiversity"),
+      width = 8
+    ),
+    scoreBoxUI(id = "bd_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "BD")$short_def),
+      p(filter(goals_csv, goal == "BD")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "bd_map",
+      title_text = "Biodiversity Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "bd_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("bd_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/BD/bd_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "bd_barplot",
-            title_text = "Biodiversity Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "bd_map",
-            title_text = "Map of Biodiversity Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "BD DATA PREP",
-              sprintf("%s/SPP/spp_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "http://ohi-science.org/goals/#biodiversity"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/SPP/spatial_data_prep"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end BD tab item
+      )
+    )
+  )
+), # end BD tab item
 
-      ## § (CS) carbon storage ----
-      ## Carbon Storage
-      tabItem(
-        tabName = "cs",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Carbon Storage"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "cs_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "CS")$short_def),
-            p(filter(goals_csv, goal == "CS")$description),
-            width = 12
-          )
+## § (CS) Carbon Storage ----
+## Carbon Storage
+tabItem(
+  tabName = "cs",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Carbon Storage"),
+      width = 8
+    ),
+    scoreBoxUI(id = "cs_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "CS")$short_def),
+      p(filter(goals_csv, goal == "CS")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "cs_map",
+      title_text = "Carbon Storage Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "cs_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("cs_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/CS/cs_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "cs_barplot",
-            title_text = "",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "cs_map",
-            title_text = "Carbon Storage Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "CS DATA PREP",
-              sprintf("%s/CS/cs_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "http://ohi-science.org/goals/#carbon-storage"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/CS/zostera_raster"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end CS tab item
+      )
+    )
+  )
+), # end CS tab item
 
-      ## § (CW) clean water ----
-      ## Clean Water
-      tabItem(
-        tabName = "cw",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Clean Water"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "cw_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "CW")$short_def),
-            p(filter(goals_csv, goal == "CW")$description),
-            width = 12
-          )
+## § (CW) Clean Waters ----
+## Clean Waters
+tabItem(
+  tabName = "cw",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Clean Waters"),
+      width = 8
+    ),
+    scoreBoxUI(id = "cw_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "CW")$short_def),
+      p(filter(goals_csv, goal == "CW")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "cw_map",
+      title_text = "Clean Waters Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "cw_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("cw_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/CW/cw_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "cw_barplot",
-            title_text = "Clean Waters Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "cw_map",
-            title_text = "Map of Clean Water Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "CW DATA PREP",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/CW"
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#clean-waters"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end CW tab item
+      )
+    )
+  )
+), # end CW tab item
 
-      ## § (CON) contaminants ----
-      ## Contaminants
-      tabItem(
-        tabName = "con",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Contaminants"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "con_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "CON")$short_def),
-            p(filter(goals_csv, goal == "CON")$description),
-            width = 12
-          )
+## § (CON) Contaminants ----
+## Contaminants
+tabItem(
+  tabName = "con",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Contaminants"),
+      width = 8
+    ),
+    scoreBoxUI(id = "con_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "CON")$short_def),
+      p(filter(goals_csv, goal == "CON")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "con_map",
+      title_text = "Contaminants Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "con_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("con_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/CON/con_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "con_barplot",
-            title_text = "Contaminants Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "con_map",
-            title_text = "Map of Contaminants Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "CON DATA PREP",
-              sprintf("%s/CW/contaminants/contaminants_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#clean-waters"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/CW/contaminants/contaminants_data_database"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end CON tab item
+      )
+    )
+  )
+), # end CON tab item
 
-      ## § (EUT) Eutrophication ----
-      ## Eutrophication
-      tabItem(
-        tabName = "eut",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Eutrophication (Restructuring Pages, Example)", style = "color:#9b363d"),
-            # h1("Eutrophication"),
-            width = 8
-          ),
-          column(
-            width = 4,
-            scoreBoxUI(id = "eut_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "EUT")$short_def),
-            p(filter(goals_csv, goal == "EUT")$description),
-            width = 12
-          )
+## § (EUT) Eutrophication ----
+## Eutrophication
+tabItem(
+  tabName = "eut",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Eutrophication"),
+      width = 8
+    ),
+    scoreBoxUI(id = "eut_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "EUT")$short_def),
+      p(filter(goals_csv, goal == "EUT")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "eut_map",
+      title_text = "Eutrophication Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "eut_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("eut_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/EUT/eut_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-
-        ## target info and key messages
-        fluidRow(
-          box(
-            title = "Key Messages",
-            status = "info",
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 8
-          ),
-          box(
-            title = "Target",
-            status = "info",
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 4
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "eut_map",
-            title_text = "Eutrophication Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(),
-            box_width = 8,
-            ht = 550
-          ),
-          barplotCardUI(
-            id = "eut_barplot",
-            title_text = "Shortfall/Headway towards Eutrophication Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-
-        ## key information and data layers table
-        fluidRow(
-          box(
-            width = 12,
-            title = "Key Information",
-            status = "info",
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            # collapsed = TRUE,
-            width = 12,
-            title = "Data Layers",
-            DT::dataTableOutput("eut_datatable")
-          )
-        ),
-
-        ## additional goal-specific graphs etc
-        # fluidRow(
-        #   box(
-        #     title = "Key Information",
-        #     background = "teal",
-        #     solidHeader = TRUE,
-        #     plotOutput("plotename", height = 250)
-        #   )
-        # ),
-
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          column(
-            width = 12,
-            align = "center",
-            text_links(
-              "CLICK HERE FOR DETAILED METHODS",
-              sprintf("%s/EUT/eut_prep.md", gh_prep)
-            )
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            tags$ul(
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point one."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point two."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point three."
-              )
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end EUT tab item
+      )
+    )
+  )
+), # end EUT tab item
 
-      ## § (TRA) trash ----
-      ## Trash
-      tabItem(
-        tabName = "tra",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Trash"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "tra_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "TRA")$short_def),
-            p(filter(goals_csv, goal == "TRA")$description),
-            width = 12
-          )
+## § (TRA) Trash ----
+## Trash
+tabItem(
+  tabName = "tra",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Trash"),
+      width = 8
+    ),
+    scoreBoxUI(id = "tra_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "TRA")$short_def),
+      p(filter(goals_csv, goal == "TRA")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "tra_map",
+      title_text = "Trash Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "tra_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("tra_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/TRA/tra_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "tra_barplot",
-            title_text = "Trash Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "tra_map",
-            title_text = "Map of  Trash (Clean Water) Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "TRA DATA PREP",
-              sprintf("%s/CW/trash/tra_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#clean-waters"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/CW/trash/raw"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
-        )
-      ), # end TRA tab item
-
-      ## § (FP) food provision ----
-      ## Food Provision
-      tabItem(
-        tabName = "fp",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Food Provision"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "fp_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "FP")$short_def),
-            p(filter(goals_csv, goal == "FP")$description),
-            width = 12
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "fp_barplot",
-            title_text = "Food Provision Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "fp_map",
-            title_text = "Map of Food Provision Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "FP DATA PREP",
-              sprintf("%s/FP/fp_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#food-provision"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end FP tab item
+      )
+    )
+  )
+), # end TRA tab item
 
-      ## § (FIS) fisheries ----
-      ## Wild-Caught Fisheries
-      tabItem(
-        tabName = "fis",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Wild-Caught Fisheries"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "fis_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "FIS")$short_def),
-            p(filter(goals_csv, goal == "FIS")$description),
-            width = 12
-          )
+## § (FP) Food Provision ----
+## Food Provision
+tabItem(
+  tabName = "fp",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Food Provision"),
+      width = 8
+    ),
+    scoreBoxUI(id = "fp_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "FP")$short_def),
+      p(filter(goals_csv, goal == "FP")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "fp_map",
+      title_text = "Food Provision Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "fp_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("fp_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/FP/fp_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "fis_barplot",
-            title_text = "Fisheries Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "fis_map",
-            title_text = "Map of Wild-Caught Fisheries Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "FIS DATA PREP",
-              sprintf("%s/FIS/fis_np_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#food-provision"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/FIS/raw"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
-        )
-      ), # end FIS tab item
-
-      ## § (MAR) mariculture ----
-      ## Mariculture
-      tabItem(
-        tabName = "mar",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Mariculture"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "mar_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "MAR")$short_def),
-            p(filter(goals_csv, goal == "MAR")$description),
-            width = 12
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "mar_barplot",
-            title_text = "Mariculture Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "mar_map",
-            title_text = "Map of Mariculture Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht =  555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "MAR DATA PREP",
-              sprintf("%s/MAR/mar_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#food-provision"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/MAR/mar_data_database"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end MAR tab item
+      )
+    )
+  )
+), # end FP tab item
 
-      ## § (LE) livelihoods and econ.----
-      ## Livelihoods & Economies
-      tabItem(
-        tabName = "le",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Livelihoods & Economies"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "le_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "LE")$short_def),
-            p(filter(goals_csv, goal == "LE")$description),
-            width = 12
-          )
+## § (FIS) Fisheries ----
+## Fisheries
+tabItem(
+  tabName = "fis",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Fisheries"),
+      width = 8
+    ),
+    scoreBoxUI(id = "fis_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "FIS")$short_def),
+      p(filter(goals_csv, goal == "FIS")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "fis_map",
+      title_text = "Fisheries Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "fis_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("fis_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/FIS/fis_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "le_barplot",
-            title_text = "Livelihoods & Economies Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "le_map",
-            title_text = "Map of Coastal Livelihoods & Economies Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#livelihoods-and-economies"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
-        )
-      ), # end LE tab item
-
-      ## § (ECO) economies ----
-      ## Economies
-      tabItem(
-        tabName = "eco",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Economies"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "eco_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "ECO")$short_def),
-            p(filter(goals_csv, goal == "ECO")$description),
-            width = 12
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "eco_barplot",
-            title_text = "Economies Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "eco_map",
-            title_text = "Map of Coastal Economies Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "ECO DATA PREP",
-              sprintf("%s/ECO/eco_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#livelihoods-and-economies"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/ECO/eco_data_database"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end ECO tab item
+      )
+    )
+  )
+), # end FIS tab item
 
-      ## § (LIV) livelihoods ----
-      ## Livelihoods
-      tabItem(
-        tabName = "liv",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Coastal Livelihoods"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "liv_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "LIV")$short_def),
-            p(filter(goals_csv, goal == "LIV")$description),
-            width = 12
-          )
+## § (MAR) Mariculture ----
+## Mariculture
+tabItem(
+  tabName = "mar",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Mariculture"),
+      width = 8
+    ),
+    scoreBoxUI(id = "mar_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "MAR")$short_def),
+      p(filter(goals_csv, goal == "MAR")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "mar_map",
+      title_text = "Mariculture Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "mar_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("mar_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/MAR/mar_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "liv_barplot",
-            title_text = "Livelihoods Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "liv_map",
-            title_text = "Map of Coastal Livelihoods Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "LIV DATA PREP",
-              sprintf("%s/LIV/liv_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#livelihoods-and-economies"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/LIV/liv_data_database"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
-        )
-      ), # end LIV tab item
-
-      ## § (SP) sense of place ----
-      ## Sense of Place
-      tabItem(
-        tabName = "sp",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Sense of Place"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "sp_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "SP")$short_def),
-            p(filter(goals_csv, goal == "SP")$description),
-            width = 12
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "sp_barplot",
-            title_text = "Sense of Place Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "sp_map",
-            title_text = "Map of Sense of Place Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "MEANING OF THE GOAL",
-              "http://ohi-science.org/goals/#sense-of-place"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end SP tab item
+      )
+    )
+  )
+), # end MAR tab item
 
-      ## § (ICO) iconic species ----
-      ## Iconic Species
-      tabItem(
-        tabName = "ico",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Iconic Species"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "ico_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "ICO")$short_def),
-            p(filter(goals_csv, goal == "ICO")$description),
-            width = 12
-          )
+## § (LE) Coastal Livelihoods & Economies ----
+## Coastal Livelihoods & Economies
+tabItem(
+  tabName = "le",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Coastal Livelihoods & Economies"),
+      width = 8
+    ),
+    scoreBoxUI(id = "le_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "LE")$short_def),
+      p(filter(goals_csv, goal == "LE")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "le_map",
+      title_text = "Coastal Livelihoods & Economies Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "le_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("le_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/LE/le_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "ico_barplot",
-            title_text = "Iconic Species Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "ico_map",
-            title_text = "Map of Iconic Species Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "ICO DATA PREP",
-              sprintf("%s/ICO/ico_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "http://ohi-science.org/goals/#sense-of-place"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/ICO/data_database"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
-        )
-      ), # end ICO tab item
-
-      ## § (LSP) lasting special places ----
-      ## Lasting Special Places
-      tabItem(
-        tabName = "lsp",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Lasting Special Places"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "lsp_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "LSP")$short_def),
-            p(filter(goals_csv, goal == "LSP")$description),
-            width = 12
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "lsp_barplot",
-            title_text = "Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "lsp_map",
-            title_text = "Map of Lasting Special Places Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "LSP DATA PREP",
-              sprintf("%s/LSP/lsp_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "http://ohi-science.org/goals/#sense-of-place"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/LSP/mpa_data_database"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end LSP tab item
+      )
+    )
+  )
+), # end LE tab item
 
-      ## § (NP) natrual products ----
-      ## Natural Products
-      tabItem(
-        tabName = "np",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Natural Products"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "np_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "NP")$short_def),
-            p(filter(goals_csv, goal == "NP")$description),
-            width = 12
-          )
+## § (ECO) Economies ----
+## Economies
+tabItem(
+  tabName = "eco",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Economies"),
+      width = 8
+    ),
+    scoreBoxUI(id = "eco_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "ECO")$short_def),
+      p(filter(goals_csv, goal == "ECO")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "eco_map",
+      title_text = "Economies Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "eco_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("eco_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/ECO/eco_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "np_barplot",
-            title_text = "Natural Products Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "np_map",
-            title_text = "Natural Products Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "NP DATA PREP",
-              sprintf("%s/NP/np_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#natural-products"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
-        )
-      ), # end NP tab item
-
-      ## § (TR) tourism ----
-      ## Tourism
-      tabItem(
-        tabName = "tr",
-
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Tourism"),
-            width = 9
-          ),
-          column(
-            width = 3,
-            scoreBoxUI(id = "tr_infobox")
-          ),
-          box(
-            h4(filter(goals_csv, goal == "TR")$short_def),
-            p(filter(goals_csv, goal == "TR")$description),
-            width = 12
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
         ),
-
-        ## plots and maps and links
-        fluidRow(
-          barplotCardUI(
-            id = "tr_barplot",
-            title_text = "Tourism Goal Headway",
-            sub_title_text = "Environmental benefit versus work still to be done. Bar lengths represent proximity to target level of 100, widths are region or basin (log-transformed) area.",
-            box_width = 3
-          ),
-          mapCardUI(
-            id = "tr_map",
-            title_text = "Map of Tourism Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 6,
-            ht = 555
-          ),
-
-          column(
-            width = 3,
-            text_links(
-              "TR DATA PREP",
-              sprintf("%s/TR/tr_prep.md", gh_prep)
-            ),
-            text_links(
-              "MEANING OF THE GOAL",
-              "https://ohi-science.org/goals/#tourism-and-recreation"
-            ),
-            text_links(
-              "GOAL DATA",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/prep/TR/tr_data_database"
-            ),
-            text_links(
-              "ALL DATA LAYERS",
-              "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
-            )
-          )
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
         )
-      ), # end TR tab item
+      )
+    )
+  )
+), # end ECO tab item
+
+## § (LIV) Livelihoods ----
+## Livelihoods
+tabItem(
+  tabName = "liv",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Livelihoods"),
+      width = 8
+    ),
+    scoreBoxUI(id = "liv_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "LIV")$short_def),
+      p(filter(goals_csv, goal == "LIV")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "liv_map",
+      title_text = "Livelihoods Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "liv_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("liv_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/LIV/liv_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
+        )
+      )
+    )
+  )
+), # end LIV tab item
+
+## § (SP) Sense of Place ----
+## Sense of Place
+tabItem(
+  tabName = "sp",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Sense of Place"),
+      width = 8
+    ),
+    scoreBoxUI(id = "sp_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "SP")$short_def),
+      p(filter(goals_csv, goal == "SP")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "sp_map",
+      title_text = "Sense of Place Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "sp_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("sp_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/SP/sp_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
+        )
+      )
+    )
+  )
+), # end SP tab item
+
+## § (ICO) Iconic Species ----
+## Iconic Species
+tabItem(
+  tabName = "ico",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Iconic Species"),
+      width = 8
+    ),
+    scoreBoxUI(id = "ico_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "ICO")$short_def),
+      p(filter(goals_csv, goal == "ICO")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "ico_map",
+      title_text = "Iconic Species Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "ico_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("ico_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/ICO/ico_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
+        )
+      )
+    )
+  )
+), # end ICO tab item
+
+## § (LSP) Lasting Special Places ----
+## Lasting Special Places
+tabItem(
+  tabName = "lsp",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Lasting Special Places"),
+      width = 8
+    ),
+    scoreBoxUI(id = "lsp_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "LSP")$short_def),
+      p(filter(goals_csv, goal == "LSP")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "lsp_map",
+      title_text = "Lasting Special Places Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "lsp_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("lsp_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/LSP/lsp_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
+        )
+      )
+    )
+  )
+), # end LSP tab item
+
+## § (NP) Natural Products ----
+## Natural Products
+tabItem(
+  tabName = "np",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Natural Products"),
+      width = 8
+    ),
+    scoreBoxUI(id = "np_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "NP")$short_def),
+      p(filter(goals_csv, goal == "NP")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "np_map",
+      title_text = "Natural Products Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "np_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("np_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/NP/np_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
+        )
+      )
+    )
+  )
+), # end NP tab item
+
+## § (TR) Tourism & Recreation ----
+## Tourism & Recreation
+tabItem(
+  tabName = "tr",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Tourism & Recreation"),
+      width = 8
+    ),
+    scoreBoxUI(id = "tr_infobox"),
+    box(
+      h4(filter(goals_csv, goal == "TR")$short_def),
+      p(filter(goals_csv, goal == "TR")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key messages
+  fluidRow(
+    box(
+      title = "Key Messages", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 8
+    ),
+    box(
+      title = "Target", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content", br(),
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "tr_map",
+      title_text = "Tourism & Recreation Scores Around the Baltic",
+      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "tr_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key information and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Key Information",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Box content here", br(), "More box content"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("tr_datatable")
+    )
+  ),
+  
+  ## additional goal-specific graphs etc
+  # fluidRow(
+  #   box(
+  #     title = "Key Information", 
+  #     background = "teal", 
+  #     solidHeader = TRUE,
+  #     plotOutput("plotename", height = 250)
+  #   )
+  # ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/TR/tr_prep.md", gh_prep)
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      br(),
+      br(),
+      tags$ul(
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point one."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point two."
+        ),
+        tags$li(
+          tags$b("Bold text:"),
+          "Bullet point three."
+        )
+      )
+    )
+  )
+), # end TR tab item
+
+      ## § (END) signal end of goals pages stuff for rebuild functions
 
       ## COMPARE AND SUMMARIZE ----
       ## compare and summarize

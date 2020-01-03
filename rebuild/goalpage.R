@@ -11,10 +11,7 @@ tabItem(
       h1("GOALNAME"),
       width = 8
     ),
-    column(
-      width = 4,
-      scoreBoxUI(id = "goalcode_infobox")
-    ),
+    scoreBoxUI(id = "goalcode_infobox"),
     box(
       h4(filter(goals_csv, goal == "GOALCODE")$short_def),
       p(filter(goals_csv, goal == "GOALCODE")$description),
@@ -26,14 +23,14 @@ tabItem(
   fluidRow(
     box(
       title = "Key Messages", 
-      status = "info", 
+      status = "primary", 
       solidHeader = TRUE,
       "Box content here", br(), "More box content", br(),
       width = 8
     ),
     box(
       title = "Target", 
-      status = "info", 
+      status = "primary", 
       solidHeader = TRUE,
       "Box content here", br(), "More box content", br(),
       width = 4
@@ -48,11 +45,11 @@ tabItem(
       sub_title_text = "This map shows scores from the previous assessment (2014)",
       br(), 
       box_width = 8,
-      ht = 550
+      ht = 540
     ),
     barplotCardUI(
       id = "goalcode_barplot",
-      title_text = "Shortfall/Headway towards GOALNAME Target",
+      title_text = "Shortfall/Headway towards Target",
       sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
       box_width = 4
     )
@@ -63,7 +60,7 @@ tabItem(
     box(
       width = 12, 
       title = "Key Information",
-      status = "info", 
+      status = "primary", 
       solidHeader = TRUE,
       "Box content here", br(), "More box content"
     )
@@ -90,13 +87,10 @@ tabItem(
   
   ## methods link, plus data considerations, improvements
   fluidRow(
-    column(
-      width = 12, 
-      align = "center",
-      text_links(
-        "CLICK HERE FOR DETAILED METHODS",
-        sprintf("%s/GOALCODE/goalcode_prep.md", gh_prep)
-      )
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      sprintf("%s/GOALCODE/goalcode_prep.md", gh_prep)
     )
   ),
   fluidRow(
@@ -124,7 +118,7 @@ tabItem(
       )
     )
   )
-) # end GOALCODE tab item
+), # end GOALCODE tab item
 
 ## Server code ----
 

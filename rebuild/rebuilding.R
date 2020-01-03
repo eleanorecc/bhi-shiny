@@ -347,16 +347,16 @@ goalpage_from_template <- function(goal_code, replace_current = FALSE){
     ## replace goal chunks and save i.e. overwrite	
     txtUI_updated <- c(	
       txtUI[1:(ui_breakstart - 1)], 	
-      txt[(grep(pattern = "## UI code ----", txt) + 1):(grep(pattern = "## Server code ----", txt) - 1)], 	
-      txtUI[min(ui_breaks[which(ui_breaks > ui_breakstart)]):length(txtUI)]	
+      txt[(grep(pattern = "## UI code ----", txt) + 2):(grep(pattern = "## Server code ----", txt) - 1)], 	
+      txtUI[min(ui_breaks[which(ui_breaks > ui_breakstart)]):length(txtUI)]
     )	
     txtServer_updated <- c(	
       txtServer[1:(serv_breakstart - 1)], 	
-      txt[grep(pattern = "## Server code ----", txt):length(txt)], 	
+      txt[(grep(pattern = "## Server code ----", txt) + 1):length(txt)], 	
       txtServer[min(serv_breaks[which(serv_breaks > serv_breakstart)]):length(txtServer)]	
     )	
-    write_lines(txtUI_updated, here("dashboard", "ui2.R"))	
-    write_lines(txtServer_updated, here("dashboard", "server2.R"))	
+    write_lines(txtUI_updated, here("dashboard", "ui.R"))	
+    write_lines(txtServer_updated, here("dashboard", "server.R"))	
   }	
 }
 
