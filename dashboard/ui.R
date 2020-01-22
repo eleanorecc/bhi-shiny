@@ -128,108 +128,6 @@ dashboardPage(
         ## input year ----
         sliderInput("view_year", "Year", 2012, 2019, 2014, step = 1, sep = ""),
 
-        ## input region ----
-        selectInput(
-          "flower_rgn",
-          "Select Region",
-          list(
-            `Baltic Sea` = 0,
-            `Aland Sea` = c(
-              `Aland Sea` = 514,
-              `Aland Sea, Sweden` = 35,
-              `Aland Sea, Finland` = 36
-            ),
-            `Arkona Basin` = c(
-              `Arkona Basin` = 506,
-              `Arkona Basin, Sweden` = 11,
-              `Arkona Basin, Denmark` = 12,
-              `Arkona Basin, Germany` = 13
-            ),
-            `Bay of Mecklenburg` = c(
-              `Bay of Mecklenburg` = 505,
-              `Bay of Mecklenburg, Denmark` = 9,
-              `Bay of Mecklenburg, Germany` = 10
-            ),
-            `Bornholm Basin` = c(
-              `Bornholm Basin` = 507,
-              `Bornholm Basin, Sweden` = 14,
-              `Bornholm Basin, Denmark` = 15,
-              `Bornholm Basin, Germany` = 16,
-              `Bornholm Basin, Poland` = 17
-            ),
-            `Bothnian Bay` = c(
-              `Bothnian Bay` = 517,
-              `Bothnian Bay, Sweden` = 41,
-              `Bothnian Bay, Finland` = 42
-            ),
-            `Bothnian Sea` = c(
-              `Bothnian Sea` = 515,
-              `Bothnian Sea, Sweden` = 37,
-              `Bothnian Sea, Finland` = 38
-            ),
-            `Eastern Gotland Basin` = c(
-              `Eastern Gotland Basin` = 509,
-              `Eastern Gotland Basin, Sweden` = 20,
-              `Eastern Gotland Basin, Poland` = 21,
-              `Eastern Gotland Basin, Russia` = 22,
-              `Eastern Gotland Basin, Lithuania` = 23,
-              `Eastern Gotland Basin, Latvia` = 24,
-              `Eastern Gotland Basin, Estonia` = 25
-            ),
-            `Gdansk Basin` = c(
-              `Gdansk Basin` = 508,
-              `Gdansk Basin, Poland` = 18,
-              `Gdansk Basin, Russia` = 19
-            ),
-            `Great Belt` = c(
-              `Great Belt` = 502,
-              `Great Belt, Denmark` = 3,
-              `Great Belt, Germany` = 4
-            ),
-            `Gulf of Finland` = c(
-              `Gulf of Finland` = 513,
-              `Gulf of Finland, Finland` = 32,
-              `Gulf of Finland, Russia` = 33,
-              `Gulf of Finland, Estonia` = 34
-            ),
-            `Gulf of Riga` = c(
-              `Gulf of Riga` = 511,
-              `Gulf of Riga, Latvia` = 27,
-              `Gulf of Riga, Estonia` = 28
-            ),
-            `Kattegat` = c(
-              `Kattegat` = 501,
-              `Kattegat, Sweden` = 1,
-              `Kattegat, Denmark` = 2
-            ),
-            `Kiel Bay` = c(
-              `Kiel Bay` = 504,
-              `Kiel Bay, Denmark` = 7,
-              `Kiel Bay, Germany` = 8
-            ),
-            `Northern Baltic Proper` = c(
-              `Northern Baltic Proper` = 500,
-              `Northern Baltic Proper, Sweden` = 29,
-              `Northern Baltic Proper, Finland` = 30,
-              `Northern Baltic Proper, Estonia` = 31
-            ),
-            `The Quark` = c(
-              `The Quark` = 516,
-              `The Quark, Sweden` = 39,
-              `The Quark, Finland` = 40
-            ),
-            `The Sound` = c(
-              `The Sound` = 503,
-              `The Sound, Sweden` = 5,
-              `The Sound, Denmark` = 6
-            ),
-            `Western Gotland Basin` = c(
-              `Western Gotland Basin` = 510,
-              `Western Gotland Basin, Sweden` = 26
-            )
-          )
-        ),
-
         ## input spatial unit ----
         selectInput(
           "spatial_unit",
@@ -355,18 +253,6 @@ dashboardPage(
             width = 12
           )
         ),
-        fluidRow(
-          box(
-            h3("How healthy are our oceans?"),
-            p("The Baltic Health Index is a regional study under the global Ocean Health Index framework.
-              The aim is to maintain and continually improve a tool that can be used by decision-makers to guide management of the Baltic Sea region towards increased sustainability.
-              Oceans in general provide a diverse array of benefits to humans, often with tradeoffs between benefits.
-              Managing these requires a method of measurement that is both comprehensive and quantitative;
-              establishing such a method was the motivation behind the Ocean Health Index.
-              We strive to use the best open source tools available, to make our ocean health metrics, results and underlying data easily accessible and entirely transparent."),
-            width = 12
-          )
-        ),
 
         ## plots and maps and links
         fluidRow(
@@ -375,23 +261,31 @@ dashboardPage(
           flowerplotCardUI( # flowerplotRgnCardUI(
             id = "baltic_flowerplot",
             title_text = "Flowerplot of Scores",
-            sub_title_text = "Select region under View Options to visualize region-specific scores."
+            sub_title_text = "Ocean Health Index scores are calculated for individual goals separately and then combined to get an overall score on a scale of 0-100. Individual goal scores are represented by the length of the petals in a flower plot below, and the overall Index score for the region is in the center."
           ),
 
           ## map of overall scores, with barplot
-          barplotCardUI(
-            id = "index_barplot",
-            title_text = "Proximity to Target",
-            sub_title_text = "",
-            box_width = 2
-          ),
           mapCardUI(
             id = "index_map",
             title_text = "Map of Index Scores",
             sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 5
+            box_width = 7,
+            ht = 530
           )
-        )
+        ),
+        
+        fluidRow(
+          box(
+            h3("How Healthy are our Oceans?"),
+            p("The Baltic Health Index is a regional study under the global Ocean Health Index framework.
+              The aim is to maintain and continually improve a tool that can be used by decision-makers to guide management of the Baltic Sea region towards increased sustainability.
+              Oceans in general provide a diverse array of benefits to humans, often with tradeoffs between benefits.
+              Managing these requires a method of measurement that is both comprehensive and quantitative;
+              establishing such a method was the motivation behind the Ocean Health Index.
+              We strive to use the best open source tools available, to make our ocean health metrics, results and underlying data easily accessible and entirely transparent."),
+            width = 12
+            )
+          )
       ), # end welcome tab
 
 ## § (AO) Artisanal Fishing Opportunity ----
