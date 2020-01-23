@@ -11,7 +11,7 @@ scoreBoxUI <- function(id){
 }
 
 ## scorebox server function ----
-scoreBox <- function(input, output, session, goal_code, flower_rgn_selected){
+scoreBox <- function(input, output, session, goal_code){
 
   scores <- full_scores_csv %>%
     dplyr::filter(goal == goal_code, dimension == "score")
@@ -19,23 +19,11 @@ scoreBox <- function(input, output, session, goal_code, flower_rgn_selected){
   output$goal_scorebox <- renderInfoBox(
     infoBox(
       title = "",
-      tags$p(
-        ifelse(
-          flower_rgn_selected() == 0,
-          filter(scores, region_id == 0)$score,
-          sprintf(
-            "%s  |  %s",
-            filter(scores, region_id == 0)$score %>% round(1),
-            filter(scores, region_id == flower_rgn_selected())$score %>% round(1)
-          )
-        ),
-        style = ifelse(
-          flower_rgn_selected() == 0,
-          "font-size: 260%; text-align:right; font-weight: lighter;",
-          "font-size: 210%; text-align:right; font-weight: lighter;"
-        )
-      ),
       icon = icon(thm$icons[[goal_code]]),
+      tags$p(
+        filter(scores, region_id == 0)$score, 
+        style = "font-size: 260%; text-align:right; font-weight: lighter;"
+      ),
       color =  filter(thm$palettes$goalpal_shiny, goal == goal_code)$color,
       fill = TRUE
     )
