@@ -7,81 +7,96 @@ function(input, output, session){
   ## WELCOME ----
 
   ## flowerplot
-
   values <- reactiveValues(flower_rgn = 0)
-
   observeEvent(
     eventExpr = input$flower_rgn, {
       values$flower_rgn <- input$flower_rgn
-      flower_rgn <- reactive(values$flower_rgn)
+      
+      ## update flowerplot based on selection
       callModule(
         flowerplotCard, 
         "baltic_flowerplot",
         dimension = "score",
-        flower_rgn_selected = flower_rgn
+        flower_rgn_selected = reactive(values$flower_rgn)
       )
     }, ignoreNULL = FALSE
   )
   
-  callModule(
-    barplotCard, 
-    "index_barplot",
-    goal_code = "Index",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit
-  )
+  ## map with reactivity
+  output$index_map <- renderLeaflet({
+    
+    if(spatial_unit() == "subbasins"){mapping_data_sp <- subbasins_shp} else {mapping_data_sp <- rgns_shp}
+    
+    ## create leaflet map with popup text
+    result <- leaflet_map(
+      "Index", 
+      mapping_data_sp,
+      spatial_unit(), 
+      filter(full_scores_csv, dimension == dimension()), 
+      dim = dimension(), 
+      year = assess_year,
+      "Index Scores"
+    )
+    popup_text <- paste(
+      "<h5><strong>", "Name", "</strong>",
+      result$data_sf[["score"]], "</h5>",
+      "<h5><strong>", "Name", "</strong>",
+      result$data_sf[["Name"]], "</h5>", sep = " "
+    )
+    result$map %>% addPolygons(popup = popup_text, fillOpacity = 0, stroke = FALSE)
+  })
   
-  observeEvent(
-    eventExpr = input$flower_rgn, {
-      values$flower_rgn <- input$flower_rgn
-      flower_rgn <- reactive(values$flower_rgn)
-      
-      callModule(
-        mapCard, 
-        "index_map",
-        goal_code = "Index",
-        dimension_selected = dimension,
-        spatial_unit_selected = spatial_unit,
-        year_selected = view_year,
-        flower_rgn_selected = flower_rgn,
-        legend_title = "Scores",
-        popup_title = "Score:",
-        popup_add_field = "Name",
-        popup_add_field_title = "Name:"
+  ## selected-region overlay, based on spatial unit and flowerplot region
+  select_region <- reactive({
+    rgn_select <- values$flower_rgn
+    rgns_shp[rgns_shp@data$BHI_ID == rgn_select,]
+  })
+  observe({
+    select_region()
+    leafletProxy("index_map") %>%
+      addPolygons(
+        layerId = "selected",
+        data = select_region(),
+        stroke = FALSE, opacity = 0,
+        fillOpacity = 0.6, color = "magenta",
+        smoothFactor = 3
       )
-    }, ignoreNULL = FALSE
-  )
-
+  })
+  select_subbasin <- reactive({
+    rgn_select <- values$flower_rgn
+    subbasins_shp[subbasins_shp@data$HELCOM_ID == str_replace(rgn_select, "5", "SEA-0"),]
+  })
+  observe({
+    select_region()
+    leafletProxy("index_map") %>%
+      addPolygons(
+        layerId = "selected",
+        data = select_subbasin(),
+        stroke = FALSE, opacity = 0,
+        fillOpacity = 0.6, color = "magenta",
+        smoothFactor = 3
+      )
+  })
 
 ## AO ----
 ## Artisanal Fishing Opportunity
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "ao_infobox",
-      goal_code = "AO",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "ao_map",
-      goal_code = "AO",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "ao_infobox",
+  goal_code = "AO"
+)
+
+callModule(
+  mapCard, 
+  "ao_map",
+  goal_code = "AO",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -104,33 +119,23 @@ output$ao_datatable = renderDataTable({
 
 ## BD ----
 ## Biodiversity
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "bd_infobox",
-      goal_code = "BD",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "bd_map",
-      goal_code = "BD",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "bd_infobox",
+  goal_code = "BD"
+)
+
+callModule(
+  mapCard, 
+  "bd_map",
+  goal_code = "BD",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -152,33 +157,23 @@ output$bd_datatable = renderDataTable({
 })
 ## CS ----
 ## Carbon Storage
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "cs_infobox",
-      goal_code = "CS",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "cs_map",
-      goal_code = "CS",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "cs_infobox",
+  goal_code = "CS"
+)
+
+callModule(
+  mapCard, 
+  "cs_map",
+  goal_code = "CS",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -201,33 +196,23 @@ output$cs_datatable = renderDataTable({
 
 ## CW ----
 ## Clean Waters
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "cw_infobox",
-      goal_code = "CW",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "cw_map",
-      goal_code = "CW",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "cw_infobox",
+  goal_code = "CW"
+)
+
+callModule(
+  mapCard, 
+  "cw_map",
+  goal_code = "CW",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -250,33 +235,23 @@ output$cw_datatable = renderDataTable({
 
 ## CON ----
 ## Contaminants
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "con_infobox",
-      goal_code = "CON",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "con_map",
-      goal_code = "CON",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "con_infobox",
+  goal_code = "CON"
+)
+
+callModule(
+  mapCard, 
+  "con_map",
+  goal_code = "CON",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -298,33 +273,23 @@ output$con_datatable = renderDataTable({
 })
 ## EUT ----
 ## Eutrophication
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "eut_infobox",
-      goal_code = "EUT",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "eut_map",
-      goal_code = "EUT",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "eut_infobox",
+  goal_code = "EUT"
+)
+
+callModule(
+  mapCard, 
+  "eut_map",
+  goal_code = "EUT",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -347,33 +312,23 @@ output$eut_datatable = renderDataTable({
 
 ## TRA ----
 ## Trash
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "tra_infobox",
-      goal_code = "TRA",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "tra_map",
-      goal_code = "TRA",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "tra_infobox",
+  goal_code = "TRA"
+)
+
+callModule(
+  mapCard, 
+  "tra_map",
+  goal_code = "TRA",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -395,33 +350,23 @@ output$tra_datatable = renderDataTable({
 })
 ## FP ----
 ## Food Provision
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "fp_infobox",
-      goal_code = "FP",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "fp_map",
-      goal_code = "FP",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "fp_infobox",
+  goal_code = "FP"
+)
+
+callModule(
+  mapCard, 
+  "fp_map",
+  goal_code = "FP",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -444,33 +389,23 @@ output$fp_datatable = renderDataTable({
 
 ## FIS ----
 ## Fisheries
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "fis_infobox",
-      goal_code = "FIS",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "fis_map",
-      goal_code = "FIS",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "fis_infobox",
+  goal_code = "FIS"
+)
+
+callModule(
+  mapCard, 
+  "fis_map",
+  goal_code = "FIS",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -493,33 +428,23 @@ output$fis_datatable = renderDataTable({
 
 ## MAR ----
 ## Mariculture
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "mar_infobox",
-      goal_code = "MAR",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "mar_map",
-      goal_code = "MAR",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "mar_infobox",
+  goal_code = "MAR"
+)
+
+callModule(
+  mapCard, 
+  "mar_map",
+  goal_code = "MAR",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -542,33 +467,23 @@ output$mar_datatable = renderDataTable({
 
 ## LE ----
 ## Coastal Livelihoods & Economies
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "le_infobox",
-      goal_code = "LE",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "le_map",
-      goal_code = "LE",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "le_infobox",
+  goal_code = "LE"
+)
+
+callModule(
+  mapCard, 
+  "le_map",
+  goal_code = "LE",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -591,33 +506,23 @@ output$le_datatable = renderDataTable({
 
 ## ECO ----
 ## Economies
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "eco_infobox",
-      goal_code = "ECO",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "eco_map",
-      goal_code = "ECO",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "eco_infobox",
+  goal_code = "ECO"
+)
+
+callModule(
+  mapCard, 
+  "eco_map",
+  goal_code = "ECO",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -639,33 +544,23 @@ output$eco_datatable = renderDataTable({
 })
 ## LIV ----
 ## Livelihoods
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "liv_infobox",
-      goal_code = "LIV",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "liv_map",
-      goal_code = "LIV",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "liv_infobox",
+  goal_code = "LIV"
+)
+
+callModule(
+  mapCard, 
+  "liv_map",
+  goal_code = "LIV",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -688,33 +583,23 @@ output$liv_datatable = renderDataTable({
 
 ## SP ----
 ## Sense of Place
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "sp_infobox",
-      goal_code = "SP",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "sp_map",
-      goal_code = "SP",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "sp_infobox",
+  goal_code = "SP"
+)
+
+callModule(
+  mapCard, 
+  "sp_map",
+  goal_code = "SP",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -737,33 +622,23 @@ output$sp_datatable = renderDataTable({
 
 ## ICO ----
 ## Iconic Species
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "ico_infobox",
-      goal_code = "ICO",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "ico_map",
-      goal_code = "ICO",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "ico_infobox",
+  goal_code = "ICO"
+)
+
+callModule(
+  mapCard, 
+  "ico_map",
+  goal_code = "ICO",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -786,33 +661,23 @@ output$ico_datatable = renderDataTable({
 
 ## LSP ----
 ## Lasting Special Places
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "lsp_infobox",
-      goal_code = "LSP",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "lsp_map",
-      goal_code = "LSP",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "lsp_infobox",
+  goal_code = "LSP"
+)
+
+callModule(
+  mapCard, 
+  "lsp_map",
+  goal_code = "LSP",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -834,33 +699,23 @@ output$lsp_datatable = renderDataTable({
 })
 ## NP ----
 ## Natural Products
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "np_infobox",
-      goal_code = "NP",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "np_map",
-      goal_code = "NP",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "np_infobox",
+  goal_code = "NP"
+)
+
+callModule(
+  mapCard, 
+  "np_map",
+  goal_code = "NP",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(
@@ -883,33 +738,23 @@ output$np_datatable = renderDataTable({
 
 ## TR ----
 ## Tourism & Recreation
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "tr_infobox",
-      goal_code = "TR",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "tr_map",
-      goal_code = "TR",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "tr_infobox",
+  goal_code = "TR"
+)
+
+callModule(
+  mapCard, 
+  "tr_map",
+  goal_code = "TR",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(

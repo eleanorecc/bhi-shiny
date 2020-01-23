@@ -13,8 +13,8 @@ tabItem(
     ),
     scoreBoxUI(id = "goalcode_infobox"),
     box(
-      h4(filter(goals_csv, goal == "GOALCODE")$short_def),
-      p(filter(goals_csv, goal == "GOALCODE")$description),
+      # h4(filter(goals_csv, goal == "GOALCODE")$short_def),
+      h4(filter(goals_csv, goal == "GOALCODE")$description),
       width = 12
     )
   ),
@@ -124,33 +124,23 @@ tabItem(
 
 ## GOALCODE ----
 ## GOALNAME
-observeEvent(
-  eventExpr = input$flower_rgn, {
-    
-    values$flower_rgn <- input$flower_rgn
-    flower_rgn <- reactive(values$flower_rgn)
-    
-    callModule(
-      scoreBox,
-      "goalcode_infobox",
-      goal_code = "GOALCODE",
-      flower_rgn_selected = flower_rgn
-    )
-    
-    callModule(
-      mapCard, 
-      "goalcode_map",
-      goal_code = "GOALCODE",
-      dimension_selected = dimension,
-      spatial_unit_selected = spatial_unit,
-      flower_rgn_selected = flower_rgn,
-      legend_title = "Scores",
-      popup_title = "Score:",
-      popup_add_field = "Name",
-      popup_add_field_title = "Name:"
-    )
-  },
-  ignoreNULL = FALSE
+
+callModule(
+  scoreBox,
+  "goalcode_infobox",
+  goal_code = "GOALCODE"
+)
+
+callModule(
+  mapCard, 
+  "goalcode_map",
+  goal_code = "GOALCODE",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
 )
 
 callModule(

@@ -265,13 +265,15 @@ dashboardPage(
           ),
 
           ## map of overall scores, with barplot
-          mapCardUI(
-            id = "index_map",
-            title_text = "Map of Index Scores",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
-            box_width = 7,
-            ht = 530
-          )
+          tagList(box(
+            title = "Map of Index Scores",
+            width = 7, height = 640, collapsible = TRUE,
+            list(
+              p("This map shows scores from the previous assessment (2014)", br(), br()),
+              addSpinner(leafletOutput("index_map"), spin = "rotating-plane", color = "#d7e5e8")
+            )
+          ))
+          
         ),
         
         fluidRow(
@@ -301,8 +303,8 @@ tabItem(
     ),
     scoreBoxUI(id = "ao_infobox"),
     box(
-      h4(filter(goals_csv, goal == "AO")$short_def),
-      p(filter(goals_csv, goal == "AO")$description),
+      # h4(filter(goals_csv, goal == "AO")$short_def),
+      h4(filter(goals_csv, goal == "AO")$description),
       width = 12
     )
   ),
@@ -421,8 +423,8 @@ tabItem(
     ),
     scoreBoxUI(id = "bd_infobox"),
     box(
-      h4(filter(goals_csv, goal == "BD")$short_def),
-      p(filter(goals_csv, goal == "BD")$description),
+      # h4(filter(goals_csv, goal == "BD")$short_def),
+      h4(filter(goals_csv, goal == "BD")$description),
       width = 12
     )
   ),
@@ -541,8 +543,8 @@ tabItem(
     ),
     scoreBoxUI(id = "cs_infobox"),
     box(
-      h4(filter(goals_csv, goal == "CS")$short_def),
-      p(filter(goals_csv, goal == "CS")$description),
+      # h4(filter(goals_csv, goal == "CS")$short_def),
+      h4(filter(goals_csv, goal == "CS")$description),
       width = 12
     )
   ),
@@ -661,8 +663,8 @@ tabItem(
     ),
     scoreBoxUI(id = "cw_infobox"),
     box(
-      h4(filter(goals_csv, goal == "CW")$short_def),
-      p(filter(goals_csv, goal == "CW")$description),
+      # h4(filter(goals_csv, goal == "CW")$short_def),
+      h4(filter(goals_csv, goal == "CW")$description),
       width = 12
     )
   ),
@@ -781,8 +783,8 @@ tabItem(
     ),
     scoreBoxUI(id = "con_infobox"),
     box(
-      h4(filter(goals_csv, goal == "CON")$short_def),
-      p(filter(goals_csv, goal == "CON")$description),
+      # h4(filter(goals_csv, goal == "CON")$short_def),
+      h4(filter(goals_csv, goal == "CON")$description),
       width = 12
     )
   ),
@@ -901,8 +903,8 @@ tabItem(
     ),
     scoreBoxUI(id = "eut_infobox"),
     box(
-      h4(filter(goals_csv, goal == "EUT")$short_def),
-      p(filter(goals_csv, goal == "EUT")$description),
+      # h4(filter(goals_csv, goal == "EUT")$short_def),
+      h4(filter(goals_csv, goal == "EUT")$description),
       width = 12
     )
   ),
@@ -1021,8 +1023,8 @@ tabItem(
     ),
     scoreBoxUI(id = "tra_infobox"),
     box(
-      h4(filter(goals_csv, goal == "TRA")$short_def),
-      p(filter(goals_csv, goal == "TRA")$description),
+      # h4(filter(goals_csv, goal == "TRA")$short_def),
+      h4(filter(goals_csv, goal == "TRA")$description),
       width = 12
     )
   ),
@@ -1141,8 +1143,8 @@ tabItem(
     ),
     scoreBoxUI(id = "fp_infobox"),
     box(
-      h4(filter(goals_csv, goal == "FP")$short_def),
-      p(filter(goals_csv, goal == "FP")$description),
+      # h4(filter(goals_csv, goal == "FP")$short_def),
+      h4(filter(goals_csv, goal == "FP")$description),
       width = 12
     )
   ),
@@ -1261,8 +1263,8 @@ tabItem(
     ),
     scoreBoxUI(id = "fis_infobox"),
     box(
-      h4(filter(goals_csv, goal == "FIS")$short_def),
-      p(filter(goals_csv, goal == "FIS")$description),
+      # h4(filter(goals_csv, goal == "FIS")$short_def),
+      h4(filter(goals_csv, goal == "FIS")$description),
       width = 12
     )
   ),
@@ -1381,8 +1383,8 @@ tabItem(
     ),
     scoreBoxUI(id = "mar_infobox"),
     box(
-      h4(filter(goals_csv, goal == "MAR")$short_def),
-      p(filter(goals_csv, goal == "MAR")$description),
+      # h4(filter(goals_csv, goal == "MAR")$short_def),
+      h4(filter(goals_csv, goal == "MAR")$description),
       width = 12
     )
   ),
@@ -1501,8 +1503,8 @@ tabItem(
     ),
     scoreBoxUI(id = "le_infobox"),
     box(
-      h4(filter(goals_csv, goal == "LE")$short_def),
-      p(filter(goals_csv, goal == "LE")$description),
+      # h4(filter(goals_csv, goal == "LE")$short_def),
+      h4(filter(goals_csv, goal == "LE")$description),
       width = 12
     )
   ),
@@ -1621,8 +1623,8 @@ tabItem(
     ),
     scoreBoxUI(id = "eco_infobox"),
     box(
-      h4(filter(goals_csv, goal == "ECO")$short_def),
-      p(filter(goals_csv, goal == "ECO")$description),
+      # h4(filter(goals_csv, goal == "ECO")$short_def),
+      h4(filter(goals_csv, goal == "ECO")$description),
       width = 12
     )
   ),
@@ -1741,8 +1743,8 @@ tabItem(
     ),
     scoreBoxUI(id = "liv_infobox"),
     box(
-      h4(filter(goals_csv, goal == "LIV")$short_def),
-      p(filter(goals_csv, goal == "LIV")$description),
+      # h4(filter(goals_csv, goal == "LIV")$short_def),
+      h4(filter(goals_csv, goal == "LIV")$description),
       width = 12
     )
   ),
@@ -1861,8 +1863,8 @@ tabItem(
     ),
     scoreBoxUI(id = "sp_infobox"),
     box(
-      h4(filter(goals_csv, goal == "SP")$short_def),
-      p(filter(goals_csv, goal == "SP")$description),
+      # h4(filter(goals_csv, goal == "SP")$short_def),
+      h4(filter(goals_csv, goal == "SP")$description),
       width = 12
     )
   ),
@@ -1981,8 +1983,8 @@ tabItem(
     ),
     scoreBoxUI(id = "ico_infobox"),
     box(
-      h4(filter(goals_csv, goal == "ICO")$short_def),
-      p(filter(goals_csv, goal == "ICO")$description),
+      # h4(filter(goals_csv, goal == "ICO")$short_def),
+      h4(filter(goals_csv, goal == "ICO")$description),
       width = 12
     )
   ),
@@ -2101,8 +2103,8 @@ tabItem(
     ),
     scoreBoxUI(id = "lsp_infobox"),
     box(
-      h4(filter(goals_csv, goal == "LSP")$short_def),
-      p(filter(goals_csv, goal == "LSP")$description),
+      # h4(filter(goals_csv, goal == "LSP")$short_def),
+      h4(filter(goals_csv, goal == "LSP")$description),
       width = 12
     )
   ),
@@ -2221,8 +2223,8 @@ tabItem(
     ),
     scoreBoxUI(id = "np_infobox"),
     box(
-      h4(filter(goals_csv, goal == "NP")$short_def),
-      p(filter(goals_csv, goal == "NP")$description),
+      # h4(filter(goals_csv, goal == "NP")$short_def),
+      h4(filter(goals_csv, goal == "NP")$description),
       width = 12
     )
   ),
@@ -2341,8 +2343,8 @@ tabItem(
     ),
     scoreBoxUI(id = "tr_infobox"),
     box(
-      h4(filter(goals_csv, goal == "TR")$short_def),
-      p(filter(goals_csv, goal == "TR")$description),
+      # h4(filter(goals_csv, goal == "TR")$short_def),
+      h4(filter(goals_csv, goal == "TR")$description),
       width = 12
     )
   ),
