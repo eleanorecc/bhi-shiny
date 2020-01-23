@@ -21,8 +21,9 @@ scoreBox <- function(input, output, session, goal_code){
       title = "",
       icon = icon(thm$icons[[goal_code]]),
       tags$p(
-        filter(scores, region_id == 0)$score, 
-        style = "font-size: 260%; text-align:right; font-weight: lighter;"
+        "Current Score", 
+        strong(filter(scores, region_id == 0)$score),
+        style = "font-size: 210%; text-align:right; font-weight:100; padding-top:18px; padding-bottom:0px;"
       ),
       color =  filter(thm$palettes$goalpal_shiny, goal == goal_code)$color,
       fill = TRUE
