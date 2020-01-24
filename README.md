@@ -4,10 +4,8 @@
 
 <br>
 
-[**Temporarily not working...**](https://discourse.jupyter.org/t/cannot-get-r-project-working/2917)
-
 **View the Dashboard:** 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/eleanorecc/bhi-shiny/master?urlpath=shiny%2Fdashboard%2F)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/OHI-Baltic/bhi-shiny/master?urlpath=dashboard%2F)
 
 <br>
 
