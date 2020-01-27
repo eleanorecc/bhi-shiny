@@ -52,6 +52,9 @@ leaflet_map <- function(goal_code, mapping_data_sp, basins_or_rgns = "subbasins"
   }
   mapping_data_sp@data <- dplyr::rename(mapping_data_sp@data, score = goal_code)
   leaflet_plotting_sf <- mapping_data_sp
+  if(abs(min(mapping_data_sp@data$score, na.rm = TRUE)) <= 2 && abs(max(mapping_data_sp@data$score, na.rm = TRUE)) <= 2){
+    paldomain = c(-0.6, 0.85) # summary(filter(full_scores_csv, dimension == "trend")$score)
+  } else {paldomain = c(0, 100)}
   
   ## theme and map setup ----
   thm <- apply_bhi_theme()
@@ -75,7 +78,7 @@ leaflet_map <- function(goal_code, mapping_data_sp, basins_or_rgns = "subbasins"
   
   pal <- leaflet::colorNumeric(
     palette = c(rc1, rc2, rc3, rc4, rc5),
-    domain = c(0, 100),
+    domain = paldomain,
     na.color = thm$cols$map_background1
   )
   
@@ -86,7 +89,7 @@ leaflet_map <- function(goal_code, mapping_data_sp, basins_or_rgns = "subbasins"
     addLegend(
       "bottomright", 
       pal = pal, 
-      values = c(0:100),
+      values = c(paldomain[1]:paldomain[2]),
       title = legend_title, 
       opacity = 0.8, 
       layerId = "colorLegend"
