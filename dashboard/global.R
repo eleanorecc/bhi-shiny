@@ -5,6 +5,7 @@ library(shinydashboard)
 library(shinyjs)
 library(shinyWidgets)
 library(DT)
+library(stringr)
 
 gh_prep <- "https://github.com/OHI-Science/bhi-1.0-archive/blob/draft/baltic2015/prep"
 gh_layers <- "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
