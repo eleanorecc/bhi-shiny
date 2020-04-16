@@ -783,7 +783,7 @@ output$tr_datatable = renderDataTable({
   output$pressure_ts <- renderPlotly({
 
     # press_var <- input$press_var
-    press_dat <- readr::read_csv(here::here("dashboard", "data", "layers_data.csv")) %>% 
+    press_dat <- readr::read_csv(file.path(dir_main, "data", "layers_data.csv")) %>% 
       dplyr::left_join(
         select(thm$rgn_name_lookup, region_id, plot_title, subbasin),
         by = "region_id"
@@ -802,14 +802,14 @@ output$tr_datatable = renderDataTable({
     if(spatial_unit() == "subbasins"){
       press_dat <- press_dat %>%
         left_join(
-          readr::read_csv(here::here("dashboard", "data", "regions.csv")) %>% 
+          readr::read_csv(file.path(dir_main, "data", "regions.csv")) %>% 
             select(region_id, area_km2), 
           by = "region_id"
         ) %>% 
         group_by(subbasin, layer, layername, Year) %>% 
         summarize(Pressure = weighted.mean(Pressure, area_km2) %>% round(3)) %>% 
         left_join(
-          readr::read_csv(here::here("dashboard", "data", "basins.csv")) %>% 
+          readr::read_csv(file.path(dir_main, "data", "basins.csv")) %>% 
             select(subbasin, order), 
           by = "subbasin"
         ) %>% 

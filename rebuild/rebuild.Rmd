@@ -4,7 +4,6 @@ output: html_document
 ---
 
 ```{r libraries}
-library(here)
 library(magrittr)
 library(readr)
 library(stringr)
@@ -14,11 +13,16 @@ library(sp)
 ```
 
 ```{r functions and directories}
-source(here("rebuild", "rebuilding.R"))
+source(here::here("rebuild", "rebuilding.R"))
 
 assess_year <- 2019
 bhi_version <- "v2019"
 scenario_folder <- "baltic2015"
+
+dir_main <- here::here()
+if(length(grep("dashboard", dir_main, value = TRUE)) == 0){
+  dir_main <- here::here("dashboard")
+}
 
 ## these urls should connect to the most recent versions of everything
 # gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/v2019/"
@@ -46,30 +50,30 @@ bhi_db_con <- "connection to BHI database"
 ## lookup tables
 tbl(bhi_db_con, "basins") %>% 
   collect() %>% 
-  write_csv(here("dashboard", "data", "basins.csv"))
+  write_csv(file.path(dir_main, "data", "basins.csv"))
 
 tbl(bhi_db_con, "regions") %>% 
   collect() %>% 
-  write_csv(here("dashboard", "data", "regions.csv"))
+  write_csv(file.path(dir_main, "data", "regions.csv"))
 
 ## plotting configuration
 tbl(bhi_db_con, "plot_conf") %>% 
   collect() %>% 
-  write_csv(here("dashboard", "data", "plot_conf.csv"))
+  write_csv(file.path(dir_main, "data", "plot_conf.csv"))
 ```
 
 ```{r extract scores data from bhiprep github repo and write to data folder}
 
 ## assessment raw datasets, metadata
 data_info <- read_csv(paste0(gh_raw_bhi, scenario_folder, "/layers_metadata.csv"), col_types = cols())
-write_csv(data_info, here("dashboard", "data", "data_info.csv"))
+write_csv(data_info, file.path(dir_main, "data", "data_info.csv"))
 
 ## assessment scores
 bhiscores <- read_csv(paste0(gh_raw_bhi, scenario_folder, "/scores.csv"), col_types = cols()) %>% 
   left_join(
     read_csv(paste0(gh_raw_bhi, scenario_folder, "/regions_lookup_complete_wide.csv")) %>% 
       select(region_id, subbasin = subbasin_name, area_km2 = area_km2_rgn),
-    # read_csv(here("dashboard", "data", "regions.csv"), col_types = cols()) %>% 
+    # read_csv(file.path(dir_main, "data", "regions.csv"), col_types = cols()) %>% 
       # select(region_id, subbasin, area_km2),
     by = "region_id"
   ) %>% 
@@ -78,16 +82,16 @@ bhiscores <- read_csv(paste0(gh_raw_bhi, scenario_folder, "/scores.csv"), col_ty
 ## scores.csv only has some dimensions for basins and full baltic, want to have all dimensions
 ## supragoals dont have pressure/resilience, so need to calculate these from their respective subgoals
 basinscores <- bhiscores %>% 
-    group_by(goal, dimension, subbasin) %>% 
-    summarise(basinscore = weighted.mean(score, area_km2, na.rm = TRUE)) %>%
-    ## any NaN values are because all NAs and thus filtered out in weighted mean, nothin/area...
-    mutate(score = ifelse(is.nan(basinscore), NA, round(basinscore, 2))) %>% 
-    left_join(
-      read_csv(here("dashboard", "data", "basins.csv"), col_types = cols()) %>% 
-        select(region_id = subbasin_id, subbasin),
-      by = "subbasin"
-    ) %>% 
-    select(goal, dimension, region_id, score)
+  group_by(goal, dimension, subbasin) %>% 
+  summarise(basinscore = weighted.mean(score, area_km2, na.rm = TRUE)) %>%
+  ## any NaN values are because all NAs and thus filtered out in weighted mean, nothin/area...
+  mutate(score = ifelse(is.nan(basinscore), NA, round(basinscore, 2))) %>% 
+  left_join(
+    read_csv(file.path(dir_main, "data", "basins.csv"), col_types = cols()) %>% 
+      select(region_id = subbasin_id, subbasin),
+    by = "subbasin"
+  ) %>% 
+  select(goal, dimension, region_id, score)
 
 
 
@@ -138,7 +142,7 @@ balticscores <- rbind(
 ## save data to dashboard data folder
 rbind(select(bhiscores, goal, dimension, region_id, score), balticscores, basinscores) %>% 
   tidyr::complete(goal, dimension, region_id) %>% 
-  write_csv(here("dashboard", "data", "scores.csv"))
+  write_csv(file.path(dir_main, "data", "scores.csv"))
 ```
 
 
@@ -156,7 +160,7 @@ rbind(select(bhiscores, goal, dimension, region_id, score), balticscores, basins
 ## theme color palettes etc
 bhi_theme <- readLines(paste0(gh_raw_bhi, "R/theme.R"))
 bhi_theme <- bhi_theme[grep(pattern = "apply_bhi_theme", bhi_theme):length(bhi_theme)]
-writeLines(bhi_theme, here("dashboard", "R", "theme.R"))
+writeLines(bhi_theme, file.path(dir_main, "R", "theme.R"))
 
 ## goal summaries...
 ```
@@ -171,7 +175,7 @@ writeLines(bhi_theme, here("dashboard", "R", "theme.R"))
 ## save as rds files
 
 ## regions shapefile:
-if(!file.exists(here("dashboard", "data", "regions.rds"))){
+if(!file.exists(file.path(dir_main, "data", "regions.rds"))){
   
   bhi_rgns_shp <- sf::st_read("/Volumes/BHI_share/Shapefiles/BHI_shapefile", "BHI_shapefile") %>%
     dplyr::mutate(Subbasin = as.character(Subbasin)) %>%
@@ -181,13 +185,13 @@ if(!file.exists(here("dashboard", "data", "regions.rds"))){
     ))
   # rmapshaper::ms_simplify(input = bhi_rgns_shp) %>%
   #   sf::st_as_sf() %>% 
-  #   write_rds(here("data", "regions.rds"))
+  #   write_rds(file.path(dir_main, "data", "regions.rds"))
   
   ## spatial rather than simple features...
   bhi_rgns_shp_simp <- rmapshaper::ms_simplify(input = bhi_rgns_shp) %>%
     sf::st_as_sf()
   sf::as_Spatial(bhi_rgns_shp_simp) %>% 
-    saveRDS(here("dashboard", "data", "regions.rds"))
+    saveRDS(file.path(dir_main, "data", "regions.rds"))
   
 } else(
   message(
@@ -196,7 +200,7 @@ if(!file.exists(here("dashboard", "data", "regions.rds"))){
 )
 
 ## subbasins shapefile:
-if(!file.exists(here("dashboard", "data", "subbasins.rds"))){
+if(!file.exists(file.path(dir_main, "data", "subbasins.rds"))){
   
   subbasins_shp <- sf::st_read(
     "/Volumes/BHI_share/Shapefiles/HELCOM_subbasins_holasbasins",
@@ -205,7 +209,7 @@ if(!file.exists(here("dashboard", "data", "subbasins.rds"))){
   # subbasins_shp <- rmapshaper::ms_simplify(input = subbasins_shp) %>%
   #   sf::st_as_sf() %>% 
   #   dplyr::select(Name, AreaKM2, HELCOM_ID) %>% # keep only necessary columns for shiny
-  #   write_rds(here("data", "subbasins.rds"))
+  #   write_rds(file.path(dir_main, "data", "subbasins.rds"))
   
   ## spatial rather than simple features...
   subbasins_shp_simp <- rmapshaper::ms_simplify(input = subbasins_shp) %>%
@@ -213,7 +217,7 @@ if(!file.exists(here("dashboard", "data", "subbasins.rds"))){
   ## subbasins_shp_simp@proj4string is initially epsg 3035, need epsg 4326 crs for mapping
   sf::as_Spatial(subbasins_shp_simp) %>% 
     spTransform(CRS("+init=epsg:4326")) %>% 
-    saveRDS(here("dashboard", "data", "subbasins.rds"))
+    saveRDS(file.path(dir_main, "data", "subbasins.rds"))
   
 } else(
   message(
@@ -230,7 +234,7 @@ scenario_layers <- intersect(
 ) %>% grep(pattern = "^rgn_", invert = TRUE, value = TRUE)
 
 get_layers(gh_raw_bhiprep, scenario_layers, 2014) %>% 
-  write_csv(here("dashboard", "data", "layers_data.csv"))
+  write_csv(file.path(dir_main, "data", "layers_data.csv"))
 ```
 
 <br>
@@ -239,10 +243,10 @@ get_layers(gh_raw_bhiprep, scenario_layers, 2014) %>%
 
 ```{r create all the flowerplots ahead of time because its slow}
 source(here::here("rebuild", "flowerplot.R"))
-source(here::here("dashboard", "R", "theme.R"))
+source(file.path(dir_main, "R", "theme.R"))
 
-flower_data <- readr::read_csv(here("dashboard", "data", "scores.csv"))
-fp_weights <- readr::read_csv(here("dashboard", "data", "layers_data.csv")) %>% 
+flower_data <- readr::read_csv(file.path(dir_main, "data", "scores.csv"))
+fp_weights <- readr::read_csv(file.path(dir_main, "data", "layers_data.csv")) %>% 
   dplyr::filter(str_detect(layer, "wildcaught_weight")) %>% 
   dplyr::select(year, region_id, value)
 

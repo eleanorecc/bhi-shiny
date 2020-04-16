@@ -137,10 +137,10 @@ flowerplotCard <- function(input, output, session, dimension, flower_rgn_selecte
   dim <- dimension
   
   output$flowerplot <- renderImage({
-    fig <- list.files(here::here("dashboard", "figures")) %>% 
+    fig <- list.files(file.path(dir_main, "figures")) %>% 
       grep(pattern = paste0("flowerplot", rgn_id), value = TRUE)
     list(
-      src = here::here("dashboard", "figures", fig), 
+      src = file.path(dir_main, "figures", fig), 
       contentType = "image/jpeg", 
       width = "478px", # "455px", 
       height = "436px" #"415px"

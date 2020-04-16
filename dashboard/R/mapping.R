@@ -144,7 +144,7 @@ make_subbasin_sf <- function(subbasins_shp, scores_csv, dim = "score", year = as
   subbasin_data <- scores_csv %>%
     dplyr::filter(region_id >= 500) %>%
     dplyr::left_join(
-      readr::read_csv(here("dashboard", "data", "basins.csv")) %>%
+      readr::read_csv(file.path(dir_main, "data", "basins.csv")) %>%
         select(region_id = subbasin_id, subbasin, area_km2),
       by = "region_id"
     ) %>%
@@ -195,7 +195,7 @@ make_subbasin_sf <- function(subbasins_shp, scores_csv, dim = "score", year = as
 
 make_rgn_sf <- function(bhi_rgns_shp, scores_csv, dim = "score", year = assess_year){
   
-  rgn_lookup <- readr::read_csv(here("dashboard", "data", "regions.csv")) %>%
+  rgn_lookup <- readr::read_csv(file.path(dir_main, "data", "regions.csv")) %>%
     select(region_id, Name = region_name)
   
   if("year" %in% colnames(scores_csv)){

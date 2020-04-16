@@ -1,4 +1,4 @@
-source(here::here("dashboard", "R", "theme.R"))
+source(file.path(dir_main, "R", "theme.R"))
 library(ggplot2)
 library(circlize)
 library(magick)
@@ -89,13 +89,13 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
     mean_wgt <- mean(wgts$value) # mean across regions within the year of interest
     
     ## area weighted subbasin means
-    wgts_basin <- readr::read_csv(here("dashboard", "data", "regions.csv"), col_types = cols()) %>%
+    wgts_basin <- readr::read_csv(file.path(dir_main, "data", "regions.csv"), col_types = cols()) %>%
       dplyr::select(region_id, area_km2, subbasin) %>% 
       dplyr::left_join(wgts, by = "region_id") %>%
       dplyr::group_by(subbasin) %>%
       dplyr::summarize(value = weighted.mean(value, area_km2)) %>%
       dplyr::left_join(
-        readr::read_csv(here("dashboard", "data", "basins.csv"), col_types = cols()) %>%
+        readr::read_csv(file.path(dir_main, "data", "basins.csv"), col_types = cols()) %>%
           dplyr::select(subbasin, region_id = subbasin_id),
         by = "subbasin"
       ) %>%
@@ -116,7 +116,7 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
   ## PLOTTING CONFIGURATION & THEME
   ## sub/supra goals and positioning ----
   ## pos, pos_end, and pos_supra indicate positions, how wide different petals should be based on weightings
-  plot_config <- readr::read_csv(here::here("dashboard", "data", "plot_conf.csv"), col_types = cols())
+  plot_config <- readr::read_csv(file.path(dir_main, "data", "plot_conf.csv"), col_types = cols())
   goals_supra <- na.omit(unique(plot_config$parent))
   
   supra_lookup <- plot_config %>%
@@ -325,8 +325,8 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
     }
     
     if(labels %in% c("curved", "arc")){
-      temp_plot <- here::here(
-        "dashboard", "figures", 
+      temp_plot <- file.path(
+        dir_main, "figures", 
         sprintf("flowerplot%s_%s.png", name_and_title$region_id, name_and_title$name)
       )
       ggplot2::ggsave(
@@ -336,7 +336,7 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
         height = 6, width = 8, units = "in", dpi = 300
       )
       
-      temp_labels <- here::here("dashboard", "figures", paste0("flower_curvetxt_", name_and_title$name, ".png"))
+      temp_labels <- file.path(dir_main, "figures", paste0("flower_curvetxt_", name_and_title$name, ".png"))
       ## don't recreate curved labels if already exist....
       if(!file.exists(temp_labels)){
         circ_df <- plot_df %>%
@@ -476,16 +476,16 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
     if(class(plot_obj) == "magick-image"){
       magick::image_write(
         image_scale(plot_obj, 600), # can adjust here to make smaller, sacrificing image quality...
-        path = here::here(
-          "dashboard", "figures", 
+        path = file.path(
+          dir_main, "figures", 
           sprintf("flowerplot%s_%s.png", name_and_title$region_id, name_and_title$name)
         ), 
         format = "png"
       )
     } else {
       ggplot2::ggsave(
-        filename = here::here(
-          "dashboard", "figures", 
+        filename = file.path(
+          dir_main, "figures", 
           sprintf("flowerplot%s_%s.png", name_and_title$region_id, name_and_title$name)
         ), 
         plot = plot_obj, 
@@ -496,7 +496,7 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
   }
   ## remove curvedtext labels from figures folder, these were only needed for interm. steps...
   file.remove(
-    list.files(here::here("dashboard", "figures"), full.names = TRUE) %>% 
+    list.files(file.path(dir_main, "figures"), full.names = TRUE) %>% 
       grep(pattern = "flower_curvetxt", value = TRUE)
   )
   return(invisible(plot_obj)) # note this will only return the last plot

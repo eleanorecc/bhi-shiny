@@ -1,5 +1,4 @@
 ## Libraries, Directories, Paths ----
-library(here)
 library(shiny)
 library(shinydashboard)
 library(shinyjs)
@@ -7,21 +6,27 @@ library(shinyWidgets)
 library(DT)
 library(stringr)
 
+
+assess_year <- 2014
+
 gh_prep <- "https://github.com/OHI-Science/bhi-1.0-archive/blob/draft/baltic2015/prep"
 gh_layers <- "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
 
+## Set main App Directory ----
+dir_main <- here::here()
+if(length(grep("dashboard", dir_main, value = TRUE)) == 0){
+  dir_main <- here::here("dashboard")
+}
+
 ## Creating Shiny content Functions ----
-source(here::here("dashboard", "R", "theme.R"))
-source(here::here("dashboard", "R", "mapping.R"))
-source(here::here("dashboard", "R", "visualization.R"))
+source(file.path(dir_main, "R", "theme.R"))
+source(file.path(dir_main, "R", "mapping.R"))
+source(file.path(dir_main, "R", "visualization.R"))
 
-source(here::here("dashboard", "modules", "map_card.R"))
-source(here::here("dashboard", "modules", "barplot_card.R"))
-source(here::here("dashboard", "modules", "flowerplot_card.R"))
-source(here::here("dashboard", "modules", "scorebox_card.R"))
-
-# setwd(here::here("dashboard"))
-assess_year = 2014
+source(file.path(dir_main, "modules", "map_card.R"))
+source(file.path(dir_main, "modules", "barplot_card.R"))
+source(file.path(dir_main, "modules", "flowerplot_card.R"))
+source(file.path(dir_main, "modules", "scorebox_card.R"))
 
 
 ## Functions for Shiny App UI ----
@@ -67,21 +72,21 @@ text_links <- function(title = NULL, url = NULL, box_width = 12){
 
 ## Shiny Global Data ----
 
-full_scores_csv <- readr::read_csv(here("dashboard", "data", "scores.csv"))
-goals_csv <- readr::read_csv(here("dashboard", "data", "plot_conf.csv"))
-data_info <- readr::read_csv(here("dashboard", "data", "data_info.csv"))
+full_scores_csv <- readr::read_csv(file.path(dir_main, "data", "scores.csv"))
+goals_csv <- readr::read_csv(file.path(dir_main, "data", "plot_conf.csv"))
+data_info <- readr::read_csv(file.path(dir_main, "data", "data_info.csv"))
 
-regions_df <- readr::read_csv(here("dashboard", "data", "regions.csv"))
-subbasins_df <- readr::read_csv(here("dashboard", "data", "basins.csv"))
+regions_df <- readr::read_csv(file.path(dir_main, "data", "regions.csv"))
+subbasins_df <- readr::read_csv(file.path(dir_main, "data", "basins.csv"))
 
 rgns_shp <- make_rgn_sf(
-  bhi_rgns_shp = read_rds(here("dashboard", "data", "regions.rds")), 
+  bhi_rgns_shp = read_rds(file.path(dir_main, "data", "regions.rds")), 
   scores_csv = full_scores_csv, 
   dim = "score", 
   year = assess_year
 )
 subbasins_shp <- make_subbasin_sf(
-  subbasins_shp = read_rds(here("dashboard", "data", "subbasins.rds")), 
+  subbasins_shp = read_rds(file.path(dir_main, "data", "subbasins.rds")), 
   scores_csv = full_scores_csv, 
   dim = "score", 
   year = assess_year

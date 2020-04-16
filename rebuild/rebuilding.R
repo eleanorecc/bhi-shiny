@@ -35,8 +35,8 @@ list_prep_layers <- function(gh_api_bhiprep){
 
 get_layers <- function(gh_raw_bhiprep, layers, default_year){
   ## create data folder if needed
-  if(!file.exists(here::here("dashboard", "data"))){
-    dir.create(here::here("dashboard", "data"))
+  if(!file.exists(file.path(dir_main, "data"))){
+    dir.create(file.path(dir_main, "data"))
   }
   
   ## initialize dataframe for all layers
@@ -213,7 +213,7 @@ goal_info <- function(gh_raw_bhi, scenario_folder, goal_code = "all"){
 
 make_lyrs_menu <- function(str_match = "_bhi2015", print = FALSE){
   
-  lyrs <- read_csv(here("dashboard", "data", "layers_data.csv"))$layer %>% 
+  lyrs <- read_csv(file.path(dir_main, "data", "layers_data.csv"))$layer %>% 
     unique() %>% 
     grep(pattern = str_match, value = TRUE) %>%
     grep(pattern = "_trend", value = TRUE, invert = TRUE) %>%
@@ -254,14 +254,14 @@ goalpage_from_template <- function(goal_code, replace_current = FALSE){
   
   ## replacement info	
   # goalinfo <- tbl(bhi_db_con, "plot_conf") %>%	
-  goalinfo <- read_csv(here("dashboard", "data", "plot_conf.csv"), col_types = cols()) %>%	
+  goalinfo <- read_csv(file.path(dir_main, "data", "plot_conf.csv"), col_types = cols()) %>%	
     select(name, goal, parent) %>%	
     collect() %>% 	
     filter(goal == goal_code)	
   
   ## template text	
   txt <- scan(	
-    here("rebuild", "goalpage.R"),	
+    here::here("rebuild", "goalpage.R"),	
     what = "character",	
     sep = "\n",	
     blank.lines.skip = FALSE	
@@ -325,13 +325,13 @@ goalpage_from_template <- function(goal_code, replace_current = FALSE){
     
     ## original ui and server text	
     txtUI <- scan(	
-      here("dashboard", "ui.R"),	
+      file.path(dir_main, "ui.R"),	
       what = "character",	
       sep = "\n",	
       blank.lines.skip = FALSE	
     )	
     txtServer <- scan(	
-      here("dashboard", "server.R"),	
+      file.path(dir_main, "server.R"),	
       what = "character",	
       sep = "\n",	
       blank.lines.skip = FALSE	
@@ -355,8 +355,8 @@ goalpage_from_template <- function(goal_code, replace_current = FALSE){
       txt[(grep(pattern = "## Server code ----", txt) + 1):length(txt)], 	
       txtServer[min(serv_breaks[which(serv_breaks > serv_breakstart)]):length(txtServer)]	
     )	
-    write_lines(txtUI_updated, here("dashboard", "ui.R"))	
-    write_lines(txtServer_updated, here("dashboard", "server.R"))	
+    write_lines(txtUI_updated, file.path(dir_main, "ui.R"))	
+    write_lines(txtServer_updated, file.path(dir_main, "server.R"))	
   }	
 }
 
