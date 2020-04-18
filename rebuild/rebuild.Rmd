@@ -63,9 +63,9 @@ tbl(bhi_db_con, "plot_conf") %>%
 ```
 
 ```{r extract scores data from bhiprep github repo and write to data folder}
-
 ## assessment raw datasets, metadata
-data_info <- read_csv(paste0(gh_raw_bhi, scenario_folder, "/layers_metadata.csv"), col_types = cols())
+source(here::here("rebuild", "metainfotables.R"))
+data_info <- make_data_table("https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/", bhi_version)
 write_csv(data_info, file.path(dir_main, "data", "data_info.csv"))
 
 ## assessment scores
