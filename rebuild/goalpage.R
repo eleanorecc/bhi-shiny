@@ -155,7 +155,10 @@ output$goalcode_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "GOALCODE") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "GOALCODE"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
