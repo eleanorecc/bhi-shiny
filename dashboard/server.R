@@ -111,7 +111,10 @@ output$ao_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "AO") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "AO"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -150,7 +153,10 @@ output$bd_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "BD") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "BD"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -188,7 +194,10 @@ output$cs_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "CS") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "CS"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -227,7 +236,10 @@ output$cw_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "CW") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "CW"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -266,7 +278,9 @@ output$con_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "CON") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", pageLength = nrow(filter(data_info, goal == "CON"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -304,7 +318,10 @@ output$eut_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "EUT") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "EUT"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -343,7 +360,10 @@ output$tra_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "TRA") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "TRA"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -381,7 +401,10 @@ output$fp_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "FP") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "FP"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -420,7 +443,10 @@ output$fis_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "FIS") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t",
+      pageLength = nrow(filter(data_info, goal == "FIS"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -459,7 +485,10 @@ output$mar_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "MAR") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "MAR"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -498,7 +527,10 @@ output$le_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "LE") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "LE"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -537,7 +569,10 @@ output$eco_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "ECO") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "ECO"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -575,7 +610,10 @@ output$liv_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "LIV") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "LIV"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -614,7 +652,10 @@ output$sp_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "SP") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "SP"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -653,7 +694,10 @@ output$ico_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "ICO") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "ICO"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -692,7 +736,10 @@ output$lsp_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "LSP") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "LSP"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -730,7 +777,10 @@ output$np_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "NP") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "NP"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
@@ -769,7 +819,10 @@ output$tr_datatable = renderDataTable({
     data_info %>% 
       filter(goal == "TR") %>% 
       select(-goal),
-    options = list(dom = "t"),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "TR"))
+    ),
     rownames = FALSE,
     escape = FALSE
   )
