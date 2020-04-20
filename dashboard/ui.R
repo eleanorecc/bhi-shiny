@@ -825,6 +825,17 @@ tabItem(
     )
   ),
   
+  ## timeseries plot and 
+  # fluidRow(
+  #   box(
+  #     width = 12, 
+  #     title = "Key Information",
+  #     status = "primary", 
+  #     solidHeader = TRUE,
+  #     "Box content here", br(), "More box content"
+  #   )
+  # ),
+  
   ## key information and data layers table
   fluidRow(
     box(
@@ -860,7 +871,7 @@ tabItem(
     align = "center",
     text_links(
       "CLICK HERE FOR DETAILED METHODS",
-      sprintf("%s/CON/con_prep.md", gh_prep)
+      "http://ohi-science.org/bhi-prep/contaminants-clean-water-subgoal.html"
     )
   ),
   fluidRow(
@@ -1340,7 +1351,7 @@ tabItem(
     align = "center",
     text_links(
       "CLICK HERE FOR DETAILED METHODS",
-      sprintf("%s/FIS/fis_prep.md", gh_prep)
+      "http://ohi-science.org/bhi-prep/wild-caught-fisheries-food-provision-subgoal.html"
     )
   ),
   fluidRow(
@@ -1460,7 +1471,7 @@ tabItem(
     align = "center",
     text_links(
       "CLICK HERE FOR DETAILED METHODS",
-      sprintf("%s/MAR/mar_prep.md", gh_prep)
+      "http://ohi-science.org/bhi-prep/mariculture-food-provision-subgoal.html"
     )
   ),
   fluidRow(
