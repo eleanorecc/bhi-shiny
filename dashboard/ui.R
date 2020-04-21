@@ -264,16 +264,16 @@ dashboardPage(
             sub_title_text = "Ocean Health Index scores are calculated for individual goals separately and then combined to get an overall score on a scale of 0-100. Individual goal scores are represented by the length of the petals in a flower plot below, and the overall Index score for the region is in the center."
           ),
 
-          ## map of overall scores, with barplot
+          ## map of overall scores
           tagList(box(
+            collapsible = TRUE,
             title = "Map of Index Scores",
-            width = 7, height = 640, collapsible = TRUE,
             list(
-              p("This map shows scores from the previous assessment (2014)", br(), br()),
-              addSpinner(leafletOutput("index_map"), spin = "rotating-plane", color = "#d7e5e8")
-            )
+              p("This map shows scores from the previous assessment (2014)", br(), br()), 
+              list(addSpinner(leafletOutput("index_map", height = 540), spin = "rotating-plane", color = "#d7e5e8"))
+            ),
+            width = 7
           ))
-          
         ),
         
         fluidRow(
@@ -802,7 +802,7 @@ tabItem(
       title = "Target", 
       status = "primary", 
       solidHeader = TRUE,
-      "Contamination levels of the three pollutants are below their respective thresholds, and all Concerning Substances are monitored", br(),
+      "Contamination levels of the three pollutants are below their respective thresholds, all Concerning Substances are monitored", br(),
       width = 4
     )
   ),
@@ -825,7 +825,7 @@ tabItem(
     )
   ),
   
-  ## key information, timeseries  plot, and data layers table
+  ## key information, timeseries plot, and data layers table
   fluidRow(
     box(
       width = 12, 
