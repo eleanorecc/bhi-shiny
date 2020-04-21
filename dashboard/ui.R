@@ -792,17 +792,17 @@ tabItem(
   ## target info and key messages
   fluidRow(
     box(
-      title = "Key Messages", 
+      title = "Key Information", 
       status = "primary", 
       solidHeader = TRUE,
-      "Box content here", br(), "More box content", br(),
+      "Four subindicators are combined in this subgoal: the contamination levels of three pollutants (PCBs, PFOS, and Dioxins), and the proportion of Concerning Substances monitored", br(),
       width = 8
     ),
     box(
       title = "Target", 
       status = "primary", 
       solidHeader = TRUE,
-      "Box content here", br(), "More box content", br(),
+      "Contamination levels of the three pollutants are below their respective thresholds, and all Concerning Substances are monitored", br(),
       width = 4
     )
   ),
@@ -825,25 +825,27 @@ tabItem(
     )
   ),
   
-  ## timeseries plot and 
-  # fluidRow(
-  #   box(
-  #     width = 12, 
-  #     title = "Key Information",
-  #     status = "primary", 
-  #     solidHeader = TRUE,
-  #     "Box content here", br(), "More box content"
-  #   )
-  # ),
-  
-  ## key information and data layers table
+  ## key information, timeseries  plot, and data layers table
   fluidRow(
     box(
       width = 12, 
-      title = "Key Information",
+      title = "Key Messages",
       status = "primary", 
       solidHeader = TRUE,
-      "Box content here", br(), "More box content"
+      "While present-day concentrations of the three contaminants included in the subgoal generally fall below their relative thresholds, there is a large number of concerning substances which are not seriously monitored"
+    )
+  ),
+  ## timeseries plot
+  fluidRow(
+    tsplotCardUI(
+      id = "con_tsplot",
+      title_text = "Contaminants Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
+        `PCBs in Biota` = "cw_con_pcb_bhi2019_bio", 
+        `PCBs in Sediments` = "cw_con_pcb_bhi2019_sed"
+      )
     )
   ),
   fluidRow(
@@ -855,16 +857,6 @@ tabItem(
       DT::dataTableOutput("con_datatable")
     )
   ),
-  
-  ## additional goal-specific graphs etc
-  # fluidRow(
-  #   box(
-  #     title = "Key Information", 
-  #     background = "teal", 
-  #     solidHeader = TRUE,
-  #     plotOutput("plotename", height = 250)
-  #   )
-  # ),
   
   ## methods link, plus data considerations, improvements
   fluidRow(
@@ -2543,37 +2535,6 @@ tabItem(
           box(
             p("SOMETHING ABOUT PROCESS OF GENERATING LAYERS, AND LAYER VS LAYER SCATTERPLOT"),
             width = 12
-          ),
-
-          ## scatterplot from selected layers
-          box(
-            width = 9,
-            plotOutput("layers_scatter")
-          )
-          ## layers scatterplot select vars ----
-          # box(
-          #   width = 3,
-          #   selectInput(
-          #     "layerscatter_var_x",
-          #     label = "Select Layer X",
-          #     choices = c()
-          #   ),
-          #   selectInput(
-          #     "layerscatter_var_y",
-          #     label = "Select Layer Y",
-          #     choices = c()
-          #   ),
-          #   selectizeInput(
-          #     "layers_dt_vars",
-          #     label = "Data Table Variables",
-          #     choices = c()
-          #   )
-          # ) # end layers scatterplot select vars
-        ),
-        fluidRow(
-          box(
-            width = 12,
-            DTOutput("layers_datatab")
           )
         )
       ) # end layers item
