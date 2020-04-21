@@ -6,7 +6,7 @@
 #' from https://github.com/OHI-Northeast/ne-dashboard/blob/master/modules/map_card.R
 
 ## map card ui function ----
-mapCardUI <- function(id, title_text = NULL, sub_title_text = NULL, box_width = 6, ht = 480, source_text = NULL){
+mapCardUI <- function(id, title_text = NULL, sub_title_text = NULL, box_width = 6, ht = 540, source_text = NULL){
   
   
   ns <- shiny::NS(id)
@@ -26,6 +26,7 @@ mapCardUI <- function(id, title_text = NULL, sub_title_text = NULL, box_width = 
   ))
 }
 
+## map card server function ----
 mapCard <- function(input, output, session,
                     goal_code, dimension_selected, spatial_unit_selected, 
                     year_selected, legend_title, 

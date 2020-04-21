@@ -18,7 +18,7 @@ barplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL, source_t
 }
 
 
-## map card server function ----
+## barplot card server function ----
 barplotCard <- function(input, output, session, goal_code, dimension_selected, spatial_unit_selected){
 
   output$barplot <- renderPlotly({
