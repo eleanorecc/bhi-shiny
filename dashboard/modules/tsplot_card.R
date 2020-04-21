@@ -41,7 +41,7 @@ tsplotCard <- function(input, output, session,
       plotdf <- dplyr::rename(lyr_data, region = subbasin) %>% 
         filter(stringr::str_detect(category, gsub(paste0(lyr, "_"), "", selected)))
     } else {
-      plotdf <- dplyr::rename(lyr_data, region = region_id) %>% 
+      plotdf <- dplyr::rename(lyr_data, region = region_name) %>% 
         filter(stringr::str_detect(category, gsub(paste0(lyr, "_"), "", selected)))
     }
     pal <- colorRampPalette(c(
