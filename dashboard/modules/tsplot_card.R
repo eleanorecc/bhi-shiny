@@ -44,7 +44,10 @@ tsplotCard <- function(input, output, session,
       plotdf <- dplyr::rename(lyr_data, region = region_id) %>% 
         filter(stringr::str_detect(category, gsub(paste0(lyr, "_"), "", selected)))
     }
-    pal <- colorRampPalette(c(brewer.pal(8, "Dark2"), brewer.pal(9, "Set1")))(30)[sample(1:18, 18)]
+    pal <- colorRampPalette(c(
+      RColorBrewer::brewer.pal(8, "Dark2"), 
+      RColorBrewer::brewer.pal(9, "Set1")
+    ))(30)[sample(1:18, 18)]
     
     plotly::ggplotly(
       ggplot(plotdf %>% mutate(year = as.factor(year))) +

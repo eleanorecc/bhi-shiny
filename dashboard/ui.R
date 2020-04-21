@@ -844,7 +844,11 @@ tabItem(
       ht = 340,
       select_choices = list(
         `PCBs in Biota` = "cw_con_pcb_bhi2019_bio", 
-        `PCBs in Sediments` = "cw_con_pcb_bhi2019_sed"
+        `PCBs in Sediments` = "cw_con_pcb_bhi2019_sed",
+        `PFOS in Biota` = "cw_con_pfos_bhi2019_bio", 
+        `PFOS in Sediments` = "cw_con_pfos_bhi2019_sed",
+        `Dioxins in Biota` = "cw_con_dioxin_bhi2019_bio", 
+        `Dioxins in Sediments` = "cw_con_dioxin_bhi2019_sed"
       )
     )
   ),

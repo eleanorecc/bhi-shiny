@@ -287,16 +287,17 @@ output$con_datatable = renderDataTable({
 })
 
 ## layers timeseries plot
-values <- reactiveValues(con_lyr_select = "cw_con_pcb_bhi2019_bio")
+values <- reactiveValues(`con_tsplot-select` = "cw_con_pcb_bhi2019_bio")
 observeEvent(
-  eventExpr = input$con_lyr_select, {
-    values$con_lyr_select <- input$con_lyr_select
+  eventExpr = input$`con_tsplot-select`, {
+    values$`con_tsplot-select` <- input$`con_tsplot-select`
     
     ## update flowerplot based on selection
     callModule(
       tsplotCard, 
       "con_tsplot",
-      layer_selected = reactive(values$con_lyr_select)
+      layer_selected = reactive(values$`con_tsplot-select`),
+      spatial_unit_selected = spatial_unit
     )
   }, ignoreNULL = FALSE
 )
