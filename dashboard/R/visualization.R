@@ -1,6 +1,118 @@
 library(dplyr)
 library(ggplot2)
 library(plotly)
+library(httr)
+library(stringr)
+
+#' read layers from bhi prep repository and bind into one table
+#'
+#' @param gh_raw_bhiprep raw.githubusercontent url directing to bhi prep github repository
+#' @param layers names of files in layers folder to download, without .csv extension
+#' @param default_year value to assign as the year where layer have no year column
+#'
+#' @return merged layer datatable
+
+get_layers_data <- function(gh_raw_bhiprep, layers, default_year){
+  ## create data folder if needed
+  if(!file.exists(file.path(dir_main, "data"))){
+    dir.create(file.path(dir_main, "data"))
+  }
+  
+  ## initialize dataframe for all layers
+  all_lyrs_df <- data.frame(
+    year = double(), 
+    region_id = double(), 
+    category = character(), 
+    layer = character(), 
+    value = numeric()
+  )
+  matchcols <- c("region_id", "year", "value", "category", "layer")
+  
+  ## download and reformat data layers
+  for(lyr in layers){
+    lyr_df <- readr::read_csv(paste0(gh_raw_bhiprep, "layers/", unlist(lyr),  ".csv"), col_types = cols()) %>% 
+      dplyr::mutate(layer = unlist(lyr))
+    
+    if(any(1:2 %in% dim(lyr_df))){
+      message(sprintf("excluding layer %s, insufficient rows of data", unlist(lyr)))
+    } else {
+      
+      ## reshape columns into a consistent format...
+      if(!"year" %in% names(lyr_df)){
+        lyr_df <- dplyr::mutate(lyr_df, year = default_year)
+      }
+      if("dimension" %in% names(lyr_df)){
+        lyr_df <- dplyr::rename(lyr_df, category = dimension)
+      } else if(any(str_detect(names(lyr_df), "pressure")) | str_detect(lyr, "pressure")){
+        lyr_df <- dplyr::mutate(lyr_df, category = "pressure")
+      } else if(any(str_detect(names(lyr_df), "resilience")) | str_detect(lyr, "resilience")){
+        lyr_df <- dplyr::mutate(lyr_df, category = "resilience")
+      } else if(any(str_detect(names(lyr_df), "trend")) | str_detect(lyr, "trend")){
+        lyr_df <- dplyr::mutate(lyr_df, category = "trend")
+      } else {
+        lyr_df <- dplyr::mutate(lyr_df, category = "status")
+      }
+      colnames(lyr_df) <- gsub("::score$", "value", colnames(lyr_df))
+      colnames(lyr_df) <- gsub("score$", "value", colnames(lyr_df))
+      
+      ## ugh why are there such random column names
+      ## if missing value columns still
+      ## if after all this there are columns other than region_id, year, category...
+      extracol <- setdiff(names(lyr_df), matchcols)
+      
+      if(!"value" %in% names(lyr_df) & length(extracol) == 1){
+        if(class(dplyr::select(lyr_df, !!sym(extracol))[[1]]) == "numeric"){
+          lyr_df <- dplyr::rename(lyr_df, value = !!sym(extracol))
+        }
+      } else if("value" %in% names(lyr_df) & length(extracol) == 1){
+        ## have value column already, so extra column must be a categorical variable...
+        if(class(dplyr::select(lyr_df, !!sym(extracol))[[1]]) %in% c("character", "factor")){
+          lyr_df <- lyr_df %>% 
+            dplyr::mutate(category = paste(ifelse(
+              !"category" %in% names(lyr_df), "score", category),
+              !!sym(extracol), 
+              sep = ", ")
+            ) %>% 
+            dplyr::select(-!!sym(extracol))
+        }
+      } else if(!"value" %in% names(lyr_df) & length(extracol) == 2){
+        ## if two cols left over, assume one with more unique vals is score and other is a categorical var
+        if(length(unique(lyr_df[[sym(extracol[1])]])) > length(unique(lyr_df[[sym(extracol[2])]]))){
+          
+          lyr_df <- lyr_df %>% 
+            dplyr::mutate(category = paste(ifelse(
+              !"category" %in% names(lyr_df), "score", category),
+              !!sym(extracol[2]), 
+              sep = ", ")
+            ) %>% 
+            dplyr::select(-!!sym(extracol[2])) %>% 
+            dplyr::rename(value = !!sym(extracol[1]))
+          
+        } else {
+          lyr_df <- lyr_df %>% 
+            dplyr::mutate(category = paste(ifelse(
+              !"category" %in% names(lyr_df), "score", category),
+              !!sym(extracol[1]), 
+              sep = ", ")
+            ) %>% 
+            dplyr::select(-!!sym(extracol[1])) %>% 
+            dplyr::rename(value = !!sym(extracol[2]))
+        }
+      }
+      ## row bind to complete layers dataframe
+      ## unless there are still undetermined columns, in which case just exclude the file from the table...
+      if(all(names(lyr_df) %in% matchcols) & all(matchcols %in% names(lyr_df))){
+        all_lyrs_df <- rbind(
+          all_lyrs_df, 
+          dplyr::select(lyr_df, year, region_id, category, layer, value)
+        )
+        message(sprintf("successfully added layer %s to merged layers_data table", lyr))
+      } else {message(sprintf("excluding layer %s because of column names mismatch...", lyr))}
+    }
+  }
+  
+  return(all_lyrs_df)
+}
 
 #' create barplot to accompany maps
 #'
@@ -21,7 +133,7 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
   ## apply bhi_theme, in this case the same as for flowerplot
   thm <- apply_bhi_theme(plot_type = "flowerplot")
   
-  ## wrangle scores and join info to create plotting dataframe ----
+  ## wrangle scores and join info to create plotting dataframe
   scores <- scores_csv
   if("dimension" %in% colnames(scores)){
     scores <- scores %>%
@@ -113,7 +225,7 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
       pos, pos_end, plotNAs
     )
   
-  ## create plot ----
+  ## create plot
   plot_obj <- ggplot(
     plot_df,
     aes(
@@ -167,7 +279,6 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
   plot_obj <- plotly::ggplotly(plot_obj, tooltip = "text")
   return(invisible(plot_obj))
 }
-
 
 #' @param scores_csv scores dataframe e.g. output of ohicore::CalculateAll
 #' @param basins_or_rgns one of 'subbasins' or 'regions' to indicate which spatial units should be represented
