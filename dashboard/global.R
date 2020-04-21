@@ -10,6 +10,7 @@ library(stringr)
 assess_year <- 2014
 
 gh_prep <- "https://github.com/OHI-Science/bhi-1.0-archive/blob/draft/baltic2015/prep"
+gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/"
 gh_layers <- "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
 
 ## Set main App Directory ----
@@ -27,6 +28,7 @@ source(file.path(dir_main, "modules", "map_card.R"))
 source(file.path(dir_main, "modules", "barplot_card.R"))
 source(file.path(dir_main, "modules", "flowerplot_card.R"))
 source(file.path(dir_main, "modules", "scorebox_card.R"))
+source(file.path(dir_main, "modules", "tsplot_card.R"))
 
 
 ## Functions for Shiny App UI ----
