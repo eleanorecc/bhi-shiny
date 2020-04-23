@@ -47,7 +47,7 @@ tsplotCard <- function(input, output, session,
     pal <- colorRampPalette(c(
       RColorBrewer::brewer.pal(8, "Dark2"), 
       RColorBrewer::brewer.pal(9, "Set1")
-    ))(30)[sample(1:18, 18)]
+    ))(30)[sample(1:20, 20)]
     
     plotly::ggplotly(
       ggplot(plotdf %>% mutate(year = as.factor(year))) +
