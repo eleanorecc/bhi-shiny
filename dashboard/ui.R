@@ -789,20 +789,20 @@ tabItem(
     )
   ),
   
-  ## target info and key messages
+  ## target info and key information
   fluidRow(
     box(
       title = "Key Information", 
       status = "primary", 
       solidHeader = TRUE,
-      "Four subindicators are combined in this subgoal: the contamination levels of three pollutants (PCBs, PFOS, and Dioxins), and the proportion of Concerning Substances monitored", br(),
+      "Four indicators are combined in this subgoal: the contamination levels of three pollutants/pollutant groups (PCBs, PFOS, and Dioxins), and the proportion of persistent, bioaccumulative and toxic Substances of Very High Concern (SVHC) monitored.",
       width = 8
     ),
     box(
       title = "Target", 
       status = "primary", 
       solidHeader = TRUE,
-      "Contamination levels of the three pollutants are below their respective thresholds, all Concerning Substances are monitored", br(),
+      "Contamination levels of the three pollutants/pollutant groups fall below their respective thresholds. All persistent, bioaccumulative and toxic Substances of Very High Concern are monitored.",
       width = 4
     )
   ),
@@ -825,17 +825,16 @@ tabItem(
     )
   ),
   
-  ## key information, timeseries plot, and data layers table
+  ## key messages, timeseries plot, and data layers table
   fluidRow(
     box(
       width = 12, 
       title = "Key Messages",
       status = "primary", 
       solidHeader = TRUE,
-      "While present-day concentrations of the three contaminants included in the subgoal generally fall below their relative thresholds, there is a large number of concerning substances which are not seriously monitored"
+      "Present-day concentrations of the three pollutants/pollutant groups included in the subgoal generally fall below their relative thresholds, particularly concentrations measured in biota (i.e., fish). The concentrations found in sediments (top 5cm) more often exceed their respective thresholds, reflecting the higher historic concentrations of the contaminants in the Baltic Sea mirrored in subsurface sediment. However, there are many persistent, bioaccumulative and toxic Substances of Very High Concern which are not  monitored across all regions of the Baltic Sea, which lowers the score. The level to which compounds known to be hazardous are monitored in the Baltic Sea is included as an indicator to illustrate that a proper assessment cannot be done due to lack of knowledge on occurrence of pollutants in the Baltic Sea."
     )
   ),
-  ## timeseries plot
   fluidRow(
     tsplotCardUI(
       id = "con_tsplot",
@@ -843,11 +842,11 @@ tabItem(
       sub_title_text = "",
       ht = 340,
       select_choices = list(
-        `PCBs in Biota` = "cw_con_pcb_bhi2019_bio", 
-        `PCBs in Sediments` = "cw_con_pcb_bhi2019_sed",
-        `PFOS in Biota` = "cw_con_pfos_bhi2019_bio", 
-        `Dioxins in Biota` = "cw_con_dioxin_bhi2019_bio", 
-        `Dioxins in Sediments` = "cw_con_dioxin_bhi2019_sed"
+        `PCBs in Biota` = "cw_con_pcb_bhi2019_bio",
+`PCBs in Sediments` = "cw_con_pcb_bhi2019_sed",
+`PFOS in Biota` = "cw_con_pfos_bhi2019_bio",
+`Dioxins in Biota` = "cw_con_dioxin_bhi2019_bio",
+`Dioxins in Sediments` = "cw_con_dioxin_bhi2019_sed"
       )
     )
   ),
@@ -878,19 +877,20 @@ tabItem(
       "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
       br(),
       br(),
+      ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-          tags$b("Bold text:"),
-          "Bullet point one."
-        ),
-        tags$li(
-          tags$b("Bold text:"),
-          "Bullet point two."
-        ),
-        tags$li(
-          tags$b("Bold text:"),
-          "Bullet point three."
-        )
+	 tags$b("Spatial variability:"),
+	 "Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores differs substantially across regions. Generally, there is less data on pollutants/pollutant groups from the southeast near the Baltic states and Poland and Russia. " 
+	),
+tags$li(
+	 tags$b("Thresholds:"),
+	 "The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty. " 
+	),
+tags$li(
+	 tags$b("Substances of Very High Concern:"),
+	 "The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea is used as one of the indicators to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea. This indicator and how it is used to calculate the score can be developed further to better combine the two aspects of the contaminant goal: current health of the Baltic Sea, and lack of data." 
+	)
       )
     )
   )

@@ -245,15 +245,20 @@ output$cw_datatable = renderDataTable({
   )
 })
 
+
+
+
 ## CON ----
 ## Contaminants
 
+## overall score box in top right
 callModule(
   scoreBox,
   "con_infobox",
   goal_code = "CON"
 )
 
+## map
 callModule(
   mapCard, 
   "con_map",
@@ -266,6 +271,7 @@ callModule(
   popup_add_field_title = "Name:"
 )
 
+## barplot
 callModule(
   barplotCard, "con_barplot",
   goal_code = "CON",
@@ -273,13 +279,15 @@ callModule(
   spatial_unit_selected = spatial_unit
 )
 
+## info table about input data layers
 output$con_datatable = renderDataTable({
   datatable(
     data_info %>% 
       filter(goal == "CON") %>% 
       select(-goal),
     options = list(
-      dom = "t", pageLength = nrow(filter(data_info, goal == "CON"))
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "CON"))
     ),
     rownames = FALSE,
     escape = FALSE
@@ -291,8 +299,6 @@ values <- reactiveValues(`con_tsplot-select` = "cw_con_pcb_bhi2019_bio")
 observeEvent(
   eventExpr = input$`con_tsplot-select`, {
     values$`con_tsplot-select` <- input$`con_tsplot-select`
-    
-    ## update flowerplot based on selection
     callModule(
       tsplotCard, 
       "con_tsplot",
@@ -301,7 +307,6 @@ observeEvent(
     )
   }, ignoreNULL = FALSE
 )
-
 ## EUT ----
 ## Eutrophication
 
