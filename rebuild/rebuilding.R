@@ -247,9 +247,9 @@ goalpage_from_template <- function(goal_code, replace_current = FALSE){
   )	
   
   ## make replacements	
-  for(p in c("\"%s\"", " %s ", "\"%s_", " %s_", "%s\\)")){	
+  for(p in c("\"%s\"", " %s ", "\"%s_", "`%s_", "\\$%s_", " %s_", "%s\\)")){	
     pttn <- sprintf(p, "goalcode")	
-    repl <- sprintf(p, str_to_lower(goal_code))	
+    repl <- ifelse(grepl("\\$", p), sprintf("$%s_", str_to_lower(goal_code)), sprintf(p, str_to_lower(goal_code)))
     txt <- str_replace_all(txt, pattern = pttn, replacement = repl)	
   }	
   for(p in c("\"%s\"", " %s ", "\"%s ", " %s\"", "/%s/", "%s\\)")){	

@@ -160,7 +160,7 @@ output$goalcode_datatable = renderDataTable({
 })
 
 ## layers timeseries plot
-values <- reactiveValues(`goalcode_tsplot-select` = "default_goal_layer")
+values <- reactiveValues(`goalcode_tsplot-select` = goal_ts_default_layer)
 observeEvent(
   eventExpr = input$`goalcode_tsplot-select`, {
     values$`goalcode_tsplot-select` <- input$`goalcode_tsplot-select`

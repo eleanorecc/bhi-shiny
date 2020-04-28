@@ -16,7 +16,7 @@ ao_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 bd_text <- c(
@@ -36,7 +36,7 @@ bd_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 con_text <- c(
@@ -60,7 +60,7 @@ con_text <- c(
    "`PFOS in Biota` = \"cw_con_pfos_bhi2019_bio\"",
    "`Dioxins in Biota` = \"cw_con_dioxin_bhi2019_bio\"", 
    "`Dioxins in Sediments` = \"cw_con_dioxin_bhi2019_sed\"",
-   sep = ",\n"
+   sep = ",\n\t"
  )
 )
 cs_text <- c(
@@ -80,7 +80,7 @@ cs_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 cw_text <- c(
@@ -100,7 +100,7 @@ cw_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 eco_text <- c(
@@ -120,7 +120,7 @@ eco_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 eut_text <- c(
@@ -140,7 +140,7 @@ eut_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 fis_text <- c(
@@ -160,7 +160,7 @@ fis_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 fp_text <- c(
@@ -180,7 +180,7 @@ fp_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 ico_text <- c(
@@ -200,7 +200,7 @@ ico_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 le_text <- c(
@@ -220,7 +220,7 @@ le_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 liv_text <- c(
@@ -240,7 +240,7 @@ liv_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 lsp_text <- c(
@@ -260,7 +260,7 @@ lsp_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 mar_text <- c(
@@ -280,7 +280,7 @@ mar_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 np_text <- c(
@@ -300,7 +300,7 @@ np_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 sp_text <- c(
@@ -320,7 +320,7 @@ sp_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 tr_text <- c(
@@ -340,7 +340,7 @@ tr_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 tra_text <- c(
@@ -360,7 +360,7 @@ tra_text <- c(
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "",
-    sep = "\n"
+    sep = ",\n\t"
   )
 )
 
