@@ -17,7 +17,7 @@ list_prep_layers <- function(gh_api_bhiprep){
   httr::stop_for_status(req)
   
   filelist <- unlist(lapply(content(req)$tree, "[", "path"), use.names = FALSE) %>% 
-    grep(pattern = "/layers/", value = TRUE) %>% 
+    grep(pattern = "layers/", value = TRUE) %>% 
     stringr::str_extract("/[a-zA-Z0-9_-]+.csv|/[a-zA-Z0-9_-]+$") %>% 
     stringr::str_remove_all(".csv") %>% 
     stringr::str_remove_all("/")
@@ -230,11 +230,13 @@ make_lyrs_menu <- function(str_match = "_bhi2015", print = FALSE){
 goalpage_from_template <- function(goal_code, replace_current = FALSE){	
   
   ## replacement info	
-  # goalinfo <- tbl(bhi_db_con, "plot_conf") %>%	
   goalinfo <- read_csv(file.path(dir_main, "data", "plot_conf.csv"), col_types = cols()) %>%	
     select(name, goal, parent) %>%	
-    collect() %>% 	
     filter(goal == goal_code)	
+  if(exists("shinytext", .GlobalEnv)){
+    shinytext[, names(shinytext)] <- sapply(shinytext[, names(shinytext)], as.character) 
+    goalinfo <- left_join(goalinfo, shinytext, by = "goal")
+  } else {stop("source rebuild/shinytext.R and review goal information contained in shinytext")}
   
   ## template text	
   txt <- scan(	
@@ -265,30 +267,34 @@ goalpage_from_template <- function(goal_code, replace_current = FALSE){
     repl <- sprintf(p, goalinfo$name) 	
     txt <- str_replace_all(txt, pattern = pttn, replacement = repl)	
   }	
-  # if(any(!is.na(goalinfo$parent))){"?"}	
   
-  ## for the urls	
-  txt <- txt %>%	
-    str_replace_all(	
-      pattern = "/goalcode_",	
-      replacement = sprintf("/%s_", str_to_lower(goal_code))	
-    ) %>%	
-    str_replace_all(	
-      pattern = "/#goalname",	
-      replacement = sprintf(	
-        "/#%s",	
-        goalinfo$name %>%	
-          str_to_lower() %>%	
-          str_replace_all(pattern = " ", replacement = "-")	
-      )	
-    ) %>% 	
-    str_replace_all(	
-      pattern = "\\$goalcode_",	
-      replacement = sprintf("$%s_", str_to_lower(goal_code))	
-    )	
+  goalconsiderimprove <- c()
+  for(x in unlist(stringr::str_split(goalinfo$data_considerations, "\n"))){
+    cname <- stringr::str_extract(x, "\\*\\*.*\\*\\*") %>% 
+      stringr::str_remove_all("\\*")
+    
+    goalconsiderimprove <- paste(goalconsiderimprove, sprintf(
+      "tags$li(\n\t tags$b(\"%s\"),\n\t \"%s\" \n\t)", 
+      cname,
+      x %>% 
+        stringr::str_remove(paste0("\\*\\*", cname, "\\*\\* ")) %>% 
+        stringr::str_remove_all("^ ")
+    ), sep = ",\n")
+  }
+  goalconsiderimprove <- stringr::str_remove(goalconsiderimprove, "^,\n")
   
+  txt <- txt %>% 
+    str_replace("goaltext_key_information", goalinfo$key_information) %>% 
+    str_replace("goaltext_target", goalinfo$target) %>% 
+    str_replace("goaltext_key_messages", goalinfo$key_messages) %>% 
+    str_replace("goal_data_prep_link", goalinfo$prep_link) %>% 
+    str_replace("goal_ts_layer_choices", goalinfo$tsplot_layers) %>% 
+    str_replace("goal_ts_default_layer", stringr::str_extract(goalinfo$tsplot_layers, "\"[a-z0-9].*\"")) %>% 
+    str_replace("goaltext_data_considerations", goalconsiderimprove)
+  
+
   ## where have paragraphs of text, replace with empty paragraph html	
-  txt <- str_replace_all(txt, pattern = "p\\(\"[A-Za-z0-9 ]+\"\\)", replacement = "p(\"\")")	
+  # txt <- str_replace_all(txt, pattern = "p\\(\"[A-Za-z0-9 ]+\"\\)", replacement = "p(\"\")")	
   
   ## return or save results	
   if(!replace_current){	

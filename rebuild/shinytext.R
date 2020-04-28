@@ -9,7 +9,15 @@ ao_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 bd_text <- c(
   ## goal
@@ -21,7 +29,15 @@ bd_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 con_text <- c(
   ## goal
@@ -33,7 +49,19 @@ con_text <- c(
   ## key messages
   "Present-day concentrations of the three pollutants/pollutant groups included in the subgoal generally fall below their relative thresholds, particularly concentrations measured in biota (i.e., fish). The concentrations found in sediments (top 5cm) more often exceed their respective thresholds, reflecting the higher historic concentrations of the contaminants in the Baltic Sea mirrored in subsurface sediment. However, there are many persistent, bioaccumulative and toxic Substances of Very High Concern which are not  monitored across all regions of the Baltic Sea, which lowers the score. The level to which compounds known to be hazardous are monitored in the Baltic Sea is included as an indicator to illustrate that a proper assessment cannot be done due to lack of knowledge on occurrence of pollutants in the Baltic Sea.",
  ## data considerations
- "**Spatial variability:** Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores differs substantially across regions. Generally, there is less data on pollutants/pollutant groups from the southeast near the Baltic states and Poland and Russia. \n **Thresholds:** The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty. \n **Substances of Very High Concern:** The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea is used as one of the indicators to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea. This indicator and how it is used to calculate the score can be developed further to better combine the two aspects of the contaminant goal: current health of the Baltic Sea, and lack of data."
+ ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
+ "**Spatial variability:** Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores differs substantially across regions. Generally, there is less data on pollutants/pollutant groups from the southeast near the Baltic states and Poland and Russia. \n **Thresholds:** The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty. \n **Substances of Very High Concern:** The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea is used as one of the indicators to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea. This indicator and how it is used to calculate the score can be developed further to better combine the two aspects of the contaminant goal: current health of the Baltic Sea, and lack of data.",
+ ## prep link
+ "http://ohi-science.org/bhi-prep/contaminants-clean-water-subgoal.html",
+ ## timeseries plot layers
+ paste(
+   "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+   "`PCBs in Sediments` = \"cw_con_pcb_bhi2019_sed\"",
+   "`PFOS in Biota` = \"cw_con_pfos_bhi2019_bio\"",
+   "`Dioxins in Biota` = \"cw_con_dioxin_bhi2019_bio\"", 
+   "`Dioxins in Sediments` = \"cw_con_dioxin_bhi2019_sed\"",
+   sep = ",\n"
+ )
 )
 cs_text <- c(
   ## goal
@@ -45,7 +73,15 @@ cs_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 cw_text <- c(
   ## goal
@@ -57,7 +93,15 @@ cw_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 eco_text <- c(
   ## goal
@@ -69,7 +113,15 @@ eco_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 eut_text <- c(
   ## goal
@@ -81,7 +133,15 @@ eut_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 fis_text <- c(
   ## goal
@@ -93,7 +153,15 @@ fis_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 fp_text <- c(
   ## goal
@@ -105,7 +173,15 @@ fp_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 ico_text <- c(
   ## goal
@@ -117,7 +193,15 @@ ico_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 le_text <- c(
   ## goal
@@ -129,7 +213,15 @@ le_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 liv_text <- c(
   ## goal
@@ -141,7 +233,15 @@ liv_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 lsp_text <- c(
   ## goal
@@ -153,7 +253,15 @@ lsp_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 mar_text <- c(
   ## goal
@@ -165,7 +273,15 @@ mar_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 np_text <- c(
   ## goal
@@ -177,7 +293,15 @@ np_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 sp_text <- c(
   ## goal
@@ -189,7 +313,15 @@ sp_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 tr_text <- c(
   ## goal
@@ -201,7 +333,15 @@ tr_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 tra_text <- c(
   ## goal
@@ -213,7 +353,15 @@ tra_text <- c(
   ## key messages
   "",
   ## data considerations
-  ""
+  "",
+  ## prep link
+  "",
+  ## timeseries plot layers
+  paste(
+    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "",
+    sep = "\n"
+  )
 )
 
 shinytext <- as.data.frame(t(cbind(
@@ -224,4 +372,4 @@ shinytext <- as.data.frame(t(cbind(
   sp_text, lsp_text, ico_text,
   np_text, tr_text
 )))
-colnames(shinytext) <- c("goal", "key_information", "target", "key_messages", "data_considerations")
+colnames(shinytext) <- c("goal", "key_information", "target", "key_messages", "data_considerations", "prep_link", "tsplot_layers")

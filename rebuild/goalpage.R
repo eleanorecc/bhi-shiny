@@ -19,20 +19,20 @@ tabItem(
     )
   ),
   
-  ## target info and key messages
+  ## target info and key information
   fluidRow(
     box(
-      title = "Key Messages", 
+      title = "Key Information", 
       status = "primary", 
       solidHeader = TRUE,
-      "Box content here", br(), "More box content", br(),
+      "goaltext_key_information",
       width = 8
     ),
     box(
       title = "Target", 
       status = "primary", 
       solidHeader = TRUE,
-      "Box content here", br(), "More box content", br(),
+      "goaltext_target",
       width = 4
     )
   ),
@@ -55,14 +55,25 @@ tabItem(
     )
   ),
   
-  ## key information and data layers table
+  ## key messages, timeseries plot, and data layers table
   fluidRow(
     box(
       width = 12, 
-      title = "Key Information",
+      title = "Key Messages",
       status = "primary", 
       solidHeader = TRUE,
-      "Box content here", br(), "More box content"
+      "goaltext_key_messages"
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "goalcode_tsplot",
+      title_text = "GOALNAME Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
+        goal_ts_layer_choices
+      )
     )
   ),
   fluidRow(
@@ -75,22 +86,12 @@ tabItem(
     )
   ),
   
-  ## additional goal-specific graphs etc
-  # fluidRow(
-  #   box(
-  #     title = "Key Information", 
-  #     background = "teal", 
-  #     solidHeader = TRUE,
-  #     plotOutput("plotename", height = 250)
-  #   )
-  # ),
-  
   ## methods link, plus data considerations, improvements
   fluidRow(
     align = "center",
     text_links(
       "CLICK HERE FOR DETAILED METHODS",
-      sprintf("%s/GOALCODE/goalcode_prep.md", gh_prep)
+      "goal_data_prep_link"
     )
   ),
   fluidRow(
@@ -102,19 +103,9 @@ tabItem(
       "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
       br(),
       br(),
+      ## data considerations and improvements bullets
       tags$ul(
-        tags$li(
-          tags$b("Bold text:"),
-          "Bullet point one."
-        ),
-        tags$li(
-          tags$b("Bold text:"),
-          "Bullet point two."
-        ),
-        tags$li(
-          tags$b("Bold text:"),
-          "Bullet point three."
-        )
+        goaltext_data_considerations
       )
     )
   )
@@ -125,12 +116,14 @@ tabItem(
 ## GOALCODE ----
 ## GOALNAME
 
+## overall score box in top right
 callModule(
   scoreBox,
   "goalcode_infobox",
   goal_code = "GOALCODE"
 )
 
+## map
 callModule(
   mapCard, 
   "goalcode_map",
@@ -143,6 +136,7 @@ callModule(
   popup_add_field_title = "Name:"
 )
 
+## barplot
 callModule(
   barplotCard, "goalcode_barplot",
   goal_code = "GOALCODE",
@@ -150,6 +144,7 @@ callModule(
   spatial_unit_selected = spatial_unit
 )
 
+## info table about input data layers
 output$goalcode_datatable = renderDataTable({
   datatable(
     data_info %>% 
@@ -163,3 +158,17 @@ output$goalcode_datatable = renderDataTable({
     escape = FALSE
   )
 })
+
+## layers timeseries plot
+values <- reactiveValues(`goalcode_tsplot-select` = "default_goal_layer")
+observeEvent(
+  eventExpr = input$`goalcode_tsplot-select`, {
+    values$`goalcode_tsplot-select` <- input$`goalcode_tsplot-select`
+    callModule(
+      tsplotCard, 
+      "goalcode_tsplot",
+      layer_selected = reactive(values$`goalcode_tsplot-select`),
+      spatial_unit_selected = spatial_unit
+    )
+  }, ignoreNULL = FALSE
+)
