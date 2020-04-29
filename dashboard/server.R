@@ -433,15 +433,18 @@ output$fp_datatable = renderDataTable({
   )
 })
 
+
 ## FIS ----
 ## Fisheries
 
+## overall score box in top right
 callModule(
   scoreBox,
   "fis_infobox",
   goal_code = "FIS"
 )
 
+## map
 callModule(
   mapCard, 
   "fis_map",
@@ -454,6 +457,7 @@ callModule(
   popup_add_field_title = "Name:"
 )
 
+## barplot
 callModule(
   barplotCard, "fis_barplot",
   goal_code = "FIS",
@@ -461,13 +465,14 @@ callModule(
   spatial_unit_selected = spatial_unit
 )
 
+## info table about input data layers
 output$fis_datatable = renderDataTable({
   datatable(
     data_info %>% 
       filter(goal == "FIS") %>% 
       select(-goal),
     options = list(
-      dom = "t",
+      dom = "t", 
       pageLength = nrow(filter(data_info, goal == "FIS"))
     ),
     rownames = FALSE,
@@ -475,6 +480,20 @@ output$fis_datatable = renderDataTable({
   )
 })
 
+## layers timeseries plot
+values <- reactiveValues(`fis_tsplot-select` = "fis_bbmsy_bhi2019_cod")
+observeEvent(
+  eventExpr = input$`fis_tsplot-select`, {
+    values$`fis_tsplot-select` <- input$`fis_tsplot-select`
+    callModule(
+      tsplotCard, 
+      "fis_tsplot",
+      plot_type = "barplot",
+      layer_selected = reactive(values$`fis_tsplot-select`),
+      spatial_unit_selected = spatial_unit
+    )
+  }, ignoreNULL = FALSE
+)
 ## MAR ----
 ## Mariculture
 

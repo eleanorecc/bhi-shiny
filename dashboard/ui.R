@@ -1275,20 +1275,20 @@ tabItem(
     )
   ),
   
-  ## target info and key messages
+  ## target info and key information
   fluidRow(
     box(
-      title = "Key Messages", 
+      title = "Key Information", 
       status = "primary", 
       solidHeader = TRUE,
-      "Box content here", br(), "More box content", br(),
+      "Cod and herring stocks in the Baltic Sea were included as wild-caught fisheries.",
       width = 8
     ),
     box(
       title = "Target", 
       status = "primary", 
       solidHeader = TRUE,
-      "Box content here", br(), "More box content", br(),
+      "All harvested stocks are neither overfished nor underfished but rather fished at maximum sustainable yield.",
       width = 4
     )
   ),
@@ -1311,14 +1311,30 @@ tabItem(
     )
   ),
   
-  ## key information and data layers table
+  ## key messages, timeseries plot, and data layers table
   fluidRow(
     box(
       width = 12, 
-      title = "Key Information",
+      title = "Key Messages",
       status = "primary", 
       solidHeader = TRUE,
-      "Box content here", br(), "More box content"
+      ""
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "fis_tsplot",
+      title_text = "Fisheries Data Layers",
+      sub_title_text = "",
+      ht = 510,
+      select_choices = list(
+        `Cod biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_cod",
+	`Herring biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_herring",
+	`Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_cod",
+	`Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_herring",
+	`Cod landings (tonnes)` = "fis_landings_bhi2019_cod",
+	`Herring landings (tonnes)` = "fis_landings_bhi2019_herring"
+      )
     )
   ),
   fluidRow(
@@ -1330,16 +1346,6 @@ tabItem(
       DT::dataTableOutput("fis_datatable")
     )
   ),
-  
-  ## additional goal-specific graphs etc
-  # fluidRow(
-  #   box(
-  #     title = "Key Information", 
-  #     background = "teal", 
-  #     solidHeader = TRUE,
-  #     plotOutput("plotename", height = 250)
-  #   )
-  # ),
   
   ## methods link, plus data considerations, improvements
   fluidRow(
@@ -1358,19 +1364,12 @@ tabItem(
       "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
       br(),
       br(),
+      ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-          tags$b("Bold text:"),
-          "Bullet point one."
-        ),
-        tags$li(
-          tags$b("Bold text:"),
-          "Bullet point two."
-        ),
-        tags$li(
-          tags$b("Bold text:"),
-          "Bullet point three."
-        )
+	 tags$b("Different Spatial Assessment Areas:"),
+	 "" 
+	)
       )
     )
   )

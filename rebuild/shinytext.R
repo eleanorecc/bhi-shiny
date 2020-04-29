@@ -1,4 +1,4 @@
-
+## AO ----
 ao_text <- c(
   ## goal
   "AO",
@@ -19,13 +19,14 @@ ao_text <- c(
     sep = ",\n\t"
   )
 )
+## BD ----
 bd_text <- c(
   ## goal
   "BD",
   ## key information
   "",
   ## target
-  "",
+  "All species identified as present in the region are not at risk of extinction and are classified as of Least Concern by IUCN criteria.",
   ## key messages
   "",
   ## data considerations
@@ -39,6 +40,7 @@ bd_text <- c(
     sep = ",\n\t"
   )
 )
+## CON ----
 con_text <- c(
   ## goal
   "CON",
@@ -63,6 +65,7 @@ con_text <- c(
    sep = ",\n\t"
  )
 )
+## CS ----
 cs_text <- c(
   ## goal
   "CS",
@@ -83,6 +86,7 @@ cs_text <- c(
     sep = ",\n\t"
   )
 )
+## CW ----
 cw_text <- c(
   ## goal
   "CW",
@@ -103,6 +107,7 @@ cw_text <- c(
     sep = ",\n\t"
   )
 )
+## ECO ----
 eco_text <- c(
   ## goal
   "ECO",
@@ -123,6 +128,7 @@ eco_text <- c(
     sep = ",\n\t"
   )
 )
+## EUT ---
 eut_text <- c(
   ## goal
   "EUT",
@@ -143,26 +149,33 @@ eut_text <- c(
     sep = ",\n\t"
   )
 )
+## FIS ----
 fis_text <- c(
   ## goal
   "FIS",
   ## key information
-  "",
+  "Cod and herring stocks in the Baltic Sea were included as wild-caught fisheries.",
   ## target
-  "",
+  "All harvested stocks are neither overfished nor underfished but rather fished at maximum sustainable yield.",
   ## key messages
   "",
   ## data considerations
-  "",
+  "**Different Spatial Assessment Areas:** ",
   ## prep link
-  "",
+  "http://ohi-science.org/bhi-prep/wild-caught-fisheries-food-provision-subgoal.html",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "",
+    "`Cod biomass at sea normalized by spawning stock biomass` = \"fis_bbmsy_bhi2019_cod\"",
+    "`Herring biomass at sea normalized by spawning stock biomass` = \"fis_bbmsy_bhi2019_herring\"",
+    "`Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = \"fis_ffmsy_bhi2019_cod\"",
+    "`Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = \"fis_ffmsy_bhi2019_herring\"",
+    "`Cod landings (tonnes)` = \"fis_landings_bhi2019_cod\"",
+    "`Herring landings (tonnes)` = \"fis_landings_bhi2019_herring\"",
     sep = ",\n\t"
   )
 )
+## FP ----
 fp_text <- c(
   ## goal
   "FP",
@@ -183,13 +196,14 @@ fp_text <- c(
     sep = ",\n\t"
   )
 )
+## ICO ----
 ico_text <- c(
   ## goal
   "ICO",
   ## key information
   "",
   ## target
-  "",
+  "All iconic species have a conservation status of Least Concern.",
   ## key messages
   "",
   ## data considerations
@@ -263,6 +277,7 @@ lsp_text <- c(
     sep = ",\n\t"
   )
 )
+## MAR ----
 mar_text <- c(
   ## goal
   "MAR",
@@ -275,7 +290,7 @@ mar_text <- c(
   ## data considerations
   "",
   ## prep link
-  "",
+  "http://ohi-science.org/bhi-prep/mariculture-food-provision-subgoal.html",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -283,6 +298,7 @@ mar_text <- c(
     sep = ",\n\t"
   )
 )
+## NP ----
 np_text <- c(
   ## goal
   "NP",
@@ -303,6 +319,7 @@ np_text <- c(
     sep = ",\n\t"
   )
 )
+## SP ----
 sp_text <- c(
   ## goal
   "SP",
@@ -323,6 +340,7 @@ sp_text <- c(
     sep = ",\n\t"
   )
 )
+## TR ----
 tr_text <- c(
   ## goal
   "TR",
@@ -343,6 +361,7 @@ tr_text <- c(
     sep = ",\n\t"
   )
 )
+## TRA ----
 tra_text <- c(
   ## goal
   "TRA",
