@@ -302,6 +302,7 @@ observeEvent(
     callModule(
       tsplotCard, 
       "con_tsplot",
+      plot_type = "boxplot",
       layer_selected = reactive(values$`con_tsplot-select`),
       spatial_unit_selected = spatial_unit
     )
