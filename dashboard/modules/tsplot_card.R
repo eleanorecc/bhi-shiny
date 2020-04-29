@@ -53,8 +53,13 @@ tsplotCard <- function(input, output, session, plot_type = "boxplot",
       chkcategories <- nrow(plotdf) != nrow(distinct(select(plotdf, !!!syms(setdiff(names(plotdf), names(regions_df))))))
       # plotdf <- mutate(plotdf, region = sprintf("%s (%s)", region, categorytxt))
       # pallength <- length(unique(plotdf$category))*pallength
-      
     }
+    fullpal <- colorRampPalette(c(
+      RColorBrewer::brewer.pal(8, "Dark2"), 
+      RColorBrewer::brewer.pal(9, "Set1")
+    ))(80)
+    set.seed(2)
+    pal <- fullpal[sample(1:pallength, pallength)]
   
     ## different kinds of timeseries plots
     if(str_detect(plot_type, "boxplot")){
@@ -98,6 +103,8 @@ tsplotCard <- function(input, output, session, plot_type = "boxplot",
       if(chkcategories){
         plotdf <- mutate(plotdf, region = str_replace(categorytxt, "^[a-zA-Z0-9]", str_to_upper(substr(categorytxt, 1, 1))))
         pallength <- length(unique(plotdf$region))
+        set.seed(2)
+        pal <- fullpal[sample(1:pallength, pallength)]
       }
       plotdf <- plotdf %>% mutate(categorytxt = gsub(paste0(lyr, "_"), "", selected))
       p <- ggplot(plotdf) +
