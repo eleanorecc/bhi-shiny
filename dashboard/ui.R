@@ -15,6 +15,9 @@ dashboardPage(
     sidebarMenu(
       ## welcome ----
       menuItem("WELCOME", tabName = "welcome"),
+      
+      ## learn more ----
+      menuItem("LEARN MORE", tabName = "learnmore"),
 
       ## explore goals ----
       convertMenuItem(
@@ -155,7 +158,6 @@ dashboardPage(
         )
       ) # end view options sidebar
 
-
     ) # end sidebarMenu
   ), # end dashboardSidebar
 
@@ -278,17 +280,64 @@ dashboardPage(
         
         fluidRow(
           box(
-            h3("How Healthy are our Oceans?"),
-            p("The Baltic Health Index is a regional study under the global Ocean Health Index framework.
-              The aim is to maintain and continually improve a tool that can be used by decision-makers to guide management of the Baltic Sea region towards increased sustainability.
-              Oceans in general provide a diverse array of benefits to humans, often with tradeoffs between benefits.
-              Managing these requires a method of measurement that is both comprehensive and quantitative;
-              establishing such a method was the motivation behind the Ocean Health Index.
-              We strive to use the best open source tools available, to make our ocean health metrics, results and underlying data easily accessible and entirely transparent."),
-            width = 12
-            )
+            status = "primary",
+            # solidHeader = TRUE,
+            # title = "Measuring the Health of our Oceans",
+            h2("Measuring the Health of our Oceans"),
+            p("Oceans provide a diverse array of benefits to humans, often with tradeoffs between benefits. Managing these requires a method of measurement that is both comprehensive and quantitative; establishing such a method was the motivation behind the Ocean Health Index."),
+            p("The Baltic Health Index (BHI) is a regional study under the widely used, standard methodology of the Ocean Health Index (OHI) framework. It is an independent, fully-transparent, scientific index which quantifies the status and trends of nine environmental benefits related to the Baltic Sea. Based on inputs from scientists with expertise in each goal area, and stakeholder perspectives, the OHI framework is tailored to assess the health of the social-ecological system of the Baltic Sea."),
+            p("Our overarching aim is to maintain and continually improve a tool that can be used by decision-makers to guide management of the Baltic Sea region towards increased sustainability. We strive to use the best open source tools available, to make our ocean health metrics, results (including diagnosed data gaps) and underlying data easily accessible and entirely transparent."),
+            width =  12
           )
+        ),
+        fluidRow(
+          box(
+            solidHeader = TRUE,
+            h4("The Baltic Health Index Project"),
+            p("Funding for the BHI2.0, started January 2019 and ongoing, comes from the Johansson Family foundation and partly from the Formas-funded project “When the sum is unknown - a concrete approach to disentangle multiple driver impacts on the Baltic Sea ecosystem”(led by Thorsten Blenckner). The first phase was funded by the Johansson Family foundation and the Baltic Ecosystem Adaptive Management, BEAM, a five-year research programme (2010-2014). The project is jointly led by Stockholm Resilience Centre (SRC), at Stockholm University, Sweden together with the Ocean Health Index team."),
+            p("This trans-disciplinary project is led by Thorsten Blenckner at Stockholm Resilience Centre, Stockholm University and involves many international management organisations and researchers from around the Baltic Sea. Members of the team conducting the first assessment (started in 2015 with preliminary scores completed in 2017) additionally included Jennifer Griffiths, Ning Jiang, Julie Lowndes, Melanie Frazer, and Cornelia Ludwig. Currently, the second assessment is conducted by Eleanore Campbell, Andrea De Cervo, Susa Niiranen and Thorsten Blenckner."),
+            width = 12
+          )
+        )
       ), # end welcome tab
+      
+      ## § learn more ----
+      tabItem(
+        tabName = "learnmore",
+        
+        ## header
+        fluidRow(
+          box(
+            h3("Read and learn more about the Ocean Health Index and the Baltic Sea"),
+            br(),
+            width = 12
+          )
+        ),
+        ## references list
+        fluidRow(
+          box(
+            solidHeader = TRUE,
+            tags$a(href="https://ohi-science.org/", "The Ocean Health Index, Science Website"),
+            br(), br(),
+            tags$a(href="https://twitter.com/OHIscience", "Ocean Health Index on Twitter"),
+            br(), br(),
+            tags$a(href="https://www.cell.com/one-earth/fulltext/S2590-3322(19)30270-2", "NCEAS director Ben Halpern reflects on a Decade of the Ocean Health Index"),
+            br(), br(),
+            tags$a(href=" https://ohi-science.org/news/transparent-trust-new-england-seas", "A case study about transparency in the Ocean Health Index"),
+            br(), br(),
+            tags$a(href=" https://www.nature.com/articles/s41559-017-0160", "Better Science in Less Time"),
+            br(), br(),
+            tags$a(href="https://ohi-science.org/projects/ohi-assessments/", "OHI Regional Assessments, Around the Globe"),
+            br(), br(),
+            tags$a(href="https://ohi-northeast.shinyapps.io/ne-dashboard/", "Shiny Dashboard for the OHI Northeast, USA"),
+            br(), br(),
+            tags$a(href="https://ohi-northeast.shinyapps.io/ne-dashboard/", "Shiny Dashboard for the OHI Northeast, USA"),
+            br(), br(),
+            width = 12
+          )
+        )
+
+      ), # end learnmore tab
 
 ## § (AO) Artisanal Fishing Opportunity ----
 ## Artisanal Fishing Opportunity
