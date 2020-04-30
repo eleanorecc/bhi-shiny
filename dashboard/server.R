@@ -488,7 +488,7 @@ observeEvent(
     callModule(
       tsplotCard, 
       "fis_tsplot",
-      plot_type = "barplot",
+      plot_type = "barplot normalized",
       layer_selected = reactive(values$`fis_tsplot-select`),
       spatial_unit_selected = spatial_unit
     )
