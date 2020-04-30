@@ -118,7 +118,9 @@ tsplotCard <- function(input, output, session, plot_type = "boxplot",
         scale_color_manual(values = pal) +
         facet_grid(rows = vars(str_to_upper(categorytxt)), switch = "y")
     }
-    if(str_detect(plot_type, "normalized")){p <- p + geom_hline(aes(yintercept = 1), color = "blue")}
+    if(str_detect(plot_type, "normalized") & !str_detect(selected, "landings")){
+      p <- p + geom_hline(aes(yintercept = 1), color = "blue")
+    }
     
     plotly::ggplotly(p)
   })
