@@ -845,7 +845,12 @@ function(input, output, session){
   ## signal end of goals pages stuff for rebuild functions
   
   
-  ## COMPARE
+  ## SUMMARIZE AND COMPARE
+  
+  ## OVERALL INDEX SCORES
+  
+  
+  
   ## PRESSURES ----
   output$pressure_ts <- renderPlotly({
     
