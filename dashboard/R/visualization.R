@@ -342,19 +342,20 @@ ohi_dims_figure <- function(goal_code, rgn_selected = 0, year = assess_year){
       fill = "#1d3548", 
       alpha = 0.8
     ) +
-    geom_point(aes(x = position, y = score), size = 20, color = "paleturquoise",  alpha = 0.7) +
+    geom_point(aes(x = position, y = score), size = 18, color = "paleturquoise",  alpha = 0.7) +
     geom_point(aes(x = position, y = score), size = 14, color = "navy", alpha = 0.3) +
     geom_point(aes(x = position, y = score), size = 12, color = "turquoise", alpha = 0.7) +
-    geom_point(aes(x = position, y = score), size = 10, color = "paleturquoise",  alpha = 0.7) +
-    geom_point(aes(x = position, y = score), size = 6, color = "white") +
+    geom_point(aes(x = position, y = score), size = 8, color = "paleturquoise",  alpha = 0.7) +
+    geom_point(aes(x = position, y = score), size = 4, color = "white") +
     geom_hline(aes(yintercept = score), size = 0.2) +
     
     ## trend from past to present and to likely future
     geom_path(
       aes(x = position_shift, y = trend_prior, group = 1), 
       color = "dimgrey",  
-      size = 0.6,
-      linetype = 2
+      alpha = 0.9,
+      linetype = 2,
+      size = 0.3
     ) +
     geom_path(
       aes(x = position, y = trend_post, group = 1),
@@ -386,7 +387,7 @@ ohi_dims_figure <- function(goal_code, rgn_selected = 0, year = assess_year){
       arrow = arrow(17, unit(0.5, "cm"), type = "closed"),
       show.legend = FALSE
     ) +
-    geom_label(
+    geom_text(
       data = txtdf, 
       aes(x = xtxt, y = ytxt, label = txt, color = txtval), 
       alpha = 0.8,
@@ -401,7 +402,7 @@ ohi_dims_figure <- function(goal_code, rgn_selected = 0, year = assess_year){
     scale_color_gradient2(low = "#ff7e05", mid = "#cc618f", high = "#0e22a4") +
     theme_bw() +
     theme(
-      panel.background = element_rect(fill = "#f3f7ee"),
+      panel.background = element_rect(fill = "#fafbf8"),
       axis.text.x = element_blank(), 
       axis.ticks.x = element_blank()
       

@@ -263,16 +263,19 @@ dashboardPage(
           flowerplotCardUI( # flowerplotRgnCardUI(
             id = "baltic_flowerplot",
             title_text = "Flowerplot of Scores",
-            sub_title_text = "Ocean Health Index scores are calculated for individual goals separately and then combined to get an overall score on a scale of 0-100. Individual goal scores are represented by the length of the petals in a flower plot below, and the overall Index score for the region is in the center."
+            sub_title_text = "Ocean Health Index scores are calculated for individual goals and then combined to get an overall score on a scale of 0-100. Individual goal scores are represented by the length of the petals in a flower plot below, and the overall Index score for the region is in the center."
           ),
 
           ## map of overall scores
           tagList(box(
             collapsible = TRUE,
-            title = "An Index Calculated with Multiple Dimensions",
+            title = "Calculated with Multiple Dimensions",
             list(
-              p("The Ocean Health Index framework accounts for not just the current status, but also short-term trends (based on 5 previous years of data, or 10 years for slow-changing variables like nutrient loads), as well as cumulative pressures and measures that buffer the system's resilience.", br()), 
-              list(addSpinner(plotOutput("dims_diagram", height = 490), spin = "rotating-plane", color = "#d7e5e8"))
+              p("The framework accounts for current status, but also short-term trends (based on 5 previous years, or 10 years for slow-changing variables), as well as cumulative pressures and measures that buffer the system's resilience.", br()), 
+              p(strong("Trend:"), " The average rate of change in status during the most recent years; as such, the trend calculation is not trying to predict (or model) the future, but only indicates likely condition based on a linear relationship.", br()),
+              p(strong("Pressures:"), " Social and ecological elements that negatively affect the status of a goal.", br()),
+              p(strong("Resilience:"), " Elements or actions that can reduce pressures, and maintain or raise future benefits (e.g. treaties, laws, enforcement, habitat protection).", br()),
+              list(plotOutput("dims_diagram", height = 420))
             ),
             width = 6
           ))

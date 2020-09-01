@@ -12,17 +12,19 @@ flowerplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL){
   
   ## put together in box and return box
   tagList(box(
-    width = 5,
+    width = 6,
     collapsible = TRUE,
     title = title_text,
     
     list(
-      p(sub_title_text, br()),
+      p(br(), sub_title_text, br()),
       addSpinner(
         imageOutput(ns("flowerplot"), height = 440),
         spin = "rotating-plane",
         color = "#d7e5e8"
       ),
+      
+      br(),
       
       ## input region ----
       selectInput(
