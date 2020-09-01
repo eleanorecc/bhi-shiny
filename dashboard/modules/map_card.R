@@ -33,22 +33,14 @@ mapCard <- function(input, output, session,
                     popup_title = NA, popup_add_field = NA, popup_add_field_title = NA){
   
   output$plot <- renderLeaflet({
-    ## scores data and spatial data
-    scores_csv <- full_scores_csv %>%
-      filter(dimension == dimension_selected())
-    
-    if(spatial_unit_selected() == "subbasins"){
-      mapping_data_sp <- subbasins_shp
-    } else {mapping_data_sp <- rgns_shp}
     
     ## create leaflet map
     result <- leaflet_map(
+      full_scores_lst,
+      basins_or_rgns = spatial_unit_selected(),
       goal_code, 
-      mapping_data_sp,
-      spatial_unit_selected(), 
-      scores_csv, 
       dim = dimension_selected(), 
-      year = assess_year,
+      year = year_selected(),
       legend_title
     )
     

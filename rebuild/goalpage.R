@@ -130,6 +130,7 @@ callModule(
   goal_code = "GOALCODE",
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
+  year_selected = view_year,
   legend_title = "Scores",
   popup_title = "Score:",
   popup_add_field = "Name",

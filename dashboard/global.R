@@ -7,7 +7,7 @@ library(DT)
 library(stringr)
 
 
-assess_year <- 2014
+assess_year <- 2019
 
 gh_prep <- "https://github.com/OHI-Science/bhi-1.0-archive/blob/draft/baltic2015/prep"
 gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/"
@@ -75,24 +75,35 @@ text_links <- function(title = NULL, url = NULL, box_width = 12){
 ## Shiny Global Data ----
 
 full_scores_csv <- readr::read_csv(file.path(dir_main, "data", "scores.csv"))
+full_scores_lst <- list()
+for(g in unique(full_scores_csv$goal)){
+  for(d in unique(full_scores_csv$dimension)){
+    for(y in as.character(unique(full_scores_csv$year))){
+      full_scores_lst[[g]][[d]][[y]] <- full_scores_csv %>% 
+        filter(goal == g, dimension == d, year == y)
+    }
+  }
+}
 goals_csv <- readr::read_csv(file.path(dir_main, "data", "plot_conf.csv"))
 data_info <- readr::read_csv(file.path(dir_main, "data", "data_info.csv"))
 
 regions_df <- readr::read_csv(file.path(dir_main, "data", "regions.csv"))
 subbasins_df <- readr::read_csv(file.path(dir_main, "data", "basins.csv"))
 
+
 rgns_shp <- make_rgn_sf(
   bhi_rgns_shp = read_rds(file.path(dir_main, "data", "regions.rds")), 
-  scores_csv = full_scores_csv, 
+  scores_lst = full_scores_lst, 
+  goal = "Index", 
   dim = "score", 
   year = assess_year
 )
 subbasins_shp <- make_subbasin_sf(
   subbasins_shp = read_rds(file.path(dir_main, "data", "subbasins.rds")), 
-  scores_csv = full_scores_csv, 
+  scores_lst = full_scores_lst, 
   dim = "score", 
   year = assess_year
 )
 
-## Theme for shinydash and visualizations
+## theme for shinydash and visualizations
 thm <- apply_bhi_theme()

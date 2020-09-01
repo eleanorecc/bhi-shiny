@@ -3,7 +3,49 @@ library(dplyr)
 library(readr)
 library(leaflet)
 
-#' create leaflet map
+add_map_datalayers <- function(goalmap, lyrs_bhirgns, lyrs_latlon, polylyrs_pals){
+  
+  ## assume for now lyrs_polygon are dataframes with region_ids
+  ## will add case where polygons dont align with bhi regions later
+  rgns_shp %>% 
+    
+  
+  lyrs_polygon
+  ## need to pass list with as many palettes to function as have lyrs_polygon
+
+  ## lyrs_latlon will all be single color with transparency
+  
+  for(i in 1:length(lyrs_polygon)){
+    
+    lyr_data <- lyrs_polygon[[i]]
+    
+    goalmap <- goalmap %>%
+      addPolygons(
+        layerId = ~poly,
+        stroke = FALSE, 
+        opacity = 0.5, 
+        weight = 2, 
+        fillOpacity = 0, 
+        smoothFactor = 0.5,
+        color = thm$cols$map_polygon_border1, 
+        fillColor = ~pal(score),
+        data = lyr_data
+      ) %>% 
+      addLegend(
+        "bottomright", 
+        pal = pal, 
+        values = c(paldomain[1]:paldomain[2]),
+        title = legend_title, 
+        opacity = 0.8, 
+        layerId = "colorLegend"
+      )
+  }
+  for(pts in lyrs_latlon){}
+  
+  
+}
+
+#' create leaflet maps
 #'
 #' @param goal_code the two or three letter code indicating which goal/subgoal to create the plot for
 #' @param mapping_data_sp  sf object associating scores with spatial polygons,
@@ -17,46 +59,31 @@ library(leaflet)
 #' @param legend_title text to be used as the legend title
 #'
 #' @return leaflet map with BHI goal scores by BHI region or Subbasins
-leaflet_map <- function(goal_code, mapping_data_sp, basins_or_rgns = "subbasins",
-                        scores_csv = NULL, dim = "score", year = assess_year,
+leaflet_map <- function(full_scores_lst, basins_or_rgns = "subbasins",
+                        goal_code = "Index", dim = "score", year = assess_year,
                         legend_title){
   
-  ## check and wrangle for plotting ----
-  bhi_goals <- full_scores_csv$goal %>% unique()
-  if(length(goal_code) > 1|!goal_code %in% bhi_goals){
-    stop(sprintf("goal must be one of: %s", paste(bhi_goals, collapse = ", ")))
-  }
-  
-  if(dim != "score" | unique(mapping_data_sp@data$year) != year){
-    mapping_data_sp@data <- dplyr::select(mapping_data_sp@data, -bhi_goals, -year, -dimension)
-    
-    if(basins_or_rgns == "subbasins"){
-      mapping_data_sp <- make_subbasin_sf(
-        subbasins_shp = mapping_data_sp, 
-        scores_csv, 
-        dim, 
-        year
-      )
-    } else {
-      mapping_data_sp <- make_rgn_sf(
-        bhi_rgns_shp = mapping_data_sp, 
-        scores_csv, 
-        dim, 
-        year
-      )
-    }
+  ## wrangle data for plotting ----
+  if(basins_or_rgns == "subbasins"){
+    leaflet_plotting_sf <- make_subbasin_sf(
+      subbasins_shp = read_rds(file.path(dir_main, "data", "subbasins.rds")), 
+      scores_lst = full_scores_lst, 
+      goal_code,
+      dim, 
+      year
+    )
   } else {
-    if(basins_or_rgns == "subbasins" & any(c("BHI_ID", "region_id") %in% names(mapping_data_sp@data))){
-      stop("BHI regions spatial data given where Subbasin data is expected")
-    }
+    leaflet_plotting_sf <- make_rgn_sf(
+      bhi_rgns_shp = read_rds(file.path(dir_main, "data", "regions.rds")), 
+      scores_lst = full_scores_lst, 
+      goal_code,
+      dim, 
+      year
+    )
   }
-  mapping_data_sp@data <- dplyr::rename(mapping_data_sp@data, score = goal_code)
-  leaflet_plotting_sf <- mapping_data_sp
-  if(abs(min(mapping_data_sp@data$score, na.rm = TRUE)) <= 2 && abs(max(mapping_data_sp@data$score, na.rm = TRUE)) <= 2){
-    paldomain = c(-0.6, 0.85) # summary(filter(full_scores_csv, dimension == "trend")$score)
-  } else {paldomain = c(0, 100)}
   
   ## theme and map setup ----
+  if(dim == "trend"){paldomain = c(-1, 1)} else {paldomain = c(0, 100)}
   thm <- apply_bhi_theme()
   
   ## create asymmetric color ranges for legend
@@ -126,48 +153,14 @@ leaflet_map <- function(goal_code, mapping_data_sp, basins_or_rgns = "subbasins"
 #'
 #' @return sf obj with subbasin-aggregated goal scores
 
-make_subbasin_sf <- function(subbasins_shp, scores_csv, dim = "score", year = assess_year){
+make_subbasin_sf <- function(subbasins_shp, scores_lst, goal_code = "Index", dim = "score", year = assess_year){
   
-  ## raster::select conflict w dplyr...
-  if("raster" %in% (.packages())){
-    detach("package:raster",  unload = TRUE)
-    library(tidyverse)
-  }
-  if("year" %in% colnames(scores_csv)){
-    scores_csv <- scores_csv %>%
-      dplyr::filter(year == year) %>%
-      select(-year)
-  } else {
-    message("no year column in given scores_csv, assuming it has been properly filtered by year")
-  }
-  
-  subbasin_data <- scores_csv %>%
-    dplyr::filter(region_id >= 500) %>%
-    dplyr::left_join(
-      readr::read_csv(file.path(dir_main, "data", "basins.csv")) %>%
-        select(region_id = subbasin_id, subbasin, area_km2),
-      by = "region_id"
-    ) %>%
-    dplyr::filter(!is.na(subbasin))
-  
-  ## filter and spread data by goal
-  mapping_data <- subbasin_data %>%
-    dplyr::filter(dimension == dim) %>%
-    dplyr::select(score, goal, Name = subbasin) %>%
-    tidyr::spread(key = goal, value = score) %>%
-    dplyr::filter(!is.na(Name)) %>%
-    dplyr::mutate(dimension = dim, year = year)
- 
-  ## join with spatial information from subbasin shapfile
-  # mapping_data_sp <- subbasins_shp %>%
-  #   dplyr::mutate(Name = as.character(Name)) %>%
-  #   dplyr::mutate(Name = ifelse(
-  #     Name == "Åland Sea",
-  #     "Aland Sea", Name)
-  #   ) %>%
-  #   dplyr::left_join(mapping_data, by = "Name") %>%
-  #   sf::st_transform(crs = 4326)
-  
+  ## wrangle/reshape and join with spatial info to make sf for plotting
+  mapping_data <- left_join(
+    rename(subbasins_df, Name = subbasin, region_id = subbasin_id),
+    scores_lst[[goal_code]][[dim]][[as.character(year)]],
+    by = "region_id"
+  )
   ## join with spatial information from subbasin shapfile
   ## spatialdataframes with sp package, rather than sf...
   subbasins_shp_tab <- subbasins_shp@data %>% 
@@ -193,27 +186,14 @@ make_subbasin_sf <- function(subbasins_shp, scores_csv, dim = "score", year = as
 #'
 #' @return bhi-regions sf obj joined with goal scores
 
-make_rgn_sf <- function(bhi_rgns_shp, scores_csv, dim = "score", year = assess_year){
-  
-  rgn_lookup <- readr::read_csv(file.path(dir_main, "data", "regions.csv")) %>%
-    select(region_id, Name = region_name)
-  
-  if("year" %in% colnames(scores_csv)){
-    scores_csv <- scores_csv %>%
-      dplyr::filter(year == year) %>%
-      select(-year)
-  } else {
-    message("no year column in given scores_csv, assuming it has been properly filtered by year")
-  }
+make_rgn_sf <- function(bhi_rgns_shp, scores_lst, goal_code = "Index", dim = "score", year = assess_year){
   
   ## wrangle/reshape and join with spatial info to make sf for plotting
-  mapping_data <- scores_csv %>%
-    dplyr::filter(dimension == dim, region_id %in% rgn_lookup$region_id) %>%
-    dplyr::left_join(rgn_lookup, by = "region_id") %>%
-    dplyr::select(-dimension) %>%
-    tidyr::spread(key = goal, value = score) %>%
-    dplyr::mutate(dimension = dim, year = year)
-  
+  mapping_data <- left_join(
+    rename(regions_df, Name = region_name),
+    scores_lst[[goal_code]][[dim]][[as.character(year)]],
+    by = "region_id"
+  )
   ## join with spatial information from subbasin shapfile
   ## spatialdataframes with sp package, rather than sf...
   bhi_rgns_shp_tab <- bhi_rgns_shp@data %>% 
