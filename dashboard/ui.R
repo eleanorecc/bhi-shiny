@@ -269,12 +269,12 @@ dashboardPage(
           ## map of overall scores
           tagList(box(
             collapsible = TRUE,
-            title = "Map of Index Scores",
+            title = "An Index Calculated with Multiple Dimensions",
             list(
-              p("This map shows scores from the previous assessment (2014)", br(), br()), 
-              list(addSpinner(leafletOutput("index_map", height = 540), spin = "rotating-plane", color = "#d7e5e8"))
+              p("The Ocean Health Index framework accounts for not just the current status, but also short-term trends (based on 5 previous years of data, or 10 years for slow-changing variables like nutrient loads), as well as cumulative pressures and measures that buffer the system's resilience.", br()), 
+              list(addSpinner(plotOutput("dims_diagram", height = 490), spin = "rotating-plane", color = "#d7e5e8"))
             ),
-            width = 7
+            width = 6
           ))
         ),
         
