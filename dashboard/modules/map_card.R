@@ -30,6 +30,7 @@ mapCardUI <- function(id, title_text = NULL, sub_title_text = NULL, box_width = 
 mapCard <- function(input, output, session,
                     goal_code, dimension_selected, spatial_unit_selected, 
                     year_selected, legend_title, 
+                    lyrs_latlon = NA, lyrs_polygons = NA, polylyrs_pals = NA, 
                     popup_title = NA, popup_add_field = NA, popup_add_field_title = NA){
   
   output$plot <- renderLeaflet({
@@ -51,6 +52,20 @@ mapCard <- function(input, output, session,
       "<h5><strong>", popup_add_field_title, "</strong>",
       result$data_sf[[popup_add_field]], "</h5>", sep = " "
     )
+    
+    
+    ## add data overlays to goal maps
+    result$map <- add_map_datalayers(
+      result$map, 
+      lyrs_latlon, 
+      lyrs_polygons, 
+      polylyrs_pals, 
+      dim = dimension_selected(), 
+      year = year_selected()
+    )
+    
+    result$map
+    
     result$map %>% addPolygons(popup = popup_text, fillOpacity = 0, stroke = FALSE)
   })
 }
