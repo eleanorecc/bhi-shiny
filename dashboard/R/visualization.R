@@ -128,58 +128,21 @@ get_layers_data <- function(gh_raw_bhiprep, layers, default_year){
 #'
 #' @return returns ggplot or html plotly widget if 'make_html' arg is true
 
-scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code = "Index", dim = "score", uniform_width = FALSE){
+scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", 
+                           goal_code = "Index", dim = "score", year = assess_year, 
+                           uniform_width = FALSE){
   
-  ## apply bhi_theme, in this case the same as for flowerplot
-  thm <- apply_bhi_theme(plot_type = "flowerplot")
   
-  ## wrangle scores and join info to create plotting dataframe
-  scores <- scores_csv
-  if("dimension" %in% colnames(scores)){
-    scores <- scores %>%
-      dplyr::filter(dimension == dim) %>%
-      dplyr::select(-dimension)
-  }
-  if("goal" %in% colnames(scores)){
-    scores <- scores %>%
-      dplyr::filter(goal == goal_code) %>%
-      dplyr::select(-goal)
-  }
-
-  ## which regions to plot, bhi or subbasins
+  ## plotting setup, width of bars ----
+  ## use uniform_width argument to define whether bars are uniform or scaled by a function of area...
   if(basins_or_rgns == "subbasins"){
-    
-    order_df <- subbasins_df %>%
-      dplyr::select(name = subbasin, order) %>%
-      dplyr::mutate(order = as.factor(order))
-    
-    areas_df <- dplyr::select(subbasins_df, name = subbasin, area_km2)
-    
-    scores <- scores %>%
-      dplyr::filter(region_id >= 500) %>%
-      dplyr::left_join(
-        dplyr::select(subbasins_df, region_id = subbasin_id, name = subbasin),
-        by = "region_id"
-      ) %>%
-      dplyr::select(name, score)
-    
+    areas_df <- subbasins_df %>% 
+      dplyr::select(name = subbasin, area_km2)
   } else {
-    order_df <- regions_df %>%
-      dplyr::select(name = region_id, order) %>%
-      dplyr::mutate(order = as.factor(order))
-    
-    areas_df <- dplyr::select(regions_df, name = region_id, area_km2)
-    
-    scores <- scores %>%
-      dplyr::filter(region_id < 100 & region_id != 0) %>%
-      dplyr::rename(name = region_id) %>%
-      dplyr::left_join(
-        dplyr::select(regions_df, name = region_id, region_name), 
-        by = "name"
-      )
+    areas_df <- regions_df %>% 
+      dplyr::select(name = region_id, area_km2)
   }
   
-  ## use uniform_width argument to define whether bars are uniform or scaled by a function of area
   if(uniform_width){
     weights <- areas_df %>%
       dplyr::mutate(weight = 1) %>%
@@ -192,9 +155,23 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
       dplyr::mutate(weight = log(area_rescale) + 0.1) %>% # mutate(weight = area_km2 or area_km2^0.6)...
       dplyr::select(-area_rescale)
   }
-  
+
+
+  ## wrangle scores to create plotting dataframe ----
+  ## which regions to plot, bhi or subbasins
   if(basins_or_rgns == "subbasins"){
-    plot_df <- scores %>%
+    
+    order_df <- subbasins_df %>%
+      dplyr::select(name = subbasin, order) %>%
+      dplyr::mutate(order = as.factor(order))
+    
+    plot_df <- full_scores_lst[[goal_code]][[dim]][[as.character(year)]] %>%
+      dplyr::filter(region_id %in% unique(subbasins_df$subbasin_id)) %>% 
+      dplyr::left_join(
+        subbasins_df, 
+        by = c("region_id" = "subbasin_id")
+      ) %>% 
+      dplyr::select(name = subbasin, score) %>%
       dplyr::left_join(weights, by = "name") %>%
       dplyr::left_join(order_df, by = "name") %>%
       dplyr::mutate(
@@ -204,7 +181,15 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
         Area = paste(round(area_km2), "km2")
       )
   } else {
-    plot_df <- scores %>%
+    
+    order_df <- regions_df %>%
+      dplyr::select(name = region_id, order) %>%
+      dplyr::mutate(order = as.factor(order))
+    
+    plot_df <- full_scores_lst[[goal_code]][[dim]][[as.character(year)]] %>%
+      dplyr::filter(region_id %in% unique(regions_df$region_id)) %>% 
+      dplyr::left_join(regions_df, by = "region_id") %>% 
+      dplyr::select(name = region_id, region_name, score) %>%
       dplyr::left_join(weights, by = "name") %>%
       dplyr::left_join(order_df, by = "name") %>%
       dplyr::mutate(
@@ -218,33 +203,40 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
     dplyr::arrange(order) %>%
     dplyr::mutate(pos = sum(weight) - (cumsum(weight) - 0.5 * weight)) %>%
     dplyr::mutate(pos_end = sum(weight)) %>%
-    dplyr::mutate(plotNAs = ifelse(is.na(score_unrounded), 100, NA)) %>% # for displaying NAs
-    dplyr::select(
-      order, Name, weight, Area,
-      score_unrounded, Score,
-      pos, pos_end, plotNAs
-    )
+    dplyr::mutate(plotNAs = ifelse(is.na(score_unrounded), 100, NA))
   
-  ## create plot
+  
+  ## create plot ----
   plot_obj <- ggplot(
-    plot_df,
+    data = plot_df,
     aes(
       x = pos, y = score_unrounded,
       text =  sprintf("%s:\n%s", gsub(pattern = ", ", replacement = "\n", Name), Score),
-      # Name = Name, Score = Score, Area = Area,
       width = weight, fill = score_unrounded
     )
-  ) +
-    geom_bar(
-      aes(y = 100),
-      stat = "identity",
+  )
+  
+  plot_obj <- plot_obj +
+    geom_col(
+      aes(y = ifelse(dim == "trend", 1, 100)),
+      # stat = "identity",
       size = 0.2,
       color = "#acb9b6",
-      alpha = 0.6,
-      fill = "white"
+      alpha = 0,
+      fill = NA,
+      show.legend = FALSE
     ) +
-    geom_bar(
-      stat = "identity",
+    geom_col(
+      aes(y = ifelse(dim == "trend", -1, 0)),
+      # stat = "identity",
+      size = 0.2,
+      color = "#acb9b6",
+      alpha = 0,
+      fill = NA,
+      show.legend = FALSE
+    ) +
+    geom_col(
+      # stat = "identity",
       size = 0.2,
       color = "#acb9b6",
       alpha = 0.8,
@@ -252,10 +244,12 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
     ) +
     scale_fill_gradientn(
       colours = c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#0278a7"),
-      breaks = c(15, 40, 60, 75, 90, 100),
-      limits = c(0, 101),
+      values = c(0, 0.15, 0.4, 0.6, 0.75, 0.9, 1),
+      # breaks = c(15, 40, 60, 75, 90, 100),
+      limits = c(ifelse(dim == "trend", -1, 0), ifelse(dim == "trend", 1, 101)),
       na.value = "black"
-    )
+    ) +
+    scale_y_continuous(limits = c(ifelse(dim == "trend", -1.1, 0), ifelse(dim == "trend", 1.1, 101)))
   
   ## overlay light grey for NAs
   if(any(!is.na(plot_df$plotNAs))){
@@ -270,13 +264,15 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins", goal_code =
   }
   ## some formatting
   plot_obj <- plot_obj +
-    geom_hline(aes(yintercept = 100), color = thm$cols$dark_grey3) +
-    geom_hline(aes(yintercept = 0), color = thm$cols$dark_grey3, size = 0.2) +
+    geom_hline(data = NULL, aes(yintercept = ifelse(dim == "trend", 1, 100)), color = "royalblue", size = 0.8) +
+    geom_hline(data = NULL, aes(yintercept = ifelse(dim == "trend", -1, 0)), color = "darkred", size = 0.2) +
     labs(x = NULL, y = NULL) +
     coord_flip() +
     theme(axis.text.y = element_blank())
   
+  
   plot_obj <- plotly::ggplotly(plot_obj, tooltip = "text")
+  
   return(invisible(plot_obj))
 }
 
