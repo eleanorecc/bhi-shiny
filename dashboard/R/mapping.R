@@ -3,46 +3,101 @@ library(dplyr)
 library(readr)
 library(leaflet)
 
-add_map_datalayers <- function(goalmap, lyrs_bhirgns, lyrs_latlon, polylyrs_pals){
+add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, polylyrs_pals, 
+                               dim = "score", year = assess_year){
   
-  ## assume for now lyrs_polygon are dataframes with region_ids
-  ## will add case where polygons dont align with bhi regions later
-  rgns_shp %>% 
+  ## lyrs_latlon ----
+  ## will all be single color with transparency
+  for(lyr in names(lyrs_latlon)){
     
-  
-  lyrs_polygon
-  ## need to pass list with as many palettes to function as have lyrs_polygon
-
-  ## lyrs_latlon will all be single color with transparency
-  
-  for(i in 1:length(lyrs_polygon)){
-    
-    lyr_data <- lyrs_polygon[[i]]
+    ## if the lyrs have multiple years and/or dimensions, 
+    ## will filter to match selected year and ohi dimension
+    if(all(c("dimension", "scen_year") %in% names(lyrs_latlon[[lyr]]))){
+      filterlyr <- filter(lyrs_latlon[[lyr]], scen_year == year, dimension == dim)
+    } else {
+      filterlyr <- lyrs_latlon[[lyr]]
+    }
     
     goalmap <- goalmap %>%
-      addPolygons(
-        layerId = ~poly,
-        stroke = FALSE, 
-        opacity = 0.5, 
-        weight = 2, 
-        fillOpacity = 0, 
-        smoothFactor = 0.5,
-        color = thm$cols$map_polygon_border1, 
-        fillColor = ~pal(score),
-        data = lyr_data
+      addCircleMarkers(
+        group = lyr,
+        data = filterlyr, 
+        fillColor = "midnightblue", 
+        fillOpacity = 0.5,
+        opacity = 0,
+        radius = 4
       ) %>% 
-      addLegend(
-        "bottomright", 
-        pal = pal, 
-        values = c(paldomain[1]:paldomain[2]),
-        title = legend_title, 
-        opacity = 0.8, 
-        layerId = "colorLegend"
-      )
+      addLayersControl(
+        overlayGroups = names(lyrs_latlon),
+        options = layersControlOptions(collapsed = FALSE)
+      ) %>% 
+      hideGroup(names(lyrs_latlon))
   }
-  for(pts in lyrs_latlon){}
   
+  ## lyrs_polygons ----
+  ## will need to be given with corresponding color palettes
+  for(lyr in names(lyrs_polygons)){
+    
+    ## case when lyrs_polygon are dataframes with region_ids
+    ## (will add case where polygons dont align with bhi regions e.g. MPAs later)
+    if("region_id" %in% names(lyrs_polygons[[lyr]])){
+      
+      ## if the lyrs have multiple years and/or dimensions, 
+      ## will filter to match selected year and ohi dimension
+      ## also rename to specify column to map data from
+      if(all(c("dimension", "scen_year") %in% names(lyrs_polygons[[lyr]]))){
+        filterlyr <- filter(lyrs_polygons[[lyr]], scen_year == year, dimension == dim)
+      } else {
+        filterlyr <- lyrs_polygons[[lyr]]
+      }
+      colnames(filterlyr) <- stringr::str_replace(
+        names(filterlyr), 
+        polylyrs_pals[[lyr]][["plotvar"]], 
+        "plotvar"
+      )
+      
+      ## spatialdataframes with sp package, rather than sf...
+      spatiallyr <- rgns_shp
+      spatiallyr@data <- left_join(spatiallyr@data, filterlyr, by = "region_id")
+      
+      
+      ## make color palette function for the additional data layer
+      lyrpal <- leaflet::colorNumeric(
+        palette = polylyrs_pals[[lyr]][["cols"]],
+        domain = polylyrs_pals[[lyr]][["paldomain"]],
+        na.color = thm$cols$map_background1
+      )
+      
+      ## add the layers to the map!
+      goalmap <- goalmap %>%
+        addPolygons(
+          group = lyr,
+          stroke = TRUE, 
+          opacity = 0.5, 
+          weight = 2, 
+          fillOpacity = 1, 
+          smoothFactor = 0.5,
+          color = thm$cols$map_polygon_border1, 
+          fillColor = ~lyrpal(plotvar),
+          data = spatiallyr
+        ) %>% 
+        addLayersControl(
+          overlayGroups = names(lyrs_polygons),
+          options = layersControlOptions(collapsed = FALSE)
+        ) %>% 
+        addLegend(
+          pal = lyrpal, 
+          values = ~plotvar, 
+          opacity = 1, 
+          data = spatiallyr, 
+          group = lyr
+        ) %>% 
+        hideGroup(names(lyrs_polygons))
+      
+    }
+  }
   
+  return(goalmap)
 }
 
 #' create leaflet maps
