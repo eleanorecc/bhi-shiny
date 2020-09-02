@@ -225,6 +225,9 @@ function(input, output, session){
     spatial_unit_selected = spatial_unit,
     year_selected = view_year,
     legend_title = "Scores",
+    lyrs_latlon = NA, 
+    lyrs_polygons = NA, 
+    polylyrs_pals = NA, 
     popup_title = "Score:",
     popup_add_field = "Name",
     popup_add_field_title = "Name:"
@@ -276,6 +279,10 @@ function(input, output, session){
     goal_code = "EUT"
   )
   
+  eut_lyrs_latlon <- list()
+  eut_lyrs_latlon[["cw_eut_dip"]] <- read_csv("https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/cw_eut_dip_bhi2019.csv")
+  eut_lyrs_latlon[["cw_eut_din"]] <- read_csv("https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/cw_eut_din_bhi2019.csv")
+  
   callModule(
     mapCard, 
     "eut_map",
@@ -284,6 +291,9 @@ function(input, output, session){
     spatial_unit_selected = spatial_unit,
     year_selected = view_year,
     legend_title = "Scores",
+    lyrs_latlon = eut_lyrs_latlon, 
+    lyrs_polygons = NA, 
+    polylyrs_pals = NA, 
     popup_title = "Score:",
     popup_add_field = "Name",
     popup_add_field_title = "Name:"
@@ -846,10 +856,6 @@ function(input, output, session){
   
   
   ## SUMMARIZE AND COMPARE
-  
-  ## OVERALL INDEX SCORES
-  
-  
   
   ## PRESSURES ----
   output$pressure_ts <- renderPlotly({
