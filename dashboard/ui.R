@@ -264,7 +264,7 @@ dashboardPage(
         fluidRow(
           
           ## flowerplot
-          flowerplotCardUI( # flowerplotRgnCardUI(
+          flowerplotCardUI(
             id = "baltic_flowerplot",
             title_text = "Flowerplot of Scores",
             sub_title_text = "Ocean Health Index scores are calculated for individual goals and then combined to get an overall score on a scale of 0-100. Individual goal scores are represented by the length of the petals in a flower plot below, and the overall Index score for the region is in the center."
@@ -288,8 +288,6 @@ dashboardPage(
         fluidRow(
           box(
             status = "primary",
-            # solidHeader = TRUE,
-            # title = "Measuring the Health of our Oceans",
             h2("Measuring the Health of our Oceans"),
             br(),
             p("Oceans provide a diverse array of benefits to humans, often with tradeoffs between benefits. Managing these requires a method that can measure the health status in both a comprehensive and quantitative way. Establishing such a method was the motivation behind the Ocean Health Index (OHI)."),

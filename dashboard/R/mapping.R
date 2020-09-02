@@ -6,33 +6,14 @@ library(leaflet)
 add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, polylyrs_pals, 
                                dim = "score", year = assess_year){
   
-  ## lyrs_latlon ----
-  ## will all be single color with transparency
-  for(lyr in names(lyrs_latlon)){
-    
-    ## if the lyrs have multiple years and/or dimensions, 
-    ## will filter to match selected year and ohi dimension
-    if(all(c("dimension", "scen_year") %in% names(lyrs_latlon[[lyr]]))){
-      filterlyr <- filter(lyrs_latlon[[lyr]], scen_year == year, dimension == dim)
-    } else {
-      filterlyr <- lyrs_latlon[[lyr]]
-    }
-    
-    goalmap <- goalmap %>%
-      addCircleMarkers(
-        group = lyr,
-        data = filterlyr, 
-        fillColor = "midnightblue", 
-        fillOpacity = 0.5,
-        opacity = 0,
-        radius = 4
-      ) %>% 
-      addLayersControl(
-        overlayGroups = names(lyrs_latlon),
-        options = layersControlOptions(collapsed = FALSE)
-      ) %>% 
-      hideGroup(names(lyrs_latlon))
-  }
+  
+  ## set up overlays menu in top corner
+  goalmap <- goalmap %>% 
+    addLayersControl(
+      overlayGroups = c(names(lyrs_latlon), names(lyrs_polygons)),
+      options = layersControlOptions(collapsed = TRUE)
+    )
+  
   
   ## lyrs_polygons ----
   ## will need to be given with corresponding color palettes
@@ -53,13 +34,11 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, polylyrs_pal
       colnames(filterlyr) <- stringr::str_replace(
         names(filterlyr), 
         polylyrs_pals[[lyr]][["plotvar"]], 
-        "plotvar"
+        "Value"
       )
-      
       ## spatialdataframes with sp package, rather than sf...
       spatiallyr <- rgns_shp
       spatiallyr@data <- left_join(spatiallyr@data, filterlyr, by = "region_id")
-      
       
       ## make color palette function for the additional data layer
       lyrpal <- leaflet::colorNumeric(
@@ -78,24 +57,44 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, polylyrs_pal
           fillOpacity = 1, 
           smoothFactor = 0.5,
           color = thm$cols$map_polygon_border1, 
-          fillColor = ~lyrpal(plotvar),
+          fillColor = ~lyrpal(Value),
           data = spatiallyr
         ) %>% 
-        addLayersControl(
-          overlayGroups = names(lyrs_polygons),
-          options = layersControlOptions(collapsed = FALSE)
-        ) %>% 
         addLegend(
+          group = lyr,
           pal = lyrpal, 
-          values = ~plotvar, 
+          values = ~Value, 
           opacity = 1, 
-          data = spatiallyr, 
-          group = lyr
-        ) %>% 
-        hideGroup(names(lyrs_polygons))
-      
+          data = spatiallyr
+        )
     }
   }
+  
+  ## lyrs_latlon ----
+  ## will all be single color with transparency
+  for(lyr in names(lyrs_latlon)){
+    
+    ## if the lyrs have multiple years and/or dimensions, 
+    ## will filter to match selected year and ohi dimension
+    if(all(c("dimension", "scen_year") %in% names(lyrs_latlon[[lyr]]))){
+      filterlyr <- filter(lyrs_latlon[[lyr]], scen_year == year, dimension == dim)
+    } else {
+      filterlyr <- lyrs_latlon[[lyr]]
+    }
+    
+    goalmap <- goalmap %>%
+      addCircleMarkers(
+        group = lyr,
+        data = filterlyr, 
+        fillColor = "midnightblue", 
+        fillOpacity = 0.5,
+        opacity = 0,
+        radius = 4
+      )
+  }
+  goalmap <- goalmap %>% 
+    hideGroup(c(names(lyrs_latlon), names(lyrs_polygons)))
+  
   
   return(goalmap)
 }

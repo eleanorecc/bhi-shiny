@@ -283,6 +283,18 @@ function(input, output, session){
   eut_lyrs_latlon[["cw_eut_dip"]] <- read_csv("https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/cw_eut_dip_bhi2019.csv")
   eut_lyrs_latlon[["cw_eut_din"]] <- read_csv("https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/cw_eut_din_bhi2019.csv")
   
+  eut_lyrs_polygons <- list()
+  eut_lyrs_polygons[["cw_eut_dip_indicator"]] <- read_csv("https://raw.githubusercontent.com/OHI-Science/bhi/master/baltic2019draft/intermediate/dip_indicator.csv")
+  eut_lyrs_polygons[["cw_eut_din_indicator"]] <- read_csv("https://raw.githubusercontent.com/OHI-Science/bhi/master/baltic2019draft/intermediate/din_indicator.csv")
+  
+  eut_polylyrs_pals <- list()
+  eut_polylyrs_pals[["cw_eut_dip_indicator"]][["cols"]] <- c("#8c031a","#cc0033","#fff78a","#f6ffb3","#009999","#0278a7")
+  eut_polylyrs_pals[["cw_eut_dip_indicator"]][["paldomain"]] <- c(0, 100)
+  eut_polylyrs_pals[["cw_eut_dip_indicator"]][["plotvar"]] <- "score"
+  eut_polylyrs_pals[["cw_eut_din_indicator"]][["cols"]] <- c("#8c031a","#cc0033","#fff78a","#f6ffb3","#009999","#0278a7")
+  eut_polylyrs_pals[["cw_eut_din_indicator"]][["paldomain"]] <- c(0, 100)
+  eut_polylyrs_pals[["cw_eut_din_indicator"]][["plotvar"]] <- "score"
+  
   callModule(
     mapCard, 
     "eut_map",
@@ -292,8 +304,8 @@ function(input, output, session){
     year_selected = view_year,
     legend_title = "Scores",
     lyrs_latlon = eut_lyrs_latlon, 
-    lyrs_polygons = NA, 
-    polylyrs_pals = NA, 
+    lyrs_polygons = eut_lyrs_polygons, 
+    polylyrs_pals = eut_polylyrs_pals, 
     popup_title = "Score:",
     popup_add_field = "Name",
     popup_add_field_title = "Name:"
