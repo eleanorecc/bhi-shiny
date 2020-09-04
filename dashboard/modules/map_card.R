@@ -54,17 +54,17 @@ mapCard <- function(input, output, session,
     )
     
     
-    ## add data overlays to goal maps
-    result$map <- add_map_datalayers(
-      result$map, 
-      lyrs_latlon, 
-      lyrs_polygons, 
-      polylyrs_pals, 
-      dim = dimension_selected(), 
-      year = year_selected()
-    )
-    
-    result$map
+    if(!is.na(lyrs_latlon)|!is.na(lyrs_polygons)){
+      ## add data overlays to goal maps
+      result$map <- add_map_datalayers(
+        result$map, 
+        lyrs_latlon, 
+        lyrs_polygons, 
+        polylyrs_pals, 
+        dim = dimension_selected(), 
+        year = year_selected()
+      )
+    }
     
     result$map %>% addPolygons(popup = popup_text, fillOpacity = 0, stroke = FALSE)
   })
