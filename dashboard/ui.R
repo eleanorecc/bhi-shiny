@@ -17,7 +17,7 @@ dashboardPage(
       menuItem("WELCOME", tabName = "welcome"),
       
       ## overall index scores ----
-      menuItem("INDEX SCORES", tabName = "indexoverall"),
+      menuItem("INDEX SCORES", tabName = "indexcalculation"),
       
       
       ## explore goals ----
@@ -48,7 +48,8 @@ dashboardPage(
               menuSubItem("Eutrophication", tabName = "eut"),
               menuSubItem("Trash", tabName = "tra")
             ), # end clean water menu item
-            tabName = "cw"), # end clean water collapse menu item
+            tabName = "cw"
+          ), # end clean water collapse menu item
           
           ## FP Food Provision
           convertMenuItem(
@@ -61,7 +62,8 @@ dashboardPage(
               menuSubItem("Wild-Caught Fisheries", tabName = "fis"),
               menuSubItem("Mariculture", tabName = "mar")
             ), # end food provision menu item
-            tabName = "fp"), # end food provision collapse menu item
+            tabName = "fp"
+          ), # end food provision collapse menu item
           
           ## LE Livelihoods & Economies
           convertMenuItem(
@@ -74,7 +76,8 @@ dashboardPage(
               menuSubItem("Economies", tabName = "eco"),
               menuSubItem("Livelihoods", tabName = "liv")
             ), # end liv and econ menu item
-            tabName = "le"), # end liv and econ menu item collapse menu item'
+            tabName = "le"
+          ), # end liv and econ menu item collapse menu item'
           
           ## SP Sense of Place
           convertMenuItem(
@@ -318,18 +321,15 @@ dashboardPage(
         )
       ), # end welcome tab
       
-      ## § overall index scores ----
+      ## § index calculation ----
       tabItem(
-        tabName = "indexoverall",
+        tabName = "indexcalculation",
         fluidRow(
           box(
-            h1("INDEX SCORES"),
+            h1("INDEX CALCULATION"),
             width = 12
           ),
-          box(
-            p("SOMETHING ABOUT DIFFERENT DIMENSIONS OF OHI"),
-            width = 12
-          )
+          box(imageOutput("method_figure", height = 600), width = 12)
         )
       ), 
       

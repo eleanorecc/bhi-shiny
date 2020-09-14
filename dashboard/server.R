@@ -78,6 +78,12 @@ function(input, output, session){
   })
   
   
+  ## INDEX CALC ----
+  output$method_figure <- renderImage({
+    list(src = file.path(dir_main, "figures", "method_figure.pdf"))
+  },
+  deleteFile = FALSE)
+  
   ## AO ----
   ## Artisanal Fishing Opportunity
   
