@@ -137,10 +137,10 @@ dashboardPage(
           "spatial_unit",
           "Spatial Units",
           choices = c(
-            `Subbasins` = "subbasins",
-            `BHI Regions` = "regions"
+            `BHI Regions` = "regions",
+            `Subbasins` = "subbasins"
           ),
-          selected = "subbasins"
+          selected = "regions"
         ),
         
         ## input dimension ----
@@ -255,8 +255,21 @@ dashboardPage(
         ## header and intro
         fluidRow(
           box(
-            h1("Ocean Health Dashboard for the Baltic Sea (Under Construction! Not to be used or cited)", style = "color:#9b363d"),
+            h1("Ocean Health Dashboard for the Baltic Sea", style = "color:#9b363d"),
+            h1("(Under Construction! Not to be used or cited)", style = "color:#9b363d"),
             width = 12
+          )
+        ),
+        fluidRow(
+          box(
+            title = tagList(tags$h3("Measuring the Health of our Oceans")),
+            collapsible = TRUE,
+            collapsed = TRUE,
+            status = "primary",
+            p("Oceans provide a diverse array of benefits to humans, often with tradeoffs between benefits. Managing these requires a method that can measure the health status in both a comprehensive and quantitative way. Establishing such a method was the motivation behind the Ocean Health Index (OHI)."),
+            p("The Baltic Health Index is a regional study using the OHI method but tailored to assess the health status of the social-ecological system of the Baltic Sea. It is an independent, fully-transparent, scientific index which quantifies the status and trends of nine benefits based on inputs from scientists with expertise in each goal area, and stakeholder perspectives. The assessment of the nine benefits includes food provision, artisanal fishing opportunity, natural products, carbon storage, biodiversity, clean water, tourism, livelihood and economy, sense of place."),
+            p("Our overarching aim is  to maintain and continually improve a tool that can be used by decision-makers to guide management of the Baltic Sea region towards increased sustainability. We strive to use the best open source tools available, to make our data preparation, results, calculations, reference levels and underlying data easily accessible and entirely transparent."),
+            width =  12
           )
         ),
         
@@ -266,36 +279,33 @@ dashboardPage(
           ## flowerplot
           flowerplotCardUI(
             id = "baltic_flowerplot",
-            title_text = "Flowerplot of Scores",
-            sub_title_text = "Ocean Health Index scores are calculated for individual goals and then combined to get an overall score on a scale of 0-100. Individual goal scores are represented by the length of the petals in a flower plot below, and the overall Index score for the region is in the center."
+            title_text = "Plot of Index Scores",
+            sub_title_text = "Ocean Health Index scores are calculated for individual goals and then combined to get an overall score on a scale of 0-100, where 100 indicates management thresholds are achieved (not pristine condition!). Individual goal scores are represented by the length of the petals in a flower plot below, and the overall Index score for the region is in the center."
           ),
           
           ## map of overall scores
           tagList(box(
-            collapsible = TRUE,
-            title = "Calculated with Multiple Dimensions",
+            title = "Map of Index Scores",
             list(
-              p("The framework accounts for current status, but also short-term trends (based on 5 previous years, or 10 years for slow-changing variables), as well as cumulative pressures and measures that buffer the system's resilience.", br()), 
-              p(strong("Trend:"), " The average rate of change in status during the most recent years; as such, the trend calculation is not trying to predict (or model) the future, but only indicates likely condition based on a linear relationship.", br()),
-              p(strong("Pressures:"), " Social and ecological elements that negatively affect the status of a goal.", br()),
-              p(strong("Resilience:"), " Elements or actions that can reduce pressures, and maintain or raise future benefits (e.g. treaties, laws, enforcement, habitat protection).", br()),
-              list(plotOutput("dims_diagram", height = 420))
+              list(addSpinner(leafletOutput("index_map", height = 620), spin = "rotating-plane", color = "#d7e5e8"))
             ),
             width = 6
           ))
+          
+          # tagList(box(
+          #   collapsible = TRUE,
+          #   title = "Calculated with Multiple Dimensions",
+          #   list(
+          #     p("The framework accounts for current status, but also short-term trends (based on 5 previous years, or 10 years for slow-changing variables), as well as cumulative pressures and measures that buffer the system's resilience.", br()),
+          #     p(strong("Trend:"), " The average rate of change in status during the most recent years; as such, the trend calculation is not trying to predict (or model) the future, but only indicates likely condition based on a linear relationship.", br()),
+          #     p(strong("Pressures:"), " Social and ecological elements that negatively affect the status of a goal.", br()),
+          #     p(strong("Resilience:"), " Elements or actions that can reduce pressures, and maintain or raise future benefits (e.g. treaties, laws, enforcement, habitat protection).", br()),
+          #     list(plotOutput("dims_diagram", height = 420))
+          #   ),
+          #   width = 6
+          # ))
         ),
         
-        fluidRow(
-          box(
-            status = "primary",
-            h2("Measuring the Health of our Oceans"),
-            br(),
-            p("Oceans provide a diverse array of benefits to humans, often with tradeoffs between benefits. Managing these requires a method that can measure the health status in both a comprehensive and quantitative way. Establishing such a method was the motivation behind the Ocean Health Index (OHI)."),
-            p("The Baltic Health Index is a regional study using the OHI method but tailored to assess the health status of the social-ecological system of the Baltic Sea. It is an independent, fully-transparent, scientific index which quantifies the status and trends of nine benefits based on inputs from scientists with expertise in each goal area, and stakeholder perspectives. The assessment of the nine benefits includes food provision, artisanal fishing opportunity, natural products, carbon storage, biodiversity, clean water, tourism, livelihood and economy, sense of place."),
-            p("Our overarching aim is  to maintain and continually improve a tool that can be used by decision-makers to guide management of the Baltic Sea region towards increased sustainability. We strive to use the best open source tools available, to make our data preparation, results, calculations, reference levels and underlying data easily accessible and entirely transparent."),
-            width =  12
-          )
-        ),
         fluidRow(
           box(
             solidHeader = TRUE,

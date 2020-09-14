@@ -13,7 +13,6 @@ flowerplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL){
   ## put together in box and return box
   tagList(box(
     width = 6,
-    collapsible = TRUE,
     title = title_text,
     
     list(

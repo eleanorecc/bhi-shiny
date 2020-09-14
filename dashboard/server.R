@@ -22,13 +22,59 @@ function(input, output, session){
     }, ignoreNULL = FALSE
   )
   
-  ## OHI dimensions plot
-  output$dims_diagram <- renderPlot({
-    ohi_dims_figure(
-      "EUT", 
-      rgn_selected = input$flower_rgn, 
-      year = view_year
+  ## map with reactivity
+  output$index_map <- renderLeaflet({
+    
+    ## create leaflet map with popup text
+    result <- leaflet_map(
+      full_scores_lst,
+      spatial_unit(),	
+      "Index", 	
+      dim = dimension(), 	
+      year = assess_year,	
+      "Index Scores"	
+    )	
+    
+    popup_text <- paste(	
+      "<h5><strong>", "Score", "</strong>",	
+      result$data_sf[["score"]], "</h5>",	
+      "<h5><strong>", "Name", "</strong>",	
+      result$data_sf[["Name"]], "</h5>", sep = " "	
     )
+    result$map %>% addPolygons(popup = popup_text, fillOpacity = 0, stroke = FALSE)
+  })
+  
+  
+  ## selected-region overlay, based on spatial unit and flowerplot region	
+  select_region <- reactive({	
+    rgn_select <- values$flower_rgn	
+    rgns_shp[rgns_shp@data$BHI_ID == rgn_select,]	
+  })	
+  observe({	
+    select_region()	
+    leafletProxy("index_map") %>%	
+      addPolygons(	
+        layerId = "selected",	
+        data = select_region(),	
+        stroke = FALSE, opacity = 0,	
+        fillOpacity = 0.6, color = "magenta",	
+        smoothFactor = 3	
+      )	
+  })	
+  select_subbasin <- reactive({	
+    rgn_select <- values$flower_rgn	
+    subbasins_shp[subbasins_shp@data$HELCOM_ID == str_replace(rgn_select, "5", "SEA-0"),]	
+  })	
+  observe({	
+    select_region()	
+    leafletProxy("index_map") %>%	
+      addPolygons(	
+        layerId = "selected",	
+        data = select_subbasin(),	
+        stroke = FALSE, opacity = 0,	
+        fillOpacity = 0.6, color = "magenta",	
+        smoothFactor = 3	
+      )	
   })
   
   
