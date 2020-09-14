@@ -27,6 +27,7 @@ barplotCard <- function(input, output, session, goal_code, dimension_selected, s
     scores_csv <- filter(full_scores_csv, dimension == d)
     
     ## barplot
+    thm <- apply_bhi_theme(plot_type = "flowerplot")
     scores_barplot(
       scores_csv,
       basins_or_rgns = spatial_unit_selected(),

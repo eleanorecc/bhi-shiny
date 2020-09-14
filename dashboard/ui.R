@@ -17,7 +17,7 @@ dashboardPage(
       menuItem("WELCOME", tabName = "welcome"),
       
       ## overall index scores ----
-      menuItem("INDEX SCORES", tabName = "indexcalculation"),
+      menuItem("INDEX CALCULATION", tabName = "indexcalculation"),
       
       
       ## explore goals ----
@@ -103,28 +103,28 @@ dashboardPage(
         tabName = "explore"), # end explore goals collapse menu item
       
       ## compare and summarize ----
-      menuItem(
-        "COMPARE & SUMMARIZE",
-        tabName = "summaries",
-        startExpanded = FALSE,
-        
-        menuSubItem(
-          "Likely Future versus Present",
-          tabName = "futures"
-        ),
-        menuSubItem(
-          "Pressures",
-          tabName = "pressures"
-        ),
-        menuSubItem(
-          "Scenario Exploration",
-          tabName = "scenarios"
-        ),
-        menuSubItem(
-          "Data Layers",
-          tabName = "layers"
-        )
-      ), # end compare and summarize sidebar
+      # menuItem(
+      #   "COMPARE & SUMMARIZE",
+      #   tabName = "summaries",
+      #   startExpanded = FALSE,
+      #   
+      #   menuSubItem(
+      #     "Likely Future versus Present",
+      #     tabName = "futures"
+      #   ),
+      #   menuSubItem(
+      #     "Pressures",
+      #     tabName = "pressures"
+      #   ),
+      #   menuSubItem(
+      #     "Scenario Exploration",
+      #     tabName = "scenarios"
+      #   ),
+      #   menuSubItem(
+      #     "Data Layers",
+      #     tabName = "layers"
+      #   )
+      # ), # end compare and summarize sidebar
       
       ## view options ----
       menuItem(
@@ -326,7 +326,7 @@ dashboardPage(
         tabName = "indexcalculation",
         fluidRow(
           box(
-            h1("INDEX CALCULATION"),
+            h1("Index Calculation"),
             width = 12
           ),
           box(imageOutput("method_figure", height = 580), width = 12)
@@ -375,7 +375,7 @@ dashboardPage(
           mapCardUI(
             id = "ao_map",
             title_text = "Artisanal Fishing Opportunity Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -495,7 +495,7 @@ dashboardPage(
           mapCardUI(
             id = "bd_map",
             title_text = "Biodiversity Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -615,7 +615,7 @@ dashboardPage(
           mapCardUI(
             id = "cs_map",
             title_text = "Carbon Storage Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -735,7 +735,7 @@ dashboardPage(
           mapCardUI(
             id = "cw_map",
             title_text = "Clean Waters Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -855,7 +855,7 @@ dashboardPage(
           mapCardUI(
             id = "con_map",
             title_text = "Contaminants Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -981,7 +981,7 @@ dashboardPage(
           mapCardUI(
             id = "eut_map",
             title_text = "Eutrophication Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -1101,7 +1101,7 @@ dashboardPage(
           mapCardUI(
             id = "tra_map",
             title_text = "Trash Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -1221,7 +1221,7 @@ dashboardPage(
           mapCardUI(
             id = "fp_map",
             title_text = "Food Provision Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -1341,7 +1341,7 @@ dashboardPage(
           mapCardUI(
             id = "fis_map",
             title_text = "Fisheries Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -1460,7 +1460,7 @@ dashboardPage(
           mapCardUI(
             id = "mar_map",
             title_text = "Mariculture Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -1580,7 +1580,7 @@ dashboardPage(
           mapCardUI(
             id = "le_map",
             title_text = "Coastal Livelihoods & Economies Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -1700,7 +1700,7 @@ dashboardPage(
           mapCardUI(
             id = "eco_map",
             title_text = "Economies Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -1820,7 +1820,7 @@ dashboardPage(
           mapCardUI(
             id = "liv_map",
             title_text = "Livelihoods Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -1940,7 +1940,7 @@ dashboardPage(
           mapCardUI(
             id = "sp_map",
             title_text = "Sense of Place Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -2060,7 +2060,7 @@ dashboardPage(
           mapCardUI(
             id = "ico_map",
             title_text = "Iconic Species Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -2180,7 +2180,7 @@ dashboardPage(
           mapCardUI(
             id = "lsp_map",
             title_text = "Lasting Special Places Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -2300,7 +2300,7 @@ dashboardPage(
           mapCardUI(
             id = "np_map",
             title_text = "Natural Products Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -2420,7 +2420,7 @@ dashboardPage(
           mapCardUI(
             id = "tr_map",
             title_text = "Tourism & Recreation Scores Around the Baltic",
-            sub_title_text = "This map shows scores from the previous assessment (2014)",
+            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
             br(), 
             box_width = 8,
             ht = 540
@@ -2503,86 +2503,86 @@ dashboardPage(
       ## COMPARE AND SUMMARIZE ----
       ## compare and summarize
       
-      ## § futures ----
-      tabItem(
-        tabName = "futures",
-        fluidRow(
-          box(
-            h1("Likely Future versus Present"),
-            width = 12
-          ),
-          box(
-            p("SOMETHING ABOUT LIKELY FUTURE STATUS AND DIFFERENT DIMENSIONS OF OHI"),
-            width = 12
-          )
-        )
-      ), # end futures tab item
-      
-      ## § pressures ----
-      tabItem(
-        tabName = "pressures",
-        fluidRow(
-          box(
-            h1("Pressures (Page Under Construction)", style = "color:#9b363d"),
-            width = 12
-          ),
-          box(
-            p("SOMETHING ABOUT BHI PRESSURES, WITH TIME SERIES PLOTS"),
-            width = 12
-          ),
-          
-          ## pressures time series plot
-          box(
-            width = 9,
-            addSpinner(plotlyOutput("pressure_ts", height = "750px"), spin = "rotating-plane", color = "#d7e5e8")
-          ),
-          ## pressure timeseries plot select var
-          box(
-            width = 3,
-            selectInput(
-              "press_var",
-              label = "Pressure Variables to Plot",
-              choices = c(
-                `Eutrophication` = "eut_time_data",
-                `Contaminants PCB` = "con_pcb_time_data",
-                `Contaminants Dioxin` = "con_dioxin_time_data",
-                `Anoxia Pressure` = "anoxia_press",
-                `Nitrogen Load Tonnes` = "N_basin_tonnes"
-              )
-            )
-          ) # end pressure timeseries plot select var
-        )
-      ), # end pressures item
-      
-      ## § scenarios ----
-      tabItem(
-        tabName = "scenarios",
-        fluidRow(
-          box(
-            h1("Scenario Exploration"),
-            width = 12
-          ),
-          box(
-            p("SOMETHING ABOUT SCENARIOS TESTING APPROACHES, TRIALS, RESULTS"),
-            width = 12
-          )
-        )
-      ), # end scenarios item
-      
-      ## § layers ----
-      tabItem(
-        tabName = "layers",
-        fluidRow(
-          box(
-            h1("Data Layers (Page Under Construction)", style = "color:#9b363d"),
-            width = 12
-          ),
-          box(
-            p("SOMETHING ABOUT PROCESS OF GENERATING LAYERS, AND LAYER VS LAYER SCATTERPLOT"),
-            width = 12
-          )
-        )
-      ), # end layers item
+      # ## § futures ----
+      # tabItem(
+      #   tabName = "futures",
+      #   fluidRow(
+      #     box(
+      #       h1("Likely Future versus Present"),
+      #       width = 12
+      #     ),
+      #     box(
+      #       p("SOMETHING ABOUT LIKELY FUTURE STATUS AND DIFFERENT DIMENSIONS OF OHI"),
+      #       width = 12
+      #     )
+      #   )
+      # ), # end futures tab item
+      # 
+      # ## § pressures ----
+      # tabItem(
+      #   tabName = "pressures",
+      #   fluidRow(
+      #     box(
+      #       h1("Pressures (Page Under Construction)", style = "color:#9b363d"),
+      #       width = 12
+      #     ),
+      #     box(
+      #       p("SOMETHING ABOUT BHI PRESSURES, WITH TIME SERIES PLOTS"),
+      #       width = 12
+      #     ),
+      #     
+      #     ## pressures time series plot
+      #     box(
+      #       width = 9,
+      #       addSpinner(plotlyOutput("pressure_ts", height = "750px"), spin = "rotating-plane", color = "#d7e5e8")
+      #     ),
+      #     ## pressure timeseries plot select var
+      #     box(
+      #       width = 3,
+      #       selectInput(
+      #         "press_var",
+      #         label = "Pressure Variables to Plot",
+      #         choices = c(
+      #           `Eutrophication` = "eut_time_data",
+      #           `Contaminants PCB` = "con_pcb_time_data",
+      #           `Contaminants Dioxin` = "con_dioxin_time_data",
+      #           `Anoxia Pressure` = "anoxia_press",
+      #           `Nitrogen Load Tonnes` = "N_basin_tonnes"
+      #         )
+      #       )
+      #     ) # end pressure timeseries plot select var
+      #   )
+      # ), # end pressures item
+      # 
+      # ## § scenarios ----
+      # tabItem(
+      #   tabName = "scenarios",
+      #   fluidRow(
+      #     box(
+      #       h1("Scenario Exploration"),
+      #       width = 12
+      #     ),
+      #     box(
+      #       p("SOMETHING ABOUT SCENARIOS TESTING APPROACHES, TRIALS, RESULTS"),
+      #       width = 12
+      #     )
+      #   )
+      # ), # end scenarios item
+      # 
+      # ## § layers ----
+      # tabItem(
+      #   tabName = "layers",
+      #   fluidRow(
+      #     box(
+      #       h1("Data Layers (Page Under Construction)", style = "color:#9b363d"),
+      #       width = 12
+      #     ),
+      #     box(
+      #       p("SOMETHING ABOUT PROCESS OF GENERATING LAYERS, AND LAYER VS LAYER SCATTERPLOT"),
+      #       width = 12
+      #     )
+      #   )
+      # ), # end layers item
       
       ## § LEARN MORE ----
       tabItem(

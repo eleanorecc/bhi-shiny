@@ -14,7 +14,8 @@ scoreBoxUI <- function(id){
 scoreBox <- function(input, output, session, goal_code){
 
   scores <- full_scores_csv %>%
-    dplyr::filter(goal == goal_code, dimension == "score")
+    dplyr::filter(goal == goal_code, dimension == "score") %>% 
+    mutate(score = round(score, 0))
 
   output$goal_scorebox <- renderInfoBox(
     infoBox(
@@ -23,7 +24,7 @@ scoreBox <- function(input, output, session, goal_code){
       tags$p(
         "Current Score", 
         strong(filter(scores, region_id == 0)$score),
-        style = "font-size: 210%; text-align:right; font-weight:100; padding-top:18px; padding-bottom:0px;"
+        style = "font-size: 180%; text-align:right; font-weight:100; padding-top:18px; padding-bottom:0px;"
       ),
       color =  filter(thm$palettes$goalpal_shiny, goal == goal_code)$color,
       fill = TRUE
