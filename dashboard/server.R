@@ -80,7 +80,12 @@ function(input, output, session){
   
   ## INDEX CALC ----
   output$method_figure <- renderImage({
-    list(src = file.path(dir_main, "figures", "method_figure.pdf"))
+    list(
+      src = file.path(dir_main, "figures", "method_figure.png"),
+      contentType = "image/jpeg", 
+      width = "650px",
+      height = "500px"
+    )
   },
   deleteFile = FALSE)
   

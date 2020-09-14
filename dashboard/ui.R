@@ -329,7 +329,7 @@ dashboardPage(
             h1("INDEX CALCULATION"),
             width = 12
           ),
-          box(imageOutput("method_figure", height = 600), width = 12)
+          box(imageOutput("method_figure", height = 580), width = 12)
         )
       ), 
       
