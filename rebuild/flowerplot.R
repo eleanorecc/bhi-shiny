@@ -190,6 +190,10 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
         mutate(
           min_score = unlist(scores_range)[1],
           max_score = unlist(scores_range)[2]
+        ) %>% 
+        mutate(
+          min_score = ifelse(is.infinite(min_score), NA, min_score),
+          max_score = ifelse(is.infinite(max_score), NA, max_score)
         )
     }
     
@@ -284,7 +288,7 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
         inherit.aes = FALSE, aes(label = score_index$score),
         x = 0, y = blank_circle_rad, 
         hjust = 0.5, vjust = 0.5,
-        size = 9, 
+        size = 15, 
         color = thm$cols$dark_grey3
       )
     
@@ -333,7 +337,7 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
         filename = temp_plot, 
         plot = plot_obj, 
         device = "png",
-        height = 6, width = 8, units = "in", dpi = 300
+        height = 9, width = 12, units = "in", dpi = 400
       )
       
       temp_labels <- file.path(dir_main, "figures", paste0("flower_curvetxt_", name_and_title$name, ".png"))
@@ -351,7 +355,7 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
         
         ## start creating plot and save with grDevices function
         # jpeg(temp_labels, width = 2450, height = 2450, quality = 220) # jpeg format is lossy, png seems better...
-        png(temp_labels, width = 2490, height = 2490, bg = "transparent")
+        png(temp_labels, width = 3735, height = 3735, bg = "transparent")
         message("creating curved labels for plot:\n")
         
         ## curved labels created with 'circlize' package ----
@@ -385,7 +389,7 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
               CELL_META$xcenter, 
               CELL_META$ycenter,
               circ_df$f1[circ_df$order_hierarchy == as.numeric(CELL_META$sector.index)][1],
-              cex = 5, 
+              cex = 7,
               col = thm$cols$med_grey3, 
               adj = c(0.4, 1),
               facing = "bending.inside", 
@@ -403,7 +407,7 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
               CELL_META$xcenter, 
               CELL_META$ycenter,
               circ_df$f2[circ_df$order_hierarchy == as.numeric(CELL_META$sector.index)][1],
-              cex = 5, 
+              cex = 7,
               col = thm$cols$med_grey3, 
               adj = c(0.5, 0),
               facing = "bending.inside", 
@@ -416,66 +420,67 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
         
         ## add supra goal labeling
         highlight.sector(
-          circ_df$order_hierarchy[circ_df$name_supra != "Food Provision"|is.na(circ_df$name_supra)],
+          unique(circ_df$order_hierarchy[circ_df$name_supra == "Food Provision" & !is.na(circ_df$name_supra)]),
           track.index = 1, 
           text = "Food Provision", 
-          cex = 6.5, 
-          padding = c(0, 0, 0, 2.67),
+          cex = 8.5, 
           text.col = thm$cols$light_grey2, 
           col = NA,
           facing = "bending.outside", 
           niceFacing = TRUE
         )
         highlight.sector(
-          circ_df$order_hierarchy[circ_df$name_supra != "Coastal Livelihoods & Economies"|is.na(circ_df$name_supra)],
+          unique(circ_df$order_hierarchy[circ_df$name_supra == "Coastal Livelihoods & Economies" & !is.na(circ_df$name_supra)]),
           track.index = 1, 
           text = "Coastal Livelihoods & Economies", 
-          cex = 6.5,
+          cex = 8.5, 
           text.col = thm$cols$light_grey2, 
           col = NA,
           facing = "bending.outside",
           niceFacing = TRUE
         )
         highlight.sector(
-          circ_df$order_hierarchy[circ_df$name_supra != "Sense of Place"|is.na(circ_df$name_supra)],
+          unique(circ_df$order_hierarchy[circ_df$name_supra == "Sense of Place" & !is.na(circ_df$name_supra)]),
           track.index = 1, 
           text = "Sense of Place", 
-          cex = 6.5, 
-          padding = c(0, 0, 0, 2.62),
+          cex = 8.5, 
           text.col = thm$cols$light_grey2, 
           col = NA,
           facing = "bending.outside",
           niceFacing = TRUE
         )
         highlight.sector(
-          circ_df$order_hierarchy[circ_df$name_supra != "Clean Waters"|is.na(circ_df$name_supra)],
+          unique(circ_df$order_hierarchy[circ_df$name_supra == "Clean Waters" & !is.na(circ_df$name_supra)]),
           track.index = 1, 
           text = "Clean Waters",
-          cex = 6.5, 
-          padding = c(0, 0.16, 0, 0),
+          cex = 8.5, 
           text.col = thm$cols$light_grey2, 
           col = NA,
           facing = "bending.outside", 
           niceFacing = TRUE
         )
         dev.off() # end saving labels image with grDevices function
+        
+        ## can check the tracks and sectors with circos info
+        # circos.info(plot = TRUE)
       }
       ## combine plot and labels into one graphic
       img_text <- magick::image_read(temp_labels)
       img_plot <- magick::image_read(temp_plot)
       
       plot_obj <- image_composite(
+        # image_scale(img_text, 1810)
         img_plot,
-        image_scale(img_text, 1810), 
-        offset = "+305-15"
-      ) %>% image_crop(geometry_area(1750, 1620, 325, 120))
+        image_scale(img_text, 3600), 
+        offset = "+610-25"
+      ) %>% image_crop(geometry_area(3282, 3038, 795, 320))
     }
     
     ## SAVE PLOT
     ## saving with method based on plot_obj class
     if(class(plot_obj) == "magick-image"){
       magick::image_write(
-        image_scale(plot_obj, 600), # can adjust here to make smaller, sacrificing image quality...
+        image_scale(plot_obj, 800), # can adjust here to make smaller, sacrificing image quality...
         path = file.path(
           dir_main, "figures", 
           sprintf("flowerplot%s_%s.png", name_and_title$region_id, name_and_title$name)
