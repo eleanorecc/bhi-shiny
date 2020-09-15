@@ -326,10 +326,24 @@ dashboardPage(
         tabName = "indexcalculation",
         fluidRow(
           box(
-            h1("Index Calculation"),
+            h1("An Index Calculated with Multiple Dimensions"),
+            # h1("Index Calculation"),
             width = 12
           ),
-          box(imageOutput("method_figure", height = 580), width = 12)
+          box(
+            imageOutput("method_figure", height = 580),
+            width = 8
+          ),
+          box(
+            list(
+              p("The spatial assessment units used (BHI regions) are countries' Exclusive Economic Zones (EEZ) intersected with the sub-basins used by HELCOM. Sub-basin level data may be used where finer resolution is not available or too few data points fall within each BHI region.", br()), 
+              p("The score calculation framework accounts for current status, but also short-term trends (based on 5 previous years, or 10 years for slow-changing variables), as well as cumulative pressures and measures that buffer the system's resilience.", br(), br()), 
+              p(strong("Trend:"), " The average rate of change in status during the most recent years; as such, the trend calculation is not trying to predict (or model) the future, but only indicates likely condition based on a linear relationship.", br()),
+              p(strong("Pressures:"), " Social and ecological elements that negatively affect the status of a goal.", br()),
+              p(strong("Resilience:"), " Elements or actions that can reduce pressures, and maintain or raise future benefits (e.g. treaties, laws, enforcement, habitat protection).", br())
+            ),
+            width = 4
+          )
         )
       ), 
       
