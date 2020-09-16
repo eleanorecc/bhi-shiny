@@ -243,8 +243,8 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins",
       show.legend = FALSE
     ) +
     scale_fill_gradientn(
-      colours = c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#0278a7"),
-      values = c(0, 0.15, 0.4, 0.6, 0.75, 0.9, 1),
+      colours = c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#457da1"),
+      values = c(0, 0.2, 0.42, 0.6, 0.8, 0.95, 1),
       # breaks = c(15, 40, 60, 75, 90, 100),
       limits = c(ifelse(dim == "trend", -1, 0), ifelse(dim == "trend", 1, 101)),
       na.value = "black"

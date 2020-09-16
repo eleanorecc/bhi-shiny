@@ -141,21 +141,14 @@ leaflet_map <- function(full_scores_lst, basins_or_rgns = "subbasins",
   thm <- apply_bhi_theme()
   
   ## create asymmetric color ranges for legend
-  rc1 <- colorRampPalette(
-    colors = thm$palettes$divergent_red_blue[1:2],
-    space = "Lab")(15)
-  rc2 <- colorRampPalette(
-    colors = thm$palettes$divergent_red_blue[2:3],
-    space = "Lab")(25)
-  rc3 <- colorRampPalette(
-    colors = thm$palettes$divergent_red_blue[3:4],
-    space = "Lab")(20)
-  rc4 <- colorRampPalette(
-    colors = thm$palettes$divergent_red_blue[4:5],
-    space = "Lab")(15)
-  rc5 <- colorRampPalette(
-    colors = thm$palettes$divergent_red_blue[5:6],
-    space = "Lab")(25)
+  # colours = c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#0278a7"),
+  # values = c(0, 0.15, 0.4, 0.6, 0.8, 0.95, 1),
+  
+  rc1 <- colorRampPalette(colors = c("#8c031a", "#cc0033"), space = "Lab")(25)
+  rc2 <- colorRampPalette(colors = c("#cc0033", "#fff78a"), space = "Lab")(20)
+  rc3 <- colorRampPalette(colors = c("#fff78a", "#f6ffb3"), space = "Lab")(20)
+  rc4 <- colorRampPalette(colors = c("#f6ffb3", "#009999"), space = "Lab")(15)
+  rc5 <- colorRampPalette(colors = c("#009999", "#457da1"), space = "Lab")(5)
   
   pal <- leaflet::colorNumeric(
     palette = c(rc1, rc2, rc3, rc4, rc5),
