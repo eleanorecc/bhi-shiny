@@ -51,7 +51,7 @@ apply_bhi_theme <- function(plot_type = NA){
   icons <- list(FP = "utensils", MAR = "anchor", FIS = "fish", AO = "ship",
                 CW = "burn", CON = "flask", EUT = "vial", TRA = "eraser",
                 SP = "monument", LSP = "map-marked", ICO = "kiwi-bird", BD = "dna",
-                LE = "landmark", ECO = "money-bill", LIV = "dharmachakra",
+                LE = "landmark", ECO = "money-bill", LIV = "user-tie",
                 TR = "suitcase", CS = "seedling", NP = "mortar-pestle")
 
   ## plot colors ----
