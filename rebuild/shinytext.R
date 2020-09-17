@@ -25,13 +25,16 @@ bd_text <- c(
   ## goal
   "BD",
   ## key information
-  "",
+  "This goal consists of five ecosystem components: benthic habitats, pelagic habitats, fish, mammals (seals), and water birds. It has been evaluated using the biological quality ratios and waterbird abundance, derived in the integrated biodiversity assessments from HELCOM (the HELCOM assessment tool: https://github.com/NIVA-Denmark/BalticBOOST), based on core indicators for key species and species groups, including abundance, distribution, productivity, physiological and demographic characteristics (see http://stateofthebalticsea.helcom.fi/biodiversity-and-its-status). 
+  \n 
+  Statuses of the five components are aggregated first within each component, combining coastal area values with area-weighted averages, then combining the values for coastal and offshore areas of each BHI region with equal weight. A single biodiversity status score per region is calculated as geometric mean of the five components.",
   ## target
-  "All species identified as present in the region are not at risk of extinction and are classified as of Least Concern by IUCN criteria.",
+  "For the waterbirds, the HELCOM core indicator threshold of 0.75 abundance was used as good status (corresponding to a status score of 100 in BHI). For the other four components (benthic habitats, pelagic habitats, fish, and mammals), a biological quality ratio (BQR) of 0.6 represents good status and was used as here as the target.",
   ## key messages
-  "",
+  "Benthic habitat is not evaluated in The Sound or Kattegat for Denmark. Thus, while the Swedish side of these basins have high scores (100) in this component to counter low scores in other components (birds, The Sound: 58.5 and Kattegat: 52.7;  seals, The Sound: 50), the result is an overall lower score on the Danish side. The dramatically different scores on either side of Gdansk basin (Russia: 32.3, Poland: 69.6) are due to a score of zero for the benthic habitat component on the eastern side. Lowest scores are seen for Bornholm Basin (ranging 24.1 - 39.3) mainly due to low scores in benthic habitat (Denmark and Sweden score zero), seals and fishes components. The lowest scoring across all subbasins is the seals component, with lowest score in Bornholm and Western Gotland basins (10) and only reaching the target in Kattegat. Generally, water birds are in better condition than the other components, though collectively they reach the target only in Bothnian Sea, Bothnian Bay, and The Quark, and very nearly in Kiel Bay.",
   ## data considerations
-  "",
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
+  "**Temporal data:** The data used here consists of an integrated assessment period (2011-2016), so no trend  was calculated from the same data used in status calculations. The trend dimension included is from the global OHI assessment, which employs a different status calculation approach. \n **Varied habitats and functions:** Including a greater range of more specific habitat types and functional types (in a transparent way), could help make the goal more actionable for managers at local scales.",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/BD/v2019/bd_prep.md",
   ## timeseries plot layers
@@ -71,12 +74,13 @@ cs_text <- c(
   ## goal
   "CS",
   ## key information
-  "",
+  "Seagrass (Zostera marina) is an important macrophyte species occurring on shallow sandy bottoms in the Baltic Sea, and observations of Zostera marina were used as an indicator for carbon storage for the Baltic Sea area from HELCOM Red List species list.",
   ## target
   "",
   ## key messages
   "",
   ## data considerations
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CS/v2019/cs_prep.md",
@@ -92,12 +96,13 @@ cw_text <- c(
   ## goal
   "CW",
   ## key information
-  "",
+  "Seagrass (Zostera marina) is an important macrophyte species occurring on shallow sandy bottoms in the Baltic Sea, and observations of Zostera marina were used as an indicator for carbon storage for the Baltic Sea area from HELCOM Red List species list. ",
   ## target
   "",
   ## key messages
   "",
   ## data considerations
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/CW",
@@ -113,13 +118,14 @@ eco_text <- c(
   ## goal
   "ECO",
   ## key information
-  "",
+  "This goal is composed of a single component: revenue (Gross Value Added) as reported in the 2020 EU Blue economy report. Gross value added (GVA) is defined as the value of output less the value of intermediate consumption, and is used to measure the output or contribution of a particular sector. Annual growth rates between 2009 and 2018 are estimated for each of 7 sectors (Coastal tourism, Marine living resources, Marine non-living resources, Marine renewable energy, Maritime transport, Port activities, Shipbuilding and repair), compared to the 1.5% target growth rate (see below), and averaged across sectors, weighted by sectors’ proportions of the total marine economy GVA.",
   ## target
-  "",
+  "The target is having all marine economic sectors achieve an average annual growth rate of 1.5%, which comes the first EU Blue Growth study (https://webgate.ec.europa.eu/maritimeforum/node/3550).",
   ## key messages
-  "",
+  "Marine Non-living Resources is the sector with the most negative growth rate (>5% annual decrease), but only three countries have activities recorded in this category: Germany, Denmark, and Poland. This sector includes extraction and mining (and support activities for extraction) of natural gas and petroleum, salt, sand, clays and kaolin. Germany has negative growth rates also in Maritime Transport and Coastal Tourism which further decreases its score, while substantial growth in marine renewable energy for Denmark (the only country with revenue reported in this sector) largely offsets the contraction in its other sectors. Shipbuilding is a shrinking sector in Latvia, Finland, and Poland. Poland, however, has the highest growth rate in Coastal Tourism. ",
   ## data considerations
-  "",
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
+  "**Inclusion of Sustainability Information:** Incorporating information on the sustainability of the different marine sectors and/or activities would help counterbalance penalization for negative economic growth (contraction) associated unsustainable economic activities such as natural gas, petroleum, or sediments extraction. \n **Economic Activities as Pressures:** Extractive economic activities measured in this goal could be included in the index as minor pressures on other goals, in which case the contraction of these sectors would potentially correspond to increases in scores of other goals such as biodiversity or sense of place. \n **Data timeseries:** Data only for years 2009 and 2018 were available by distinct sub-sectors and economic activities in the 2020 EU Blue Economy Report; since the status calculation uses growth rate as a target and only one annual growth rate (CAGR) could be approximated using the two years of data, the OHI trend dimension capturing short-term changes in status (i.e. changes in growth rates for this goal) short-term could not be calculated.",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ECO/v2019/eco_prep.md",
   ## timeseries plot layers
@@ -151,6 +157,7 @@ eut_text <- c(
   For DIN, the management target was only met (i.e., lower DIN values) at the entrance to the Baltic Sea. DIN values highest in comparison to the target were found in Gulfs of Riga and Finland. The future trend is weak, but positive (i.e., decreasing DIN) with the exception of most of the northern Baltic Basins. For DIP, the target threshold was clearly exceeded in most of the basins, and met only in the Bothnian Bay and close to the entrance to the Baltic Sea. The future trend for DIP was clearly negative (i.e., increasing DIP) in the North, while slight positive development was identified in the South.
   ",
   ## data considerations
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Spatial variability:** Some of the assessment regions have more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores can differ across regions. \n **Thresholds:** The threshold values that are the same as used by HELCOM 2018. ",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/eutrophication/v2019/eut_prep.md",
@@ -172,6 +179,7 @@ fis_text <- c(
   ## key messages
   "",
   ## data considerations
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Different Spatial Assessment Areas:** ",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md",
@@ -221,8 +229,6 @@ ico_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Species ranges:** One limitation of the observation data used is larger uncertainties in spatial ranges of rare species. Estimation of rare species could be improved to more confidently represent distributions of species around the Baltic Sea; one way to do this would be using IUCN species range maps to establish species occurrence in relation to their spatial habitat area. \n **Relation to other assessments:** Improve the link between the BHI and the future Biodiversity assessments by IPBES and use the UN Ocean Biodiversity Information System (OBIS) as national and regional assessments will be performed and linked to IPBES in the future. \n **Data consideration:** Lack of quantitative information about the level of effort involved in obtaining the species observations data, or background environmental conditions corresponding to the data points, precludes useful interpretation from observation frequencies of species; rigorous assessment of the historical conditions of all species collectively would require this data which is not readily.",
-  
-  "",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ICO/v2019/ico_prep.md",
   ## timeseries plot layers
@@ -243,6 +249,7 @@ le_text <- c(
   ## key messages
   "",
   ## data considerations
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
   ## prep link
   "",
@@ -258,13 +265,14 @@ liv_text <- c(
   ## goal
   "LIV",
   ## key information
-  "",
+  "Due to an earlier lack of sector-specific employment information, the BHI currently uses overall employment rates in the Baltic coastal regions to represent ocean-dependent livelihood. This approach is based on the e assumption that employment rates in marine sectors are proportional  to those in the coastal regions' economies overall. Subsequent iterations of the BHI will aim to use sector-specific employment data, to more accurately represent the societal value derived from marine livelihoods in the Baltic Sea.  Coastal population and employment are estimated in areas created from intersection of the Eurostat reporting regions (NUTS2) and a buffer zone within 25 km of the coastline extending the BHI region boundaries. From these values, average employment rates in BHI regions are derived to be compared with National employment rates.",
   ## target
-  "",
+  "The reference point is the maximum Region-to-Country employment ratio of the past five years, and highest country employment rate in the last fifteen years. The region-to-country ratio puts the value into local context, then adjusting with respect to highest country employment rate in the last fifteen years from around the Baltic Sea situates the ratio in broader geographic context.",
   ## key messages
-  "",
+  "Scores in the livelihoods goal are high across the entire Baltic Sea with low cross-section  variability, but still provide relevant insights, in particular if the development dimension over time is taken into account. Poland has the lowest score across the Baltic, occurring along the coast of Bornholm Basin, but has a much higher score associated with the areas around Gdansk. The Bornholm Basin region of Poland is the lowest scoring, but also the fastest growing.",
   ## data considerations
-  "",
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
+  "**Marine sector-specific employment data:** Difficulty in obtaining data on sector-specific employment at a fine enough spatial resolution (Eurostat NUTS3 which distinguishes coastal vs non-coastal regions) has prevented a more focused assessment of marine livelihoods,  beyond the current approach’s rough estimation of livelihoods in coastal areas. \n **Working conditions and Job satisfaction:** Ideally, this goal would also reflect working conditions and job satisfaction associated with livelihoods in marine sectors.",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/LIV/v2019/liv_prep.md",
   ## timeseries plot layers
@@ -307,6 +315,7 @@ mar_text <- c(
   ## key messages
   "",
   ## data considerations
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/MAR/v2019/mar_prep.md",
@@ -328,6 +337,7 @@ np_text <- c(
   ## key messages
   "",
   ## data considerations
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md",
@@ -349,6 +359,7 @@ sp_text <- c(
   ## key messages
   "",
   ## data considerations
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
   ## prep link
   "",
@@ -364,13 +375,14 @@ tr_text <- c(
   ## goal
   "TR",
   ## key information
-  "",
+  "This goal uses data on coastal accommodations (nights stayed in tourist accommodation establishments, in coastal regions) and coastal tourism revenue (gross value added) from the EU Study on Blue Growth. Economic activities categorized under either Accommodation or Transport in the Coastal Tourism sector were included. No sustainability measure of coastal tourism on the Baltic Sea scale was found, and thus this dimension was not included. ",
   ## target
-  "",
+  "Goal status is calculated from ratios of coastal tourism revenue versus nights stayed in tourist accommodation establishments per unit area of coastal regions. The ratios are scaled such that the maximum value corresponds to a status of 100, i.e. the target is the maximum revenue-to-accommodations ratio achieved between 2012 and 2018.",
   ## key messages
-  "",
+  "Tourism potential as measured by this approach is fulfilled to a high degree in Sweden and Finland. The lowest values are associated with Lithuania and Poland, though Poland is catching up in the tourism sector – its economic growth rate in the Coastal Tourism sector is highest of any country around the Baltic Sea. Nights stayed in tourist accommodations per area in Germany is higher on average than for other countries, including Sweden and Finland, but the ratio of the national revenue from coastal tourism activities relative to this value is lower. While this metric reflects to a degree how much people value experiencing different coastal and ocean areas, the unexpectedly low values associated with the German coast could indicate saturation and greater competition driving down marginal returns from tourist accommodations . More research will be needed to evaluate such patterns and underlying causes and subsequently improve the Tourism goal model.",
   ## data considerations
-  "",
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
+  "**Lack of Sustainability Dimensions or Ecotourism:** no metric of sustainability of coastal tourism on the Baltic Sea scale was found, and thus this dimension was not included. However,  these are important considerations for the BHI as tool for ecosystem-based management, and therefore a priority for inclusion in future iterations of the Index. \n **Connection between Tourism  and Ocean Health:** how dimensions of ocean health affect people’s perceptions and value for spending time in coastal and ocean areas could be explored further, to better model how tourism potential is fulfilled across the Baltic Sea and how it may  respond to management actions or changing environmental conditions. \n **Spatial units:** Data by Eurostat NUTS (Nomenclature of Territorial Units for Statistics) level 3 regions are used to estimate accommodations densities for areas within 25 kilometers of the coastline; coastal tourism revenue is reported by country, presumably derived from data with the same Eurostat NUTS3 spatial assessment units. Better harmonization between datasets of spatial assessment units could improve confidence in results.",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/TR/v2019/tr_prep.md",
   ## timeseries plot layers
@@ -391,6 +403,7 @@ tra_text <- c(
   ## key messages
   "",
   ## data considerations
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/trash/v2019/tra_prep.md",
