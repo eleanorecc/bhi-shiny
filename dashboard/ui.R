@@ -503,17 +503,16 @@ tabItem(
       title = "Background Information", 
       status = "primary", 
       solidHeader = TRUE,
-      "This goal consists of five ecosystem components: benthic habitats, pelagic habitats, fish, mammals (seals), and water birds. It has been evaluated using the biological quality ratios and waterbird abundance, derived in the integrated biodiversity assessments from HELCOM (the HELCOM assessment tool: https://github.com/NIVA-Denmark/BalticBOOST), based on core indicators for key species and species groups, including abundance, distribution, productivity, physiological and demographic characteristics (see http://stateofthebalticsea.helcom.fi/biodiversity-and-its-status). 
-  
- 
-  Statuses of the five components are aggregated first within each component, combining coastal area values with area-weighted averages, then combining the values for coastal and offshore areas of each BHI region with equal weight. A single biodiversity status score per region is calculated as geometric mean of the five components.",
+      "This goal consists of five components: benthic habitats, pelagic habitats, fish, mammals (seals), and seabirds. It has been evaluated using the biological quality ratios and seabird abundance, derived in the integrated biodiversity assessments from HELCOM (the HELCOM assessment tool: https://github.com/NIVA-Denmark/BalticBOOST). These are based on core indicators for key species and species groups, including abundance, distribution, productivity, physiological and demographic characteristics (see http://stateofthebalticsea.helcom.fi/biodiversity-and-its-status).
+      \n 
+      Statuses of these five biodiversity components are aggregated first within each component, combining coastal area values with area-weighted averages, then combining the values for coastal and offshore areas of each BHI region with equal weight. A single biodiversity status score per region is calculated as geometric mean of the five components.",
       width = 8
     ),
     box(
       title = "Scoring Criteria", 
       status = "primary", 
       solidHeader = TRUE,
-      "For the waterbirds, the HELCOM core indicator threshold of 0.75 abundance was used as good status (corresponding to a status score of 100 in BHI). For the other four components (benthic habitats, pelagic habitats, fish, and mammals), a biological quality ratio (BQR) of 0.6 represents good status and was used as here as the target.",
+      "For the seabirds, the HELCOM core indicator threshold of 0.75 abundance was used as good status (corresponding to a status score of 100 in BHI). For the other four components (benthic habitats, pelagic habitats, fish, and mammals), a biological quality ratio (BQR) of 0.6 represents good status per the HELCOM assessments, and was used as here as the target.",
       width = 4
     )
   ),
@@ -540,10 +539,10 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Key Messages",
+      title = "Additional Insights & Discussion",
       status = "primary", 
       solidHeader = TRUE,
-      "Benthic habitat is not evaluated in The Sound or Kattegat for Denmark. Thus, while the Swedish side of these basins have high scores (100) in this component to counter low scores in other components (birds, The Sound: 58.5 and Kattegat: 52.7;  seals, The Sound: 50), the result is an overall lower score on the Danish side. The dramatically different scores on either side of Gdansk basin (Russia: 32.3, Poland: 69.6) are due to a score of zero for the benthic habitat component on the eastern side. Lowest scores are seen for Bornholm Basin (ranging 24.1 - 39.3) mainly due to low scores in benthic habitat (Denmark and Sweden score zero), seals and fishes components. The lowest scoring across all subbasins is the seals component, with lowest score in Bornholm and Western Gotland basins (10) and only reaching the target in Kattegat. Generally, water birds are in better condition than the other components, though collectively they reach the target only in Bothnian Sea, Bothnian Bay, and The Quark, and very nearly in Kiel Bay."
+      "In general, the northern Baltic Sea obtained relatively high biodiversity status scores (variability range 64.6) with the highest record in Bothnian Bay, Sweden (86). Lowest scores were obtained for the Bornholm Basin (variability range 24.1 - 39.3) mainly due to low scores in benthic habitat, seals and fish. Central and eastern Baltic Sea is generally characterized by intermediate scores with the biological components often being above the target values of individual components. The lowest scoring across all subbasins was recorded for marine mammals, with the lowest values in the Bornholm and Western Gotland basins (10) and only achieving the target level in Kattegat. Generally, seabirds are in better condition than the other biodiversity components, though collectively they reach the target levels only in Bothnian Sea, Bothnian Bay, and The Quark, and very nearly in Kiel Bay."
     )
   ),
   fluidRow(
@@ -2515,7 +2514,7 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Key Messages",
+      title = "Additional Insights & Discussion",
       status = "primary", 
       solidHeader = TRUE,
       "Tourism potential as measured by this approach is fulfilled to a high degree in Sweden and Finland. The lowest values are associated with Lithuania and Poland, though Poland is catching up in the tourism sector – its economic growth rate in the Coastal Tourism sector is highest of any country around the Baltic Sea. Nights stayed in tourist accommodations per area in Germany is higher on average than for other countries, including Sweden and Finland, but the ratio of the national revenue from coastal tourism activities relative to this value is lower. While this metric reflects to a degree how much people value experiencing different coastal and ocean areas, the unexpectedly low values associated with the German coast could indicate saturation and greater competition driving down marginal returns from tourist accommodations . More research will be needed to evaluate such patterns and underlying causes and subsequently improve the Tourism goal model."
