@@ -11,6 +11,7 @@ assess_year <- 2019
 
 gh_raw_bhi <- "https://raw.githubusercontent.com/OHI-Science/bhi/master/baltic2019draft/"
 gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/"
+gh_prep <- "https://github.com/OHI-Science/bhi-prep"
 
 ## Set main App Directory ----
 dir_main <- here::here()
