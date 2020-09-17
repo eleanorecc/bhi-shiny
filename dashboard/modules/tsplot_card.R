@@ -19,6 +19,7 @@ tsplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL, ht = 340,
   ## put together in box and return box
   tagList(box(
     collapsible = TRUE,
+    collapsed = TRUE,
     title = title_text,
     list(p(sub_title_text), items),
     width = 12
