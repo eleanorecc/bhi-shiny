@@ -9,9 +9,8 @@ library(stringr)
 
 assess_year <- 2019
 
-gh_prep <- "https://github.com/OHI-Science/bhi-1.0-archive/blob/draft/baltic2015/prep"
+gh_raw_bhi <- "https://raw.githubusercontent.com/OHI-Science/bhi/master/baltic2019draft/"
 gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/"
-gh_layers <- "https://github.com/OHI-Science/bhi-1.0-archive/tree/draft/baltic2015/layers"
 
 ## Set main App Directory ----
 dir_main <- here::here()
@@ -104,6 +103,9 @@ subbasins_shp <- make_subbasin_sf(
   dim = "score", 
   year = assess_year
 )
+
+# mpa_shp <- read_rds(file.path(dir_main, "data", "mpas.rds"))
+
 
 ## theme for shinydash and visualizations
 thm <- apply_bhi_theme()

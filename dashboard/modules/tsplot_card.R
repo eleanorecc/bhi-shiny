@@ -26,7 +26,7 @@ tsplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL, ht = 340,
 }
 
 ## timeseries plot card ui function ----
-tsplotCard <- function(input, output, session, plot_type = "boxplot",
+tsplotCard <- function(input, output, session, plot_type = "boxplot", loc = gh_raw_bhi,
                        layer_selected, spatial_unit_selected, year_selected){
   
   selected <- layer_selected()
@@ -35,7 +35,7 @@ tsplotCard <- function(input, output, session, plot_type = "boxplot",
     
     ## retrieve plotting data
     lyr <- gsub("[0-9]{4}.*", stringr::str_extract(selected, "[0-9]{4}"), selected)
-    lyr_data <- get_layers_data(gh_raw_bhiprep, layers = lyr, assess_year) %>% 
+    lyr_data <- get_layers_data(loc, layers = lyr, assess_year) %>% 
       left_join(regions_df, by = "region_id")
     
     ## wrangle depending on categorical variables, and spatial units
@@ -46,7 +46,8 @@ tsplotCard <- function(input, output, session, plot_type = "boxplot",
       pallength <- 20
     } else {
       plotdf <- dplyr::rename(lyr_data, region = region_name) %>% 
-        filter(stringr::str_detect(category, gsub(paste0(lyr, "_"), "", selected)))
+        filter(stringr::str_detect(category, gsub(paste0(lyr, "_"), "", selected))) %>% 
+        mutate(categorytxt = str_remove(str_replace_all(category, "_", " "), "^status, "))
       pallength <- 42
     }
     if(length(unique(plotdf$category)) > 1){
