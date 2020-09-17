@@ -89,91 +89,129 @@ function(input, output, session){
   },
   deleteFile = FALSE)
   
-  ## AO ----
-  ## Artisanal Fishing Opportunity
-  
-  callModule(
-    scoreBox,
-    "ao_infobox",
-    goal_code = "AO"
+
+## AO ----
+## Artisanal Fishing Opportunity
+
+## overall score box in top right
+callModule(
+  scoreBox,
+  "ao_infobox",
+  goal_code = "AO"
+)
+
+## map
+callModule(
+  mapCard, 
+  "ao_map",
+  goal_code = "AO",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  year_selected = view_year,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
+)
+
+## barplot
+callModule(
+  barplotCard, "ao_barplot",
+  goal_code = "AO",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit
+)
+
+## info table about input data layers
+output$ao_datatable = renderDataTable({
+  datatable(
+    data_info %>% 
+      filter(goal == "AO") %>% 
+      select(-goal),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "AO"))
+    ),
+    rownames = FALSE,
+    escape = FALSE
   )
-  
-  callModule(
-    mapCard, 
-    "ao_map",
-    goal_code = "AO",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit,
-    year_selected = view_year,
-    legend_title = "Scores",
-    popup_title = "Score:",
-    popup_add_field = "Name",
-    popup_add_field_title = "Name:"
-  )
-  
-  callModule(
-    barplotCard, "ao_barplot",
-    goal_code = "AO",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit
-  )
-  
-  output$ao_datatable = renderDataTable({
-    datatable(
-      data_info %>% 
-        filter(goal == "AO") %>% 
-        select(-goal),
-      options = list(
-        dom = "t", 
-        pageLength = nrow(filter(data_info, goal == "AO"))
-      ),
-      rownames = FALSE,
-      escape = FALSE
+})
+
+## layers timeseries plot
+NA
+observeEvent(
+  eventExpr = input$`ao_tsplot-select`, {
+    values$`ao_tsplot-select` <- input$`ao_tsplot-select`
+    callModule(
+      tsplotCard, 
+      "ao_tsplot",
+      plot_type = "boxplot",
+      layer_selected = reactive(values$`ao_tsplot-select`),
+      spatial_unit_selected = spatial_unit
     )
-  })
-  
-  ## BD ----
-  ## Biodiversity
-  
-  callModule(
-    scoreBox,
-    "bd_infobox",
-    goal_code = "BD"
+  }, ignoreNULL = FALSE
+)
+## BD ----
+## Biodiversity
+
+## overall score box in top right
+callModule(
+  scoreBox,
+  "bd_infobox",
+  goal_code = "BD"
+)
+
+## map
+callModule(
+  mapCard, 
+  "bd_map",
+  goal_code = "BD",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  year_selected = view_year,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
+)
+
+## barplot
+callModule(
+  barplotCard, "bd_barplot",
+  goal_code = "BD",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit
+)
+
+## info table about input data layers
+output$bd_datatable = renderDataTable({
+  datatable(
+    data_info %>% 
+      filter(goal == "BD") %>% 
+      select(-goal),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "BD"))
+    ),
+    rownames = FALSE,
+    escape = FALSE
   )
-  
-  callModule(
-    mapCard, 
-    "bd_map",
-    goal_code = "BD",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit,
-    year_selected = view_year,
-    legend_title = "Scores",
-    popup_title = "Score:",
-    popup_add_field = "Name",
-    popup_add_field_title = "Name:"
-  )
-  
-  callModule(
-    barplotCard, "bd_barplot",
-    goal_code = "BD",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit
-  )
-  
-  output$bd_datatable = renderDataTable({
-    datatable(
-      data_info %>% 
-        filter(goal == "BD") %>% 
-        select(-goal),
-      options = list(
-        dom = "t", 
-        pageLength = nrow(filter(data_info, goal == "BD"))
-      ),
-      rownames = FALSE,
-      escape = FALSE
+})
+
+## layers timeseries plot
+NA
+observeEvent(
+  eventExpr = input$`bd_tsplot-select`, {
+    values$`bd_tsplot-select` <- input$`bd_tsplot-select`
+    callModule(
+      tsplotCard, 
+      "bd_tsplot",
+      plot_type = "boxplot",
+      layer_selected = reactive(values$`bd_tsplot-select`),
+      spatial_unit_selected = spatial_unit
     )
-  })
+  }, ignoreNULL = FALSE
+)
   ## CS ----
   ## Carbon Storage
   
@@ -389,48 +427,68 @@ function(input, output, session){
     )
   })
   
-  ## TRA ----
-  ## Trash
-  
-  callModule(
-    scoreBox,
-    "tra_infobox",
-    goal_code = "TRA"
+
+## TRA ----
+## Trash
+
+## overall score box in top right
+callModule(
+  scoreBox,
+  "tra_infobox",
+  goal_code = "TRA"
+)
+
+## map
+callModule(
+  mapCard, 
+  "tra_map",
+  goal_code = "TRA",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  year_selected = view_year,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
+)
+
+## barplot
+callModule(
+  barplotCard, "tra_barplot",
+  goal_code = "TRA",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit
+)
+
+## info table about input data layers
+output$tra_datatable = renderDataTable({
+  datatable(
+    data_info %>% 
+      filter(goal == "TRA") %>% 
+      select(-goal),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "TRA"))
+    ),
+    rownames = FALSE,
+    escape = FALSE
   )
-  
-  callModule(
-    mapCard, 
-    "tra_map",
-    goal_code = "TRA",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit,
-    year_selected = view_year,
-    legend_title = "Scores",
-    popup_title = "Score:",
-    popup_add_field = "Name",
-    popup_add_field_title = "Name:"
-  )
-  
-  callModule(
-    barplotCard, "tra_barplot",
-    goal_code = "TRA",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit
-  )
-  
-  output$tra_datatable = renderDataTable({
-    datatable(
-      data_info %>% 
-        filter(goal == "TRA") %>% 
-        select(-goal),
-      options = list(
-        dom = "t", 
-        pageLength = nrow(filter(data_info, goal == "TRA"))
-      ),
-      rownames = FALSE,
-      escape = FALSE
+})
+
+## layers timeseries plot
+NA
+observeEvent(
+  eventExpr = input$`tra_tsplot-select`, {
+    values$`tra_tsplot-select` <- input$`tra_tsplot-select`
+    callModule(
+      tsplotCard, 
+      "tra_tsplot",
+      plot_type = "boxplot",
+      layer_selected = reactive(values$`tra_tsplot-select`),
+      spatial_unit_selected = spatial_unit
     )
-  })
+  }, ignoreNULL = FALSE
+)
   ## FP ----
   ## Food Provision
   
@@ -622,91 +680,129 @@ function(input, output, session){
     )
   })
   
-  ## ECO ----
-  ## Economies
-  
-  callModule(
-    scoreBox,
-    "eco_infobox",
-    goal_code = "ECO"
+
+## ECO ----
+## Economies
+
+## overall score box in top right
+callModule(
+  scoreBox,
+  "eco_infobox",
+  goal_code = "ECO"
+)
+
+## map
+callModule(
+  mapCard, 
+  "eco_map",
+  goal_code = "ECO",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  year_selected = view_year,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
+)
+
+## barplot
+callModule(
+  barplotCard, "eco_barplot",
+  goal_code = "ECO",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit
+)
+
+## info table about input data layers
+output$eco_datatable = renderDataTable({
+  datatable(
+    data_info %>% 
+      filter(goal == "ECO") %>% 
+      select(-goal),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "ECO"))
+    ),
+    rownames = FALSE,
+    escape = FALSE
   )
-  
-  callModule(
-    mapCard, 
-    "eco_map",
-    goal_code = "ECO",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit,
-    year_selected = view_year,
-    legend_title = "Scores",
-    popup_title = "Score:",
-    popup_add_field = "Name",
-    popup_add_field_title = "Name:"
-  )
-  
-  callModule(
-    barplotCard, "eco_barplot",
-    goal_code = "ECO",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit
-  )
-  
-  output$eco_datatable = renderDataTable({
-    datatable(
-      data_info %>% 
-        filter(goal == "ECO") %>% 
-        select(-goal),
-      options = list(
-        dom = "t", 
-        pageLength = nrow(filter(data_info, goal == "ECO"))
-      ),
-      rownames = FALSE,
-      escape = FALSE
+})
+
+## layers timeseries plot
+NA
+observeEvent(
+  eventExpr = input$`eco_tsplot-select`, {
+    values$`eco_tsplot-select` <- input$`eco_tsplot-select`
+    callModule(
+      tsplotCard, 
+      "eco_tsplot",
+      plot_type = "boxplot",
+      layer_selected = reactive(values$`eco_tsplot-select`),
+      spatial_unit_selected = spatial_unit
     )
-  })
-  ## LIV ----
-  ## Livelihoods
-  
-  callModule(
-    scoreBox,
-    "liv_infobox",
-    goal_code = "LIV"
+  }, ignoreNULL = FALSE
+)
+## LIV ----
+## Livelihoods
+
+## overall score box in top right
+callModule(
+  scoreBox,
+  "liv_infobox",
+  goal_code = "LIV"
+)
+
+## map
+callModule(
+  mapCard, 
+  "liv_map",
+  goal_code = "LIV",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  year_selected = view_year,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
+)
+
+## barplot
+callModule(
+  barplotCard, "liv_barplot",
+  goal_code = "LIV",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit
+)
+
+## info table about input data layers
+output$liv_datatable = renderDataTable({
+  datatable(
+    data_info %>% 
+      filter(goal == "LIV") %>% 
+      select(-goal),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "LIV"))
+    ),
+    rownames = FALSE,
+    escape = FALSE
   )
-  
-  callModule(
-    mapCard, 
-    "liv_map",
-    goal_code = "LIV",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit,
-    year_selected = view_year,
-    legend_title = "Scores",
-    popup_title = "Score:",
-    popup_add_field = "Name",
-    popup_add_field_title = "Name:"
-  )
-  
-  callModule(
-    barplotCard, "liv_barplot",
-    goal_code = "LIV",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit
-  )
-  
-  output$liv_datatable = renderDataTable({
-    datatable(
-      data_info %>% 
-        filter(goal == "LIV") %>% 
-        select(-goal),
-      options = list(
-        dom = "t", 
-        pageLength = nrow(filter(data_info, goal == "LIV"))
-      ),
-      rownames = FALSE,
-      escape = FALSE
+})
+
+## layers timeseries plot
+NA
+observeEvent(
+  eventExpr = input$`liv_tsplot-select`, {
+    values$`liv_tsplot-select` <- input$`liv_tsplot-select`
+    callModule(
+      tsplotCard, 
+      "liv_tsplot",
+      plot_type = "boxplot",
+      layer_selected = reactive(values$`liv_tsplot-select`),
+      spatial_unit_selected = spatial_unit
     )
-  })
-  
+  }, ignoreNULL = FALSE
+)
   ## SP ----
   ## Sense of Place
   
@@ -750,91 +846,130 @@ function(input, output, session){
     )
   })
   
-  ## ICO ----
-  ## Iconic Species
-  
-  callModule(
-    scoreBox,
-    "ico_infobox",
-    goal_code = "ICO"
+
+## ICO ----
+## Iconic Species
+
+## overall score box in top right
+callModule(
+  scoreBox,
+  "ico_infobox",
+  goal_code = "ICO"
+)
+
+## map
+callModule(
+  mapCard, 
+  "ico_map",
+  goal_code = "ICO",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  year_selected = view_year,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
+)
+
+## barplot
+callModule(
+  barplotCard, "ico_barplot",
+  goal_code = "ICO",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit
+)
+
+## info table about input data layers
+output$ico_datatable = renderDataTable({
+  datatable(
+    data_info %>% 
+      filter(goal == "ICO") %>% 
+      select(-goal),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "ICO"))
+    ),
+    rownames = FALSE,
+    escape = FALSE
   )
-  
-  callModule(
-    mapCard, 
-    "ico_map",
-    goal_code = "ICO",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit,
-    year_selected = view_year,
-    legend_title = "Scores",
-    popup_title = "Score:",
-    popup_add_field = "Name",
-    popup_add_field_title = "Name:"
-  )
-  
-  callModule(
-    barplotCard, "ico_barplot",
-    goal_code = "ICO",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit
-  )
-  
-  output$ico_datatable = renderDataTable({
-    datatable(
-      data_info %>% 
-        filter(goal == "ICO") %>% 
-        select(-goal),
-      options = list(
-        dom = "t", 
-        pageLength = nrow(filter(data_info, goal == "ICO"))
-      ),
-      rownames = FALSE,
-      escape = FALSE
+})
+
+## layers timeseries plot
+NA
+observeEvent(
+  eventExpr = input$`ico_tsplot-select`, {
+    values$`ico_tsplot-select` <- input$`ico_tsplot-select`
+    callModule(
+      tsplotCard, 
+      "ico_tsplot",
+      plot_type = "boxplot",
+      layer_selected = reactive(values$`ico_tsplot-select`),
+      spatial_unit_selected = spatial_unit
     )
-  })
-  
-  ## LSP ----
-  ## Lasting Special Places
-  
-  callModule(
-    scoreBox,
-    "lsp_infobox",
-    goal_code = "LSP"
+  }, ignoreNULL = FALSE
+)
+
+## LSP ----
+## Lasting Special Places
+
+## overall score box in top right
+callModule(
+  scoreBox,
+  "lsp_infobox",
+  goal_code = "LSP"
+)
+
+## map
+callModule(
+  mapCard, 
+  "lsp_map",
+  goal_code = "LSP",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  year_selected = view_year,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
+)
+
+## barplot
+callModule(
+  barplotCard, "lsp_barplot",
+  goal_code = "LSP",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit
+)
+
+## info table about input data layers
+output$lsp_datatable = renderDataTable({
+  datatable(
+    data_info %>% 
+      filter(goal == "LSP") %>% 
+      select(-goal),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "LSP"))
+    ),
+    rownames = FALSE,
+    escape = FALSE
   )
-  
-  callModule(
-    mapCard, 
-    "lsp_map",
-    goal_code = "LSP",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit,
-    year_selected = view_year,
-    legend_title = "Scores",
-    popup_title = "Score:",
-    popup_add_field = "Name",
-    popup_add_field_title = "Name:"
-  )
-  
-  callModule(
-    barplotCard, "lsp_barplot",
-    goal_code = "LSP",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit
-  )
-  
-  output$lsp_datatable = renderDataTable({
-    datatable(
-      data_info %>% 
-        filter(goal == "LSP") %>% 
-        select(-goal),
-      options = list(
-        dom = "t", 
-        pageLength = nrow(filter(data_info, goal == "LSP"))
-      ),
-      rownames = FALSE,
-      escape = FALSE
+})
+
+## layers timeseries plot
+NA
+observeEvent(
+  eventExpr = input$`lsp_tsplot-select`, {
+    values$`lsp_tsplot-select` <- input$`lsp_tsplot-select`
+    callModule(
+      tsplotCard, 
+      "lsp_tsplot",
+      plot_type = "boxplot",
+      layer_selected = reactive(values$`lsp_tsplot-select`),
+      spatial_unit_selected = spatial_unit
     )
-  })
+  }, ignoreNULL = FALSE
+)
   ## NP ----
   ## Natural Products
   
@@ -878,48 +1013,68 @@ function(input, output, session){
     )
   })
   
-  ## TR ----
-  ## Tourism & Recreation
-  
-  callModule(
-    scoreBox,
-    "tr_infobox",
-    goal_code = "TR"
+
+## TR ----
+## Tourism & Recreation
+
+## overall score box in top right
+callModule(
+  scoreBox,
+  "tr_infobox",
+  goal_code = "TR"
+)
+
+## map
+callModule(
+  mapCard, 
+  "tr_map",
+  goal_code = "TR",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  year_selected = view_year,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
+)
+
+## barplot
+callModule(
+  barplotCard, "tr_barplot",
+  goal_code = "TR",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit
+)
+
+## info table about input data layers
+output$tr_datatable = renderDataTable({
+  datatable(
+    data_info %>% 
+      filter(goal == "TR") %>% 
+      select(-goal),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "TR"))
+    ),
+    rownames = FALSE,
+    escape = FALSE
   )
-  
-  callModule(
-    mapCard, 
-    "tr_map",
-    goal_code = "TR",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit,
-    year_selected = view_year,
-    legend_title = "Scores",
-    popup_title = "Score:",
-    popup_add_field = "Name",
-    popup_add_field_title = "Name:"
-  )
-  
-  callModule(
-    barplotCard, "tr_barplot",
-    goal_code = "TR",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit
-  )
-  
-  output$tr_datatable = renderDataTable({
-    datatable(
-      data_info %>% 
-        filter(goal == "TR") %>% 
-        select(-goal),
-      options = list(
-        dom = "t", 
-        pageLength = nrow(filter(data_info, goal == "TR"))
-      ),
-      rownames = FALSE,
-      escape = FALSE
+})
+
+## layers timeseries plot
+NA
+observeEvent(
+  eventExpr = input$`tr_tsplot-select`, {
+    values$`tr_tsplot-select` <- input$`tr_tsplot-select`
+    callModule(
+      tsplotCard, 
+      "tr_tsplot",
+      plot_type = "boxplot",
+      layer_selected = reactive(values$`tr_tsplot-select`),
+      spatial_unit_selected = spatial_unit
     )
-  })
+  }, ignoreNULL = FALSE
+)
   ## END ----
   ## signal end of goals pages stuff for rebuild functions
   
