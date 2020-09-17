@@ -22,14 +22,14 @@ tabItem(
   ## target info and key information
   fluidRow(
     box(
-      title = "Key Information", 
+      title = "Background Information", 
       status = "primary", 
       solidHeader = TRUE,
       "goaltext_key_information",
       width = 8
     ),
     box(
-      title = "Target", 
+      title = "Scoring Criteria", 
       status = "primary", 
       solidHeader = TRUE,
       "goaltext_target",
@@ -42,7 +42,7 @@ tabItem(
     mapCardUI(
       id = "goalcode_map",
       title_text = "GOALNAME Scores Around the Baltic",
-      sub_title_text = "This map shows scores from the previous assessment (2014)",
+      sub_title_text = "",
       br(), 
       box_width = 8,
       ht = 540
@@ -50,7 +50,7 @@ tabItem(
     barplotCardUI(
       id = "goalcode_barplot",
       title_text = "Shortfall/Headway towards Target",
-      sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
       box_width = 4
     )
   ),
@@ -100,7 +100,7 @@ tabItem(
       collapsed = TRUE,
       width = 12,
       title = "Data Considerations & Potential Improvements",
-      "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
+      "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
       br(),
       br(),
       ## data considerations and improvements bullets
