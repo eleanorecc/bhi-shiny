@@ -12,7 +12,7 @@ ao_text <- c(
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Missing country data:** Missing data for Germany, Poland and Russia (and only key species data for Denmark) which is why there is no scoring for their respective basins. \n **Multiple facets of opportunity:** Including ‘need’ and ‘access’ sub-components of this goal alongside the condition of coastal fisheries will give a more complete overview of artisanal fishing opportunity. \n **Sparce Data in some areas:** In some basins there is very few monitoring stations and scaling up from monitoring station to subbasin does likely not provide a fully representative assessment.",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/AO/v2019/ao_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -33,7 +33,7 @@ bd_text <- c(
   ## data considerations
   "",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/BD/v2019/bd_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -55,7 +55,7 @@ con_text <- c(
  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
  "**Substances of Very High Concern:** The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea is used as one of the indicators to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea. This indicator and how it is used to calculate the score can be developed further to better combine the two aspects of the contaminant goal: current health of the Baltic Sea, and lack of data. \n **Spatial variability:** Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores differs substantially across regions. Generally, there is less data on pollutants/pollutant groups from the southeast near the Baltic states and Poland and Russia. \n **Thresholds:** The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty.",
  ## prep link
- "http://ohi-science.org/bhi-prep/contaminants-clean-water-subgoal.html",
+ "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/contaminants/v2019/con_prep.md",
  ## timeseries plot layers
  paste(
    "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -79,7 +79,7 @@ cs_text <- c(
   ## data considerations
   "",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CS/v2019/cs_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -100,7 +100,7 @@ cw_text <- c(
   ## data considerations
   "",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/tree/master/prep/CW",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -121,7 +121,7 @@ eco_text <- c(
   ## data considerations
   "",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ECO/v2019/eco_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -153,7 +153,7 @@ eut_text <- c(
   ## data considerations
   "**Spatial variability:** Some of the assessment regions have more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores can differ across regions. \n **Thresholds:** The threshold values that are the same as used by HELCOM 2018. ",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/eutrophication/v2019/eut_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -174,7 +174,7 @@ fis_text <- c(
   ## data considerations
   "**Different Spatial Assessment Areas:** ",
   ## prep link
-  "http://ohi-science.org/bhi-prep/wild-caught-fisheries-food-provision-subgoal.html",
+  "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -213,15 +213,18 @@ ico_text <- c(
   ## goal
   "ICO",
   ## key information
-  "",
+  "The status of iconic species was evaluated using species observational data from the HELCOM database. A subset of species identified as culturally significant in the region included eight fish (cod, flounder, herring, perch, pike, salmon, trout, and sprat), five mammals (grey seal, harbour seal, ringed seal, harbour porpoise, and European otter), and two birds (sea eagle and common eider). The status of each of these iconic species is a numeric weight corresponding to their Red List threat category (ranging from “extinct” to “least concern”) of the International Union for Conservation of Nature (IUCN).",
   ## target
-  "All iconic species have a conservation status of Least Concern.",
+  "A maximum score of 100 will be achieved in the case when all species are categorised as ’Least Concern.’",
   ## key messages
-  "",
+  "Status of iconic species is generally higher in southern basins of the Baltic Sea. More species from the iconic species list are present in the southern basins, including fish species such as flounder (Platichthys flesus) and sprat (Sprattus sprattus) which thrive in higher salinity and are classified on the IUCN scale as ‘least concern’. The different ranges of different seal species also contribute to the pattern of lower scores in the northern basins. Harbour seals (Phoca vitulina vitulina), which are classified as ‘least concern’, are present in the southern but not in the northern basins, while ringed seals (Pusa hispida) classified as ‘vulnerable’ are only present in the northern basins.",
   ## data considerations
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
+  "**Species ranges:** One limitation of the observation data used is larger uncertainties in spatial ranges of rare species. Estimation of rare species could be improved to more confidently represent distributions of species around the Baltic Sea; one way to do this would be using IUCN species range maps to establish species occurrence in relation to their spatial habitat area. \n **Relation to other assessments:** Improve the link between the BHI and the future Biodiversity assessments by IPBES and use the UN Ocean Biodiversity Information System (OBIS) as national and regional assessments will be performed and linked to IPBES in the future. \n **Data consideration:** Lack of quantitative information about the level of effort involved in obtaining the species observations data, or background environmental conditions corresponding to the data points, precludes useful interpretation from observation frequencies of species; rigorous assessment of the historical conditions of all species collectively would require this data which is not readily.",
+  
   "",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ICO/v2019/ico_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -263,7 +266,7 @@ liv_text <- c(
   ## data considerations
   "",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/LIV/v2019/liv_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -285,7 +288,7 @@ lsp_text <- c(
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Data delays:** Some of the management plans are outdated, as the data updates are delayed on the HELCOM MPAs webpage (http://mpas.helcom.fi/apex/f?p=103:5::::::). \n **Moving target:** CBD and EU are now discussing on raising the target for protection to 30% of the sea area, in which case will entail the BHI target to be updated accordingly. \n **Mapping values:** Map important conservation, social and cultural places, which people value highly.",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/LSP/v2019/lsp_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -306,7 +309,7 @@ mar_text <- c(
   ## data considerations
   "",
   ## prep link
-  "http://ohi-science.org/bhi-prep/mariculture-food-provision-subgoal.html",
+  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/MAR/v2019/mar_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -327,7 +330,7 @@ np_text <- c(
   ## data considerations
   "",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -369,7 +372,7 @@ tr_text <- c(
   ## data considerations
   "",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/tree/master/prep/TR/v2019/tr_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
@@ -390,7 +393,7 @@ tra_text <- c(
   ## data considerations
   "",
   ## prep link
-  "",
+  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/trash/v2019/tra_prep.md",
   ## timeseries plot layers
   paste(
     # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
