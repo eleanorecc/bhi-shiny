@@ -1,0 +1,69 @@
+goal,show_for_goals,bhi_rawlayers_or_intermediate,full_layer_name,data_filename,category_colname,categories,plot,map,timeseries,min_year,max_year
+RES,LSP,layers,"Resilience score associated with good governance, as measured by the World Governance Indicator",wgi_all_bhi2019.csv,,,,polygons,FALSE,,
+TR,TR,layers,"Gross Value Added (GVA, MÛ) from coastal tourism sectors, accommodations and transport activities",tr_coastal_tourism_gva_bhi2019.csv,,,timeseries,polygons,TRUE,2012,2018
+TR,TR,layers,"Nights spent in coastal tourist accomodations per square kilometer, from Eurostat NUTS3 reporting regions",tr_accommodations_bhi2019.csv,,,timeseries,polygons,TRUE,2012,2018
+PRS,BD,layers,Pressure due to Invasive Species,sp_invasives_bhi2019.csv,,,,polygons,FALSE,,
+ICO,ICO,layers,IUCN Categories for Iconic species of the Baltic Sea,sp_ico_assessments_bhi2019.csv,species_group,Fish and Lamprey|Mammals|Birds,histogram,,TRUE,2007,2013
+RES,BD,layers,Resilience score for regulatory compliance with the EU Birds Directive,res_reg_birds_bhi2015.csv,,,,polygons,FALSE,,
+RES,EUT,layers,Resilience score for regulatory compliance with the Baltic Sea Action Plan (BSAP),res_reg_bsap_bhi2015.csv,,,,polygons,FALSE,,
+RES,TR,layers,Resilience score for regulatory compliance with the Bathing Water Directive (BWD),res_reg_bwd_bhi2015.csv,,,,polygons,FALSE,,
+RES,BD,layers,Resilience score for regulatory compliance with the Convention on Biological Diversity (CBD),res_reg_cbd_bhi2015.csv,,,,polygons,FALSE,,
+RES,FIS,layers,Resilience score for regulatory compliance with the Common Fisheries Policy (CFP),res_reg_cfp_bhi2015.csv,,,,polygons,FALSE,,
+RES,ICO,layers,Resilience score for regulatory compliance with the Convention on International Trade in Endangered Species (CITES),res_reg_cites_bhi2015.csv,,,,polygons,FALSE,,
+RES,SP,layers,Resilience score forregulatory compliance with the 21st Conference of the Parties (COP21),res_reg_cop21_bhi2015.csv,,,,polygons,FALSE,,
+RES,FIS,layers,Resilience score for regulatory compliance with the Habitats Directive (HD),res_reg_hd_bhi2015.csv,,,,polygons,FALSE,,
+RES,BD,layers,Resilience score for regulatory compliance with HELCOM ?,res_reg_helcom_bhi2015.csv,,,,polygons,FALSE,,
+RES,CW,layers,Resilience score for regulatory compliance with the Industrial Emissions Directive (IED),res_reg_ied_bhi2015.csv,,,,polygons,FALSE,,
+RES,CW,layers,Resilience score for regulatory compliance with the EU Marine Strategy Framework Directive (MSFD),res_reg_msfd_bhi2015.csv,,,,polygons,FALSE,,
+RES,LSP,layers,Resilience score for regulatory compliance with the EU Marine Spatial Planning Directive (MSPD),res_reg_mspd_bhi2015.csv,,,,polygons,FALSE,,
+RES,CS,layers,Resilience score forregulatory compliance with ?,res_reg_nd_bhi2015.csv,,,,polygons,FALSE,,
+RES,CON,layers,Resilience score for regulatory compliance with the National Emissions Ceilings directive (NEC),res_reg_nec_bhi2015.csv,,,,polygons,FALSE,,
+RES,CON,layers,Resilience score for regulatory compliance with ?,res_reg_pop_bhi2015.csv,,,,polygons,FALSE,,
+RES,CW,layers,"Resilience score for regulatory compliance with European Regulation on Registration, Evaluation, Authorisation and Restriction of Chemicals (REACH)",res_reg_reach_bhi2015.csv,,,,polygons,FALSE,,
+RES,EUT,layers,Resilience score for regulatory compliance with the Urban Waste Water Treatment Directive (UWWTD),res_reg_uwwtd_bhi2015.csv,,,,polygons,FALSE,,
+RES,BD,layers,Resilience score for regulatory compliance with the Water Framework Directive (WFD),res_reg_wfd_bhi2015.csv,,,,polygons,FALSE,,
+PRS,EUT,layers,Pressure due to Phosphorus loading,po_pload_bhi2019.csv,,,timeseries,polygons,TRUE,1997,2017
+PRS,EUT,layers,Pressure due to Nitrogen loading,po_nload_bhi2019.csv,,,timeseries,polygons,TRUE,1997,2017
+PRS,TR,layers,Pressure due to lack of water transparency or clarity,po_inverse_secchi_bhi2019.csv,,,timeseries,polygons,TRUE,2004,2019
+PRS,CON,layers,Pressure from atmospheric deposition of dioxins,po_atmos_pcdd_bhi2019.csv,,,,polygons,FALSE,,
+PRS,CON,layers,Pressure from atmospheric deposition of PCB153,po_atmos_pcb153_bhi2019.csv,,,,polygons,FALSE,,
+NP,NP,layers,"Sprat landings, tonnes",np_landings_bhi2019.csv,stock,sprat,timeseries,polygons,TRUE,1974,2018
+NP,NP,layers,Fishing mortality normalized by fishing mortality at max. sustainable yield,np_ffmsy_bhi2019.csv,stock,sprat,timeseries,polygons,TRUE,1974,2018
+NP,NP,layers,Biomass at sea normalized by spawning stock biomass,np_bbmsy_bhi2019.csv,stock,sprat,timeseries,polygons,TRUE,1974,2018
+MAR,MAR,layers,Tonnes of seafood (rainbow trout and finfish) produced in Mariculture operations,mar_harvest_bhi2019.csv,,,timeseries,polygons,TRUE,1972,2019
+LIV,LIV,layers,"Estimates of average regional employment rates in the coastal zone, within 25km of the coast",le_liv_regional_employ_bhi2019.csv,,,timeseries,polygons,TRUE,2005,2019
+LIV,LIV,layers,National employment rates in countries bordering the Baltic Sea,le_liv_national_employ_bhi2019.csv,,,timeseries,polygons,TRUE,2005,2019
+ECO,ECO,layers,"Gross Value Added (GVA, MÛ) from Blue Economy sectors",le_eco_yearly_gva_bhi2019.csv,sector,Coastal tourism|Marine living resources|Marine non-living resources|Marine renewable energy|Maritime transport|Port activities|Shipbuilding and repair,timeseries,,TRUE,2009,2018
+ECO,ECO,layers,"Annual growth rate (CAGR) in Blue Economy sectors, from estimated from 2009 and 2018 data in 2020 EU Blue Growth Report",le_eco_bluegrowth_rates_bhi2019.csv,sector,Coastal tourism|Marine living resources|Marine non-living resources|Marine renewable energy|Maritime transport|Port activities|Shipbuilding and repair,,polygons,FALSE,,
+PRS,FIS,layers,Pressure due to oxygen debt,hab_oxygen_debt_bhi2019.csv,,,timeseries,polygons,TRUE,2000,2019
+PRS,LSP,layers,Pressure due to illegal oil activities,hab_illegal_oil_bhi2019.csv,,,,polygons,FALSE,,
+PRS,BD,layers,Pressure due to bottom trawling,hab_bottom_trawl_bhi2019.csv,,,,polygons,FALSE,,
+FIS,FIS,layers,"Landings from wildcaught fisheries, tonnes",fis_landings_bhi2019.csv,stock,cod|herring,timeseries,polygons,TRUE,1970,2018
+FIS,FIS,layers,Fishing mortality normalized by fishing mortality at max. sustainable yield,fis_ffmsy_bhi2019.csv,stock,cod|herring,timeseries,polygons,TRUE,1970,2018
+FIS,FIS,layers,"Proportion of surveyed cod in length categories 20-30, 30-40, 40-60cm with Fulton's K (W/(L^3) _ 100) less than 0.8",fis_cod_penalty_bhi2019.csv,,,timeseries,polygons,,1997,2018
+FIS,FIS,layers,Biomass at sea normalized by spawning stock biomass,fis_bbmsy_bhi2019.csv,stock,cod|herring,timeseries,polygons,TRUE,1970,2018
+EUT,EUT,layers,"Secchi depth (meters, June-September) measurements",cw_eut_secchi_bhi2019.csv,,,points,points,TRUE,2000,2019
+EUT,EUT,layers,Oxygen debt,cw_eut_oxydebt_bhi2019.csv,,,timeseries,polygons,TRUE,2000,2019
+EUT,EUT,layers,"Dissolved Inorganic Phosphorus (in surface layer 0-10 m depth, December-February) concentration measurements",cw_eut_dip_bhi2019.csv,,,,points,TRUE,2005,2018
+EUT,EUT,layers,"Dissolved Inorganic Nitrogen (nitrate, nitrite, and ammonium in the surface layer 0-10 m depth, December-February) concentration measurements",cw_eut_din_bhi2019.csv,,,,points,TRUE,2005,2018
+EUT,EUT,layers,"Chllorphyl a (in surface layer 0-10 m depth, June-September) measurements",cw_eut_chla_bhi2019.csv,,,,points,TRUE,2000,2018
+CON,CON,layers,Perfluorooctanesulfonic acid (PFOS) average concentrations (ug/kg),cw_con_pfos_bhi2019.csv,matrix,bio|sed,tsboxplot,polygons,TRUE,2005,2018
+CON,CON,layers,Proportions of monitored Substances of Very High Concern (from European Chemical Agency Candidate List),cw_con_penalty_bhi2019.csv,,,histogram,,TRUE,1990,2020
+CON,CON,layers,"Average PCBs concentrations (ug/kg, six congeners: CB28, CB52, CB101, CB138, CB153, CB180, a d CB118 in sediments)",cw_con_pcb_bhi2019.csv,matrix,bio|sed,tsboxplot,polygons,TRUE,1990,2018
+CON,CON,layers,"Average Dioxin concentrations (ug/kg, includes dioxin-like PCBs)",cw_con_dioxin_bhi2019.csv,matrix,bio|sed,tsboxplot,polygons,TRUE,1998,2018
+PRS,AO,layers,Pressure associated with sea surface temperature,cc_sst_bhi2019.csv,,,timeseries,polygons,TRUE,1990,2019
+PRS,AO,layers,Pressure associated with salinity of the surface layer,cc_sal_surf_bhi2019.csv,,,timeseries,polygons,TRUE,1990,2019
+FP,FP,intermediate,Proportion seafood production from wildcaught fisheries vs. Mariculture production,wildcaught_weight.csv,,,timeseries,polygons,TRUE,2005,2019
+BD,BD,intermediate,"Status of seal, based on integrated biodiversity assessment",spp_seals.csv,,,,polygons,FALSE,,
+BD,BD,intermediate,"Status of fishes, based on integrated biodiversity assessment",spp_fishes.csv,,,,polygons,FALSE,,
+BD,BD,intermediate,"Status of water birds, based on integrated biodiversity assessment",spp_birds.csv,,,,polygons,FALSE,,
+CW,CW,intermediate,Secchi depth indicator scores,secchi_indicator.csv,dimension,status|trend,colunmplot,polygons,FALSE,,
+CW,CW,intermediate,PFOS indicator scores,pfos_indicator.csv,dimension,status|trend,colunmplot,polygons,FALSE,,
+CW,CW,intermediate,PCBs indicator scores,pcb_indicator.csv,dimension,status|trend,colunmplot,polygons,FALSE,,
+CW,CW,intermediate,Oxygen debt indicator scores,oxyg_indicator.csv,dimension,status|trend,colunmplot,polygons,FALSE,,
+BD,BD,intermediate,"Status of pelagic habitats, based on integrated biodiversity assessment",hab_pelagic.csv,,,,polygons,FALSE,,
+BD,BD,intermediate,"Status of benthic habitats, based on integrated biodiversity assessment",hab_benthic.csv,,,,polygons,FALSE,,
+CW,CW,intermediate,Dissolved Inorganic Phosphorus indicator scores,dip_indicator.csv,dimension,status|trend,colunmplot,polygons,FALSE,,
+CW,CW,intermediate,Dioxin indicator scores,dioxin_indicator.csv,dimension,status|trend,colunmplot,polygons,FALSE,,
+CW,CW,intermediate,Dissolved Inorganic Nitrogen indicator scores,din_indicator.csv,dimension,status|trend,colunmplot,polygons,FALSE,,
+CW,CW,intermediate,Chlorophyll a indicator scores,chla_indicator.csv,dimension,status|trend,colunmplot,polygons,FALSE,,
