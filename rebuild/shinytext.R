@@ -116,7 +116,10 @@ cw_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
-c
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Anna Sobek **Department of Environmental Science, Stockholm University, Stockholm, Sweden** \n Vivi Fleming **Finnish Environment Institute SYKE, Helsinki, Finland**",
+  ## prep link
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/CW",
   ## timeseries plot layers
   paste(
@@ -255,7 +258,7 @@ ico_text <- c(
   "**Species ranges:** One limitation of the observation data used is larger uncertainties in spatial ranges of rare species. Estimation of rare species could be improved to more confidently represent distributions of species around the Baltic Sea; one way to do this would be using IUCN species range maps to establish species occurrence in relation to their spatial habitat area. \n **Relation to other assessments:** Improve the link between the BHI and the future Biodiversity assessments by IPBES and use the UN Ocean Biodiversity Information System (OBIS) as national and regional assessments will be performed and linked to IPBES in the future. \n **Data consideration:** Lack of quantitative information about the level of effort involved in obtaining the species observations data, or background environmental conditions corresponding to the data points, precludes useful interpretation from observation frequencies of species; rigorous assessment of the historical conditions of all species collectively would require this data which is not readily.",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
-  "",
+  "**No expert for this particular sub-goal**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ICO/v2019/ico_prep.md",
   ## timeseries plot layers
@@ -355,7 +358,7 @@ mar_text <- c(
   "",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
-  "",
+  "**No expert for this particular sub-goal**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/MAR/v2019/mar_prep.md",
   ## timeseries plot layers
@@ -380,7 +383,7 @@ np_text <- c(
   "",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
-  "",
+  "**No expert for this particular goal (some advisement from fisheries goal expert, as used similar models)**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md",
   ## timeseries plot layers
@@ -405,7 +408,7 @@ sp_text <- c(
   "",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
-  "",
+  "Sofia Wikström **Baltic Sea Centre, Stockholm University, Stockholm, Sweden**",
   ## prep link
   "",
   ## timeseries plot layers
@@ -430,7 +433,7 @@ tr_text <- c(
   "**Lack of Sustainability Dimensions or Ecotourism:** no metric of sustainability of coastal tourism on the Baltic Sea scale was found, and thus this dimension was not included. However,  these are important considerations for the BHI as tool for ecosystem-based management, and therefore a priority for inclusion in future iterations of the Index. \n **Connection between Tourism  and Ocean Health:** how dimensions of ocean health affect people’s perceptions and value for spending time in coastal and ocean areas could be explored further, to better model how tourism potential is fulfilled across the Baltic Sea and how it may  respond to management actions or changing environmental conditions. \n **Spatial units:** Data by Eurostat NUTS (Nomenclature of Territorial Units for Statistics) level 3 regions are used to estimate accommodations densities for areas within 25 kilometers of the coastline; coastal tourism revenue is reported by country, presumably derived from data with the same Eurostat NUTS3 spatial assessment units. Better harmonization between datasets of spatial assessment units could improve confidence in results.",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
-  "",
+  "Wilfried Rickels **Kiel Institute for the World Economy, Kiel, Germany**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/TR/v2019/tr_prep.md",
   ## timeseries plot layers
@@ -455,7 +458,7 @@ tra_text <- c(
   "",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
-  "",
+  "**No expert for this particular sub-goal**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/trash/v2019/tra_prep.md",
   ## timeseries plot layers
