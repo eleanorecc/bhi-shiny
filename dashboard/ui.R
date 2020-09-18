@@ -564,10 +564,7 @@ tabItem(
       title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      "Andrea Belgrano , ", tags$em("Institute of Marine Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Lysekil, Sweden")
-	,
-"Henn Ojaveer, ", tags$em("Pärnu College, University of Tartu, Pärnu, Estonia and National Institute of Aquatic Resources, Technical University of Denmark, Lyngby, Denmark")
-	
+       "Andrea Belgrano ,  ", tags$em(" Institute of Marine Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Lysekil, Sweden"), br(), "Henn Ojaveer,  ", tags$em(" Pärnu College, University of Tartu, Pärnu, Estonia and National Institute of Aquatic Resources, Technical University of Denmark, Lyngby, Denmark"), 
     )
   ),
   fluidRow(
@@ -694,10 +691,7 @@ tabItem(
       title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      "Christoffer Boström , ", tags$em("Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland")
-	,
-"Markku Viitasalo, ", tags$em("Finnish Environment Institute SYKE, Helsinki, Finland")
-	
+       "Christoffer Boström ,  ", tags$em(" Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland"), br(), "Markku Viitasalo,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland"), 
     )
   ),
   fluidRow(
@@ -828,10 +822,7 @@ tabItem(
       title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      "Anna Sobek , ", tags$em("Department of Environmental Science, Stockholm University, Stockholm, Sweden")
-	,
-"Vivi Fleming, ", tags$em("Finnish Environment Institute SYKE, Helsinki, Finland")
-	
+       "Anna Sobek ,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden"), br(), "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland"), 
     )
   ),
   fluidRow(

@@ -145,7 +145,6 @@ output$ao_datatable = renderDataTable({
 })
 
 ## layers timeseries plot
-NA
 observeEvent(
   eventExpr = input$`ao_tsplot-select`, {
     values$`ao_tsplot-select` <- input$`ao_tsplot-select`
@@ -158,6 +157,12 @@ observeEvent(
     )
   }, ignoreNULL = FALSE
 )
+
+
+
+
+
+
 
 ## BD ----
 ## Biodiversity
@@ -350,7 +355,6 @@ observeEvent(
     )
   }, ignoreNULL = FALSE
 )
-
 ## CON ----
 ## Contaminants
 
