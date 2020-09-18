@@ -16,4 +16,4 @@ order_color,order_hierarchy,order_calculate,order_htmlplot,goal,parent,name,name
 9.1,9.1,10,11,EUT,CW,Eutrophication,Eutro-\nphication,"This sub-goal captures the degree to which waters are unpolluted by nutrients, and unaffected by eutrophication.",0.33,EUT(layers),NA
 9.3,9.2,11,9,TRA,CW,Trash,Trash,"The Trash sub-goal assesses a region's ability to manage litter in order to prevent it from entering the ocean and causing harm to the coastal and marine environments. Marine litter is a large global concern, impacting all marine environments of the world and, therefore, needs to be monitored.",0.33,TRA(layers),NA
 9.4,9.3,12,8,CON,CW,Contaminants,Con-\ntaminants,This goal captures the degree to which waters are unpolluted by contaminants.,0.33,CON(layers),NA
-10,8,17,12,BD,NA,Biodiversity,Biodiversity,"This goal captures the biodiversity status of the Baltic Sea ecosystem and intactness of broad, encompassing marine habitats/zones.",1,BD(layers),NA
+10,8,17,12,BD,NA,Biodiversity,Biodiversity,"This goal captures the biodiversity status of the Baltic Sea ecosystems and intactness of broad, encompassing marine habitats/zones.",1,BD(layers),NA
