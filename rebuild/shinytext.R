@@ -11,6 +11,9 @@ ao_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Missing country data:** Missing data for Germany, Poland and Russia (and only key species data for Denmark) which is why there is no scoring for their respective basins. \n **Multiple facets of opportunity:** Including ‘need’ and ‘access’ sub-components of this goal alongside the condition of coastal fisheries will give a more complete overview of artisanal fishing opportunity. \n **Sparce Data in some areas:** In some basins there is very few monitoring stations and scaling up from monitoring station to subbasin does likely not provide a fully representative assessment.",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Jens Olsson **Institute of Coastal Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Öregrund, Sweden**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/AO/v2019/ao_prep.md",
   ## timeseries plot layers
@@ -35,6 +38,9 @@ bd_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Temporal data:** The data used here consists of an integrated assessment period (2011-2016), so no trend  was calculated from the same data used in status calculations. The trend dimension included is from the global OHI assessment, which employs a different status calculation approach. \n **Varied habitats and functions:** Including a greater range of more specific habitat types and functional types (in a transparent way), could help make the goal more actionable for managers at local scales.",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Andrea Belgrano **Institute of Marine Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Lysekil, Sweden** \n Henn Ojaveer **Pärnu College, University of Tartu, Pärnu, Estonia and National Institute of Aquatic Resources, Technical University of Denmark, Lyngby, Denmark**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/BD/v2019/bd_prep.md",
   ## timeseries plot layers
@@ -57,6 +63,9 @@ con_text <- c(
  ## data considerations
  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
  "**Substances of Very High Concern:** The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea is used as one of the indicators to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea. This indicator and how it is used to calculate the score can be developed further to better combine the two aspects of the contaminant goal: current health of the Baltic Sea, and lack of data. \n **Spatial variability:** Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores differs substantially across regions. Generally, there is less data on pollutants/pollutant groups from the southeast near the Baltic states and Poland and Russia. \n **Thresholds:** The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty.",
+ ## experts
+ ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+ "Anna Sobek **Department of Environmental Science, Stockholm University, Stockholm, Sweden**",
  ## prep link
  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/contaminants/v2019/con_prep.md",
  ## timeseries plot layers
@@ -82,6 +91,9 @@ cs_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Christoffer Boström **Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland** \n Markku Viitasalo **Finnish Environment Institute SYKE, Helsinki, Finland**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CS/v2019/cs_prep.md",
   ## timeseries plot layers
@@ -104,7 +116,7 @@ cw_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
-  ## prep link
+c
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/CW",
   ## timeseries plot layers
   paste(
@@ -126,6 +138,9 @@ eco_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Inclusion of Sustainability Information:** Incorporating information on the sustainability of the different marine sectors and/or activities would help counterbalance penalization for negative economic growth (contraction) associated unsustainable economic activities such as natural gas, petroleum, or sediments extraction. \n **Economic Activities as Pressures:** Extractive economic activities measured in this goal could be included in the index as minor pressures on other goals, in which case the contraction of these sectors would potentially correspond to increases in scores of other goals such as biodiversity or sense of place. \n **Data timeseries:** Data only for years 2009 and 2018 were available by distinct sub-sectors and economic activities in the 2020 EU Blue Economy Report; since the status calculation uses growth rate as a target and only one annual growth rate (CAGR) could be approximated using the two years of data, the OHI trend dimension capturing short-term changes in status (i.e. changes in growth rates for this goal) short-term could not be calculated.",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Wilfried Rickels **Kiel Institute for the World Economy, Kiel, Germany**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ECO/v2019/eco_prep.md",
   ## timeseries plot layers
@@ -159,6 +174,9 @@ eut_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Spatial variability:** Some of the assessment regions have more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores can differ across regions. \n **Thresholds:** The threshold values that are the same as used by HELCOM 2018. ",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Vivi Fleming **Finnish Environment Institute SYKE, Helsinki, Finland**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/eutrophication/v2019/eut_prep.md",
   ## timeseries plot layers
@@ -181,6 +199,9 @@ fis_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Different Spatial Assessment Areas:** ",
+  ### experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Christian Möllmann **Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md",
   ## timeseries plot layers
@@ -207,6 +228,9 @@ fp_text <- c(
   "",
   ## data considerations
   "",
+  ### experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Christian Möllmann **Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany**",
   ## prep link
   "",
   ## timeseries plot layers
@@ -229,6 +253,9 @@ ico_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Species ranges:** One limitation of the observation data used is larger uncertainties in spatial ranges of rare species. Estimation of rare species could be improved to more confidently represent distributions of species around the Baltic Sea; one way to do this would be using IUCN species range maps to establish species occurrence in relation to their spatial habitat area. \n **Relation to other assessments:** Improve the link between the BHI and the future Biodiversity assessments by IPBES and use the UN Ocean Biodiversity Information System (OBIS) as national and regional assessments will be performed and linked to IPBES in the future. \n **Data consideration:** Lack of quantitative information about the level of effort involved in obtaining the species observations data, or background environmental conditions corresponding to the data points, precludes useful interpretation from observation frequencies of species; rigorous assessment of the historical conditions of all species collectively would require this data which is not readily.",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ICO/v2019/ico_prep.md",
   ## timeseries plot layers
@@ -251,6 +278,9 @@ le_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Wilfried Rickels **Kiel Institute for the World Economy, Kiel, Germany**",
   ## prep link
   "",
   ## timeseries plot layers
@@ -273,6 +303,9 @@ liv_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Marine sector-specific employment data:** Difficulty in obtaining data on sector-specific employment at a fine enough spatial resolution (Eurostat NUTS3 which distinguishes coastal vs non-coastal regions) has prevented a more focused assessment of marine livelihoods,  beyond the current approach’s rough estimation of livelihoods in coastal areas. \n **Working conditions and Job satisfaction:** Ideally, this goal would also reflect working conditions and job satisfaction associated with livelihoods in marine sectors.",
+  # experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Wilfried Rickels **Kiel Institute for the World Economy, Kiel, Germany**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/LIV/v2019/liv_prep.md",
   ## timeseries plot layers
@@ -295,6 +328,9 @@ lsp_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Data delays:** Some of the management plans are outdated, as the data updates are delayed on the HELCOM MPAs webpage (http://mpas.helcom.fi/apex/f?p=103:5::::::). \n **Moving target:** CBD and EU are now discussing on raising the target for protection to 30% of the sea area, in which case will entail the BHI target to be updated accordingly. \n **Mapping values:** Map important conservation, social and cultural places, which people value highly.",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Sofia Wikström **Baltic Sea Centre, Stockholm University, Stockholm, Sweden**",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/LSP/v2019/lsp_prep.md",
   ## timeseries plot layers
@@ -316,6 +352,9 @@ mar_text <- c(
   "",
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
+  "",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
   "",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/MAR/v2019/mar_prep.md",
@@ -339,6 +378,9 @@ np_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md",
   ## timeseries plot layers
@@ -360,6 +402,9 @@ sp_text <- c(
   "",
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
+  "",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
   "",
   ## prep link
   "",
@@ -383,6 +428,9 @@ tr_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "**Lack of Sustainability Dimensions or Ecotourism:** no metric of sustainability of coastal tourism on the Baltic Sea scale was found, and thus this dimension was not included. However,  these are important considerations for the BHI as tool for ecosystem-based management, and therefore a priority for inclusion in future iterations of the Index. \n **Connection between Tourism  and Ocean Health:** how dimensions of ocean health affect people’s perceptions and value for spending time in coastal and ocean areas could be explored further, to better model how tourism potential is fulfilled across the Baltic Sea and how it may  respond to management actions or changing environmental conditions. \n **Spatial units:** Data by Eurostat NUTS (Nomenclature of Territorial Units for Statistics) level 3 regions are used to estimate accommodations densities for areas within 25 kilometers of the coastline; coastal tourism revenue is reported by country, presumably derived from data with the same Eurostat NUTS3 spatial assessment units. Better harmonization between datasets of spatial assessment units could improve confidence in results.",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/TR/v2019/tr_prep.md",
   ## timeseries plot layers
@@ -405,6 +453,9 @@ tra_text <- c(
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
   "",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "",
   ## prep link
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/trash/v2019/tra_prep.md",
   ## timeseries plot layers
@@ -423,4 +474,4 @@ shinytext <- as.data.frame(t(cbind(
   sp_text, lsp_text, ico_text,
   np_text, tr_text
 )))
-colnames(shinytext) <- c("goal", "key_information", "target", "key_messages", "data_considerations", "prep_link", "tsplot_layers")
+colnames(shinytext) <- c("goal", "key_information", "target", "key_messages", "data_considerations", "experts", "prep_link", "tsplot_layers")
