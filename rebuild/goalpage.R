@@ -78,6 +78,15 @@ tabItem(
   ),
   fluidRow(
     box(
+      width = 12, 
+      title = "Experts who guided us in the goal prep and calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      "goal_expert_info"
+    )
+  ),
+  fluidRow(
+    box(
       collapsible = TRUE,
       collapsed = TRUE,
       width = 12,

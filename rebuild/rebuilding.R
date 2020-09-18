@@ -104,12 +104,14 @@ make_data_table <- function(gh_raw_bhiprep, bhi_version){
     "CW/contaminants/%s/con_data", 
     "FIS/%s/fis_np_data",
     "MAR/v2019/mar_data",
-    "FIS/%s/fis_np_data"
+    "FIS/%s/fis_np_data",
+    "ECO/%s/eco_data",
+    "LIV/%s/liv_data"
   ), bhi_version)
   
   goals <- data.frame(
-    c("CW", "FP", "FP", "NP"), 
-    c("CON", "FIS", "MAR", NA), 
+    c("CW", "FP", "FP", "NP", "LE", "LE"), 
+    c("CON", "FIS", "MAR", NA, "ECO", "LIV"), 
     rmds, 
     stringsAsFactors = FALSE
   )
@@ -147,8 +149,15 @@ make_data_table <- function(gh_raw_bhiprep, bhi_version){
       lyr <- c(lyr, newlyr)
       
       lyrsrc <- srclnk[srclnk %in% headers[h-1]:headers[h]]
+      if(length(lyrsrc) == 0){
+        src <- c(src, NA)
+        lnk <- c(lnk, NA)
+      }
       if(length(lyrsrc) > length(newlyr)){
-        lyrsrc <- lyrsrc[grep("eference point .* \\[.*\\]\\(.*\\)|eference point .* http", txt[lyrsrc])]
+        lyrsrctmp <- lyrsrc[grep("eference point .* \\[.*\\]\\(.*\\)|arget .* \\[.*\\]\\(.*\\)|eference point .* http|arget .* http", txt[lyrsrc])]
+        if(length(lyrsrctmp) == 0){
+          lyrsrc <- lyrsrc[1]
+        } else {lyrsrc <- lyrsrctmp}
       }
       for(l in lyrsrc){
         chk <- gsub(".*\\[", "", stringr::str_split(txt[l], "\\]")[[1]][1])
@@ -159,11 +168,11 @@ make_data_table <- function(gh_raw_bhiprep, bhi_version){
     datalyrs_metainfo <- dplyr::bind_cols(
       goal = rep(goals[g, "goal"], length(lyr)),
       subgoal = rep(goals[g, "subgoal"], length(lyr)),
-      layer = lyr, 
+      layer = stringr::str_remove(lyr, " \\{\\-\\}"),
       description = rep("", length(lyr)), 
       source = src,
       sourcelink = lnk
-    ) %>% dplyr::bind_rows(datalyrs_metainfo)
+    ) %>% filter(!is.na(source) & !is.na(sourcelink)) %>% dplyr::bind_rows(datalyrs_metainfo) 
   }
   
   datalyrs_metainfo <- datalyrs_metainfo %>% 
@@ -283,6 +292,22 @@ goalpage_from_template <- function(goal_code, replace_current = FALSE){
   }
   goalconsiderimprove <- stringr::str_remove(goalconsiderimprove, "^,\n")
   
+  goalexpert <- c()
+  for(x in unlist(stringr::str_split(goalinfo$experts, "\n"))){
+    institution <- stringr::str_extract(x, "\\*\\*.*\\*\\*") %>% 
+      stringr::str_remove_all("\\*")
+    
+    goalexpert <- paste(goalexpert, sprintf(
+      "\t\"%s, \" tags$em(\"%s\")\n\t", 
+      x %>% 
+        stringr::str_remove(paste0("\\*\\*", institution, "\\*\\*")) %>% 
+        stringr::str_remove_all("^ "),
+      institution
+    ), sep = ",\n")
+  }
+  goalexpert <- stringr::str_remove(goalexpert, "^,\n")
+  
+  
   txt <- txt %>% 
     str_replace("goaltext_key_information", goalinfo$key_information) %>% 
     str_replace("goaltext_target", goalinfo$target) %>% 
@@ -290,7 +315,8 @@ goalpage_from_template <- function(goal_code, replace_current = FALSE){
     str_replace("goal_data_prep_link", goalinfo$prep_link) %>% 
     str_replace("goal_ts_layer_choices", goalinfo$tsplot_layers) %>% 
     str_replace("goal_ts_default_layer", stringr::str_extract(goalinfo$tsplot_layers, "\"[a-z0-9].*\"")) %>% 
-    str_replace("goaltext_data_considerations", goalconsiderimprove)
+    str_replace("goaltext_data_considerations", goalconsiderimprove) %>% 
+    str_replace("goal_expert_info", goalexpert)
   
 
   ## where have paragraphs of text, replace with empty paragraph html	
