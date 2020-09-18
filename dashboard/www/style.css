@@ -28,7 +28,15 @@
     background-color: #132320cc;
 }
 
-h1, h4, h2, h3{
+h1, h2, h3{
   font-family: 'Open+Sans', 'Lato', sans-serif;
   font-weight: 500;
+}
+
+h4{
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  line-height: 1.5em;
+  margin-top: 7px;
+  color: #053b67;
 }
