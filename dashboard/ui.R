@@ -406,7 +406,7 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Key Messages",
+      title = "Additional Insights & Discussion",
       status = "primary", 
       solidHeader = TRUE,
       "The target is reached in Kattegat (Danish coast), Bornholm Basin (Swedish coast), Eastern Gotland basin (Lithuanian coast), Northern Baltic Proper (Finnish coast), Bothnian Sea (Swedish coast), The Quark (Finnish coast) and Bothnian Bay. The more northern areas, where perch is used as the key species and is more abundant, are in better status compared to more southern areas, where flounder is used as the key species, but in now in lower abudance with respect to the target. Similarly, the status of piscivores is better in more northern areas, whereas the status of cyprinids in more north-eastern areas of the Baltic Sea is not good as a result of too high abundance. In particular, the status scores are low in the Gulf of Riga (Estonian coast), Bay of Mecklenburg (Danish coast), Great Belt, The Sound (Danish coast) and Arkona Basin (Danish coast), due to low abundance of key species and piscivores, and also due to increasing abundance for cyprinids in some coastal areas."
@@ -426,10 +426,11 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Expert",
+      title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      ""
+      "Jens Olsson, ", tags$em("Institute of Coastal Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Öregrund, Sweden")
+	
     )
   ),
   fluidRow(
@@ -847,132 +848,142 @@ tags$li(
         )
       ), # end CW tab item
       
-      ## § (CON) Contaminants ----
-      ## Contaminants
-      tabItem(
-        tabName = "con",
-        
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Contaminants"),
-            width = 8
-          ),
-          scoreBoxUI(id = "con_infobox"),
-          box(
-            # h4(filter(goals_csv, goal == "CON")$short_def),
-            h4(filter(goals_csv, goal == "CON")$description),
-            width = 12
-          )
-        ),
-        
-        ## target info and key information
-        fluidRow(
-          box(
-            title = "Key Information", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Four indicators are combined in this subgoal: the contamination levels of three pollutants/pollutant groups (PCBs, PFOS, and Dioxins), and the proportion of persistent, bioaccumulative and toxic Substances of Very High Concern (SVHC) monitored.",
-            width = 8
-          ),
-          box(
-            title = "Target", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Contamination levels of the three pollutants/pollutant groups fall below their respective thresholds. All persistent, bioaccumulative and toxic Substances of Very High Concern are monitored.",
-            width = 4
-          )
-        ),
-        
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "con_map",
-            title_text = "Contaminants Scores Around the Baltic",
-            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(), 
-            box_width = 8,
-            ht = 540
-          ),
-          barplotCardUI(
-            id = "con_barplot",
-            title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-        
-        ## key messages, timeseries plot, and data layers table
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Key Messages",
-            status = "primary", 
-            solidHeader = TRUE,
-            "Present-day concentrations of the three pollutants/pollutant groups included in the subgoal generally fall below their relative thresholds, particularly concentrations measured in biota (i.e., fish). The concentrations found in sediments (top 5cm) more often exceed their respective thresholds, reflecting the higher historic concentrations of the contaminants in the Baltic Sea mirrored in subsurface sediment. However, there are many persistent, bioaccumulative and toxic Substances of Very High Concern which are not  monitored across all regions of the Baltic Sea, which lowers the score. The level to which compounds known to be hazardous are monitored in the Baltic Sea is included as an indicator to illustrate that a proper assessment cannot be done due to lack of knowledge on occurrence of pollutants in the Baltic Sea."
-          )
-        ),
-        fluidRow(
-          tsplotCardUI(
-            id = "con_tsplot",
-            title_text = "Contaminants Data Layers",
-            sub_title_text = "",
-            ht = 340,
-            select_choices = list(
-              `PCBs in Biota` = "cw_con_pcb_bhi2019_bio",
-              `PCBs in Sediments` = "cw_con_pcb_bhi2019_sed",
-              `PFOS in Biota` = "cw_con_pfos_bhi2019_bio",
-              `Dioxins in Biota` = "cw_con_dioxin_bhi2019_bio",
-              `Dioxins in Sediments` = "cw_con_dioxin_bhi2019_sed"
-            )
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Layers", 
-            DT::dataTableOutput("con_datatable")
-          )
-        ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          align = "center",
-          text_links(
-            "CLICK HERE FOR DETAILED METHODS",
-            "http://ohi-science.org/bhi-prep/contaminants-clean-water-subgoal.html"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            ## data considerations and improvements bullets
-            tags$ul(
-              tags$li(
-                tags$b("Spatial variability:"),
-                "Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores differs substantially across regions. Generally, there is less data on pollutants/pollutant groups from the southeast near the Baltic states and Poland and Russia. " 
-              ),
-              tags$li(
-                tags$b("Thresholds:"),
-                "The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty. " 
-              ),
-              tags$li(
-                tags$b("Substances of Very High Concern:"),
-                "The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea is used as one of the indicators to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea. This indicator and how it is used to calculate the score can be developed further to better combine the two aspects of the contaminant goal: current health of the Baltic Sea, and lack of data." 
-              )
-            )
-          )
-        )
-      ), # end CON tab item
-      
+## § (CON) Contaminants ----
+## Contaminants
+tabItem(
+  tabName = "con",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Contaminants"),
+      width = 8
+    ),
+    scoreBoxUI(id = "con_infobox"),
+    box(
+      # h4(filter(goals_csv, goal == "CON")$short_def),
+      h4(filter(goals_csv, goal == "CON")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key information
+  fluidRow(
+    box(
+      title = "Background Information", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Four indicators are combined in this subgoal: the contamination levels of three pollutants/pollutant groups (PCBs, PFOS, and Dioxins), and the monitored proportion of persistent, bioaccumulative and toxic Substances of Very High Concern (SVHC).",
+      width = 8
+    ),
+    box(
+      title = "Scoring Criteria", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "The target is having all contamination levels of the three pollutants/pollutant groups fall below their respective thresholds, and all persistent, bioaccumulative and toxic Substances of Very High Concern monitored.",
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "con_map",
+      title_text = "Contaminants Scores Around the Baltic",
+      sub_title_text = "",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "con_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key messages, timeseries plot, and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Additional Insights & Discussion",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Present-day concentrations of the three pollutants/pollutant groups included in the subgoal generally fall below their relative thresholds, particularly concentrations measured in biota (i.e., fish). The concentrations found in sediments (top 5cm) more often exceed their respective thresholds, reflecting the higher historic concentrations of the contaminants in the Baltic Sea mirrored in subsurface sediment. However, there are many persistent, bioaccumulative and toxic Substances of Very High Concern which are not  monitored across all regions of the Baltic Sea, which lowers the score. The level to which compounds known to be hazardous are monitored in the Baltic Sea is included as an indicator to illustrate that a proper assessment cannot be done due to lack of knowledge on occurrence of pollutants in the Baltic Sea."
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "con_tsplot",
+      title_text = "Contaminants Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
+        `PCBs in Biota` = "cw_con_pcb_bhi2019_bio",
+	`PCBs in Sediments` = "cw_con_pcb_bhi2019_sed",
+	`PFOS in Biota` = "cw_con_pfos_bhi2019_bio",
+	`Dioxins in Biota` = "cw_con_dioxin_bhi2019_bio",
+	`Dioxins in Sediments` = "cw_con_dioxin_bhi2019_sed"
+      )
+    )
+  ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the goal prep and calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Anna Sobek, ", tags$em("Department of Environmental Science, Stockholm University, Stockholm, Sweden")
+	
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("con_datatable")
+    )
+  ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/contaminants/v2019/con_prep.md"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
+      br(),
+      br(),
+      ## data considerations and improvements bullets
+      tags$ul(
+        tags$li(
+	 tags$b("Substances of Very High Concern:"),
+	 "The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea is used as one of the indicators to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea. This indicator and how it is used to calculate the score can be developed further to better combine the two aspects of the contaminant goal: current health of the Baltic Sea, and lack of data. " 
+	),
+tags$li(
+	 tags$b("Spatial variability:"),
+	 "Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores differs substantially across regions. Generally, there is less data on pollutants/pollutant groups from the southeast near the Baltic states and Poland and Russia. " 
+	),
+tags$li(
+	 tags$b("Thresholds:"),
+	 "The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty." 
+	)
+      )
+    )
+  )
+), # end CON tab item
+
       ## § (EUT) Eutrophication ----
       ## Eutrophication
       tabItem(
@@ -1754,7 +1765,7 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Key Messages",
+      title = "Additional Insights & Discussion",
       status = "primary", 
       solidHeader = TRUE,
       "Marine Non-living Resources is the sector with the most negative growth rate (>5% annual decrease), but only three countries have activities recorded in this category: Germany, Denmark, and Poland. This sector includes extraction and mining (and support activities for extraction) of natural gas and petroleum, salt, sand, clays and kaolin. Germany has negative growth rates also in Maritime Transport and Coastal Tourism which further decreases its score, while substantial growth in marine renewable energy for Denmark (the only country with revenue reported in this sector) largely offsets the contraction in its other sectors. Shipbuilding is a shrinking sector in Latvia, Finland, and Poland. Poland, however, has the highest growth rate in Coastal Tourism. "
@@ -1774,10 +1785,11 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Expert",
+      title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      ""
+      "Wilfried Rickels, ", tags$em("Kiel Institute for the World Economy, Kiel, Germany")
+	
     )
   ),
   fluidRow(
@@ -1885,7 +1897,7 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Key Messages",
+      title = "Additional Insights & Discussion",
       status = "primary", 
       solidHeader = TRUE,
       "Scores in the livelihoods goal are high across the entire Baltic Sea with low cross-section  variability, but still provide relevant insights, in particular if the development dimension over time is taken into account. Poland has the lowest score across the Baltic, occurring along the coast of Bornholm Basin, but has a much higher score associated with the areas around Gdansk. The Bornholm Basin region of Poland is the lowest scoring, but also the fastest growing."
@@ -1905,10 +1917,11 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Expert",
+      title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      ""
+      "Wilfried Rickels, ", tags$em("Kiel Institute for the World Economy, Kiel, Germany")
+	
     )
   ),
   fluidRow(
@@ -2263,7 +2276,7 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Key Messages",
+      title = "Additional Insights & Discussion",
       status = "primary", 
       solidHeader = TRUE,
       "The areal coverage of MPAs is quite high in almost the whole Baltic Sea,  although many MPAs still need to be enforced. The overall sub-goal score is low as many MPAs are categorized as only “designated” or “partly managed”. However, a few regions with a full implemented management plan have reached the target, such as Åland Sea (Swedish region), Gulf of Finland (Estonian region), Northern Baltic Proper (Estonian region), and Arkona Basin (Swedish region)."
@@ -2283,10 +2296,11 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Expert",
+      title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      ""
+      "Sofia Wikström, ", tags$em("Baltic Sea Centre, Stockholm University, Stockholm, Sweden")
+	
     )
   ),
   fluidRow(
@@ -2534,10 +2548,11 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Expert",
+      title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      ""
+      "Wilfried Rickels, ", tags$em("Kiel Institute for the World Economy, Kiel, Germany")
+	
     )
   ),
   fluidRow(

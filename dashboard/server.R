@@ -301,70 +301,68 @@ observeEvent(
   
   
   
-  ## CON ----
-  ## Contaminants
-  
-  ## overall score box in top right
-  callModule(
-    scoreBox,
-    "con_infobox",
-    goal_code = "CON"
+
+## CON ----
+## Contaminants
+
+## overall score box in top right
+callModule(
+  scoreBox,
+  "con_infobox",
+  goal_code = "CON"
+)
+
+## map
+callModule(
+  mapCard, 
+  "con_map",
+  goal_code = "CON",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit,
+  year_selected = view_year,
+  legend_title = "Scores",
+  popup_title = "Score:",
+  popup_add_field = "Name",
+  popup_add_field_title = "Name:"
+)
+
+## barplot
+callModule(
+  barplotCard, "con_barplot",
+  goal_code = "CON",
+  dimension_selected = dimension,
+  spatial_unit_selected = spatial_unit
+)
+
+## info table about input data layers
+output$con_datatable = renderDataTable({
+  datatable(
+    data_info %>% 
+      filter(goal == "CON") %>% 
+      select(-goal),
+    options = list(
+      dom = "t", 
+      pageLength = nrow(filter(data_info, goal == "CON"))
+    ),
+    rownames = FALSE,
+    escape = FALSE
   )
-  
-  ## map
-  callModule(
-    mapCard, 
-    "con_map",
-    goal_code = "CON",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit,
-    year_selected = view_year,
-    legend_title = "Scores",
-    lyrs_latlon = NA, 
-    lyrs_polygons = NA, 
-    polylyrs_pals = NA, 
-    popup_title = "Score:",
-    popup_add_field = "Name",
-    popup_add_field_title = "Name:"
-  )
-  
-  ## barplot
-  callModule(
-    barplotCard, "con_barplot",
-    goal_code = "CON",
-    dimension_selected = dimension,
-    spatial_unit_selected = spatial_unit
-  )
-  
-  ## info table about input data layers
-  output$con_datatable = renderDataTable({
-    datatable(
-      data_info %>% 
-        filter(goal == "CON") %>% 
-        select(-goal),
-      options = list(
-        dom = "t", 
-        pageLength = nrow(filter(data_info, goal == "CON"))
-      ),
-      rownames = FALSE,
-      escape = FALSE
+})
+
+## layers timeseries plot
+values <- reactiveValues(`con_tsplot-select` = "cw_con_pcb_bhi2019_bio")
+observeEvent(
+  eventExpr = input$`con_tsplot-select`, {
+    values$`con_tsplot-select` <- input$`con_tsplot-select`
+    callModule(
+      tsplotCard, 
+      "con_tsplot",
+      plot_type = "boxplot",
+      layer_selected = reactive(values$`con_tsplot-select`),
+      spatial_unit_selected = spatial_unit
     )
-  })
-  
-  ## layers timeseries plot
-  values <- reactiveValues(`con_tsplot-select` = "cw_con_pcb_bhi2019_bio")
-  observeEvent(
-    eventExpr = input$`con_tsplot-select`, {
-      values$`con_tsplot-select` <- input$`con_tsplot-select`
-      callModule(
-        tsplotCard, 
-        "con_tsplot",
-        plot_type = "boxplot",
-        layer_selected = reactive(values$`con_tsplot-select`),
-        spatial_unit_selected = spatial_unit
-      )
-    }, ignoreNULL = FALSE
-  )
+  }, ignoreNULL = FALSE
+)
   ## EUT ----
   ## Eutrophication
   
@@ -681,6 +679,7 @@ observeEvent(
   })
   
 
+
 ## ECO ----
 ## Economies
 
@@ -909,6 +908,7 @@ observeEvent(
   }, ignoreNULL = FALSE
 )
 
+
 ## LSP ----
 ## Lasting Special Places
 
@@ -1013,6 +1013,7 @@ observeEvent(
     )
   })
   
+
 
 ## TR ----
 ## Tourism & Recreation
