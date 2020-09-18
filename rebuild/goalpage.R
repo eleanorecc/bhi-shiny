@@ -59,7 +59,7 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Key Messages",
+      title = "Additional Insights & Discussion",
       status = "primary", 
       solidHeader = TRUE,
       "goaltext_key_messages"
@@ -82,7 +82,7 @@ tabItem(
       title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      "goal_expert_info"
+      goal_expert_info
     )
   ),
   fluidRow(

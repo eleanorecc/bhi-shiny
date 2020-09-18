@@ -298,10 +298,10 @@ goalpage_from_template <- function(goal_code, replace_current = FALSE){
       stringr::str_remove_all("\\*")
     
     goalexpert <- paste(goalexpert, sprintf(
-      "\t\"%s, \" tags$em(\"%s\")\n\t", 
+      "\"%s, \", tags$em(\"%s\")\n\t", 
       x %>% 
         stringr::str_remove(paste0("\\*\\*", institution, "\\*\\*")) %>% 
-        stringr::str_remove_all("^ "),
+        stringr::str_remove_all("^ | $"),
       institution
     ), sep = ",\n")
   }
