@@ -138,7 +138,6 @@ output$ao_datatable = renderDataTable({
 })
 
 ## layers timeseries plot
-NA
 observeEvent(
   eventExpr = input$`ao_tsplot-select`, {
     values$`ao_tsplot-select` <- input$`ao_tsplot-select`
@@ -371,23 +370,7 @@ observeEvent(
     "eut_infobox",
     goal_code = "EUT"
   )
-  
-  eut_lyrs_latlon <- list()
-  eut_lyrs_latlon[["cw_eut_dip"]] <- read_csv("https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/cw_eut_dip_bhi2019.csv")
-  eut_lyrs_latlon[["cw_eut_din"]] <- read_csv("https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/layers/cw_eut_din_bhi2019.csv")
-  
-  eut_lyrs_polygons <- list()
-  eut_lyrs_polygons[["cw_eut_dip_indicator"]] <- read_csv("https://raw.githubusercontent.com/OHI-Science/bhi/master/baltic2019draft/intermediate/dip_indicator.csv")
-  eut_lyrs_polygons[["cw_eut_din_indicator"]] <- read_csv("https://raw.githubusercontent.com/OHI-Science/bhi/master/baltic2019draft/intermediate/din_indicator.csv")
-  
-  eut_polylyrs_pals <- list()
-  eut_polylyrs_pals[["cw_eut_dip_indicator"]][["cols"]] <- c("#8c031a","#cc0033","#fff78a","#f6ffb3","#009999","#0278a7")
-  eut_polylyrs_pals[["cw_eut_dip_indicator"]][["paldomain"]] <- c(0, 100)
-  eut_polylyrs_pals[["cw_eut_dip_indicator"]][["plotvar"]] <- "score"
-  eut_polylyrs_pals[["cw_eut_din_indicator"]][["cols"]] <- c("#8c031a","#cc0033","#fff78a","#f6ffb3","#009999","#0278a7")
-  eut_polylyrs_pals[["cw_eut_din_indicator"]][["paldomain"]] <- c(0, 100)
-  eut_polylyrs_pals[["cw_eut_din_indicator"]][["plotvar"]] <- "score"
-  
+
   callModule(
     mapCard, 
     "eut_map",
@@ -396,9 +379,13 @@ observeEvent(
     spatial_unit_selected = spatial_unit,
     year_selected = view_year,
     legend_title = "Scores",
-    lyrs_latlon = eut_lyrs_latlon, 
-    lyrs_polygons = eut_lyrs_polygons, 
-    polylyrs_pals = eut_polylyrs_pals, 
+    lyrs_latlon = c("cw_eut_dip_bhi2019", "cw_eut_din_bhi2019"), 
+    lyrs_polygons = list(
+      lyrs = list("dip_indicator", "din_indicator"), 
+      plotvar = list("score", "score"),
+      cols = list(c("#8c031a","#cc0033","#fff78a","#f6ffb3","#009999","#0278a7"), c("#8c031a","#cc0033","#fff78a","#f6ffb3","#009999","#0278a7")),
+      paldomain = list(c(0, 100), c(0, 100))
+    ), 
     popup_title = "Score:",
     popup_add_field = "Name",
     popup_add_field_title = "Name:"

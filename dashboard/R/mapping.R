@@ -3,33 +3,84 @@ library(dplyr)
 library(readr)
 library(leaflet)
 
-add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, polylyrs_pals, 
-                               dim = "score", year = assess_year){
+add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, year = assess_year){
   
+  
+  ## get the datasets for plotting ----
+  
+  ## points
+  plot_latlon <- list()
+  for(lyr in lyrs_latlon){
+    if(RCurl::url.exists(paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv"))){
+      dfloc <- paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv")
+    } else if(RCurl::url.exists(paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv"))){
+      dfloc <- paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv")
+    } else {
+      warning(sprintf("file %s doesn't exist in either layers or intermediate folder", lyr))
+      dfloc = NULL
+    }
+    lyr_df <- readr::read_csv(dfloc, col_types = cols())
+    colnames(lyr_df) <- stringr::str_replace(names(lyr_df), "scen_year", "year")
+    if(!"year" %in% names(lyr_df)){
+      lyr_df <- dplyr::mutate(lyr_df, year = default_year)
+    }
+    plot_latlon[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]] <- lyr_df
+  }
+  
+  ## polygons
+  # lyrs_polygons <- list(
+  #   lyrs = list("dip_indicator", "din_indicator"),
+  #   plotvar = list("score", "score"),
+  #   cols = list(c("#8c031a","#cc0033","#fff78a","#f6ffb3","#009999","#0278a7"), c("#8c031a","#cc0033","#fff78a","#f6ffb3","#009999","#0278a7")),
+  #   paldomain = list(c(0, 100), c(0, 100))
+  # )
+  plot_polygons <- list()
+  polylyrs_pals <- list()
+  for(i in 1:length(lyrs_polygons$lyrs)){
+    lyr <- lyrs_polygons$lyrs[i]
+    if(RCurl::url.exists(paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv"))){
+      dfloc <- paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv")
+    } else if(RCurl::url.exists(paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv"))){
+      dfloc <- paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv")
+    } else {
+      warning(sprintf("file %s doesn't exist in either layers or intermediate folder", lyr))
+      dfloc = NULL
+    }
+    lyr_df <- readr::read_csv(dfloc, col_types = cols())
+    colnames(lyr_df) <- stringr::str_replace(names(lyr_df), "scen_year", "year")
+    if(!"year" %in% names(lyr_df)){
+      lyr_df <- dplyr::mutate(lyr_df, year = default_year)
+    }
+    plot_polygons[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]] <- lyr_df
+    
+    polylyrs_pals[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]][["cols"]] <- unlist(lyrs_polygons$cols[i])
+    polylyrs_pals[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]][["paldomain"]] <- unlist(lyrs_polygons$paldomain[i])
+    polylyrs_pals[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]][["plotvar"]] <- unlist(lyrs_polygons$plotvar[i])
+  }
   
   ## set up overlays menu in top corner
   goalmap <- goalmap %>% 
     addLayersControl(
-      overlayGroups = c(names(lyrs_latlon), names(lyrs_polygons)),
+      overlayGroups = c(names(plot_latlon), names(plot_polygons)),
       options = layersControlOptions(collapsed = TRUE)
     )
   
   
-  ## lyrs_polygons ----
+  ## plot_polygons ----
   ## will need to be given with corresponding color palettes
-  for(lyr in names(lyrs_polygons)){
+  for(lyr in names(plot_polygons)){
     
     ## case when lyrs_polygon are dataframes with region_ids
     ## (will add case where polygons dont align with bhi regions e.g. MPAs later)
-    if("region_id" %in% names(lyrs_polygons[[lyr]])){
+    if("region_id" %in% names(plot_polygons[[lyr]])){
       
       ## if the lyrs have multiple years and/or dimensions, 
       ## will filter to match selected year and ohi dimension
       ## also rename to specify column to map data from
-      if(all(c("dimension", "scen_year") %in% names(lyrs_polygons[[lyr]]))){
-        filterlyr <- filter(lyrs_polygons[[lyr]], scen_year == year, dimension == dim)
+      if(all(c("dimension", "year") %in% names(plot_polygons[[lyr]]))){
+        filterlyr <- filter(plot_polygons[[lyr]], year == year, dimension == "status")
       } else {
-        filterlyr <- lyrs_polygons[[lyr]]
+        filterlyr <- plot_polygons[[lyr]]
       }
       colnames(filterlyr) <- stringr::str_replace(
         names(filterlyr), 
@@ -38,13 +89,15 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, polylyrs_pal
       )
       ## spatialdataframes with sp package, rather than sf...
       spatiallyr <- rgns_shp
-      spatiallyr@data <- left_join(spatiallyr@data, filterlyr, by = "region_id")
+      spatiallyr@data <- spatiallyr@data %>% 
+        filter(year == year) %>% 
+        select(-year, -dimension) %>% 
+        left_join(filterlyr, by = "region_id")
       
       ## make color palette function for the additional data layer
       lyrpal <- leaflet::colorNumeric(
         palette = polylyrs_pals[[lyr]][["cols"]],
-        domain = polylyrs_pals[[lyr]][["paldomain"]],
-        na.color = thm$cols$map_background1
+        domain = polylyrs_pals[[lyr]][["paldomain"]]
       )
       
       ## add the layers to the map!
@@ -70,16 +123,16 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, polylyrs_pal
     }
   }
   
-  ## lyrs_latlon ----
+  ## plot_latlon ----
   ## will all be single color with transparency
-  for(lyr in names(lyrs_latlon)){
+  for(lyr in names(plot_latlon)){
     
     ## if the lyrs have multiple years and/or dimensions, 
     ## will filter to match selected year and ohi dimension
-    if(all(c("dimension", "scen_year") %in% names(lyrs_latlon[[lyr]]))){
-      filterlyr <- filter(lyrs_latlon[[lyr]], scen_year == year, dimension == dim)
+    if(all(c("dimension", "scen_year") %in% names(plot_latlon[[lyr]]))){
+      filterlyr <- filter(plot_latlon[[lyr]], scen_year == year, dimension == "status")
     } else {
-      filterlyr <- lyrs_latlon[[lyr]]
+      filterlyr <- plot_latlon[[lyr]]
     }
     
     goalmap <- goalmap %>%
@@ -89,11 +142,11 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, polylyrs_pal
         fillColor = "midnightblue", 
         fillOpacity = 0.5,
         opacity = 0,
-        radius = 4
+        radius = 2
       )
   }
   goalmap <- goalmap %>% 
-    hideGroup(c(names(lyrs_latlon), names(lyrs_polygons)))
+    hideGroup(c(names(plot_latlon), names(plot_polygons)))
   
   
   return(goalmap)

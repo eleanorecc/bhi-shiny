@@ -141,6 +141,8 @@ callModule(
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
   legend_title = "Scores",
+  lyrs_latlon = c(lyrs_latlon), 
+  lyrs_polygons = list(lyrs_polygons),
   popup_title = "Score:",
   popup_add_field = "Name",
   popup_add_field_title = "Name:"

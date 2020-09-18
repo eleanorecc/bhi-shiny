@@ -30,7 +30,7 @@ mapCardUI <- function(id, title_text = NULL, sub_title_text = NULL, box_width = 
 mapCard <- function(input, output, session,
                     goal_code, dimension_selected, spatial_unit_selected, 
                     year_selected, legend_title, 
-                    lyrs_latlon = NA, lyrs_polygons = NA, polylyrs_pals = NA, 
+                    lyrs_latlon = NA, lyrs_polygons = NA, 
                     popup_title = NA, popup_add_field = NA, popup_add_field_title = NA){
   
   output$plot <- renderLeaflet({
@@ -54,14 +54,12 @@ mapCard <- function(input, output, session,
     )
     
     
-    if(!is.na(lyrs_latlon)|!is.na(lyrs_polygons)){
+    if(!is.na(lyrs_latlon)|length(lyrs_polygons)!=0){
       ## add data overlays to goal maps
       result$map <- add_map_datalayers(
         result$map, 
         lyrs_latlon, 
         lyrs_polygons, 
-        polylyrs_pals, 
-        dim = dimension_selected(), 
         year = year_selected()
       )
     }
