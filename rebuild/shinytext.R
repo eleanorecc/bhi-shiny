@@ -60,37 +60,37 @@ con_text <- c(
   "The target is having all contamination levels of the three pollutants/pollutant groups fall below their respective thresholds, and all persistent, bioaccumulative and toxic Substances of Very High Concern monitored.",
   ## key messages
   "Present-day concentrations of the three pollutants/pollutant groups included in the subgoal generally fall below their relative thresholds, particularly concentrations measured in biota (i.e., fish). The concentrations found in sediments (top 5cm) more often exceed their respective thresholds, reflecting the higher historic concentrations of the contaminants in the Baltic Sea mirrored in subsurface sediment. However, there are many persistent, bioaccumulative and toxic Substances of Very High Concern which are not  monitored across all regions of the Baltic Sea, which lowers the score. The level to which compounds known to be hazardous are monitored in the Baltic Sea is included as an indicator to illustrate that a proper assessment cannot be done due to lack of knowledge on occurrence of pollutants in the Baltic Sea.",
- ## data considerations
- ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
- "**Substances of Very High Concern:** The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea is used as one of the indicators to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea. This indicator and how it is used to calculate the score can be developed further to better combine the two aspects of the contaminant goal: current health of the Baltic Sea, and lack of data. \n **Spatial variability:** Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores differs substantially across regions. Generally, there is less data on pollutants/pollutant groups from the southeast near the Baltic states and Poland and Russia. \n **Thresholds:** The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty.",
- ## experts
- ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
- "Anna Sobek **Department of Environmental Science, Stockholm University, Stockholm, Sweden**",
- ## prep link
- "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/contaminants/v2019/con_prep.md",
- ## timeseries plot layers
- paste(
-   "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-   "`PCBs in Sediments` = \"cw_con_pcb_bhi2019_sed\"",
-   "`PFOS in Biota` = \"cw_con_pfos_bhi2019_bio\"",
-   "`Dioxins in Biota` = \"cw_con_dioxin_bhi2019_bio\"", 
-   "`Dioxins in Sediments` = \"cw_con_dioxin_bhi2019_sed\"",
-   sep = ",\n\t"
- )
+  ## data considerations
+  ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
+  "**Substances of Very High Concern:** The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea is used as one of the indicators to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea. This indicator and how it is used to calculate the score can be developed further to better combine the two aspects of the contaminant goal: current health of the Baltic Sea, and lack of data. \n **Spatial variability:** Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores differs substantially across regions. Generally, there is less data on pollutants/pollutant groups from the southeast near the Baltic states and Poland and Russia. \n **Thresholds:** The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty.",
+  ## experts
+  ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
+  "Anna Sobek **Department of Environmental Science, Stockholm University, Stockholm, Sweden**",
+  ## prep link
+  "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/contaminants/v2019/con_prep.md",
+  ## timeseries plot layers
+  paste(
+    "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
+    "`PCBs in Sediments` = \"cw_con_pcb_bhi2019_sed\"",
+    "`PFOS in Biota` = \"cw_con_pfos_bhi2019_bio\"",
+    "`Dioxins in Biota` = \"cw_con_dioxin_bhi2019_bio\"", 
+    "`Dioxins in Sediments` = \"cw_con_dioxin_bhi2019_sed\"",
+    sep = ",\n\t"
+  )
 )
 ## CS ----
 cs_text <- c(
   ## goal
   "CS",
   ## key information
-  "Seagrass (Zostera marina) is an important macrophyte species occurring on shallow sandy bottoms in the Baltic Sea, and observations of Zostera marina were used as an indicator for carbon storage for the Baltic Sea area from HELCOM Red List species list.",
+  "Seagrass (**Zostera marina**) is an important macrophyte species occurring on shallow sandy bottoms in the Baltic Sea, and observations of **Zostera marina** were used as an indicator for carbon storage for the Baltic Sea area from HELCOM Red List species list.",
   ## target
-  "",
+  "Seagrass designated as present before and after 1995.",
   ## key messages
-  "",
+  "The conspicuous salinity gradient influences the seagrass distribution in the Baltic Sea, and there is a decreasing seagrass abundance along with decreasing salinity towards the North-eastern Baltic areas. Hence, regions identified to be unsuitable for seagrass growth (north of the Åland Sea and the Archipelago Sea) have been assigned to no status score. A higher abundance of seagrass was observed in the Southern Baltic basins, especially in The Sound, where the score is higher compared to other areas. Our assessment of the carbon storage goal is hence likely an underestimation of the actual carbon storage potential which may have artificially decreased the overall BHI score in many sub-areas. Better data on distribution (depth limits and areal extent) and function (sequestration rates, transport and burial processes) of marine vegetation are required to accurately assess this goal in the future.",
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
-  "",
+  "**Missing data:** -	Limited availability of seagrass extent data, only spatial distribution models. \n **Spatial data:** Include spatial data from remote sensing for saltmarshes, sheltered shallow bays, lagoons and reed belts. \n **Inclusion of other indicators:** Include freshwater macrophyte distribution and monitoring data for the northern Baltic areas.",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
   "Christoffer Boström **Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland** \n Markku Viitasalo **Finnish Environment Institute SYKE, Helsinki, Finland**",
@@ -108,14 +108,14 @@ cw_text <- c(
   ## goal
   "CW",
   ## key information
-  "Seagrass (Zostera marina) is an important macrophyte species occurring on shallow sandy bottoms in the Baltic Sea, and observations of Zostera marina were used as an indicator for carbon storage for the Baltic Sea area from HELCOM Red List species list. ",
+  "Three sub-goals for the Clean Waters goal were deemed important for the Baltic Sea: **Contaminants**, **Eutrophication**, and **Trash**. Each of these sub-goals has a status calculated that is equally averaged with the others for an overall goal status, and each sub-goal has a unique set of resilience and pressures.",
   ## target
-  "",
+  "Each sub-goal has its own target.",
   ## key messages
-  "",
+  "The overall score for the Clean Waters goal is low, especially in south-eastern Baltic basins, where both the **Contaminants** and **Trash** sub-goal have low status scores.",
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
-  "",
+  "**Missing aspects:** Including data on microplastics and sea floor litter would result in a more complete assessment for the Trash sub-goal, but these data are not currently available. Harmonized data and standardized indicators for marine litter are currently under development, and their inclusion will also help give a more complete picture of Clean Waters in the Baltic Sea. \n **Substances of Very High Concern:** The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea which is used as one of the indicators in the Contaminants sub-goal to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea, can be developed further to better combine aspects current health and lack of data in the Index. \n **Spatial variability:** Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty and therefore the confidence of the scores differs substantially across regions. \n **Target:** The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty.",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
   "Anna Sobek **Department of Environmental Science, Stockholm University, Stockholm, Sweden** \n Vivi Fleming **Finnish Environment Institute SYKE, Helsinki, Finland**",
@@ -194,14 +194,14 @@ fis_text <- c(
   ## goal
   "FIS",
   ## key information
-  "Cod and herring stocks in the Baltic Sea were included as wild-caught fisheries.",
+  "The data used for this subgoal are cod (two cod stocks) and herring (four herring stocks) spawning stock biomass (SSB) and fishing mortality (F) data derived from stock assessments performed by the International Council for the Exploration of the Sea (ICES) Baltic Fisheries Assessment Working Group (WGBFAS). The current status of the fish stocks is calculated as a function of the ratio between the single species current biomass at sea (B) and the reference biomass at maximum sustainable yield (BMSY), as well as the ratio between the single species current fishing mortality (F) and the fishing mortality at maximum sustainable yield (FMSY). In EU fisheries management BMSY is defined as the lower bound to SSB when the stock is fished at FMSY, called MSY Btrigger. These ratios (B/BMSY and F/FMSY) are converted to scores between 0 and 1 using as one component this general relationship. Biomass and mortality are not sufficient to characterize the status of the Eastern Baltic cod, as in addition to population size condition have significantly declined. Fulton’s K (Casini et al. 2016) is used here as a measure of condition to penalize the proportion of surveyed cod in length categories 20-60cm (the most commercially important) with Fulton’s K less than 0.8.",
   ## target
-  "All harvested stocks are neither overfished nor underfished but rather fished at maximum sustainable yield.",
+  "The reference points used for the computation are based on the MSY principle and are described as a functional relationship. MSY means the highest theoretical equilibrium yield that can be continuously taken on average from a stock under existing average environmental conditions without significantly affecting the reproduction process (European Union 2013, World Ocean Review 2013).",
   ## key messages
-  "",
+  "The overall fisheries status is below 100 and has, therefore, not reached the sustainable fishery target. In particular, the Eastern and Western Baltic cod and the Western Baltic herring stock are below biomass limit reference points (ICES 2020). Central Baltic and Gulf of Riga herring in contrast are in a comparatively good state.",
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
-  "**Different Spatial Assessment Areas:** ",
+  "**Additional data:** In the future, we aim to use survey and effort data to improve the goal calculations.",
   ### experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
   "Christian Möllmann **Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany**",
@@ -224,13 +224,13 @@ fp_text <- c(
   ## goal
   "FP",
   ## key information
-  "",
+  "The Food Provision goal is divided into two sub-goals: **Wild-Caught Fisheries** and **Mariculture**. The more seafood harvested or farmed sustainably, the higher the goal score. Due to limited information and data the **Mariculture** sub-goal could not be assessed.",
   ## target
-  "",
+  "The target used for the **Wild-Caught Fisheries** sub-goal is based on the Maximum Sustainable Yield (MSY) principle. For the the **Mariculture** sub-goal the aim was to use the maximum nutrient discharge for both phosphorus (P) and nitrogen (N), but due to limited information this sub-goal could not be assessed.",
   ## key messages
-  "",
+  "The overall score for the Food Provision goal is high (82), although none of the Baltic subbasin has reached the management target of sustainable fisheries. More detailed information are found in the Fisheries sub-goal descriptions.",
   ## data considerations
-  "",
+  "**Complementary data:** Use survey and effort data to improve future goal calculations for fisheries and collect more information and data on mariculture and its sustainable production",
   ### experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
   "Christian Möllmann **Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany**",
@@ -273,14 +273,14 @@ le_text <- c(
   ## goal
   "LE",
   ## key information
-  "",
+  "The jobs and revenue produced from marine-related industries directly benefit those who are employed, but also have important indirect value for community identity, tax revenue, and other related economic and social aspects of a stable coastal economy. The Livelihoods and Economies goal is divided into two sub-goals: **Livelihoods** and **Economies**. Each is measured separately as the number and quality of jobs and the amount of revenue produced are both of considerable interest to stakeholders and governments, and can have different patterns in some cases.",
   ## target
-  "",
+  "The target used for **Livelihoods** sub-goal is the maximum Region-to-Country employment ratio of the past five years, and highest country employment rate in the last fifteen years, whereas for the **Economies** sub-goal is having all marine economic sectors achieve an average annual growth rate of 1.5%.",
   ## key messages
-  "",
+  "The overall score for the Livelihoods and Economies goal is quite high across the entire Baltic Sea, especially along the Swedish basins, where the scores from both the **Livelihoods** and **Economies** sub-goals are quite high. However, the status is generally lower along German basins, where the **Economies** sub-goal scores are lower.",
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
-  "",
+  "**Marine sector-specific employment data:** Difficulty in obtaining data on sector-specific employment at a fine enough spatial resolution (Eurostat NUTS3 which distinguishes coastal vs non-coastal regions) has prevented a more focused assessment of marine livelihoods, beyond the current approach’s rough estimation of livelihoods in coastal areas. \n **Working conditions and Job satisfaction:** Ideally, this goal would also reflect working conditions and job satisfaction associated with livelihoods in marine sectors. \n **•	Inclusion of Sustainability Information:** Incorporating information on the sustainability of the different marine sectors and/or activities would help counterbalance penalization for negative economic growth (contraction) associated unsustainable economic activities such as natural gas, petroleum, or sediments extraction. \n **Economic Activities as Pressures:** Extractive economic activities measured in this goal could be included in the index as minor pressures on other goals, in which case the contraction of these sectors would potentially correspond to increases in scores of other goals such as biodiversity or sense of place. \n **Data timeseries:** Data only for years 2009 and 2018 were available by distinct sub-sectors and economic activities in the 2020 EU Blue Economy Report; since the status calculation uses growth rate as a target and only one annual growth rate (CAGR) could be approximated using the two years of data, the OHI trend dimension capturing short-term changes in status (i.e. changes in growth rates for this goal) short-term could not be calculated.",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
   "Wilfried Rickels **Kiel Institute for the World Economy, Kiel, Germany**",
@@ -348,14 +348,14 @@ mar_text <- c(
   ## goal
   "MAR",
   ## key information
-  "",
+  "Sustainable mariculture represents a good supplementary opportunity that can support food provisioning needs, especially when considering not compromising the water quality in the farmed area and not relying on wild populations to feed or replenish the cultivated species. However, assessing the sustainable production of farmed fish can be difficult, as information is limited (location of the fish farms, species produced, nutrient and antibiotic release from these farms). Overall, in terms of total fish production, mariculture is at the moment not a large industry in the Baltic Sea, and dominated by rainbow trout production, which was included using available national data.",
   ## target
-  "",
+  "The maximum nutrient discharge for both phosphorus (P) and nitrogen (N) could be used as target for this sub-goal, if information is available. The HELCOM Recommendation, provides a management target that existing and new marine fish farms should not exceed the annual average of 7g of P (total-P) and 50g of N (total-N) per 1kg fish (living weight) produced.",
   ## key messages
-  "",
+  "Despite the production of rainbow trouts in some Baltic countries (Denmark, Germany, Sweden and Finland), there is currently very limited data on nutrient discharge, and therefore the Mariculture sub-goal was not assessed and will not contribute to the overall Food Provision goal score.",
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
-  "",
+  "**Data consistency:** Collect more consistent information and data on mariculture and its sustainable production.",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
   "**No expert for this particular sub-goal**",
@@ -373,14 +373,14 @@ np_text <- c(
   ## goal
   "NP",
   ## key information
-  "",
+  "This goal was calculated based on data from the pelagic fish sprat (Sprattus sprattus) as this fish is mainly used for fish meal production or animal food. The goal was assessed using spawning stock biomass and fishing mortality data as well as related maximum sustainable yield (MSY) reference points from ICES (2020, see also the Fisheries goal). The current status of the sprat stock is calculated as a function of the ratio between the single species current biomass at sea (B) and the reference biomass at maximum sustainable yield (BMSY), as well as the ratio between the single species current fishing mortality (F) and the fishing mortality at maximum sustainable yield (FMSY). In EU fisheries management, BMSY is defined as the lower bound to SSB when the stock is fished at FMSY, called MSYBtrigger. These ratios (B/BMSY and F/FMSY) are converted to scores between 0 and 1 using this general relationship as one component. The spatial assessment unit is the whole Baltic Sea. No data for other natural products were readily available at the time of the assessment.",
   ## target
-  "",
+  "The reference points used for the computation are based on the MSY principle and are described as a functional relationship. MSY means the highest theoretical equilibrium yield that can be continuously taken on average from a stock under existing average environmental conditions without significantly affecting the reproduction process (European Union 2013, World Ocean Review 2013).",
   ## key messages
-  "",
+  "The Natural Product score is high (85-94) and has a very low spatial variability, because the ICES sprat assessment unit is the whole Baltic Sea, so the small spatial variability is due to the different pressure and resilience scores in the different regions.",
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
-  "",
+  "**Additional data:** The data used here consists only of one species. In the future we aim to add other species such as blue mussels and macroalgae, to provide a more comprehensive picture of the status of natural products in the Baltic Sea.",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
   "**No expert for this particular goal (some advisement from fisheries goal expert, as used similar models)**",
@@ -398,14 +398,14 @@ sp_text <- c(
   ## goal
   "SP",
   ## key information
-  "",
+  "The Sense of Place goal is divided into two sub-goals: **Iconic Species** and **Lasting Special Places**. In particular, the status of **Iconic Species** was evaluated using species observational data from the HELCOM database, whereas the **Lasting Special Places** sub-goal assesses the status of MPAs in the Baltic Sea.",
   ## target
-  "",
+  "The target used for the **Iconic Species** sub-goal is achieved in case all species are categorised as of ’least concern’, whereas for the **Lasting Special Places** sub-goal the designation of at least 10% of each BHI region as MPAs with a full implemented management plan is used.",
   ## key messages
-  "",
+  "The overall score for the Sense of Place goal is quite low, mainly due to the overall status of MPAs, whose areal coverage is quite high but yet many need to be enforced. However, the status is generally higher in southern basins of the Baltic Sea, where both the **Iconic Species** and **Lasting Special Places** sub-goals scores are higher.",
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
-  "",
+  "**Species ranges:** One limitation of the observation data used is larger uncertainties in spatial ranges of rare species. Estimation of rare species could be improved to more confidently represent distributions of species around the Baltic Sea; one way to do this would be using IUCN species range maps to establish species occurrence in relation to their spatial habitat area. \n **Relation to other assessments:** Improve the link between the BHI and the future Biodiversity assessments by IPBES and use the UN Ocean Biodiversity Information System (OBIS) as national and regional assessments will be performed and linked to IPBES in the future. \n **Data consideration:** Lack of quantitative information about the level of effort involved in obtaining the species observations data, or background environmental conditions corresponding to the data points, precludes useful interpretation from observation frequencies of species; rigorous assessment of the historical conditions of all species collectively would require this data which is not readily. Also, some of the management plans are outdated, as the data updates are delayed on the HELCOM MPAs webpage (http://mpas.helcom.fi/apex/f?p=103:5::::::). \n **Moving target:** CBD and EU are now discussing on raising the target for protection to 30% of the sea area, in which case will entail the BHI target to be updated accordingly. \n **Mapping values:** Map important conservation, social and cultural places, which people value highly.",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
   "Sofia Wikström **Baltic Sea Centre, Stockholm University, Stockholm, Sweden**",
@@ -448,14 +448,14 @@ tra_text <- c(
   ## goal
   "TRA",
   ## key information
-  "",
+  "The amount of mismanaged plastic litter that has the potential to enter the ocean was used as a proxy for the goal, from modelled data by Jambeck et al. (2015). The modelled data were down-weighted for Russia, Germany, Denmark and Sweden (proportion of coastal population/national population) to include only the litter that reaches the Baltic Sea from these countries.",
   ## target
-  "",
+  "The good environmental status from the Marine Strategy Framework Directive is qualitatively framed as the situation where 'properties and quantities of marine litter do not cause harm to the coastal and marine environment'. Currently, there is no official quantitative reference point set. Therefore, for this assessment the upper reference point was set as the maximum amount of litter among all Baltic surrounding countries in 2010, and the lower reference point is zero litter in the Baltic Sea.",
   ## key messages
-  "",
+  "Trash is a significant issue for the Baltic Sea, as waste in urban areas can find its way to the sea and becomes marine litter. The status is not good in most of the Baltic Sea basins. Despite efforts in clean-up projects at beaches around the Baltic Sea, there is currently lack of consistent Baltic Sea wide monitoring and assessment for litter. As marine litter can be found on beaches and shorelines, floating on the surface, submerged in the water column or sunk to the bottom, core indicators need to be developed and assessed accordingly.",
   ## data considerations
   ## note: each bullet point is separated by \n and each bullet heading is framed in double asterisks
-  "",
+  "**Standardization:** The majority of litter monitoring methods are not standardized specifically for the Baltic Sea. Data collection needs to be harmonized, to improve comparability of results and thus allow benchmarking. \n **Microplastics:** Including data on microplastics would result in a more complete  picture, but these data are not currently available. \n **Work-in-progress:** In HELCOM, assessment approaches based on core indicators are currently underway for beach litter, litter on the seafloor and microlitter. Threshold values for the assessment are being developed in an EU-process which can be used in the next BHI iteration.",
   ## experts
   ## note: each expert on a new line, separate entries with \n and each institution framed in single asterisks
   "**No expert for this particular sub-goal**",

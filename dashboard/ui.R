@@ -504,16 +504,17 @@ tabItem(
       title = "Background Information", 
       status = "primary", 
       solidHeader = TRUE,
-      "This goal consists of five components: benthic habitats, pelagic habitats, fish, mammals (seals), and seabirds. It has been evaluated using the biological quality ratios and seabird abundance, derived in the integrated biodiversity assessments from HELCOM (the HELCOM assessment tool: https://github.com/NIVA-Denmark/BalticBOOST). These are based on core indicators for key species and species groups, including abundance, distribution, productivity, physiological and demographic characteristics (see http://stateofthebalticsea.helcom.fi/biodiversity-and-its-status).
-      \n 
-      Statuses of these five biodiversity components are aggregated first within each component, combining coastal area values with area-weighted averages, then combining the values for coastal and offshore areas of each BHI region with equal weight. A single biodiversity status score per region is calculated as geometric mean of the five components.",
+      "This goal consists of five components: benthic habitats, pelagic habitats, fish, mammals (seals), and seabirds. It has been evaluated using the biological quality ratios and seabird abundance, derived in the integrated biodiversity assessments from HELCOM (the HELCOM assessment tool: https://github.com/NIVA-Denmark/BalticBOOST). These are based on core indicators for key species and species groups, including abundance, distribution, productivity, physiological and demographic characteristics. 
+  
+ 
+  Statuses of these five biodiversity components are aggregated first within each component, combining coastal area values with area-weighted averages, then combining the values for coastal and offshore areas of each BHI region with equal weight. A single biodiversity status score per region is calculated as geometric mean of the five components. More detailed information on the indicators and the biodiversity assessment can be found at HELCOM (http://stateofthebalticsea.helcom.fi/biodiversity-and-its-status/).",
       width = 8
     ),
     box(
       title = "Scoring Criteria", 
       status = "primary", 
       solidHeader = TRUE,
-      "For the seabirds, the HELCOM core indicator threshold of 0.75 abundance was used as good status (corresponding to a status score of 100 in BHI). For the other four components (benthic habitats, pelagic habitats, fish, and mammals), a biological quality ratio (BQR) of 0.6 represents good status per the HELCOM assessments, and was used as here as the target.",
+      "For the seabirds, the HELCOM core indicator threshold of 0.75 abundance, decided by HELCOM, was used as good status (corresponding to a status score of 100 in BHI). For the other four components (benthic habitats, pelagic habitats, fish, and mammals), a biological quality ratio (BQR) of 0.6 was developed by HELCOM with the aim to represent good status and was used as here as the target.",
       width = 4
     )
   ),
@@ -543,7 +544,7 @@ tabItem(
       title = "Additional Insights & Discussion",
       status = "primary", 
       solidHeader = TRUE,
-      "In general, the northern Baltic Sea obtained relatively high biodiversity status scores (variability range 64.6) with the highest record in Bothnian Bay, Sweden (86). Lowest scores were obtained for the Bornholm Basin (variability range 24.1 - 39.3) mainly due to low scores in benthic habitat, seals and fish. Central and eastern Baltic Sea is generally characterized by intermediate scores with the biological components often being above the target values of individual components. The lowest scoring across all subbasins was recorded for marine mammals, with the lowest values in the Bornholm and Western Gotland basins (10) and only achieving the target level in Kattegat. Generally, seabirds are in better condition than the other biodiversity components, though collectively they reach the target levels only in Bothnian Sea, Bothnian Bay, and The Quark, and very nearly in Kiel Bay."
+      "In general, the northern Baltic Sea obtained relatively high biodiversity status scores (variability range 90-92) with the highest record in Bothnian Sea (92). Lowest scores were obtained for the Bornholm Basin (variability range 24 - 39) mainly due to low scores in benthic habitat, seals and fish. Central and eastern Baltic Sea is generally characterised by intermediate scores with the biological components often being above the target values of individual components. The lowest scoring across all subbasins was recorded for marine mammals, with the lowest values in the Bornholm and Western Gotland basins (10) and only reaching the target level in Kattegat. Generally, seabirds are in better condition than the other biodiversity components, though collectively they reach the target levels only in Bothnian Sea, Bothnian Bay, and The Quark, and very nearly in Kiel Bay. Benthic habitats score low in the south to central Baltic Sea and Gulf of Finland and the pelagic habitat score low in Gulf of Riga and Finland."
     )
   ),
   fluidRow(
@@ -560,10 +561,13 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Expert",
+      title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      ""
+      "Andrea Belgrano , ", tags$em("Institute of Marine Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Lysekil, Sweden")
+	,
+"Henn Ojaveer, ", tags$em("Pärnu College, University of Tartu, Pärnu, Estonia and National Institute of Aquatic Resources, Technical University of Denmark, Lyngby, Denmark")
+	
     )
   ),
   fluidRow(
@@ -608,246 +612,278 @@ tags$li(
   )
 ), # end BD tab item
 
-      ## § (CS) Carbon Storage ----
-      ## Carbon Storage
-      tabItem(
-        tabName = "cs",
+## § (CS) Carbon Storage ----
+## Carbon Storage
+tabItem(
+  tabName = "cs",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Carbon Storage"),
+      width = 8
+    ),
+    scoreBoxUI(id = "cs_infobox"),
+    box(
+      # h4(filter(goals_csv, goal == "CS")$short_def),
+      h4(filter(goals_csv, goal == "CS")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key information
+  fluidRow(
+    box(
+      title = "Background Information", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Seagrass (**Zostera marina**) is an important macrophyte species occurring on shallow sandy bottoms in the Baltic Sea, and observations of **Zostera marina** were used as an indicator for carbon storage for the Baltic Sea area from HELCOM Red List species list.",
+      width = 8
+    ),
+    box(
+      title = "Scoring Criteria", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Seagrass designated as present before and after 1995.",
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "cs_map",
+      title_text = "Carbon Storage Scores Around the Baltic",
+      sub_title_text = "",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "cs_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key messages, timeseries plot, and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Additional Insights & Discussion",
+      status = "primary", 
+      solidHeader = TRUE,
+      "The conspicuous salinity gradient influences the seagrass distribution in the Baltic Sea, and there is a decreasing seagrass abundance along with decreasing salinity towards the North-eastern Baltic areas. Hence, regions identified to be unsuitable for seagrass growth (north of the Åland Sea and the Archipelago Sea) have been assigned to no status score. A higher abundance of seagrass was observed in the Southern Baltic basins, especially in The Sound, where the score is higher compared to other areas. Our assessment of the carbon storage goal is hence likely an underestimation of the actual carbon storage potential which may have artificially decreased the overall BHI score in many sub-areas. Better data on distribution (depth limits and areal extent) and function (sequestration rates, transport and burial processes) of marine vegetation are required to accurately assess this goal in the future."
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "cs_tsplot",
+      title_text = "Carbon Storage Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
         
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Carbon Storage"),
-            width = 8
-          ),
-          scoreBoxUI(id = "cs_infobox"),
-          box(
-            # h4(filter(goals_csv, goal == "CS")$short_def),
-            h4(filter(goals_csv, goal == "CS")$description),
-            width = 12
-          )
-        ),
+      )
+    )
+  ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the goal prep and calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Christoffer Boström , ", tags$em("Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland")
+	,
+"Markku Viitasalo, ", tags$em("Finnish Environment Institute SYKE, Helsinki, Finland")
+	
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("cs_datatable")
+    )
+  ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CS/v2019/cs_prep.md"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
+      br(),
+      br(),
+      ## data considerations and improvements bullets
+      tags$ul(
+        tags$li(
+	 tags$b("Missing data:"),
+	 "-	Limited availability of seagrass extent data, only spatial distribution models. " 
+	),
+tags$li(
+	 tags$b("Spatial data:"),
+	 "Include spatial data from remote sensing for saltmarshes, sheltered shallow bays, lagoons and reed belts. " 
+	),
+tags$li(
+	 tags$b("Inclusion of other indicators:"),
+	 "Include freshwater macrophyte distribution and monitoring data for the northern Baltic areas." 
+	)
+      )
+    )
+  )
+), # end CS tab item
+
+## § (CW) Clean Waters ----
+## Clean Waters
+tabItem(
+  tabName = "cw",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Clean Waters"),
+      width = 8
+    ),
+    scoreBoxUI(id = "cw_infobox"),
+    box(
+      # h4(filter(goals_csv, goal == "CW")$short_def),
+      h4(filter(goals_csv, goal == "CW")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key information
+  fluidRow(
+    box(
+      title = "Background Information", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Three sub-goals for the Clean Waters goal were deemed important for the Baltic Sea: **Contaminants**, **Eutrophication**, and **Trash**. Each of these sub-goals has a status calculated that is equally averaged with the others for an overall goal status, and each sub-goal has a unique set of resilience and pressures.",
+      width = 8
+    ),
+    box(
+      title = "Scoring Criteria", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Each sub-goal has its own target.",
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "cw_map",
+      title_text = "Clean Waters Scores Around the Baltic",
+      sub_title_text = "",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "cw_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key messages, timeseries plot, and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Additional Insights & Discussion",
+      status = "primary", 
+      solidHeader = TRUE,
+      "The overall score for the Clean Waters goal is low, especially in south-eastern Baltic basins, where both the **Contaminants** and **Trash** sub-goal have low status scores."
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "cw_tsplot",
+      title_text = "Clean Waters Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
         
-        ## target info and key messages
-        fluidRow(
-          box(
-            title = "Key Messages", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 8
-          ),
-          box(
-            title = "Target", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 4
-          )
-        ),
-        
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "cs_map",
-            title_text = "Carbon Storage Scores Around the Baltic",
-            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(), 
-            box_width = 8,
-            ht = 540
-          ),
-          barplotCardUI(
-            id = "cs_barplot",
-            title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-        
-        ## key information and data layers table
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Key Information",
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Layers", 
-            DT::dataTableOutput("cs_datatable")
-          )
-        ),
-        
-        ## additional goal-specific graphs etc
-        # fluidRow(
-        #   box(
-        #     title = "Key Information", 
-        #     background = "teal", 
-        #     solidHeader = TRUE,
-        #     plotOutput("plotename", height = 250)
-        #   )
-        # ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          align = "center",
-          text_links(
-            "CLICK HERE FOR DETAILED METHODS",
-            sprintf("%s/CS/cs_prep.md", gh_prep)
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            tags$ul(
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point one."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point two."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point three."
-              )
-            )
-          )
-        )
-      ), # end CS tab item
-      
-      ## § (CW) Clean Waters ----
-      ## Clean Waters
-      tabItem(
-        tabName = "cw",
-        
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Clean Waters"),
-            width = 8
-          ),
-          scoreBoxUI(id = "cw_infobox"),
-          box(
-            # h4(filter(goals_csv, goal == "CW")$short_def),
-            h4(filter(goals_csv, goal == "CW")$description),
-            width = 12
-          )
-        ),
-        
-        ## target info and key messages
-        fluidRow(
-          box(
-            title = "Key Messages", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 8
-          ),
-          box(
-            title = "Target", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 4
-          )
-        ),
-        
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "cw_map",
-            title_text = "Clean Waters Scores Around the Baltic",
-            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(), 
-            box_width = 8,
-            ht = 540
-          ),
-          barplotCardUI(
-            id = "cw_barplot",
-            title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-        
-        ## key information and data layers table
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Key Information",
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Layers", 
-            DT::dataTableOutput("cw_datatable")
-          )
-        ),
-        
-        ## additional goal-specific graphs etc
-        # fluidRow(
-        #   box(
-        #     title = "Key Information", 
-        #     background = "teal", 
-        #     solidHeader = TRUE,
-        #     plotOutput("plotename", height = 250)
-        #   )
-        # ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          align = "center",
-          text_links(
-            "CLICK HERE FOR DETAILED METHODS",
-            sprintf("%s/CW/cw_prep.md", gh_prep)
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            tags$ul(
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point one."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point two."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point three."
-              )
-            )
-          )
-        )
-      ), # end CW tab item
-      
+      )
+    )
+  ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the goal prep and calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Anna Sobek , ", tags$em("Department of Environmental Science, Stockholm University, Stockholm, Sweden")
+	,
+"Vivi Fleming, ", tags$em("Finnish Environment Institute SYKE, Helsinki, Finland")
+	
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("cw_datatable")
+    )
+  ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      "https://github.com/OHI-Science/bhi-prep/tree/master/prep/CW"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
+      br(),
+      br(),
+      ## data considerations and improvements bullets
+      tags$ul(
+        tags$li(
+	 tags$b("Missing aspects:"),
+	 "Including data on microplastics and sea floor litter would result in a more complete assessment for the Trash sub-goal, but these data are not currently available. Harmonized data and standardized indicators for marine litter are currently under development, and their inclusion will also help give a more complete picture of Clean Waters in the Baltic Sea. " 
+	),
+tags$li(
+	 tags$b("Substances of Very High Concern:"),
+	 "The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea which is used as one of the indicators in the Contaminants sub-goal to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea, can be developed further to better combine aspects current health and lack of data in the Index. " 
+	),
+tags$li(
+	 tags$b("Spatial variability:"),
+	 "Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty and therefore the confidence of the scores differs substantially across regions. " 
+	),
+tags$li(
+	 tags$b("Target:"),
+	 "The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty." 
+	)
+      )
+    )
+  )
+), # end CW tab item
+
 ## § (CON) Contaminants ----
 ## Contaminants
 tabItem(
@@ -984,126 +1020,150 @@ tags$li(
   )
 ), # end CON tab item
 
-      ## § (EUT) Eutrophication ----
-      ## Eutrophication
-      tabItem(
-        tabName = "eut",
+## § (EUT) Eutrophication ----
+## Eutrophication
+tabItem(
+  tabName = "eut",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Eutrophication"),
+      width = 8
+    ),
+    scoreBoxUI(id = "eut_infobox"),
+    box(
+      # h4(filter(goals_csv, goal == "EUT")$short_def),
+      h4(filter(goals_csv, goal == "EUT")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key information
+  fluidRow(
+    box(
+      title = "Background Information", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Five indicators are combined in the eutrophication subgoal: offshore Secchi depth, summer chlorophyll-a concentration, oxygen debt and winter concentrations of dissolved inorganic phosphorus (DIP) and nitrogen (DIN). Decreased secchi depth (i.e., increased turbidity) and increased chl-a concentration in the summer are indicators of eutrophication related increase in primary production. Oxygen debt, i.e., “missing” oxygen in relation to fully oxygenated water column in water-bodies that are poorly ventilated, results from increased consumption of oxygen in environments where organic material is decomposed. The oxygen debt indicator is calculated using information from salinity and oxygen profiles at the halocline and below in the deep basins of the Baltic Sea (Baltic Proper and Bornholm Basin) following the methodology of HELCOM (2013, 2018). Phosphorus and nitrogen, on the other hand, are the key limiting nutrients of primary production in the Baltic Sea making the winter concentrations of DIP and DIN indicators of the following summer’s production potential. These five eutrophication indicators are also HELCOM core indicators (Baltic Sea Environmental Proceedings No 143).",
+      width = 8
+    ),
+    box(
+      title = "Scoring Criteria", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Winter (December-February) nutrient concentrations (dissolved inorganic phosphorus: DIP and dissolved inorganic nitrogen: DIN), summer (June-September) Chlorophyll a (chl-a) concentrations and annually averaged oxygen debt fall below, and summer secchi depth above, the threshold values defined and used by HELCOM (2013, 2018). Thresholds are basin-specific.",
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "eut_map",
+      title_text = "Eutrophication Scores Around the Baltic",
+      sub_title_text = "",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "eut_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key messages, timeseries plot, and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Additional Insights & Discussion",
+      status = "primary", 
+      solidHeader = TRUE,
+      "In general, the eutrophication status is better in the North, particularly in the Bay of Bothnia, and in the South close to the Danish Straits. However, the eutrophication management target is only met in waters around Kattegat. Lower status scores were calculated for the Central Baltic Sea, and the eutrophication status score was lowest in the Gulf of Riga (approx. 50).
+  
+ 
+  The Eutrophication trend from the past 10 years indicates positive development in the areas near the Danish Sounds, where also the current status is good, but also in the Archipelago Sea, and Gulfs of Finland and Gdansk. The trend is negative elsewhere in the Baltic Sea. Based on the trend calculations, most negative development in the near future can be expected in the Gulf of Riga, which already has the lowest status score, as well as in the Quark area. That negative trends are observed in the Gulf of Bothnia, where the status score is relatively high, indicates that even in the “lower-concern” areas one needs to monitor closely the development of eutrophication.
+  
+ 
+  For most basins the Secchi depth target is not met at present and secchi depth is lower than the threshold value, Kattegat being the only exception. Also, the future trend is negative in most basins, excluding Kattegat and the Åland Sea.
+  
+ 
+  The chl-a target threshold was exceeded in all basins, with exception of Kattegat. The trend in chl-a was negative for management (i.e., increase in chl-a) in Central Basins of the Baltic Sea, as well as in the Gulf of Finland. Positive development was seen in the Southern parts and Gulf of Riga.
+  
+ 
+  Present-day oxygen debt is above the threshold both in the Baltic Proper and Bornholm Basin, indicating that the management target has not been met.
+  
+ 
+  For DIN, the management target was only met (i.e., lower DIN values) at the entrance to the Baltic Sea. DIN values highest in comparison to the target were found in Gulfs of Riga and Finland. The future trend is weak, but positive (i.e., decreasing DIN) with the exception of most of the northern Baltic Basins. For DIP, the target threshold was clearly exceeded in most of the basins, and met only in the Bothnian Bay and close to the entrance to the Baltic Sea. The future trend for DIP was clearly negative (i.e., increasing DIP) in the North, while slight positive development was identified in the South.
+  "
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "eut_tsplot",
+      title_text = "Eutrophication Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
         
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Eutrophication"),
-            width = 8
-          ),
-          scoreBoxUI(id = "eut_infobox"),
-          box(
-            # h4(filter(goals_csv, goal == "EUT")$short_def),
-            h4(filter(goals_csv, goal == "EUT")$description),
-            width = 12
-          )
-        ),
-        
-        ## target info and key messages
-        fluidRow(
-          box(
-            title = "Key Messages", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 8
-          ),
-          box(
-            title = "Target", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 4
-          )
-        ),
-        
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "eut_map",
-            title_text = "Eutrophication Scores Around the Baltic",
-            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(), 
-            box_width = 8,
-            ht = 540
-          ),
-          barplotCardUI(
-            id = "eut_barplot",
-            title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-        
-        ## key information and data layers table
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Key Information",
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Layers", 
-            DT::dataTableOutput("eut_datatable")
-          )
-        ),
-        
-        ## additional goal-specific graphs etc
-        # fluidRow(
-        #   box(
-        #     title = "Key Information", 
-        #     background = "teal", 
-        #     solidHeader = TRUE,
-        #     plotOutput("plotename", height = 250)
-        #   )
-        # ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          align = "center",
-          text_links(
-            "CLICK HERE FOR DETAILED METHODS",
-            sprintf("%s/EUT/eut_prep.md", gh_prep)
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            tags$ul(
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point one."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point two."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point three."
-              )
-            )
-          )
-        )
-      ), # end EUT tab item
-      
+      )
+    )
+  ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the goal prep and calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Vivi Fleming, ", tags$em("Finnish Environment Institute SYKE, Helsinki, Finland")
+	
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("eut_datatable")
+    )
+  ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/eutrophication/v2019/eut_prep.md"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
+      br(),
+      br(),
+      ## data considerations and improvements bullets
+      tags$ul(
+        tags$li(
+	 tags$b("Spatial variability:"),
+	 "Some of the assessment regions have more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores can differ across regions. " 
+	),
+tags$li(
+	 tags$b("Thresholds:"),
+	 "The threshold values that are the same as used by HELCOM 2018. " 
+	)
+      )
+    )
+  )
+), # end EUT tab item
+
 ## § (TRA) Trash ----
 ## Trash
 tabItem(
@@ -1129,14 +1189,14 @@ tabItem(
       title = "Background Information", 
       status = "primary", 
       solidHeader = TRUE,
-      "",
+      "The amount of mismanaged plastic litter that has the potential to enter the ocean was used as a proxy for the goal, from modelled data by Jambeck et al. (2015). The modelled data were down-weighted for Russia, Germany, Denmark and Sweden (proportion of coastal population/national population) to include only the litter that reaches the Baltic Sea from these countries.",
       width = 8
     ),
     box(
       title = "Scoring Criteria", 
       status = "primary", 
       solidHeader = TRUE,
-      "",
+      "The good environmental status from the Marine Strategy Framework Directive is qualitatively framed as the situation where 'properties and quantities of marine litter do not cause harm to the coastal and marine environment'. Currently, there is no official quantitative reference point set. Therefore, for this assessment the upper reference point was set as the maximum amount of litter among all Baltic surrounding countries in 2010, and the lower reference point is zero litter in the Baltic Sea.",
       width = 4
     )
   ),
@@ -1163,10 +1223,10 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Key Messages",
+      title = "Additional Insights & Discussion",
       status = "primary", 
       solidHeader = TRUE,
-      ""
+      "Trash is a significant issue for the Baltic Sea, as waste in urban areas can find its way to the sea and becomes marine litter. The status is not good in most of the Baltic Sea basins. Despite efforts in clean-up projects at beaches around the Baltic Sea, there is currently lack of consistent Baltic Sea wide monitoring and assessment for litter. As marine litter can be found on beaches and shorelines, floating on the surface, submerged in the water column or sunk to the bottom, core indicators need to be developed and assessed accordingly."
     )
   ),
   fluidRow(
@@ -1183,10 +1243,11 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Expert",
+      title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      ""
+      ", ", tags$em("No expert for this particular sub-goal")
+	
     )
   ),
   fluidRow(
@@ -1219,493 +1280,539 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("NA"),
-	 "" 
+	 tags$b("Standardization:"),
+	 "The majority of litter monitoring methods are not standardized specifically for the Baltic Sea. Data collection needs to be harmonized, to improve comparability of results and thus allow benchmarking. " 
+	),
+tags$li(
+	 tags$b("Microplastics:"),
+	 "Including data on microplastics would result in a more complete  picture, but these data are not currently available. " 
+	),
+tags$li(
+	 tags$b("Work-in-progress:"),
+	 "In HELCOM, assessment approaches based on core indicators are currently underway for beach litter, litter on the seafloor and microlitter. Threshold values for the assessment are being developed in an EU-process which can be used in the next BHI iteration." 
 	)
       )
     )
   )
 ), # end TRA tab item
 
-      ## § (FP) Food Provision ----
-      ## Food Provision
-      tabItem(
-        tabName = "fp",
+## § (FP) Food Provision ----
+## Food Provision
+tabItem(
+  tabName = "fp",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Food Provision"),
+      width = 8
+    ),
+    scoreBoxUI(id = "fp_infobox"),
+    box(
+      # h4(filter(goals_csv, goal == "FP")$short_def),
+      h4(filter(goals_csv, goal == "FP")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key information
+  fluidRow(
+    box(
+      title = "Background Information", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "The Food Provision goal is divided into two sub-goals: **Wild-Caught Fisheries** and **Mariculture**. The more seafood harvested or farmed sustainably, the higher the goal score. Due to limited information and data the **Mariculture** sub-goal could not be assessed.",
+      width = 8
+    ),
+    box(
+      title = "Scoring Criteria", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "The target used for the **Wild-Caught Fisheries** sub-goal is based on the Maximum Sustainable Yield (MSY) principle. For the the **Mariculture** sub-goal the aim was to use the maximum nutrient discharge for both phosphorus (P) and nitrogen (N), but due to limited information this sub-goal could not be assessed.",
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "fp_map",
+      title_text = "Food Provision Scores Around the Baltic",
+      sub_title_text = "",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "fp_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key messages, timeseries plot, and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Additional Insights & Discussion",
+      status = "primary", 
+      solidHeader = TRUE,
+      "The overall score for the Food Provision goal is high (82), although none of the Baltic subbasin has reached the management target of sustainable fisheries. More detailed information are found in the Fisheries sub-goal descriptions."
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "fp_tsplot",
+      title_text = "Food Provision Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
         
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Food Provision"),
-            width = 8
-          ),
-          scoreBoxUI(id = "fp_infobox"),
-          box(
-            # h4(filter(goals_csv, goal == "FP")$short_def),
-            h4(filter(goals_csv, goal == "FP")$description),
-            width = 12
-          )
-        ),
+      )
+    )
+  ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the goal prep and calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Christian Möllmann **Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany**, ", tags$em("Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany")
+	
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("fp_datatable")
+    )
+  ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      ""
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
+      br(),
+      br(),
+      ## data considerations and improvements bullets
+      tags$ul(
+        tags$li(
+	 tags$b("Complementary data:"),
+	 "Use survey and effort data to improve future goal calculations for fisheries and collect more information and data on mariculture and its sustainable production" 
+	)
+      )
+    )
+  )
+), # end FP tab item
+
+## § (FIS) Fisheries ----
+## Fisheries
+tabItem(
+  tabName = "fis",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Fisheries"),
+      width = 8
+    ),
+    scoreBoxUI(id = "fis_infobox"),
+    box(
+      # h4(filter(goals_csv, goal == "FIS")$short_def),
+      h4(filter(goals_csv, goal == "FIS")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key information
+  fluidRow(
+    box(
+      title = "Background Information", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "The data used for this subgoal are cod (two cod stocks) and herring (four herring stocks) spawning stock biomass (SSB) and fishing mortality (F) data derived from stock assessments performed by the International Council for the Exploration of the Sea (ICES) Baltic Fisheries Assessment Working Group (WGBFAS). The current status of the fish stocks is calculated as a function of the ratio between the single species current biomass at sea (B) and the reference biomass at maximum sustainable yield (BMSY), as well as the ratio between the single species current fishing mortality (F) and the fishing mortality at maximum sustainable yield (FMSY). In EU fisheries management BMSY is defined as the lower bound to SSB when the stock is fished at FMSY, called MSY Btrigger. These ratios (B/BMSY and F/FMSY) are converted to scores between 0 and 1 using as one component this general relationship. Biomass and mortality are not sufficient to characterize the status of the Eastern Baltic cod, as in addition to population size condition have significantly declined. Fulton’s K (Casini et al. 2016) is used here as a measure of condition to penalize the proportion of surveyed cod in length categories 20-60cm (the most commercially important) with Fulton’s K less than 0.8.",
+      width = 8
+    ),
+    box(
+      title = "Scoring Criteria", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "The reference points used for the computation are based on the MSY principle and are described as a functional relationship. MSY means the highest theoretical equilibrium yield that can be continuously taken on average from a stock under existing average environmental conditions without significantly affecting the reproduction process (European Union 2013, World Ocean Review 2013).",
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "fis_map",
+      title_text = "Fisheries Scores Around the Baltic",
+      sub_title_text = "",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "fis_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key messages, timeseries plot, and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Additional Insights & Discussion",
+      status = "primary", 
+      solidHeader = TRUE,
+      "The overall fisheries status is below 100 and has, therefore, not reached the sustainable fishery target. In particular, the Eastern and Western Baltic cod and the Western Baltic herring stock are below biomass limit reference points (ICES 2020). Central Baltic and Gulf of Riga herring in contrast are in a comparatively good state."
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "fis_tsplot",
+      title_text = "Fisheries Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
+        `Cod biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_cod",
+	`Herring biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_herring",
+	`Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_cod",
+	`Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_herring",
+	`Cod landings (tonnes)` = "fis_landings_bhi2019_cod",
+	`Herring landings (tonnes)` = "fis_landings_bhi2019_herring"
+      )
+    )
+  ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the goal prep and calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Christian Möllmann **Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany**, ", tags$em("Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany")
+	
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("fis_datatable")
+    )
+  ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
+      br(),
+      br(),
+      ## data considerations and improvements bullets
+      tags$ul(
+        tags$li(
+	 tags$b("Additional data:"),
+	 "In the future, we aim to use survey and effort data to improve the goal calculations." 
+	)
+      )
+    )
+  )
+), # end FIS tab item
+
+## § (MAR) Mariculture ----
+## Mariculture
+tabItem(
+  tabName = "mar",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Mariculture"),
+      width = 8
+    ),
+    scoreBoxUI(id = "mar_infobox"),
+    box(
+      # h4(filter(goals_csv, goal == "MAR")$short_def),
+      h4(filter(goals_csv, goal == "MAR")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key information
+  fluidRow(
+    box(
+      title = "Background Information", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "Sustainable mariculture represents a good supplementary opportunity that can support food provisioning needs, especially when considering not compromising the water quality in the farmed area and not relying on wild populations to feed or replenish the cultivated species. However, assessing the sustainable production of farmed fish can be difficult, as information is limited (location of the fish farms, species produced, nutrient and antibiotic release from these farms). Overall, in terms of total fish production, mariculture is at the moment not a large industry in the Baltic Sea, and dominated by rainbow trout production, which was included using available national data.",
+      width = 8
+    ),
+    box(
+      title = "Scoring Criteria", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "The maximum nutrient discharge for both phosphorus (P) and nitrogen (N) could be used as target for this sub-goal, if information is available. The HELCOM Recommendation, provides a management target that existing and new marine fish farms should not exceed the annual average of 7g of P (total-P) and 50g of N (total-N) per 1kg fish (living weight) produced.",
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "mar_map",
+      title_text = "Mariculture Scores Around the Baltic",
+      sub_title_text = "",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "mar_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key messages, timeseries plot, and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Additional Insights & Discussion",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Despite the production of rainbow trouts in some Baltic countries (Denmark, Germany, Sweden and Finland), there is currently very limited data on nutrient discharge, and therefore the Mariculture sub-goal was not assessed and will not contribute to the overall Food Provision goal score."
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "mar_tsplot",
+      title_text = "Mariculture Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
         
-        ## target info and key messages
-        fluidRow(
-          box(
-            title = "Key Messages", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 8
-          ),
-          box(
-            title = "Target", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 4
-          )
-        ),
+      )
+    )
+  ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the goal prep and calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      ", ", tags$em("No expert for this particular sub-goal")
+	
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("mar_datatable")
+    )
+  ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/MAR/v2019/mar_prep.md"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
+      br(),
+      br(),
+      ## data considerations and improvements bullets
+      tags$ul(
+        tags$li(
+	 tags$b("Data consistency:"),
+	 "Collect more consistent information and data on mariculture and its sustainable production." 
+	)
+      )
+    )
+  )
+), # end MAR tab item
+
+## § (LE) Coastal Livelihoods & Economies ----
+## Coastal Livelihoods & Economies
+tabItem(
+  tabName = "le",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Coastal Livelihoods & Economies"),
+      width = 8
+    ),
+    scoreBoxUI(id = "le_infobox"),
+    box(
+      # h4(filter(goals_csv, goal == "LE")$short_def),
+      h4(filter(goals_csv, goal == "LE")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key information
+  fluidRow(
+    box(
+      title = "Background Information", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "The jobs and revenue produced from marine-related industries directly benefit those who are employed, but also have important indirect value for community identity, tax revenue, and other related economic and social aspects of a stable coastal economy. The Livelihoods and Economies goal is divided into two sub-goals: **Livelihoods** and **Economies**. Each is measured separately as the number and quality of jobs and the amount of revenue produced are both of considerable interest to stakeholders and governments, and can have different patterns in some cases.",
+      width = 8
+    ),
+    box(
+      title = "Scoring Criteria", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "The target used for **Livelihoods** sub-goal is the maximum Region-to-Country employment ratio of the past five years, and highest country employment rate in the last fifteen years, whereas for the **Economies** sub-goal is having all marine economic sectors achieve an average annual growth rate of 1.5%.",
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "le_map",
+      title_text = "Coastal Livelihoods & Economies Scores Around the Baltic",
+      sub_title_text = "",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "le_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key messages, timeseries plot, and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Additional Insights & Discussion",
+      status = "primary", 
+      solidHeader = TRUE,
+      "The overall score for the Livelihoods and Economies goal is quite high across the entire Baltic Sea, especially along the Swedish basins, where the scores from both the **Livelihoods** and **Economies** sub-goals are quite high. However, the status is generally lower along German basins, where the **Economies** sub-goal scores are lower."
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "le_tsplot",
+      title_text = "Coastal Livelihoods & Economies Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
         
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "fp_map",
-            title_text = "Food Provision Scores Around the Baltic",
-            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(), 
-            box_width = 8,
-            ht = 540
-          ),
-          barplotCardUI(
-            id = "fp_barplot",
-            title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-        
-        ## key information and data layers table
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Key Information",
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Layers", 
-            DT::dataTableOutput("fp_datatable")
-          )
-        ),
-        
-        ## additional goal-specific graphs etc
-        # fluidRow(
-        #   box(
-        #     title = "Key Information", 
-        #     background = "teal", 
-        #     solidHeader = TRUE,
-        #     plotOutput("plotename", height = 250)
-        #   )
-        # ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          align = "center",
-          text_links(
-            "CLICK HERE FOR DETAILED METHODS",
-            sprintf("%s/FP/fp_prep.md", gh_prep)
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            tags$ul(
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point one."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point two."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point three."
-              )
-            )
-          )
-        )
-      ), # end FP tab item
-      
-      ## § (FIS) Fisheries ----
-      ## Fisheries
-      tabItem(
-        tabName = "fis",
-        
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Fisheries"),
-            width = 8
-          ),
-          scoreBoxUI(id = "fis_infobox"),
-          box(
-            # h4(filter(goals_csv, goal == "FIS")$short_def),
-            h4(filter(goals_csv, goal == "FIS")$description),
-            width = 12
-          )
-        ),
-        
-        ## target info and key information
-        fluidRow(
-          box(
-            title = "Key Information", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Cod and herring stocks in the Baltic Sea were included as wild-caught fisheries.",
-            width = 8
-          ),
-          box(
-            title = "Target", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "All harvested stocks are neither overfished nor underfished but rather fished at maximum sustainable yield.",
-            width = 4
-          )
-        ),
-        
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "fis_map",
-            title_text = "Fisheries Scores Around the Baltic",
-            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(), 
-            box_width = 8,
-            ht = 540
-          ),
-          barplotCardUI(
-            id = "fis_barplot",
-            title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-        
-        ## key messages, timeseries plot, and data layers table
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Key Messages",
-            status = "primary", 
-            solidHeader = TRUE,
-            ""
-          )
-        ),
-        fluidRow(
-          tsplotCardUI(
-            id = "fis_tsplot",
-            title_text = "Fisheries Data Layers",
-            sub_title_text = "",
-            ht = 510,
-            select_choices = list(
-              `Cod biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_cod",
-              `Herring biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_herring",
-              `Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_cod",
-              `Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_herring",
-              `Cod landings (tonnes)` = "fis_landings_bhi2019_cod",
-              `Herring landings (tonnes)` = "fis_landings_bhi2019_herring"
-            )
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Layers", 
-            DT::dataTableOutput("fis_datatable")
-          )
-        ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          align = "center",
-          text_links(
-            "CLICK HERE FOR DETAILED METHODS",
-            "http://ohi-science.org/bhi-prep/wild-caught-fisheries-food-provision-subgoal.html"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            ## data considerations and improvements bullets
-            tags$ul(
-              tags$li(
-                tags$b("Different Spatial Assessment Areas:"),
-                "" 
-              )
-            )
-          )
-        )
-      ), # end FIS tab item
-      
-      ## § (MAR) Mariculture ----
-      ## Mariculture
-      tabItem(
-        tabName = "mar",
-        
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Mariculture"),
-            width = 8
-          ),
-          scoreBoxUI(id = "mar_infobox"),
-          box(
-            # h4(filter(goals_csv, goal == "MAR")$short_def),
-            h4(filter(goals_csv, goal == "MAR")$description),
-            width = 12
-          )
-        ),
-        
-        ## target info and key messages
-        fluidRow(
-          box(
-            title = "Key Messages", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 8
-          ),
-          box(
-            title = "Target", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 4
-          )
-        ),
-        
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "mar_map",
-            title_text = "Mariculture Scores Around the Baltic",
-            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(), 
-            box_width = 8,
-            ht = 540
-          ),
-          barplotCardUI(
-            id = "mar_barplot",
-            title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-        
-        ## key information and data layers table
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Key Information",
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Layers", 
-            DT::dataTableOutput("mar_datatable")
-          )
-        ),
-        
-        ## additional goal-specific graphs etc
-        # fluidRow(
-        #   box(
-        #     title = "Key Information", 
-        #     background = "teal", 
-        #     solidHeader = TRUE,
-        #     plotOutput("plotename", height = 250)
-        #   )
-        # ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          align = "center",
-          text_links(
-            "CLICK HERE FOR DETAILED METHODS",
-            "http://ohi-science.org/bhi-prep/mariculture-food-provision-subgoal.html"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            tags$ul(
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point one."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point two."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point three."
-              )
-            )
-          )
-        )
-      ), # end MAR tab item
-      
-      ## § (LE) Coastal Livelihoods & Economies ----
-      ## Coastal Livelihoods & Economies
-      tabItem(
-        tabName = "le",
-        
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Coastal Livelihoods & Economies"),
-            width = 8
-          ),
-          scoreBoxUI(id = "le_infobox"),
-          box(
-            # h4(filter(goals_csv, goal == "LE")$short_def),
-            h4(filter(goals_csv, goal == "LE")$description),
-            width = 12
-          )
-        ),
-        
-        ## target info and key messages
-        fluidRow(
-          box(
-            title = "Key Messages", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 8
-          ),
-          box(
-            title = "Target", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 4
-          )
-        ),
-        
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "le_map",
-            title_text = "Coastal Livelihoods & Economies Scores Around the Baltic",
-            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(), 
-            box_width = 8,
-            ht = 540
-          ),
-          barplotCardUI(
-            id = "le_barplot",
-            title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-        
-        ## key information and data layers table
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Key Information",
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Layers", 
-            DT::dataTableOutput("le_datatable")
-          )
-        ),
-        
-        ## additional goal-specific graphs etc
-        # fluidRow(
-        #   box(
-        #     title = "Key Information", 
-        #     background = "teal", 
-        #     solidHeader = TRUE,
-        #     plotOutput("plotename", height = 250)
-        #   )
-        # ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          align = "center",
-          text_links(
-            "CLICK HERE FOR DETAILED METHODS",
-            sprintf("%s/LE/le_prep.md", gh_prep)
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            tags$ul(
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point one."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point two."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point three."
-              )
-            )
-          )
-        )
-      ), # end LE tab item
-      
+      )
+    )
+  ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the goal prep and calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Wilfried Rickels, ", tags$em("Kiel Institute for the World Economy, Kiel, Germany")
+	
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("le_datatable")
+    )
+  ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      ""
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
+      br(),
+      br(),
+      ## data considerations and improvements bullets
+      tags$ul(
+        tags$li(
+	 tags$b("Marine sector-specific employment data:"),
+	 "Difficulty in obtaining data on sector-specific employment at a fine enough spatial resolution (Eurostat NUTS3 which distinguishes coastal vs non-coastal regions) has prevented a more focused assessment of marine livelihoods, beyond the current approach’s rough estimation of livelihoods in coastal areas. " 
+	),
+tags$li(
+	 tags$b("Working conditions and Job satisfaction:"),
+	 "Ideally, this goal would also reflect working conditions and job satisfaction associated with livelihoods in marine sectors. " 
+	),
+tags$li(
+	 tags$b("•	Inclusion of Sustainability Information:"),
+	 "Incorporating information on the sustainability of the different marine sectors and/or activities would help counterbalance penalization for negative economic growth (contraction) associated unsustainable economic activities such as natural gas, petroleum, or sediments extraction. " 
+	),
+tags$li(
+	 tags$b("Economic Activities as Pressures:"),
+	 "Extractive economic activities measured in this goal could be included in the index as minor pressures on other goals, in which case the contraction of these sectors would potentially correspond to increases in scores of other goals such as biodiversity or sense of place. " 
+	),
+tags$li(
+	 tags$b("Data timeseries:"),
+	 "Data only for years 2009 and 2018 were available by distinct sub-sectors and economic activities in the 2020 EU Blue Economy Report; since the status calculation uses growth rate as a target and only one annual growth rate (CAGR) could be approximated using the two years of data, the OHI trend dimension capturing short-term changes in status (i.e. changes in growth rates for this goal) short-term could not be calculated." 
+	)
+      )
+    )
+  )
+), # end LE tab item
+
 ## § (ECO) Economies ----
 ## Economies
 tabItem(
@@ -1966,126 +2073,146 @@ tags$li(
   )
 ), # end LIV tab item
 
-      ## § (SP) Sense of Place ----
-      ## Sense of Place
-      tabItem(
-        tabName = "sp",
+## § (SP) Sense of Place ----
+## Sense of Place
+tabItem(
+  tabName = "sp",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Sense of Place"),
+      width = 8
+    ),
+    scoreBoxUI(id = "sp_infobox"),
+    box(
+      # h4(filter(goals_csv, goal == "SP")$short_def),
+      h4(filter(goals_csv, goal == "SP")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key information
+  fluidRow(
+    box(
+      title = "Background Information", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "The Sense of Place goal is divided into two sub-goals: **Iconic Species** and **Lasting Special Places**. In particular, the status of **Iconic Species** was evaluated using species observational data from the HELCOM database, whereas the **Lasting Special Places** sub-goal assesses the status of MPAs in the Baltic Sea.",
+      width = 8
+    ),
+    box(
+      title = "Scoring Criteria", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "The target used for the **Iconic Species** sub-goal is achieved in case all species are categorised as of ’least concern’, whereas for the **Lasting Special Places** sub-goal the designation of at least 10% of each BHI region as MPAs with a full implemented management plan is used.",
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "sp_map",
+      title_text = "Sense of Place Scores Around the Baltic",
+      sub_title_text = "",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "sp_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key messages, timeseries plot, and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Additional Insights & Discussion",
+      status = "primary", 
+      solidHeader = TRUE,
+      "The overall score for the Sense of Place goal is quite low, mainly due to the overall status of MPAs, whose areal coverage is quite high but yet many need to be enforced. However, the status is generally higher in southern basins of the Baltic Sea, where both the **Iconic Species** and **Lasting Special Places** sub-goals scores are higher."
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "sp_tsplot",
+      title_text = "Sense of Place Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
         
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Sense of Place"),
-            width = 8
-          ),
-          scoreBoxUI(id = "sp_infobox"),
-          box(
-            # h4(filter(goals_csv, goal == "SP")$short_def),
-            h4(filter(goals_csv, goal == "SP")$description),
-            width = 12
-          )
-        ),
-        
-        ## target info and key messages
-        fluidRow(
-          box(
-            title = "Key Messages", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 8
-          ),
-          box(
-            title = "Target", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 4
-          )
-        ),
-        
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "sp_map",
-            title_text = "Sense of Place Scores Around the Baltic",
-            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(), 
-            box_width = 8,
-            ht = 540
-          ),
-          barplotCardUI(
-            id = "sp_barplot",
-            title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-        
-        ## key information and data layers table
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Key Information",
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Layers", 
-            DT::dataTableOutput("sp_datatable")
-          )
-        ),
-        
-        ## additional goal-specific graphs etc
-        # fluidRow(
-        #   box(
-        #     title = "Key Information", 
-        #     background = "teal", 
-        #     solidHeader = TRUE,
-        #     plotOutput("plotename", height = 250)
-        #   )
-        # ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          align = "center",
-          text_links(
-            "CLICK HERE FOR DETAILED METHODS",
-            sprintf("%s/SP/sp_prep.md", gh_prep)
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            tags$ul(
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point one."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point two."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point three."
-              )
-            )
-          )
-        )
-      ), # end SP tab item
-      
+      )
+    )
+  ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the goal prep and calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      "Sofia Wikström, ", tags$em("Baltic Sea Centre, Stockholm University, Stockholm, Sweden")
+	
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("sp_datatable")
+    )
+  ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      ""
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
+      br(),
+      br(),
+      ## data considerations and improvements bullets
+      tags$ul(
+        tags$li(
+	 tags$b("Species ranges:"),
+	 "One limitation of the observation data used is larger uncertainties in spatial ranges of rare species. Estimation of rare species could be improved to more confidently represent distributions of species around the Baltic Sea; one way to do this would be using IUCN species range maps to establish species occurrence in relation to their spatial habitat area. " 
+	),
+tags$li(
+	 tags$b("Relation to other assessments:"),
+	 "Improve the link between the BHI and the future Biodiversity assessments by IPBES and use the UN Ocean Biodiversity Information System (OBIS) as national and regional assessments will be performed and linked to IPBES in the future. " 
+	),
+tags$li(
+	 tags$b("Data consideration:"),
+	 "Lack of quantitative information about the level of effort involved in obtaining the species observations data, or background environmental conditions corresponding to the data points, precludes useful interpretation from observation frequencies of species; rigorous assessment of the historical conditions of all species collectively would require this data which is not readily. Also, some of the management plans are outdated, as the data updates are delayed on the HELCOM MPAs webpage (http://mpas.helcom.fi/apex/f?p=103:5::::::). " 
+	),
+tags$li(
+	 tags$b("Moving target:"),
+	 "CBD and EU are now discussing on raising the target for protection to 30% of the sea area, in which case will entail the BHI target to be updated accordingly. " 
+	),
+tags$li(
+	 tags$b("Mapping values:"),
+	 "Map important conservation, social and cultural places, which people value highly." 
+	)
+      )
+    )
+  )
+), # end SP tab item
+
 ## § (ICO) Iconic Species ----
 ## Iconic Species
 tabItem(
@@ -2145,7 +2272,7 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Key Messages",
+      title = "Additional Insights & Discussion",
       status = "primary", 
       solidHeader = TRUE,
       "Status of iconic species is generally higher in southern basins of the Baltic Sea. More species from the iconic species list are present in the southern basins, including fish species such as flounder (Platichthys flesus) and sprat (Sprattus sprattus) which thrive in higher salinity and are classified on the IUCN scale as ‘least concern’. The different ranges of different seal species also contribute to the pattern of lower scores in the northern basins. Harbour seals (Phoca vitulina vitulina), which are classified as ‘least concern’, are present in the southern but not in the northern basins, while ringed seals (Pusa hispida) classified as ‘vulnerable’ are only present in the northern basins."
@@ -2165,10 +2292,11 @@ tabItem(
   fluidRow(
     box(
       width = 12, 
-      title = "Expert",
+      title = "Experts who guided us in the goal prep and calculation",
       status = "primary", 
       solidHeader = TRUE,
-      ""
+      ", ", tags$em("No expert for this particular sub-goal")
+	
     )
   ),
   fluidRow(
@@ -2349,126 +2477,130 @@ tags$li(
   )
 ), # end LSP tab item
 
-      ## § (NP) Natural Products ----
-      ## Natural Products
-      tabItem(
-        tabName = "np",
+## § (NP) Natural Products ----
+## Natural Products
+tabItem(
+  tabName = "np",
+  
+  ## header with scorebox and goal intro
+  fluidRow(
+    box(
+      h1("Natural Products"),
+      width = 8
+    ),
+    scoreBoxUI(id = "np_infobox"),
+    box(
+      # h4(filter(goals_csv, goal == "NP")$short_def),
+      h4(filter(goals_csv, goal == "NP")$description),
+      width = 12
+    )
+  ),
+  
+  ## target info and key information
+  fluidRow(
+    box(
+      title = "Background Information", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "This goal was calculated based on data from the pelagic fish sprat (Sprattus sprattus) as this fish is mainly used for fish meal production or animal food. The goal was assessed using spawning stock biomass and fishing mortality data as well as related maximum sustainable yield (MSY) reference points from ICES (2020, see also the Fisheries goal). The current status of the sprat stock is calculated as a function of the ratio between the single species current biomass at sea (B) and the reference biomass at maximum sustainable yield (BMSY), as well as the ratio between the single species current fishing mortality (F) and the fishing mortality at maximum sustainable yield (FMSY). In EU fisheries management, BMSY is defined as the lower bound to SSB when the stock is fished at FMSY, called MSYBtrigger. These ratios (B/BMSY and F/FMSY) are converted to scores between 0 and 1 using this general relationship as one component. The spatial assessment unit is the whole Baltic Sea. No data for other natural products were readily available at the time of the assessment.",
+      width = 8
+    ),
+    box(
+      title = "Scoring Criteria", 
+      status = "primary", 
+      solidHeader = TRUE,
+      "The reference points used for the computation are based on the MSY principle and are described as a functional relationship. MSY means the highest theoretical equilibrium yield that can be continuously taken on average from a stock under existing average environmental conditions without significantly affecting the reproduction process (European Union 2013, World Ocean Review 2013).",
+      width = 4
+    )
+  ),
+  
+  ## plots and maps and links
+  fluidRow(
+    mapCardUI(
+      id = "np_map",
+      title_text = "Natural Products Scores Around the Baltic",
+      sub_title_text = "",
+      br(), 
+      box_width = 8,
+      ht = 540
+    ),
+    barplotCardUI(
+      id = "np_barplot",
+      title_text = "Shortfall/Headway towards Target",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+      box_width = 4
+    )
+  ),
+  
+  ## key messages, timeseries plot, and data layers table
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Additional Insights & Discussion",
+      status = "primary", 
+      solidHeader = TRUE,
+      "The Natural Product score is high (85-94) and has a very low spatial variability, because the ICES sprat assessment unit is the whole Baltic Sea, so the small spatial variability is due to the different pressure and resilience scores in the different regions."
+    )
+  ),
+  fluidRow(
+    tsplotCardUI(
+      id = "np_tsplot",
+      title_text = "Natural Products Data Layers",
+      sub_title_text = "",
+      ht = 340,
+      select_choices = list(
         
-        ## header with scorebox and goal intro
-        fluidRow(
-          box(
-            h1("Natural Products"),
-            width = 8
-          ),
-          scoreBoxUI(id = "np_infobox"),
-          box(
-            # h4(filter(goals_csv, goal == "NP")$short_def),
-            h4(filter(goals_csv, goal == "NP")$description),
-            width = 12
-          )
-        ),
-        
-        ## target info and key messages
-        fluidRow(
-          box(
-            title = "Key Messages", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 8
-          ),
-          box(
-            title = "Target", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content", br(),
-            width = 4
-          )
-        ),
-        
-        ## plots and maps and links
-        fluidRow(
-          mapCardUI(
-            id = "np_map",
-            title_text = "Natural Products Scores Around the Baltic",
-            #  sub_title_text = "This map shows scores from the previous assessment (2014)",
-            br(), 
-            box_width = 8,
-            ht = 540
-          ),
-          barplotCardUI(
-            id = "np_barplot",
-            title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to target level of 100. Bar thickness indicates region or basin (log-transformed) area.",
-            box_width = 4
-          )
-        ),
-        
-        ## key information and data layers table
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Key Information",
-            status = "primary", 
-            solidHeader = TRUE,
-            "Box content here", br(), "More box content"
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Layers", 
-            DT::dataTableOutput("np_datatable")
-          )
-        ),
-        
-        ## additional goal-specific graphs etc
-        # fluidRow(
-        #   box(
-        #     title = "Key Information", 
-        #     background = "teal", 
-        #     solidHeader = TRUE,
-        #     plotOutput("plotename", height = 250)
-        #   )
-        # ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          align = "center",
-          text_links(
-            "CLICK HERE FOR DETAILED METHODS",
-            sprintf("%s/NP/np_prep.md", gh_prep)
-          )
-        ),
-        fluidRow(
-          box(
-            collapsible = TRUE,
-            collapsed = TRUE,
-            width = 12,
-            title = "Data Considerations & Potential Improvements",
-            "There is always opportunity to improve data quality and availability. Below we have identifed where improving these data could improve our understanding of ocean health",
-            br(),
-            br(),
-            tags$ul(
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point one."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point two."
-              ),
-              tags$li(
-                tags$b("Bold text:"),
-                "Bullet point three."
-              )
-            )
-          )
-        )
-      ), # end NP tab item
-      
+      )
+    )
+  ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the goal prep and calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      "**No expert for this particular goal (some advisement from fisheries goal expert, as used similar models)**, ", tags$em("No expert for this particular goal (some advisement from fisheries goal expert, as used similar models)")
+	
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Layers", 
+      DT::dataTableOutput("np_datatable")
+    )
+  ),
+  
+  ## methods link, plus data considerations, improvements
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS",
+      "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md"
+    )
+  ),
+  fluidRow(
+    box(
+      collapsible = TRUE,
+      collapsed = TRUE,
+      width = 12,
+      title = "Data Considerations & Potential Improvements",
+      "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
+      br(),
+      br(),
+      ## data considerations and improvements bullets
+      tags$ul(
+        tags$li(
+	 tags$b("Additional data:"),
+	 "The data used here consists only of one species. In the future we aim to add other species such as blue mussels and macroalgae, to provide a more comprehensive picture of the status of natural products in the Baltic Sea." 
+	)
+      )
+    )
+  )
+), # end NP tab item
+
 ## § (TR) Tourism & Recreation ----
 ## Tourism & Recreation
 tabItem(

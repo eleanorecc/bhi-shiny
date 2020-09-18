@@ -54,7 +54,7 @@ mapCard <- function(input, output, session,
     )
     
     
-    if(!is.na(lyrs_latlon)|length(lyrs_polygons)!=0){
+    if(length(lyrs_latlon)!=0|length(lyrs_polygons)!=0){
       ## add data overlays to goal maps
       result$map <- add_map_datalayers(
         result$map, 

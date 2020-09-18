@@ -10,21 +10,23 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, year = asses
   
   ## points
   plot_latlon <- list()
-  for(lyr in lyrs_latlon){
-    if(RCurl::url.exists(paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv"))){
-      dfloc <- paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv")
-    } else if(RCurl::url.exists(paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv"))){
-      dfloc <- paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv")
-    } else {
-      warning(sprintf("file %s doesn't exist in either layers or intermediate folder", lyr))
-      dfloc = NULL
+  if(length(lyrs_latlon) > 0){
+    for(lyr in lyrs_latlon){
+      if(RCurl::url.exists(paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv"))){
+        dfloc <- paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv")
+      } else if(RCurl::url.exists(paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv"))){
+        dfloc <- paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv")
+      } else {
+        warning(sprintf("file %s doesn't exist in either layers or intermediate folder", lyr))
+        dfloc = NULL
+      }
+      lyr_df <- readr::read_csv(dfloc, col_types = cols())
+      colnames(lyr_df) <- stringr::str_replace(names(lyr_df), "scen_year", "year")
+      if(!"year" %in% names(lyr_df)){
+        lyr_df <- dplyr::mutate(lyr_df, year = default_year)
+      }
+      plot_latlon[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]] <- lyr_df
     }
-    lyr_df <- readr::read_csv(dfloc, col_types = cols())
-    colnames(lyr_df) <- stringr::str_replace(names(lyr_df), "scen_year", "year")
-    if(!"year" %in% names(lyr_df)){
-      lyr_df <- dplyr::mutate(lyr_df, year = default_year)
-    }
-    plot_latlon[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]] <- lyr_df
   }
   
   ## polygons
@@ -36,26 +38,28 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, year = asses
   # )
   plot_polygons <- list()
   polylyrs_pals <- list()
-  for(i in 1:length(lyrs_polygons$lyrs)){
-    lyr <- lyrs_polygons$lyrs[i]
-    if(RCurl::url.exists(paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv"))){
-      dfloc <- paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv")
-    } else if(RCurl::url.exists(paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv"))){
-      dfloc <- paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv")
-    } else {
-      warning(sprintf("file %s doesn't exist in either layers or intermediate folder", lyr))
-      dfloc = NULL
+  if(length(lyrs_latlon) > 0){
+    for(i in 1:length(lyrs_polygons$lyrs)){
+      lyr <- lyrs_polygons$lyrs[i]
+      if(RCurl::url.exists(paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv"))){
+        dfloc <- paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv")
+      } else if(RCurl::url.exists(paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv"))){
+        dfloc <- paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv")
+      } else {
+        warning(sprintf("file %s doesn't exist in either layers or intermediate folder", lyr))
+        dfloc = NULL
+      }
+      lyr_df <- readr::read_csv(dfloc, col_types = cols())
+      colnames(lyr_df) <- stringr::str_replace(names(lyr_df), "scen_year", "year")
+      if(!"year" %in% names(lyr_df)){
+        lyr_df <- dplyr::mutate(lyr_df, year = default_year)
+      }
+      plot_polygons[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]] <- lyr_df
+      
+      polylyrs_pals[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]][["cols"]] <- unlist(lyrs_polygons$cols[i])
+      polylyrs_pals[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]][["paldomain"]] <- unlist(lyrs_polygons$paldomain[i])
+      polylyrs_pals[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]][["plotvar"]] <- unlist(lyrs_polygons$plotvar[i])
     }
-    lyr_df <- readr::read_csv(dfloc, col_types = cols())
-    colnames(lyr_df) <- stringr::str_replace(names(lyr_df), "scen_year", "year")
-    if(!"year" %in% names(lyr_df)){
-      lyr_df <- dplyr::mutate(lyr_df, year = default_year)
-    }
-    plot_polygons[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]] <- lyr_df
-    
-    polylyrs_pals[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]][["cols"]] <- unlist(lyrs_polygons$cols[i])
-    polylyrs_pals[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]][["paldomain"]] <- unlist(lyrs_polygons$paldomain[i])
-    polylyrs_pals[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]][["plotvar"]] <- unlist(lyrs_polygons$plotvar[i])
   }
   
   ## set up overlays menu in top corner
@@ -95,8 +99,17 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, year = asses
         left_join(filterlyr, by = "region_id")
       
       ## make color palette function for the additional data layer
+      # lyrpal <- leaflet::colorNumeric(
+      #   palette = polylyrs_pals[[lyr]][["cols"]],
+      #   domain = polylyrs_pals[[lyr]][["paldomain"]]
+      # )
+      rc1 <- colorRampPalette(colors = c("#8c031a", "#cc0033"), space = "Lab")(25)
+      rc2 <- colorRampPalette(colors = c("#cc0033", "#fff78a"), space = "Lab")(20)
+      rc3 <- colorRampPalette(colors = c("#fff78a", "#f6ffb3"), space = "Lab")(20)
+      rc4 <- colorRampPalette(colors = c("#f6ffb3", "#009999"), space = "Lab")(15)
+      rc5 <- colorRampPalette(colors = c("#009999", "#457da1"), space = "Lab")(5)
       lyrpal <- leaflet::colorNumeric(
-        palette = polylyrs_pals[[lyr]][["cols"]],
+        palette = c(rc1, rc2, rc3, rc4, rc5),
         domain = polylyrs_pals[[lyr]][["paldomain"]]
       )
       
