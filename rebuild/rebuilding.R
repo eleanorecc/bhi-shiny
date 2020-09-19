@@ -102,16 +102,24 @@ make_data_table <- function(gh_raw_bhiprep, bhi_version){
   
   rmds <- sprintf(c(
     "CW/contaminants/%s/con_data", 
+    "CW/eutrophication/%s/eut_data", 
     "FIS/%s/fis_np_data",
     "MAR/v2019/mar_data",
     "FIS/%s/fis_np_data",
     "ECO/%s/eco_data",
-    "LIV/%s/liv_data"
+    "LIV/%s/liv_data",
+    "BD/%s/bd_data",
+    "AO/%s/ao_data",
+    "ICO/%s/ico_data",
+    "LSP/%s/lsp_data",
+    "TR/%s/tr_data",
+    "CS/%s/cs_data",
+    "CW/trash/%s/tra_data"
   ), bhi_version)
   
   goals <- data.frame(
-    c("CW", "FP", "FP", "NP", "LE", "LE"), 
-    c("CON", "FIS", "MAR", NA, "ECO", "LIV"), 
+    c("CW", "CW", "FP", "FP", "NP", "LE", "LE", "BD", "AO", "SP", "SP", "TR", "CS", "CW"), 
+    c("CON", "EUT", "FIS", "MAR", NA, "ECO", "LIV", NA, NA, "ICO", "LSP", NA, NA, "TRA"), 
     rmds, 
     stringsAsFactors = FALSE
   )
@@ -130,7 +138,7 @@ make_data_table <- function(gh_raw_bhiprep, bhi_version){
   for(g in 1:nrow(goals)){
     
     txt <- readr::read_lines(sprintf("%sdata/%s.rmd", gh_raw_bhiprep, goals[g, "rmdlink"]))
-    txt <- txt[grep("^### 2.1 ", txt):grep("^### 2.2 ", txt)]
+    txt <- txt[grep("^### 2.1 ", txt):ifelse(length(grep("^### 2.2 ", txt)) > 0, grep("^### 2.2 ", txt), length(txt))]
     
     headers <- c(grep("^#### .*[0-9] ", txt), length(txt))
     boldheaders <- grep("^\\*\\*", txt)
@@ -142,7 +150,7 @@ make_data_table <- function(gh_raw_bhiprep, bhi_version){
     for(h in 2:length(headers)){
       subheaders <- txt[boldheaders[boldheaders %in% headers[h-1]:(headers[h])]]
       newlyr <- gsub(", $", "", paste(
-        gsub("#### .*[0-9] ", "", txt[headers[h-1]]),
+        gsub("#### .*[0-9] ", "", gsub(" \\{-\\}", "", txt[headers[h-1]])),
         gsub("\\[.*\\]\\(.*\\)", "", gsub("\\*\\*", "", subheaders)),
         sep = ", "
       ))
@@ -154,10 +162,19 @@ make_data_table <- function(gh_raw_bhiprep, bhi_version){
         lnk <- c(lnk, NA)
       }
       if(length(lyrsrc) > length(newlyr)){
-        lyrsrctmp <- lyrsrc[grep("eference point .* \\[.*\\]\\(.*\\)|arget .* \\[.*\\]\\(.*\\)|eference point .* http|arget .* http", txt[lyrsrc])]
+        ## likely a section with referene point information
+        lyrsrctmp <- lyrsrc[grep("eference point .* \\[.*\\]\\(.*\\)|arget .* \\[.*\\]\\(.*\\)|eference point .* http|arget .* http|heshold .* http", txt[lyrsrc])]
         if(length(lyrsrctmp) == 0){
-          lyrsrc <- lyrsrc[1]
-        } else {lyrsrc <- lyrsrctmp}
+          ## or a link with additional information...
+          lyrsrctmp <- lyrsrc[grep("more information|additional information|learn more|for details|supplement to paper|detailed info|has been compiled from", txt[lyrsrc], invert = TRUE)]
+          if(length(lyrsrctmp) == 0){
+            lyrsrc <- lyrsrc[1]
+          } else {
+            lyrsrc <- lyrsrctmp
+          }
+        } else {
+          lyrsrc <- lyrsrctmp
+        }
       }
       for(l in lyrsrc){
         chk <- gsub(".*\\[", "", stringr::str_split(txt[l], "\\]")[[1]][1])
@@ -185,7 +202,14 @@ make_data_table <- function(gh_raw_bhiprep, bhi_version){
     mutate(goal = list(c(goal, subgoal))) %>% 
     tidyr::unnest(cols = c(goal)) %>% 
     dplyr::filter(!is.na(goal)) %>% 
-    dplyr::select(goal, `Goal/Subgoal`, Layer = layer, Description = description, Source)
+    dplyr::select(goal, `Goal/Subgoal`, Dataset = layer, Description = description, Source)
+  
+  
+  ## keep only sprat for NP and only cod and herring for FIS/FP
+  datalyrs_metainfo <- datalyrs_metainfo %>% 
+    filter(!(goal == "FIS" & !stringr::str_detect(Dataset, "Cod |Herring "))) %>% 
+    filter(!(goal == "FP" & `Goal/Subgoal` == "FIS" & !stringr::str_detect(Dataset, "Cod |Herring "))) %>% 
+    filter(!(goal %in% c("NP") & !stringr::str_detect(Dataset, "Sprat ")))
   
   return(datalyrs_metainfo)
 }
@@ -298,14 +322,14 @@ goalpage_from_template <- function(goal_code, replace_current = FALSE){
       stringr::str_remove_all("\\*")
     
     goalexpert <- paste(goalexpert, sprintf(
-      "\"%s, \", tags$em(\"%s\")\n\t", 
+      "\"%s,  \", tags$em(\" %s\"), br(),", 
       x %>% 
         stringr::str_remove(paste0("\\*\\*", institution, "\\*\\*")) %>% 
         stringr::str_remove_all("^ | $"),
       institution
-    ), sep = ",\n")
+    ))
   }
-  goalexpert <- stringr::str_remove(goalexpert, "^,\n")
+  goalexpert <- stringr::str_remove(goalexpert, "br\\(\\),$")
   
   
   txt <- txt %>% 
