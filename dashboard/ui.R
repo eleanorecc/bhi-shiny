@@ -2600,7 +2600,7 @@ tabItem(
   ## header with scorebox and goal intro
   fluidRow(
     box(
-      h1("Tourism & Recreation"),
+      h1("Tourism"),
       width = 8
     ),
     scoreBoxUI(id = "tr_infobox"),
