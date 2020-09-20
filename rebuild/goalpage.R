@@ -68,7 +68,7 @@ tabItem(
   fluidRow(
     tsplotCardUI(
       id = "goalcode_tsplot",
-      title_text = "GOALNAME Data Layers",
+      title_text = "Data Underlying GOALNAME Scores",
       sub_title_text = "",
       ht = 340,
       select_choices = list(
@@ -90,7 +90,7 @@ tabItem(
       collapsible = TRUE,
       collapsed = TRUE,
       width = 12,
-      title = "Data Layers", 
+      title = "Data Sources", 
       DT::dataTableOutput("goalcode_datatable")
     )
   ),

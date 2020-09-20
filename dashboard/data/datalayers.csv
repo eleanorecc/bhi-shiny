@@ -42,7 +42,7 @@ FIS,FIS,layers,"Landings from wildcaught fisheries, tonnes",fis_landings_bhi2019
 FIS,FIS,layers,Fishing mortality normalized by fishing mortality at max. sustainable yield,fis_ffmsy_bhi2019.csv,stock,cod|herring,timeseries,polygons,TRUE,1970,2018
 FIS,FIS,layers,"Proportion of surveyed cod in length categories 20-30, 30-40, 40-60cm with Fulton's K (W/(L^3) _ 100) less than 0.8",fis_cod_penalty_bhi2019.csv,,,timeseries,polygons,,1997,2018
 FIS,FIS,layers,Biomass at sea normalized by spawning stock biomass,fis_bbmsy_bhi2019.csv,stock,cod|herring,timeseries,polygons,TRUE,1970,2018
-EUT,EUT,layers,"Secchi depth (meters, June-September) measurements",cw_eut_secchi_bhi2019.csv,,,points,points,TRUE,2000,2019
+EUT,EUT,layers,"Secchi depth (meters, June-September) measurements",cw_eut_secchi_bhi2019.csv,,,tsboxplot,points,TRUE,2000,2019
 EUT,EUT,layers,Oxygen debt,cw_eut_oxydebt_bhi2019.csv,,,timeseries,polygons,TRUE,2000,2019
 EUT,EUT,layers,"Dissolved Inorganic Phosphorus (in surface layer 0-10 m depth, December-February) concentration measurements",cw_eut_dip_bhi2019.csv,,,,points,TRUE,2005,2018
 EUT,EUT,layers,"Dissolved Inorganic Nitrogen (nitrate, nitrite, and ammonium in the surface layer 0-10 m depth, December-February) concentration measurements",cw_eut_din_bhi2019.csv,,,,points,TRUE,2005,2018

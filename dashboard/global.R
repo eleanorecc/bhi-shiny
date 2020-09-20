@@ -84,8 +84,9 @@ for(g in unique(full_scores_csv$goal)){
     }
   }
 }
-goals_csv <- readr::read_csv(file.path(dir_main, "data", "plot_conf.csv"))
-data_info <- readr::read_csv(file.path(dir_main, "data", "data_info.csv"))
+goals_csv <- readr::read_csv(file.path(dir_main, "data", "plotconf.csv"))
+data_info <- readr::read_csv(file.path(dir_main, "data", "datasources.csv"))
+
 
 regions_df <- readr::read_csv(file.path(dir_main, "data", "regions.csv"))
 subbasins_df <- readr::read_csv(file.path(dir_main, "data", "basins.csv"))
@@ -104,8 +105,7 @@ subbasins_shp <- make_subbasin_sf(
   dim = "score", 
   year = assess_year
 )
-
-# mpa_shp <- read_rds(file.path(dir_main, "data", "mpas.rds"))
+mpa_shp <- read_rds(file.path(dir_main, "data", "mpas.rds"))
 
 
 ## theme for shinydash and visualizations
