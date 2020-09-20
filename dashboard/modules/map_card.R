@@ -64,6 +64,36 @@ mapCard <- function(input, output, session,
       )
     }
     
-    result$map %>% addPolygons(popup = popup_text, fillOpacity = 0, stroke = FALSE)
+    mpapal <- leaflet::colorFactor(
+      palette = c("maroon4", "chartreuse", "seagreen4"),
+      levels = c("Designated", "Designated and partly managed", "Designated and managed")
+    )
+    
+    result$map %>% 
+      addPolygons(popup = popup_text, fillOpacity = 0, stroke = FALSE) %>%
+      addLayersControl(
+        overlayGroups = "marine_protected_areas",
+        options = layersControlOptions(collapsed = TRUE)
+      ) %>%
+      addPolygons(
+        data = mpa_shp, 
+        stroke = TRUE, 
+        opacity = 0.6, 
+        weight = 0.6, 
+        fillOpacity = 0.7, 
+        color = ~mpapal(MPA_status), 
+        fillColor = ~mpapal(MPA_status), 
+        group = "marine_protected_areas"
+      ) %>% 
+      addLegend(
+        group = "marine_protected_areas",
+        pal = mpapal, 
+        opacity = 1, 
+        values = levels(mpa_shp@data$MPA_status),
+        title = "MPA Management Level",
+        data = mpa_shp
+      ) %>% 
+      hideGroup("marine_protected_areas")
+    
   })
 }
