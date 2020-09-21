@@ -102,6 +102,14 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
       ungroup() %>%
       dplyr::select(region_id, value)
     
+    # wgts_basin <- readr::read_csv("https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/supplement/lookup_tabs/rgns_complete.csv") %>%
+    #   dplyr::select(region_id, region_area_km2, eez, eez_id) %>%
+    #   dplyr::left_join(wgts, by = "region_id") %>%
+    #   dplyr::group_by(eez, eez_id) %>%
+    #   dplyr::summarize(value = weighted.mean(value, region_area_km2)) %>%
+    #   ungroup() %>%
+    #   dplyr::select(region_id = eez_id, value)
+    
     wgts <- rbind(
       data.frame(region_id = 0, value = mean_wgt),
       dplyr::filter(wgts, region_id %in% unique_rgn),
@@ -116,7 +124,7 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
   ## PLOTTING CONFIGURATION & THEME
   ## sub/supra goals and positioning ----
   ## pos, pos_end, and pos_supra indicate positions, how wide different petals should be based on weightings
-  plot_config <- readr::read_csv(file.path(dir_main, "data", "plot_conf.csv"), col_types = cols())
+  plot_config <- readr::read_csv(file.path(dir_main, "data", "plotconf.csv"), col_types = cols())
   goals_supra <- na.omit(unique(plot_config$parent))
   
   supra_lookup <- plot_config %>%
@@ -333,6 +341,10 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
         dir_main, "figures", 
         sprintf("flowerplot%s_%s.png", name_and_title$region_id, name_and_title$name)
       )
+      # temp_plot <- file.path(
+      #   dir_main, "figures", 
+      #   sprintf("flowerplot%s_%s.png", "309", "finland")
+      # )
       ggplot2::ggsave(
         filename = temp_plot, 
         plot = plot_obj, 
@@ -341,6 +353,8 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
       )
       
       temp_labels <- file.path(dir_main, "figures", paste0("flower_curvetxt_", name_and_title$name, ".png"))
+      # temp_labels <- file.path(dir_main, "figures", paste0("flower_curvetxt_", "finland", ".png"))
+      
       ## don't recreate curved labels if already exist....
       if(!file.exists(temp_labels)){
         circ_df <- plot_df %>%
@@ -484,6 +498,7 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
         path = file.path(
           dir_main, "figures", 
           sprintf("flowerplot%s_%s.png", name_and_title$region_id, name_and_title$name)
+          # sprintf("flowerplot%s_%s.png", "309", "finland")
         ), 
         format = "png"
       )
