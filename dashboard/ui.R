@@ -258,8 +258,9 @@ dashboardPage(
         ## header and intro
         fluidRow(
           box(
-            h1("Ocean Health Dashboard for the Baltic Sea", style = "color:#9b363d"),
-            h1("(Under Construction! Not to be used or cited)", style = "color:#9b363d"),
+            h1("Ocean Health Dashboard for the Baltic Sea"),
+            # h1("Ocean Health Dashboard for the Baltic Sea", style = "color:#9b363d"),
+            # h1("(Under Construction! Not to be used or cited)", style = "color:#9b363d"),
             width = 12
           )
         ),
@@ -430,7 +431,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Jens Olsson,  ", tags$em(" Institute of Coastal Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Öregrund, Sweden"), 
+            "Jens Olsson,  ", tags$em(" Institute of Coastal Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Öregrund, Sweden")
           )
         ),
         fluidRow(
@@ -564,7 +565,8 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Andrea Belgrano ,  ", tags$em(" Institute of Marine Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Lysekil, Sweden"), br(), "Henn Ojaveer,  ", tags$em(" Pärnu College, University of Tartu, Pärnu, Estonia and National Institute of Aquatic Resources, Technical University of Denmark, Lyngby, Denmark"), 
+            "Andrea Belgrano,  ", tags$em(" Institute of Marine Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Lysekil, Sweden"), br(), 
+            "Henn Ojaveer,  ", tags$em(" Pärnu College, University of Tartu, Pärnu, Estonia and National Institute of Aquatic Resources, Technical University of Denmark, Lyngby, Denmark")
           )
         ),
         fluidRow(
@@ -691,7 +693,8 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Christoffer Boström ,  ", tags$em(" Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland"), br(), "Markku Viitasalo,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland"), 
+            "Christoffer Boström,  ", tags$em(" Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland"), br(), 
+            "Markku Viitasalo,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland")
           )
         ),
         fluidRow(
@@ -837,7 +840,8 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Anna Sobek ,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden"), br(), "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland"), 
+            "Anna Sobek,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden"), br(), 
+            "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland")
           )
         ),
         fluidRow(
@@ -978,7 +982,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Anna Sobek,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden"), 
+            "Anna Sobek,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden")
           )
         ),
         fluidRow(
@@ -1052,7 +1056,9 @@ dashboardPage(
             title = "Background Information", 
             status = "primary", 
             solidHeader = TRUE,
-            "Five indicators are combined in the eutrophication subgoal: offshore Secchi depth, summer chlorophyll-a concentration, oxygen debt and winter concentrations of dissolved inorganic phosphorus (DIP) and nitrogen (DIN). Decreased secchi depth (i.e., increased turbidity) and increased chl-a concentration in the summer are indicators of eutrophication related increase in primary production. Oxygen debt, i.e., “missing” oxygen in relation to fully oxygenated water column in water-bodies that are poorly ventilated, results from increased consumption of oxygen in environments where organic material is decomposed. The oxygen debt indicator is calculated using information from salinity and oxygen profiles at the halocline and below in the deep basins of the Baltic Sea (Baltic Proper and Bornholm Basin) following the methodology of HELCOM (2013, 2018). Phosphorus and nitrogen, on the other hand, are the key limiting nutrients of primary production in the Baltic Sea making the winter concentrations of DIP and DIN indicators of the following summer’s production potential. These five eutrophication indicators are also HELCOM core indicators (Baltic Sea Environmental Proceedings No 143).",
+            p("Five indicators are combined in the eutrophication subgoal: offshore Secchi depth, summer chlorophyll-a concentration, oxygen debt and winter concentrations of dissolved inorganic phosphorus (DIP) and nitrogen (DIN). Decreased secchi depth (i.e., increased turbidity) and increased chl-a concentration in the summer are indicators of eutrophication related increase in primary production."),
+            p("Oxygen debt, i.e., “missing” oxygen in relation to fully oxygenated water column in water-bodies that are poorly ventilated, results from increased consumption of oxygen in environments where organic material is decomposed. The oxygen debt indicator is calculated using information from salinity and oxygen profiles at the halocline and below in the deep basins of the Baltic Sea (Baltic Proper and Bornholm Basin) following the methodology of HELCOM (2013, 2018)."),
+            p("Phosphorus and nitrogen, on the other hand, are the key limiting nutrients of primary production in the Baltic Sea making the winter concentrations of DIP and DIN indicators of the following summer’s production potential. These five eutrophication indicators are also HELCOM core indicators (Baltic Sea Environmental Proceedings No 143)."),
             width = 8
           ),
           box(
@@ -1089,23 +1095,12 @@ dashboardPage(
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
-            "In general, the eutrophication status is better in the North, particularly in the Bay of Bothnia, and in the South close to the Danish Straits. However, the eutrophication management target is only met in waters around Kattegat. Lower status scores were calculated for the Central Baltic Sea, and the eutrophication status score was lowest in the Gulf of Riga (approx. 50).
-  
- 
-  The Eutrophication trend from the past 10 years indicates positive development in the areas near the Danish Sounds, where also the current status is good, but also in the Archipelago Sea, and Gulfs of Finland and Gdansk. The trend is negative elsewhere in the Baltic Sea. Based on the trend calculations, most negative development in the near future can be expected in the Gulf of Riga, which already has the lowest status score, as well as in the Quark area. That negative trends are observed in the Gulf of Bothnia, where the status score is relatively high, indicates that even in the “lower-concern” areas one needs to monitor closely the development of eutrophication.
-  
- 
-  For most basins the Secchi depth target is not met at present and secchi depth is lower than the threshold value, Kattegat being the only exception. Also, the future trend is negative in most basins, excluding Kattegat and the Åland Sea.
-  
- 
-  The chl-a target threshold was exceeded in all basins, with exception of Kattegat. The trend in chl-a was negative for management (i.e., increase in chl-a) in Central Basins of the Baltic Sea, as well as in the Gulf of Finland. Positive development was seen in the Southern parts and Gulf of Riga.
-  
- 
-  Present-day oxygen debt is above the threshold both in the Baltic Proper and Bornholm Basin, indicating that the management target has not been met.
-  
- 
-  For DIN, the management target was only met (i.e., lower DIN values) at the entrance to the Baltic Sea. DIN values highest in comparison to the target were found in Gulfs of Riga and Finland. The future trend is weak, but positive (i.e., decreasing DIN) with the exception of most of the northern Baltic Basins. For DIP, the target threshold was clearly exceeded in most of the basins, and met only in the Bothnian Bay and close to the entrance to the Baltic Sea. The future trend for DIP was clearly negative (i.e., increasing DIP) in the North, while slight positive development was identified in the South.
-  "
+            p("In general, the eutrophication status is better in the North, particularly in the Bay of Bothnia, and in the South close to the Danish Straits. However, the eutrophication management target is only met in waters around Kattegat. Lower status scores were calculated for the Central Baltic Sea, and the eutrophication status score was lowest in the Gulf of Riga (approx. 50)."),
+            p("The Eutrophication trend from the past 10 years indicates positive development in the areas near the Danish Sounds, where also the current status is good, but also in the Archipelago Sea, and Gulfs of Finland and Gdansk. The trend is negative elsewhere in the Baltic Sea. Based on the trend calculations, most negative development in the near future can be expected in the Gulf of Riga, which already has the lowest status score, as well as in the Quark area. That negative trends are observed in the Gulf of Bothnia, where the status score is relatively high, indicates that even in the “lower-concern” areas one needs to monitor closely the development of eutrophication."),
+            p("For most basins the Secchi depth target is not met at present and secchi depth is lower than the threshold value, Kattegat being the only exception. Also, the future trend is negative in most basins, excluding Kattegat and the Åland Sea."),
+            p("The chl-a target threshold was exceeded in all basins, with exception of Kattegat. The trend in chl-a was negative for management (i.e., increase in chl-a) in Central Basins of the Baltic Sea, as well as in the Gulf of Finland. Positive development was seen in the Southern parts and Gulf of Riga."),
+            p("Present-day oxygen debt is above the threshold both in the Baltic Proper and Bornholm Basin, indicating that the management target has not been met."),
+            p("For DIN, the management target was only met (i.e., lower DIN values) at the entrance to the Baltic Sea. DIN values highest in comparison to the target were found in Gulfs of Riga and Finland. The future trend is weak, but positive (i.e., decreasing DIN) with the exception of most of the northern Baltic Basins. For DIP, the target threshold was clearly exceeded in most of the basins, and met only in the Bothnian Bay and close to the entrance to the Baltic Sea. The future trend for DIP was clearly negative (i.e., increasing DIP) in the North, while slight positive development was identified in the South.")
           )
         ),
         fluidRow(
@@ -1128,7 +1123,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland"), 
+            "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland")
           )
         ),
         fluidRow(
@@ -1255,7 +1250,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            ",  ", tags$em(" No expert for this particular sub-goal"), 
+            tags$em(" No expert for this particular sub-goal"), 
           )
         ),
         fluidRow(
@@ -1386,7 +1381,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Christian Möllmann **Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany**,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany"), 
+            "Christian Möllmann,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany")
           )
         ),
         fluidRow(
@@ -1514,7 +1509,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Christian Möllmann **Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany**,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany"), 
+            "Christian Möllmann,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany")
           )
         ),
         fluidRow(
@@ -1637,7 +1632,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            ",  ", tags$em(" No expert for this particular sub-goal"), 
+            tags$em(" No expert for this particular sub-goal")
           )
         ),
         fluidRow(
@@ -1760,7 +1755,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany"), 
+            "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
           )
         ),
         fluidRow(
@@ -1905,7 +1900,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany"), 
+            "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
           )
         ),
         fluidRow(
@@ -2164,7 +2159,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden"), 
+            "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden")
           )
         ),
         fluidRow(
@@ -2305,7 +2300,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            ",  ", tags$em(" No expert for this particular sub-goal"), 
+            tags$em(" No expert for this particular sub-goal")
           )
         ),
         fluidRow(
@@ -2436,7 +2431,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden"), 
+            "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden")
           )
         ),
         fluidRow(
@@ -2569,7 +2564,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "**No expert for this particular goal (some advisement from fisheries goal expert, as used similar models)**,  ", tags$em(" No expert for this particular goal (some advisement from fisheries goal expert, as used similar models)"), 
+            tags$em(" No expert for this particular goal (some advisement from fisheries goal expert, as used similar models)")
           )
         ),
         fluidRow(
@@ -2694,7 +2689,7 @@ dashboardPage(
             title = "Experts who guided us in the goal prep and calculation",
             status = "primary", 
             solidHeader = TRUE,
-            "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany"), 
+            "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
           )
         ),
         fluidRow(
