@@ -1110,10 +1110,8 @@ dashboardPage(
             sub_title_text = "",
             ht = 340,
             select_choices = list(
-              `Pressure due to Phosphorus loading` = "po_pload_bhi2019",
-              `Pressure due to Nitrogen loading` = "po_nload_bhi2019",
-              `Secchi depth (meters, June-September) measurements` = "cw_eut_secchi_bhi2019",
-              `Oxygen debt` = "cw_eut_oxydebt_bhi2019"
+              `Phosphorus Annual Inputs (tonnes, atmospheric and waterborne), line shows 3-Year Rolling Mean` = "phosphorus_load",
+              `Nitrogen Annual Inputs (tonnes, atmospheric and waterborne), line shows 3-Year Rolling Mean` = "nitrogen_load"
             )
           )
         ),

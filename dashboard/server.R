@@ -502,20 +502,20 @@ function(input, output, session){
     )
   })
   
-  ## layers timeseries plot
-  # values <- reactiveValues(`eut_tsplot-select` = "po_pload_bhi2019")
-  # observeEvent(
-  #   eventExpr = input$`eut_tsplot-select`, {
-  #     values$`eut_tsplot-select` <- input$`eut_tsplot-select`
-  #     callModule(
-  #       tsplotCard, 
-  #       "eut_tsplot",
-  #       plot_type = "boxplot",
-  #       layer_selected = reactive(values$`eut_tsplot-select`),
-  #       spatial_unit_selected = spatial_unit
-  #     )
-  #   }, ignoreNULL = FALSE
-  # )
+  # layers timeseries plot
+  values <- reactiveValues(`eut_tsplot-select` = "phosphorus_load")
+  observeEvent(
+    eventExpr = input$`eut_tsplot-select`, {
+      values$`eut_tsplot-select` <- input$`eut_tsplot-select`
+      callModule(
+        tsplotCard,
+        "eut_tsplot",
+        plot_type = "pointlinefaceted",
+        layer_selected = reactive(values$`eut_tsplot-select`),
+        spatial_unit_selected = spatial_unit
+      )
+    }, ignoreNULL = FALSE
+  )
   
   ## TRA ----
   ## Trash
@@ -1242,6 +1242,17 @@ function(input, output, session){
     legend_title = "Scores",
     lyrs_latlon = c(), 
     lyrs_polygons = list(),
+    # lyrs_polygons = list(
+    #   lyrs = list("tr_coastal_tourism_gva_bhi2019", "tr_accommodations_bhi2019", "po_inverse_secchi_bhi2019"),
+    #   plotvar = list("cntry_tourism_gva", "indicator_status", "pressure_score"),
+    #   cols = list(
+    #     c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+    #     c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+    #     c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+    #     c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue")
+    #   ),
+    #   paldomain = list(c(35, 4000), c(30, 1800), c(0, 1))
+    # ),
     popup_title = "Score:",
     popup_add_field = "Name",
     popup_add_field_title = "Name:"
