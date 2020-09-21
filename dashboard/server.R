@@ -183,7 +183,18 @@ function(input, output, session){
     year_selected = view_year,
     legend_title = "Scores",
     lyrs_latlon = c(), 
-    lyrs_polygons = list(),
+    lyrs_polygons = list(
+      lyrs = list("spp_fishes", "spp_birds", "spp_seals", "hab_benthic", "hab_pelagic"),
+      plotvar = list("indicator_status", "indicator_status", "indicator_status", "indicator_status", "indicator_status"),
+      cols = list(
+        c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+        c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+        c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+        c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+        c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue")
+      ),
+      paldomain = list(c(0, 100), c(0, 100), c(0, 100), c(0, 100), c(0, 100))
+    ),
     popup_title = "Score:",
     popup_add_field = "Name",
     popup_add_field_title = "Name:"

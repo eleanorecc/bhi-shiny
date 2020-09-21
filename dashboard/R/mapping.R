@@ -38,7 +38,7 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, year = asses
   # )
   plot_polygons <- list()
   polylyrs_pals <- list()
-  if(length(lyrs_latlon) > 0){
+  if(length(lyrs_polygons$lyrs) > 0){
     for(i in 1:length(lyrs_polygons$lyrs)){
       lyr <- lyrs_polygons$lyrs[i]
       if(RCurl::url.exists(paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv"))){
@@ -52,7 +52,7 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, year = asses
       lyr_df <- readr::read_csv(dfloc, col_types = cols())
       colnames(lyr_df) <- stringr::str_replace(names(lyr_df), "scen_year", "year")
       if(!"year" %in% names(lyr_df)){
-        lyr_df <- dplyr::mutate(lyr_df, year = default_year)
+        lyr_df <- dplyr::mutate(lyr_df, year = assess_year)
       }
       plot_polygons[[stringr::str_remove(lyr, "_bhi[0-9]{4}")]] <- lyr_df
       
@@ -63,16 +63,16 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, year = asses
   }
   
   ## set up overlays menu in top corner
-  goalmap <- goalmap %>% 
+  goalmap <- goalmap %>%
     addLayersControl(
-      overlayGroups = c(names(plot_latlon), names(plot_polygons)),
+      overlayGroups = c("marine_protected_areas", names(plot_latlon), names(plot_polygons)),
       options = layersControlOptions(collapsed = TRUE)
     )
   
   
   ## plot_polygons ----
   ## will need to be given with corresponding color palettes
-  for(lyr in names(plot_polygons)){
+  for(lyr in unlist(lyrs_polygons$lyr)){
     
     ## case when lyrs_polygon are dataframes with region_ids
     ## (will add case where polygons dont align with bhi regions e.g. MPAs later)
@@ -99,19 +99,19 @@ add_map_datalayers <- function(goalmap, lyrs_latlon, lyrs_polygons, year = asses
         left_join(filterlyr, by = "region_id")
       
       ## make color palette function for the additional data layer
-      # lyrpal <- leaflet::colorNumeric(
-      #   palette = polylyrs_pals[[lyr]][["cols"]],
-      #   domain = polylyrs_pals[[lyr]][["paldomain"]]
-      # )
-      rc1 <- colorRampPalette(colors = c("#8c031a", "#cc0033"), space = "Lab")(25)
-      rc2 <- colorRampPalette(colors = c("#cc0033", "#fff78a"), space = "Lab")(20)
-      rc3 <- colorRampPalette(colors = c("#fff78a", "#f6ffb3"), space = "Lab")(20)
-      rc4 <- colorRampPalette(colors = c("#f6ffb3", "#009999"), space = "Lab")(15)
-      rc5 <- colorRampPalette(colors = c("#009999", "#457da1"), space = "Lab")(5)
       lyrpal <- leaflet::colorNumeric(
-        palette = c(rc1, rc2, rc3, rc4, rc5),
+        palette = polylyrs_pals[[lyr]][["cols"]],
         domain = polylyrs_pals[[lyr]][["paldomain"]]
       )
+      # rc1 <- colorRampPalette(colors = c("#8c031a", "#cc0033"), space = "Lab")(25)
+      # rc2 <- colorRampPalette(colors = c("#cc0033", "#fff78a"), space = "Lab")(20)
+      # rc3 <- colorRampPalette(colors = c("#fff78a", "#f6ffb3"), space = "Lab")(20)
+      # rc4 <- colorRampPalette(colors = c("#f6ffb3", "#009999"), space = "Lab")(15)
+      # rc5 <- colorRampPalette(colors = c("#009999", "#457da1"), space = "Lab")(5)
+      # lyrpal <- leaflet::colorNumeric(
+      #   palette = c(rc1, rc2, rc3, rc4, rc5),
+      #   domain = polylyrs_pals[[lyr]][["paldomain"]]
+      # )
       
       ## add the layers to the map!
       goalmap <- goalmap %>%

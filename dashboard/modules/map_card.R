@@ -72,7 +72,7 @@ mapCard <- function(input, output, session,
     result$map %>% 
       addPolygons(popup = popup_text, fillOpacity = 0, stroke = FALSE) %>%
       addLayersControl(
-        overlayGroups = "marine_protected_areas",
+        overlayGroups = c("marine_protected_areas", names(lyrs_latlon), unlist(lyrs_polygons$lyrs)),
         options = layersControlOptions(collapsed = TRUE)
       ) %>%
       addPolygons(
@@ -92,8 +92,8 @@ mapCard <- function(input, output, session,
         values = levels(mpa_shp@data$MPA_status),
         title = "MPA Management Level",
         data = mpa_shp
-      ) %>% 
-      hideGroup("marine_protected_areas")
+      ) %>%
+      hideGroup(c("marine_protected_areas", names(lyrs_latlon), unlist(lyrs_polygons$lyrs)))
     
   })
 }
