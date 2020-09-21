@@ -1,43 +1,43 @@
 region_id,subbasin,eez,region_name,area_km2,order
-1,Kattegat,Sweden,"Kattegat, Sweden",6565.58647973,42
-2,Kattegat,Denmark,"Kattegat, Denmark",16315.485175,41
-3,Great Belt,Denmark,"Great Belt, Denmark",9987.81169212,40
-4,Great Belt,Germany,"Great Belt, Germany",98.620894352,39
-5,The Sound,Sweden,"The Sound, Sweden",594.722913079,38
-6,The Sound,Denmark,"The Sound, Denmark",577.86889397,37
-7,Kiel Bay,Denmark,"Kiel Bay, Denmark",1211.20620511,36
-8,Kiel Bay,Germany,"Kiel Bay, Germany",1996.89387929,35
-9,Bay of Mecklenburg,Denmark,"Bay of Mecklenburg, Denmark",1141.1073139,33
-10,Bay of Mecklenburg,Germany,"Bay of Mecklenburg, Germany",3380.61988679,34
-11,Arkona Basin,Sweden,"Arkona Basin, Sweden",4229.10211615,31
-12,Arkona Basin,Denmark,"Arkona Basin, Denmark",6178.48445672,32
-13,Arkona Basin,Germany,"Arkona Basin, Germany",6943.7423114,30
-14,Bornholm Basin,Sweden,"Bornholm Basin, Sweden",15059.2100591,26
-15,Bornholm Basin,Denmark,"Bornholm Basin, Denmark",7132.67066085,27
-16,Bornholm Basin,Germany,"Bornholm Basin, Germany",2532.23009238,29
-17,Bornholm Basin,Poland,"Bornholm Basin, Poland",17231.0761968,28
-18,Gdansk Basin,Poland,"Gdansk Basin, Poland",3598.08465588,24
-19,Gdansk Basin,Russia,"Gdansk Basin, Russia",2093.5152419,23
-20,Eastern Gotland Basin,Sweden,"Eastern Gotland Basin, Sweden",21904.3069818,19
-21,Eastern Gotland Basin,Poland,"Eastern Gotland Basin, Poland",11013.7075193,25
-22,Eastern Gotland Basin,Russia,"Eastern Gotland Basin, Russia",9402.46841717,22
-23,Eastern Gotland Basin,Lithuania,"Eastern Gotland Basin, Lithuania",6083.72552283,21
-24,Eastern Gotland Basin,Latvia,"Eastern Gotland Basin, Latvia",20992.3153589,20
-25,Eastern Gotland Basin,Estonia,"Eastern Gotland Basin, Estonia",5364.64302521,17
-26,Western Gotland Basin,Sweden,"Western Gotland Basin, Sweden",27312.8600383,18
-27,Gulf of Riga,Latvia,"Gulf of Riga, Latvia",7846.03761071,16
-28,Gulf of Riga,Estonia,"Gulf of Riga, Estonia",10356.8864271,15
-29,Northern Baltic Proper,Sweden,"Northern Baltic Proper, Sweden",17846.7987612,13
-30,Northern Baltic Proper,Finland,"Northern Baltic Proper, Finland",9809.85368294,12
-31,Northern Baltic Proper,Estonia,"Northern Baltic Proper, Estonia",11685.7615569,14
-32,Gulf of Finland,Finland,"Gulf of Finland, Finland",9376.48131105,10
-33,Gulf of Finland,Russia,"Gulf of Finland, Russia",11279.1063198,9
-34,Gulf of Finland,Estonia,"Gulf of Finland, Estonia",8121.92054132,11
-35,Aland Sea,Sweden,"Aland Sea, Sweden",2732.12022608,8
-36,Aland Sea,Finland,"Aland Sea, Finland",12812.0246603,7
-37,Bothnian Sea,Sweden,"Bothnian Sea, Sweden",31239.6673474,5
-38,Bothnian Sea,Finland,"Bothnian Sea, Finland",27952.3832074,6
-39,The Quark,Sweden,"The Quark, Sweden",3164.64521903,3
-40,The Quark,Finland,"The Quark, Finland",4862.2798263,4
-41,Bothnian Bay,Sweden,"Bothnian Bay, Sweden",16947.6650747,1
-42,Bothnian Bay,Finland,"Bothnian Bay, Finland",14709.8681336,2
+1,Kattegat,Sweden,"Kattegat, Sweden",6565.58648,42
+2,Kattegat,Denmark,"Kattegat, Denmark",16315.48518,41
+3,Great Belt,Denmark,"Great Belt, Denmark",9987.811692,40
+4,Great Belt,Germany,"Great Belt, Germany",98.62089435,39
+5,The Sound,Sweden,"The Sound, Sweden",594.7229131,38
+6,The Sound,Denmark,"The Sound, Denmark",577.868894,37
+7,Kiel Bay,Denmark,"Kiel Bay, Denmark",1211.206205,36
+8,Kiel Bay,Germany,"Kiel Bay, Germany",1996.893879,35
+9,Bay of Mecklenburg,Denmark,"Bay of Mecklenburg, Denmark",1141.107314,33
+10,Bay of Mecklenburg,Germany,"Bay of Mecklenburg, Germany",3380.619887,34
+11,Arkona Basin,Sweden,"Arkona Basin, Sweden",4229.102116,31
+12,Arkona Basin,Denmark,"Arkona Basin, Denmark",6178.484457,32
+13,Arkona Basin,Germany,"Arkona Basin, Germany",6943.742311,30
+14,Bornholm Basin,Sweden,"Bornholm Basin, Sweden",15059.21006,26
+15,Bornholm Basin,Denmark,"Bornholm Basin, Denmark",7132.670661,27
+16,Bornholm Basin,Germany,"Bornholm Basin, Germany",2532.230092,29
+17,Bornholm Basin,Poland,"Bornholm Basin, Poland",17231.0762,28
+18,Gdansk Basin,Poland,"Gdansk Basin, Poland",3598.084656,24
+19,Gdansk Basin,Russia,"Gdansk Basin, Russia",2093.515242,23
+20,Eastern Gotland Basin,Sweden,"Eastern Gotland Basin, Sweden",21904.30698,19
+21,Eastern Gotland Basin,Poland,"Eastern Gotland Basin, Poland",11013.70752,25
+22,Eastern Gotland Basin,Russia,"Eastern Gotland Basin, Russia",9402.468417,22
+23,Eastern Gotland Basin,Lithuania,"Eastern Gotland Basin, Lithuania",6083.725523,21
+24,Eastern Gotland Basin,Latvia,"Eastern Gotland Basin, Latvia",20992.31536,20
+25,Eastern Gotland Basin,Estonia,"Eastern Gotland Basin, Estonia",5364.643025,17
+26,Western Gotland Basin,Sweden,"Western Gotland Basin, Sweden",27312.86004,18
+27,Gulf of Riga,Latvia,"Gulf of Riga, Latvia",7846.037611,16
+28,Gulf of Riga,Estonia,"Gulf of Riga, Estonia",10356.88643,15
+29,Northern Baltic Proper,Sweden,"Northern Baltic Proper, Sweden",17846.79876,13
+30,Northern Baltic Proper,Finland,"Northern Baltic Proper, Finland",9809.853683,12
+31,Northern Baltic Proper,Estonia,"Northern Baltic Proper, Estonia",11685.76156,14
+32,Gulf of Finland,Finland,"Gulf of Finland, Finland",9376.481311,10
+33,Gulf of Finland,Russia,"Gulf of Finland, Russia",11279.10632,9
+34,Gulf of Finland,Estonia,"Gulf of Finland, Estonia",8121.920541,11
+35,Aland Sea,Sweden,"Aland Sea, Sweden",2732.120226,8
+36,Aland Sea,Finland,"Archipelago Sea, Finland",12812.02466,7
+37,Bothnian Sea,Sweden,"Bothnian Sea, Sweden",31239.66735,5
+38,Bothnian Sea,Finland,"Bothnian Sea, Finland",27952.38321,6
+39,The Quark,Sweden,"The Quark, Sweden",3164.645219,3
+40,The Quark,Finland,"The Quark, Finland",4862.279826,4
+41,Bothnian Bay,Sweden,"Bothnian Bay, Sweden",16947.66507,1
+42,Bothnian Bay,Finland,"Bothnian Bay, Finland",14709.86813,2
