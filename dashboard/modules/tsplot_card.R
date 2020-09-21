@@ -14,7 +14,14 @@ tsplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL, ht = 340,
     choices = select_choices,
     label = p("Plot Layer")
   )
-  items <- list(select, plotlyOutput(ns("tsplot"), height = ht))
+  items <- list(
+    select, 
+    addSpinner(
+      plotlyOutput(ns("tsplot"), height = ht), 
+      spin = "rotating-plane", 
+      color = "#d7e5e8"
+    )
+  )
   
   ## put together in box and return box
   tagList(box(
@@ -24,6 +31,7 @@ tsplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL, ht = 340,
     list(p(sub_title_text), items),
     width = 12
   ))
+  
 }
 
 ## timeseries plot card ui function ----
@@ -41,23 +49,28 @@ tsplotCard <- function(input, output, session, plot_type = "boxplot", loc = gh_r
     
     if(nrow(lyr_data) == 0){
       lyr_data <- read_csv(sprintf("%sintermediate/%s.csv", loc, selected))
-      colnames(lyr_data) <- stringr::str_replace(names(lyr_data), "input.*tonnes", "input_tonnes")
+      colnames(lyr_data) <- names(lyr_data) %>% 
+        stringr::str_replace("input.*tonnes", "Annual Input Tonnes") %>% 
+        stringr::str_replace("year", "Year") %>% 
+        stringr::str_replace("maximum_allowable_input", "Basin Max. Allowable Input (MAI)") %>% 
+        stringr::str_replace("rollmean3yr.*", "3-Year Rolling Mean") %>% 
+        stringr::str_replace("year", "Year")
     }
     
     
     ## just need eutrophication nutrient load plots to work for now.....
     if(str_detect(plot_type, "pointlinefaceted")){
       
-      p <- ggplot(lyr_data) +
-        geom_vline(xintercept = 1997, color = "gainsboro", size = 1.2) +
-        geom_vline(xintercept = 2003, color = "gainsboro", size = 1.2) +
-        geom_hline(aes(yintercept = maximum_allowable_input), color = "maroon") +
-        geom_line(aes(year, rollmean3yr_input), size = 0.3) +
-        geom_point(aes(year, input_tonnes), size  = 0.8) +
+      p <- ggplot(group_by(lyr_data, subbasin)) +
+        geom_vline(xintercept = 1997, color = "gainsboro", size = 0.8) +
+        geom_vline(xintercept = 2003, color = "gainsboro", size = 0.8) +
+        geom_hline(aes(yintercept = `Basin Max. Allowable Input (MAI)`), color = "maroon") +
+        geom_line(aes(Year, `3-Year Rolling Mean`), size = 0.3) +
+        geom_point(aes(Year, `Annual Input Tonnes`), size  = 0.8) +
         labs(x = NULL, y = NULL) +
-        # facet_wrap(~subbasin, scales = "free", nrow = 1) +
-        # theme(axis.text.y = element_text(size = 8, angle = 90))
-        facet_wrap(~subbasin, nrow = 1)
+        theme(axis.text = element_text(size = 7.5, angle = 90)) +
+        facet_grid(cols = vars(subbasin)) +
+        theme_bw()
       
       
     } else {
@@ -156,8 +169,6 @@ tsplotCard <- function(input, output, session, plot_type = "boxplot", loc = gh_r
         p <- p + geom_hline(aes(yintercept = 1), color = "blue")
       }
     }
-    
-    
   
     
     ## return the plot as an interactive plotly widget plot

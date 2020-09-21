@@ -1110,7 +1110,7 @@ dashboardPage(
             sub_title_text = "",
             ht = 340,
             select_choices = list(
-              `Phosphorus Annual Inputs (tonnes, atmospheric and waterborne), line shows 3-Year Rolling Mean` = "phosphorus_load",
+              `Phosphorus Annual Inputs (tonnes, waterborne), line shows 3-Year Rolling Mean` = "phosphorus_load",
               `Nitrogen Annual Inputs (tonnes, atmospheric and waterborne), line shows 3-Year Rolling Mean` = "nitrogen_load"
             )
           )
