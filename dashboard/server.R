@@ -387,6 +387,18 @@ function(input, output, session){
     legend_title = "Scores",
     lyrs_latlon = c(), 
     lyrs_polygons = list(),
+    # lyrs_polygons = list(
+    #   lyrs = list("pcb_indicator", "dioxin_indicator", "pfos_indicator"),
+    #   plotvar = list("score", "score", "score"),
+    #   cols = list(
+    #     c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+    #     c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+    #     c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+    #     c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+    #     c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue")
+    #   ),
+    #   paldomain = list(c(0, 1), c(0, 1), c(0, 1))
+    # ),
     popup_title = "Score:",
     popup_add_field = "Name",
     popup_add_field_title = "Name:"
@@ -450,7 +462,18 @@ function(input, output, session){
     year_selected = view_year,
     legend_title = "Scores",
     lyrs_latlon = c(), 
-    lyrs_polygons = list(),
+    lyrs_polygons = list(
+      lyrs = list("chla_indicator", "din_indicator", "dip_indicator", "oxyg_indicator", "secchi_indicator"),
+      plotvar = list("score", "score", "score", "score", "score"),
+      cols = list(
+        c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+        c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+        c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+        c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue"),
+        c("indianred", "coral", "goldenrod1", "khaki", "lightblue", "steelblue")
+      ),
+      paldomain = list(c(0, 100), c(0, 100), c(0, 100), c(0, 100), c(0, 100))
+    ),
     popup_title = "Score:",
     popup_add_field = "Name",
     popup_add_field_title = "Name:"
