@@ -18,8 +18,8 @@ ao_text <- c(
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/AO/v2019/ao_prep.md",
   ## timeseries plot layers
   paste(
-    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "",
+    "`Pressure associated with sea surface temperature` = \"cc_sst_bhi2019\"", 
+    "`Pressure associated with salinity of the surface layer` = \"cc_sal_surf_bhi2019\"",
     sep = ",\n\t"
   )
 )
@@ -70,11 +70,13 @@ con_text <- c(
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/contaminants/v2019/con_prep.md",
   ## timeseries plot layers
   paste(
-    "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "`PCBs in Sediments` = \"cw_con_pcb_bhi2019_sed\"",
-    "`PFOS in Biota` = \"cw_con_pfos_bhi2019_bio\"",
-    "`Dioxins in Biota` = \"cw_con_dioxin_bhi2019_bio\"", 
-    "`Dioxins in Sediments` = \"cw_con_dioxin_bhi2019_sed\"",
+    "`Perfluorooctanesulfonic acid (PFOS) average concentrations (ug/kg)` = \"cw_con_pfos_bhi2019_bio\"", 
+    "`Perfluorooctanesulfonic acid (PFOS) average concentrations (ug/kg)` = \"cw_con_pfos_bhi2019_sed\"", 
+    "`Proportions of monitored Substances of Very High Concern (from European Chemical Agency Candidate List)` = \"cw_con_penalty_bhi2019\"", 
+    "`Average PCBs concentrations (ug/kg, six congeners: CB28, CB52, CB101, CB138, CB153, CB180, a d CB118 in sediments)` = \"cw_con_pcb_bhi2019_bio\"", 
+    "`Average PCBs concentrations (ug/kg, six congeners: CB28, CB52, CB101, CB138, CB153, CB180, a d CB118 in sediments)` = \"cw_con_pcb_bhi2019_sed\"", 
+    "`Average Dioxin concentrations (ug/kg, includes dioxin-like PCBs)` = \"cw_con_dioxin_bhi2019_bio\"", 
+    "`Average Dioxin concentrations (ug/kg, includes dioxin-like PCBs)` = \"cw_con_dioxin_bhi2019_sed\"",
     sep = ",\n\t"
   )
 )
@@ -123,8 +125,22 @@ cw_text <- c(
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/CW",
   ## timeseries plot layers
   paste(
-    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "",
+    "`Secchi depth indicator scores` = \"secchi_indicator_status\"", 
+    "`Secchi depth indicator scores` = \"secchi_indicator_trend\"", 
+    "`PFOS indicator scores` = \"pfos_indicator_status\"", 
+    "`PFOS indicator scores` = \"pfos_indicator_trend\"", 
+    "`PCBs indicator scores` = \"pcb_indicator_status\"", 
+    "`PCBs indicator scores` = \"pcb_indicator_trend\"", 
+    "`Oxygen debt indicator scores` = \"oxyg_indicator_status\"", 
+    "`Oxygen debt indicator scores` = \"oxyg_indicator_trend\"", 
+    "`Dissolved Inorganic Phosphorus indicator scores` = \"dip_indicator_status\"", 
+    "`Dissolved Inorganic Phosphorus indicator scores` = \"dip_indicator_trend\"", 
+    "`Dioxin indicator scores` = \"dioxin_indicator_status\"", 
+    "`Dioxin indicator scores` = \"dioxin_indicator_trend\"", 
+    "`Dissolved Inorganic Nitrogen indicator scores` = \"din_indicator_status\"", 
+    "`Dissolved Inorganic Nitrogen indicator scores` = \"din_indicator_trend\"", 
+    "`Chlorophyll a indicator scores` = \"chla_indicator_status\"", 
+    "`Chlorophyll a indicator scores` = \"chla_indicator_trend\"",
     sep = ",\n\t"
   )
 )
@@ -148,8 +164,13 @@ eco_text <- c(
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ECO/v2019/eco_prep.md",
   ## timeseries plot layers
   paste(
-    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "",
+    "`Gross Value Added (GVA, M€) from Blue Economy sectors` = \"le_eco_yearly_gva_bhi2019_Coastal tourism\"", 
+    "`Gross Value Added (GVA, M€) from Blue Economy sectors` = \"le_eco_yearly_gva_bhi2019_Marine living resources\"", 
+    "`Gross Value Added (GVA, M€) from Blue Economy sectors` = \"le_eco_yearly_gva_bhi2019_Marine non-living resources\"", 
+    "`Gross Value Added (GVA, M€) from Blue Economy sectors` = \"le_eco_yearly_gva_bhi2019_Marine renewable energy\"", 
+    "`Gross Value Added (GVA, M€) from Blue Economy sectors` = \"le_eco_yearly_gva_bhi2019_Maritime transport\"", 
+    "`Gross Value Added (GVA, M€) from Blue Economy sectors` = \"le_eco_yearly_gva_bhi2019_Port activities\"", 
+    "`Gross Value Added (GVA, M€ from Blue Economy sectors` = \"le_eco_yearly_gva_bhi2019_Shipbuilding and repair\"",
     sep = ",\n\t"
   )
 )
@@ -184,8 +205,10 @@ eut_text <- c(
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/eutrophication/v2019/eut_prep.md",
   ## timeseries plot layers
   paste(
-    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "",
+    "`Pressure due to Phosphorus loading` = \"po_pload_bhi2019\"", 
+    "`Pressure due to Nitrogen loading` = \"po_nload_bhi2019\"", 
+    "`Secchi depth (meters, June-September) measurements` = \"cw_eut_secchi_bhi2019\"", 
+    "`Oxygen debt` = \"cw_eut_oxydebt_bhi2019\"",
     sep = ",\n\t"
   )
 )
@@ -209,7 +232,6 @@ fis_text <- c(
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md",
   ## timeseries plot layers
   paste(
-    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
     "`Cod biomass at sea normalized by spawning stock biomass` = \"fis_bbmsy_bhi2019_cod\"",
     "`Herring biomass at sea normalized by spawning stock biomass` = \"fis_bbmsy_bhi2019_herring\"",
     "`Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = \"fis_ffmsy_bhi2019_cod\"",
@@ -238,8 +260,7 @@ fp_text <- c(
   "",
   ## timeseries plot layers
   paste(
-    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "",
+    "`Proportion seafood production from wildcaught fisheries vs. Mariculture production` = \"wildcaught_weight\"",
     sep = ",\n\t"
   )
 )
@@ -263,8 +284,9 @@ ico_text <- c(
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ICO/v2019/ico_prep.md",
   ## timeseries plot layers
   paste(
-    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "",
+    "`IUCN Categories for Iconic species of the Baltic Sea` = \"sp_ico_assessments_bhi2019_Fish and Lamprey\"", 
+    "`IUCN Categories for Iconic species of the Baltic Sea` = \"sp_ico_assessments_bhi2019_Mammals\"", 
+    "`IUCN Categories for Iconic species of the Baltic Sea` = \"sp_ico_assessments_bhi2019_Birds\"",
     sep = ",\n\t"
   )
 )
@@ -313,8 +335,8 @@ liv_text <- c(
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/LIV/v2019/liv_prep.md",
   ## timeseries plot layers
   paste(
-    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "",
+    "`Estimates of average regional employment rates in the coastal zone, within 25km of the coast` = \"le_liv_regional_employ_bhi2019\"", 
+    "`National employment rates in countries bordering the Baltic Sea` = \"le_liv_national_employ_bhi2019\"",
     sep = ",\n\t"
   )
 )
@@ -363,8 +385,7 @@ mar_text <- c(
   "https://github.com/OHI-Science/bhi-prep/blob/master/prep/MAR/v2019/mar_prep.md",
   ## timeseries plot layers
   paste(
-    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "",
+    "`Tonnes of seafood (rainbow trout and finfish) produced in Mariculture operations` = \"mar_harvest_bhi2019\"",
     sep = ",\n\t"
   )
 )
@@ -388,8 +409,9 @@ np_text <- c(
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md",
   ## timeseries plot layers
   paste(
-    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "",
+    "`Sprat landings, tonnes` = \"np_landings_bhi2019_sprat\"", 
+    "`Fishing mortality normalized by fishing mortality at max. sustainable yield` = \"np_ffmsy_bhi2019_sprat\"", 
+    "`Biomass at sea normalized by spawning stock biomass` = \"np_bbmsy_bhi2019_sprat\"",
     sep = ",\n\t"
   )
 )
@@ -438,8 +460,9 @@ tr_text <- c(
   "https://github.com/OHI-Science/bhi-prep/tree/master/prep/TR/v2019/tr_prep.md",
   ## timeseries plot layers
   paste(
-    # "`PCBs in Biota` = \"cw_con_pcb_bhi2019_bio\"",
-    "",
+    "`Gross Value Added (GVA, M€) from coastal tourism sectors, accommodations and transport activities` = \"tr_coastal_tourism_gva_bhi2019\"", 
+    "`Nights spent in coastal tourist accomodations per square kilometer, from Eurostat NUTS3 reporting regions` = \"tr_accommodations_bhi2019\"", 
+    "`Pressure due to lack of water transparency or clarity` = \"po_inverse_secchi_bhi2019\"",
     sep = ",\n\t"
   )
 )
