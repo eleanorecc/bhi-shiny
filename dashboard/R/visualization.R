@@ -243,14 +243,27 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins",
       alpha = 0.8,
       show.legend = FALSE
     ) +
-    scale_fill_gradientn(
-      colours = c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#457da1"),
-      values = c(0, 0.2, 0.42, 0.6, 0.8, 0.95, 1),
-      # breaks = c(15, 40, 60, 75, 90, 100),
-      limits = c(ifelse(dim == "trend", -1, 0), ifelse(dim == "trend", 1, 101)),
-      na.value = "black"
-    ) +
     scale_y_continuous(limits = c(ifelse(dim == "trend", -1.1, 0), ifelse(dim == "trend", 1.1, 101)))
+  
+  if(dim == "pressures"){
+    plot_obj <- plot_obj +
+      scale_fill_gradientn(
+        colours = rev(c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#457da1")),
+        values = rev(1 - c(0, 0.2, 0.42, 0.6, 0.8, 0.95, 1)),
+        # breaks = c(15, 40, 60, 75, 90, 100),
+        limits = c(ifelse(dim == "trend", -1, 0), ifelse(dim == "trend", 1, 101)),
+        na.value = "black"
+      )
+  } else {
+    plot_obj <- plot_obj +
+      scale_fill_gradientn(
+        colours = c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#457da1"),
+        values = c(0, 0.2, 0.42, 0.6, 0.8, 0.95, 1),
+        # breaks = c(15, 40, 60, 75, 90, 100),
+        limits = c(ifelse(dim == "trend", -1, 0), ifelse(dim == "trend", 1, 101)),
+        na.value = "black"
+      )
+  }
   
   ## overlay light grey for NAs
   if(any(!is.na(plot_df$plotNAs))){

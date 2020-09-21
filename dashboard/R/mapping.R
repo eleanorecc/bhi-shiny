@@ -216,11 +216,19 @@ leaflet_map <- function(full_scores_lst, basins_or_rgns = "subbasins",
   rc4 <- colorRampPalette(colors = c("#f6ffb3", "#009999"), space = "Lab")(15)
   rc5 <- colorRampPalette(colors = c("#009999", "#457da1"), space = "Lab")(5)
   
-  pal <- leaflet::colorNumeric(
-    palette = c(rc1, rc2, rc3, rc4, rc5),
-    domain = paldomain,
-    na.color = thm$cols$map_background1
-  )
+  if(dim == "pressures"){
+    pal <- leaflet::colorNumeric(
+      palette = rev(c(rc1, rc2, rc3, rc4, rc5)),
+      domain = paldomain,
+      na.color = thm$cols$map_background1
+    )
+  } else {
+    pal <- leaflet::colorNumeric(
+      palette = c(rc1, rc2, rc3, rc4, rc5),
+      domain = paldomain,
+      na.color = thm$cols$map_background1
+    )
+  }
   
   ## create leaflet map ----
   map <- leaflet::leaflet(data = leaflet_plotting_sf) %>%
