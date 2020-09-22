@@ -13,7 +13,7 @@ The Dashboard is a data exploration tool, for visualizing the results as well as
 
 [baltic-ohi.shinyapps.io](https://baltic-ohi.shinyapps.io/dashboard/)
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/OHI-Baltic/bhi-shiny/master?urlpath=dashboard%2F)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/OHI-Baltic/bhi-shiny/master?urlpath=shiny%2Fdashboard%2F)
 
 <br>
 
