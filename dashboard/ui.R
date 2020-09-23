@@ -245,7 +245,7 @@ dashboardPage(
       sprintf(
         ".bg-%s {background-color: %s!important; }",
         "light-blue",
-        "#ecf0f6"
+        "#c0d8cba1" # "#ecf0f6"
       )
     ),
     
@@ -1490,7 +1490,7 @@ dashboardPage(
             id = "fis_tsplot",
             title_text = "Visualizing Some of the Data Behind Fisheries Scores",
             sub_title_text = "",
-            ht = 340,
+            ht = 700,
             select_choices = list(
               `Cod biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_cod",
               `Herring biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_herring",

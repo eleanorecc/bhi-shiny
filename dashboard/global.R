@@ -67,7 +67,7 @@ text_links <- function(title = NULL, url = NULL, box_width = 12){
     width = box_width,
     height = 65,
     background = "light-blue",
-    status = "primary",
+    status = "danger",
     solidHeader = TRUE
   )
 }

@@ -695,19 +695,19 @@ function(input, output, session){
   })
   
   ## layers timeseries plot
-  # values <- reactiveValues(`fis_tsplot-select` = "fis_bbmsy_bhi2019_cod")
-  # observeEvent(
-  #   eventExpr = input$`fis_tsplot-select`, {
-  #     values$`fis_tsplot-select` <- input$`fis_tsplot-select`
-  #     callModule(
-  #       tsplotCard, 
-  #       "fis_tsplot",
-  #       plot_type = "boxplot",
-  #       layer_selected = reactive(values$`fis_tsplot-select`),
-  #       spatial_unit_selected = spatial_unit
-  #     )
-  #   }, ignoreNULL = FALSE
-  # )
+  values <- reactiveValues(`fis_tsplot-select` = "fis_bbmsy_bhi2019_cod")
+  observeEvent(
+    eventExpr = input$`fis_tsplot-select`, {
+      values$`fis_tsplot-select` <- input$`fis_tsplot-select`
+      callModule(
+        tsplotCard,
+        "fis_tsplot",
+        plot_type = "barplot normalized",
+        layer_selected = reactive(values$`fis_tsplot-select`),
+        spatial_unit_selected = spatial_unit
+      )
+    }, ignoreNULL = FALSE
+  )
   
   ## MAR ----
   ## Mariculture
