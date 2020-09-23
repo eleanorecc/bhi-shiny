@@ -272,7 +272,7 @@ dashboardPage(
             status = "primary",
             p("Oceans provide a diverse array of benefits to humans, often with tradeoffs between benefits. Managing these requires a method that can measure the health status in both a comprehensive and quantitative way. Establishing such a method was the motivation behind the Ocean Health Index (OHI)."),
             p("The Baltic Health Index is a regional study using the OHI method but tailored to assess the health status of the social-ecological system of the Baltic Sea. It is an independent, fully-transparent, scientific index which quantifies the status and trends of nine benefits based on inputs from scientists with expertise in each goal area, and stakeholder perspectives. The assessment of the nine benefits includes food provision, artisanal fishing opportunity, natural products, carbon storage, biodiversity, clean water, tourism, livelihood and economy, sense of place."),
-            p("Our overarching aim is  to maintain and continually improve a tool that can be used by decision-makers to guide management of the Baltic Sea region towards increased sustainability. We strive to use the best open source tools available, to make our data preparation, results, calculations, reference levels and underlying data easily accessible and entirely transparent."),
+            p("Our overarching aim is to maintain and continually improve a tool that can be used by decision-makers to guide management of the Baltic Sea region towards increased sustainability. We strive to use the best open source tools available, to make our data preparation, results, calculations, reference levels and underlying data easily accessible and entirely transparent."),
             width =  12
           )
         ),
@@ -284,14 +284,15 @@ dashboardPage(
           flowerplotCardUI(
             id = "baltic_flowerplot",
             title_text = "Plot of Index Scores",
-            sub_title_text = "Ocean Health Index scores are calculated for individual goals and then combined to get an overall score on a scale of 0-100, where 100 indicates management thresholds are achieved (not pristine condition!). Individual goal scores are represented by the length of the petals in a flower plot below, and the overall Index score for the region is in the center."
+            sub_title_text = "Ocean Health Index scores are calculated for individual goals and then combined to get an overall score on a scale of 0-100, where 100 indicates management thresholds are achieved (not necessarily pristine condition). Anything less than a score of 100 represents failure to reach the 'acceptable' level. Individual goal scores are represented by the length of the petals in a flower plot below, and the overall Index score for the region is in the center."
           ),
           
           ## map of overall scores
           tagList(box(
             title = "Map of Index Scores",
             list(
-              list(addSpinner(leafletOutput("index_map", height = 620), spin = "rotating-plane", color = "#d7e5e8"))
+              p("A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level."),
+              list(addSpinner(leafletOutput("index_map", height = 600), spin = "rotating-plane", color = "#d7e5e8"))
             ),
             width = 6
           ))
@@ -390,7 +391,7 @@ dashboardPage(
           mapCardUI(
             id = "ao_map",
             title_text = "Artisanal Fishing Opportunity Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -398,7 +399,7 @@ dashboardPage(
           barplotCardUI(
             id = "ao_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -448,7 +449,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/blob/master/prep/AO/v2019/ao_prep.md"
           )
         ),
@@ -525,7 +526,7 @@ dashboardPage(
           mapCardUI(
             id = "bd_map",
             title_text = "Biodiversity Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -533,7 +534,7 @@ dashboardPage(
           barplotCardUI(
             id = "bd_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -583,7 +584,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/blob/master/prep/BD/v2019/bd_prep.md"
           )
         ),
@@ -653,7 +654,7 @@ dashboardPage(
           mapCardUI(
             id = "cs_map",
             title_text = "Carbon Storage Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -661,7 +662,7 @@ dashboardPage(
           barplotCardUI(
             id = "cs_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -711,7 +712,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CS/v2019/cs_prep.md"
           )
         ),
@@ -785,7 +786,7 @@ dashboardPage(
           mapCardUI(
             id = "cw_map",
             title_text = "Clean Waters Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -793,7 +794,7 @@ dashboardPage(
           barplotCardUI(
             id = "cw_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -858,7 +859,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/tree/master/prep/CW"
           )
         ),
@@ -936,7 +937,7 @@ dashboardPage(
           mapCardUI(
             id = "con_map",
             title_text = "Contaminants Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -944,7 +945,7 @@ dashboardPage(
           barplotCardUI(
             id = "con_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -999,7 +1000,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/contaminants/v2019/con_prep.md"
           )
         ),
@@ -1075,7 +1076,7 @@ dashboardPage(
           mapCardUI(
             id = "eut_map",
             title_text = "Eutrophication Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -1083,7 +1084,7 @@ dashboardPage(
           barplotCardUI(
             id = "eut_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -1138,7 +1139,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/eutrophication/v2019/eut_prep.md"
           )
         ),
@@ -1208,7 +1209,7 @@ dashboardPage(
           mapCardUI(
             id = "tra_map",
             title_text = "Trash Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -1216,7 +1217,7 @@ dashboardPage(
           barplotCardUI(
             id = "tra_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -1265,7 +1266,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/trash/v2019/tra_prep.md"
           )
         ),
@@ -1339,7 +1340,7 @@ dashboardPage(
           mapCardUI(
             id = "fp_map",
             title_text = "Food Provision Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -1347,7 +1348,7 @@ dashboardPage(
           barplotCardUI(
             id = "fp_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -1396,7 +1397,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             ""
           )
         ),
@@ -1462,7 +1463,7 @@ dashboardPage(
           mapCardUI(
             id = "fis_map",
             title_text = "Fisheries Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -1470,7 +1471,7 @@ dashboardPage(
           barplotCardUI(
             id = "fis_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -1524,7 +1525,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md"
           )
         ),
@@ -1590,7 +1591,7 @@ dashboardPage(
           mapCardUI(
             id = "mar_map",
             title_text = "Mariculture Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -1598,7 +1599,7 @@ dashboardPage(
           barplotCardUI(
             id = "mar_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -1647,7 +1648,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/blob/master/prep/MAR/v2019/mar_prep.md"
           )
         ),
@@ -1713,7 +1714,7 @@ dashboardPage(
           mapCardUI(
             id = "le_map",
             title_text = "Coastal Livelihoods & Economies Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -1721,7 +1722,7 @@ dashboardPage(
           barplotCardUI(
             id = "le_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -1770,7 +1771,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             ""
           )
         ),
@@ -1852,7 +1853,7 @@ dashboardPage(
           mapCardUI(
             id = "eco_map",
             title_text = "Economies Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -1860,7 +1861,7 @@ dashboardPage(
           barplotCardUI(
             id = "eco_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -1915,7 +1916,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ECO/v2019/eco_prep.md"
           )
         ),
@@ -1989,7 +1990,7 @@ dashboardPage(
           mapCardUI(
             id = "liv_map",
             title_text = "Livelihoods Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -1997,7 +1998,7 @@ dashboardPage(
           barplotCardUI(
             id = "liv_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -2047,7 +2048,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/blob/master/prep/LIV/v2019/liv_prep.md"
           )
         ),
@@ -2117,7 +2118,7 @@ dashboardPage(
           mapCardUI(
             id = "sp_map",
             title_text = "Sense of Place Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -2125,7 +2126,7 @@ dashboardPage(
           barplotCardUI(
             id = "sp_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -2174,7 +2175,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             ""
           )
         ),
@@ -2256,7 +2257,7 @@ dashboardPage(
           mapCardUI(
             id = "ico_map",
             title_text = "Iconic Species Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -2264,7 +2265,7 @@ dashboardPage(
           barplotCardUI(
             id = "ico_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -2315,7 +2316,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ICO/v2019/ico_prep.md"
           )
         ),
@@ -2389,7 +2390,7 @@ dashboardPage(
           mapCardUI(
             id = "lsp_map",
             title_text = "Lasting Special Places Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -2397,7 +2398,7 @@ dashboardPage(
           barplotCardUI(
             id = "lsp_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -2446,7 +2447,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/blob/master/prep/LSP/v2019/lsp_prep.md"
           )
         ),
@@ -2520,7 +2521,7 @@ dashboardPage(
           mapCardUI(
             id = "np_map",
             title_text = "Natural Products Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -2528,7 +2529,7 @@ dashboardPage(
           barplotCardUI(
             id = "np_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -2579,7 +2580,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md"
           )
         ),
@@ -2645,7 +2646,7 @@ dashboardPage(
           mapCardUI(
             id = "tr_map",
             title_text = "Tourism & Recreation Scores Around the Baltic",
-            sub_title_text = "",
+            sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
             br(), 
             box_width = 8,
             ht = 540
@@ -2653,7 +2654,7 @@ dashboardPage(
           barplotCardUI(
             id = "tr_barplot",
             title_text = "Shortfall/Headway towards Target",
-            sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+            sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
             box_width = 4
           )
         ),
@@ -2704,7 +2705,7 @@ dashboardPage(
         fluidRow(
           align = "center",
           text_links(
-            "CLICK HERE FOR DETAILED METHODS",
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
             "https://github.com/OHI-Science/bhi-prep/tree/master/prep/TR/v2019/tr_prep.md"
           )
         ),

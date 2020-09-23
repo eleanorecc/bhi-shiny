@@ -13,7 +13,6 @@ tabItem(
     ),
     scoreBoxUI(id = "goalcode_infobox"),
     box(
-      # h4(filter(goals_csv, goal == "GOALCODE")$short_def),
       h4(filter(goals_csv, goal == "GOALCODE")$description),
       width = 12
     )
@@ -42,7 +41,7 @@ tabItem(
     mapCardUI(
       id = "goalcode_map",
       title_text = "GOALNAME Scores Around the Baltic",
-      sub_title_text = "",
+      sub_title_text = "A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level.",
       br(), 
       box_width = 8,
       ht = 540
@@ -50,7 +49,7 @@ tabItem(
     barplotCardUI(
       id = "goalcode_barplot",
       title_text = "Shortfall/Headway towards Target",
-      sub_title_text = "Bar lengths represent proximity to threshold or target level. Highest scores (of 100) indicate thresholds have been achieved. Bar thickness corresponds to region or basin (log-transformed) area.",
+      sub_title_text = "Bar lengths represent proximity to threshold or target level. Bar thickness corresponds to region or basin (log-transformed) area.",
       box_width = 4
     )
   ),
@@ -68,7 +67,7 @@ tabItem(
   fluidRow(
     tsplotCardUI(
       id = "goalcode_tsplot",
-      title_text = "Data Underlying GOALNAME Scores",
+      title_text = "Visualizing Some of the Data Behind GOALNAME Scores",
       sub_title_text = "",
       ht = 340,
       select_choices = list(
@@ -85,6 +84,17 @@ tabItem(
       goal_expert_info
     )
   ),
+  
+  ## methods link 
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, SAMLING LOCATION MAPS, AS WELL AS CODE",
+      "goal_data_prep_link"
+    )
+  ),
+  
+  ## data sources, and data considerations, improvements
   fluidRow(
     box(
       collapsible = TRUE,
@@ -92,15 +102,6 @@ tabItem(
       width = 12,
       title = "Data Sources", 
       DT::dataTableOutput("goalcode_datatable")
-    )
-  ),
-  
-  ## methods link, plus data considerations, improvements
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS",
-      "goal_data_prep_link"
     )
   ),
   fluidRow(

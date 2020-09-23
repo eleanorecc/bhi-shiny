@@ -16,7 +16,7 @@ flowerplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL){
     title = title_text,
     
     list(
-      p(br(), sub_title_text, br()),
+      p(sub_title_text, br()),
       addSpinner(
         imageOutput(ns("flowerplot"), height = 440),
         spin = "rotating-plane",
