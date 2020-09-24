@@ -163,7 +163,10 @@ dashboardPage(
       ), # end view options sidebar
       
       ## learn more ----
-      menuItem("LEARN MORE", tabName = "learnmore")
+      menuItem("LEARN MORE", tabName = "learnmore"),
+      
+      ## share feedback ----
+      menuItem("SHARE FEEDBACK", tabName = "feedback")
       
     ) # end sidebarMenu
   ), # end dashboardSidebar
@@ -2872,7 +2875,20 @@ dashboardPage(
             width = 12
           )
         )
-      ) # end learnmore tab
+      ), # end learnmore tab
+      
+      ## § SHARE FEEDBACK ----
+      tabItem(
+        tabName = "feedback",
+        
+        ## header
+        fluidRow(
+          box(
+            htmlOutput("iframe"),
+            width = 12
+          )
+        )
+      ) # end feedback tab
     ) # end tabItems
   ) # end dashboardBody
 ) # end dashboardPage

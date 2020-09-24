@@ -1434,4 +1434,10 @@ function(input, output, session){
   #   )
   # })
   
+  ## SHARE FEEDBACK
+  output$iframe <- renderUI({
+    src = "https://docs.google.com/forms/d/e/1FAIpQLSca7FSR3qy1kohCrh3uqkVBpTjCEKoS1wlB6DPkMrrB6w95fA/viewform?embedded=true"
+    tags$iframe(src=src, width="640", height="1660", frameborder="0", marginheight="0", marginwidth="0")
+  })
+  
 }
