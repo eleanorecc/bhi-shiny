@@ -1502,7 +1502,7 @@ dashboardPage(
               # `Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_herring",
               # `Cod landings (tonnes)` = "fis_landings_bhi2019_cod",
               # `Herring landings (tonnes)` = "fis_landings_bhi2019_herring"
-              `Proportion of surveyed cod in length categories 20-60cm with Fulton's K less than 0.8` = "fis_cod_penalty_bhi2019", 
+              `Proportion of surveyed cod in length categories 20-60cm with Fulton's K greater than 0.8` = "fis_cod_penalty_bhi2019", 
               `Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_cod", 
               `Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_herring", 
               `Cod biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_cod", 
