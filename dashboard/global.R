@@ -29,6 +29,7 @@ source(file.path(dir_main, "modules", "barplot_card.R"))
 source(file.path(dir_main, "modules", "flowerplot_card.R"))
 source(file.path(dir_main, "modules", "scorebox_card.R"))
 source(file.path(dir_main, "modules", "tsplot_card.R"))
+source(file.path(dir_main, "modules", "addfigs_card.R"))
 
 
 ## Functions for Shiny App UI ----
@@ -86,6 +87,7 @@ for(g in unique(full_scores_csv$goal)){
 }
 goals_csv <- readr::read_csv(file.path(dir_main, "data", "plotconf.csv"))
 data_info <- readr::read_csv(file.path(dir_main, "data", "datasources.csv"))
+fig_info <- readr::read_csv(file.path(dir_main, "data", "datalayers.csv"))[, 4:16]
 
 
 regions_df <- readr::read_csv(file.path(dir_main, "data", "regions.csv"))

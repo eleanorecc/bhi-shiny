@@ -1490,18 +1490,23 @@ dashboardPage(
           )
         ),
         fluidRow(
-          tsplotCardUI(
+          addfigsCardUI(
             id = "fis_tsplot",
             title_text = "Visualizing Some of the Data Behind Fisheries Scores",
             sub_title_text = "",
             ht = 700,
             select_choices = list(
-              `Cod biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_cod",
-              `Herring biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_herring",
-              `Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_cod",
-              `Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_herring",
-              `Cod landings (tonnes)` = "fis_landings_bhi2019_cod",
-              `Herring landings (tonnes)` = "fis_landings_bhi2019_herring"
+              # `Cod biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_cod",
+              # `Herring biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_herring",
+              # `Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_cod",
+              # `Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_herring",
+              # `Cod landings (tonnes)` = "fis_landings_bhi2019_cod",
+              # `Herring landings (tonnes)` = "fis_landings_bhi2019_herring"
+              `Proportion of surveyed cod in length categories 20-60cm with Fulton's K less than 0.8` = "fis_cod_penalty_bhi2019", 
+              `Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_cod", 
+              `Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_herring", 
+              `Cod biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_cod", 
+              `Herring biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_herring"
             )
           )
         ),

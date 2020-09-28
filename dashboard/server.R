@@ -700,9 +700,8 @@ function(input, output, session){
     eventExpr = input$`fis_tsplot-select`, {
       values$`fis_tsplot-select` <- input$`fis_tsplot-select`
       callModule(
-        tsplotCard,
+        addfigsCard,
         "fis_tsplot",
-        plot_type = "barplot normalized",
         layer_selected = reactive(values$`fis_tsplot-select`),
         spatial_unit_selected = spatial_unit
       )
@@ -1434,7 +1433,7 @@ function(input, output, session){
   #   )
   # })
   
-  ## SHARE FEEDBACK
+  ## SHARE FEEDBACK ----
   output$iframe <- renderUI({
     src = "https://docs.google.com/forms/d/e/1FAIpQLSca7FSR3qy1kohCrh3uqkVBpTjCEKoS1wlB6DPkMrrB6w95fA/viewform?embedded=true"
     tags$iframe(src=src, width="640", height="1660", frameborder="0", marginheight="0", marginwidth="0")

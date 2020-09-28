@@ -36,18 +36,31 @@ addfigsCardUI <- function(id, title_text = NULL, sub_title_text = NULL, ht = 340
 
 ## additional figures card ui function ----
 addfigsCard <- function(input, output, session, layer_selected, spatial_unit_selected, year_selected){
-  
-  spatial_units <- spatial_unit_selected()
+
   
   selection <- layer_selected()
-  lyr <- str_extract(selection, "^.*bhi[0-9]{4}")
+  lyr <- gsub("[0-9]{4}.*", stringr::str_extract(selection, "[0-9]{4}"), selection)
   plotconf <- filter(fig_info, data_filename == sprintf("%s.csv", lyr))
+  
+  if(str_detect(plotconf$plot_type, "basin|region|country")){
+    spatial_units <- ifelse(
+      str_detect(plotconf$plot_type, "basin"), 
+      "subbasins",
+      ifelse(
+        str_detect(plotconf$plot_type, "region"), 
+        "regions",
+        "country"
+      )
+    )
+  } else {
+    spatial_units <- spatial_unit_selected()
+  }
   
   
   output$tsplot <- renderPlotly({
     
     ## retrieve and wrangle plotting data ----
-    ## wrangle depending on categorical variables, and spatial units
+    ## read data and rename columns
     if(RCurl::url.exists(paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv"))){
       dfloc <- paste0(gh_raw_bhi, "layers/", unlist(lyr),  ".csv")
     } else if(RCurl::url.exists(paste0(gh_raw_bhi, "intermediate/", unlist(lyr),  ".csv"))){
@@ -56,8 +69,10 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
       warning(sprintf("file %s doesn't exist in either layers or intermediate folder", lyr))
       dfloc = NULL
     }
-    plotdf <- readr::read_csv(dfloc, col_types = cols()) %>% 
-      left_join(regions_df, by = "region_id")
+    plotdf <- readr::read_csv(dfloc, col_types = cols())
+    if("region_id" %in% names(plotdf)){
+      plotdf <- left_join(plotdf, regions_df, by = "region_id")
+    }
     colnames(plotdf) <- names(plotdf) %>% 
       str_replace("scen_year", "year") %>% 
       str_replace(plotconf$y_var, "value")
@@ -65,23 +80,21 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
       colnames(plotdf) <- str_replace(names(plotdf), plotconf$cat_var, "category")
     }
     
-    
+    ## wrangle depending on categorical variables, and spatial units
     if(spatial_units == "subbasins"){
       plotdf <- dplyr::rename(plotdf, region = subbasin)
       pallength <- 20
-    } else {
+    } else if(spatial_units == "regions"){
       plotdf <- dplyr::rename(plotdf, region = region_name)
       pallength <- 42
-    }
-    if(plotconf$plot_type == "tsbarcountry" | plotconf$plot_type == "catbarcountry"){
+    } else {
       spatial_units <- "country"
       plotdf <- dplyr::rename(plotdf, region_selected = region, region = eez)
       pallength <- 10 
     }
-    
     if("category" %in% names(plotdf)){
       plotdf <- mutate(plotdf, categorytxt = str_to_upper(str_replace_all(category, "_", " ")))
-      if(str_remove(selection, "^.*bhi[0-9]{4}_")!= selection){
+      if(str_remove(selection, "^.*bhi[0-9]{4}_") != selection){
         plotdf <- filter(plotdf, str_detect(category, str_remove(selection, "^.*bhi[0-9]{4}_")))
       }
     }
@@ -97,10 +110,10 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
     
     ## different plot types ----
     ## for the 'additional plots' shiny box
-    ## 1) tsbar: time-series barplot
+    ## 1) tsbar: time-series barplot by different categories
     ## 2) tsbarbasin/tsbarcountry: time-series barplot faceted by basins or countries
     ## 3) tspointline: time-series plot with points and/or line
-    ## 4) tspointlinebasin: time-series plot with points and/or line faceted by basins
+    ## 4) tspointlinebasin/tspointlineregion: time-series plot with points and/or line faceted by basins or regions
     ## 5) tsboxplot: time-series plot with boxplots
     ## 6) catbar: categorical barplot
     ## 7) normalized: with horizontal reference line
@@ -113,7 +126,7 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
     ## and different colors to represent different basin/region
     if(plotconf$plot_type == "tsbar"){
       
-      p <- ggplot(plotdf) +
+      p <- ggplot(group_by(plotdf, categorytxt)) +
         geom_col(
           aes(year, value, fill = region, text = paste0(
             "Year: ", year,
@@ -128,16 +141,22 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
         labs(
           x = NULL, 
           y = plotconf$y_var_name,
-          fill = str_to_sentence(spatial_units)
+          fill = NULL
         ) +
         theme_bw() +
         theme(
-          strip.text.y = element_text(size = 4 + 8/length(unique(plotdf$category))),
+          strip.text.y = element_text(
+            size = 4 + 8/length(unique(plotdf$category)),
+            margin = margin(0.8, 0, 0.8, 0, "cm")
+          ),
           legend.background = element_rect(color = "grey"),
           legend.justification = "top"
         ) +
         scale_fill_manual(values = pal) +
-        facet_grid(rows = vars(categorytxt), switch = "y")
+        facet_grid(
+          rows = vars(categorytxt),
+          switch = "y"
+        )
     }
     
     ## tsbarbasin: time-series barplot faceted by basins
@@ -145,9 +164,15 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
     ## one plot (facetted) per basin
     if(plotconf$plot_type == "tsbarbasin" | plotconf$plot_type == "tsbarcountry"){
       
+      if("category" %in% names(plotdf)){
+        plotdf <- distinct(plotdf, region, value, year, category, categorytxt)
+      } else {
+        plotdf <- distinct(plotdf, region, value, year)
+      }
+      
       p <- ggplot(group_by(plotdf, region)) +
         geom_col(
-          aes(year, value, text = paste0(
+          aes(year, value, fill = value, text = paste0(
             "Year: ", year,
             "<br>", plotconf$y_var_name, ": ", round(value, 2)
           )),
@@ -155,12 +180,15 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
           alpha = 0.4, 
           size = 0.1
         ) +
-        facet_grid(cols = vars(region)) +
+        facet_grid(
+          cols = vars(region),
+          labeller = label_wrap_gen(width = 18, multi_line = TRUE)
+        ) +
         scale_fill_viridis_c() +
         labs(
           x = NULL, 
           y = plotconf$y_var_name,
-          fill = plotconf$y_var_name
+          fill = NULL
         ) +
         theme_bw() +
         theme(
@@ -218,7 +246,7 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
     ## has points and lines (maybe rolling mean), 
     ## one plot (facetted) per basin
     
-    if(plotconf$plot_type == "tspointlinebasin"){
+    if(plotconf$plot_type == "tspointlinebasin" | plotconf$plot_type == "tspointlineregion"){
       
       p <- ggplot(group_by(plotdf, region)) +
         labs(
@@ -238,27 +266,32 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
             size  = 0.8
           )
       }
-      if(str_detect(plotconf$point_and_line, "line")){
-        p <- p + 
-          geom_line(
-            aes(year, value, text = paste0(
-              "Year: ", year,
-              "<br>", plotconf$y_var_name, ": ", round(value, 2)
-            )),
-            size = 0.3
-          )
+      if(str_detect(plotconf$point_and_line, "line") | !is.na(plotconf$yline_var)){
+        if(!is.na(plotconf$yline_var)){
+          p <- p + 
+            geom_line(
+              aes(year, !!sym(plotconf$yline_var), text = NULL),
+              size = 0.3
+            )
+        } else {
+          p <- p + 
+            geom_line(
+              aes(year, value, text = NULL),
+              size = 0.3
+            )
+        }
       }
       if("categorytxt" %in% names(plotdf)){
         p <- p + 
           facet_grid(
             cols = vars(region), 
             rows = vars(categorytxt)
+            # labeller = label_wrap_gen(width = 18, multi_line = TRUE)
           )
       } else {
         p <- p + 
-          facet_grid(
-            cols = vars(region)
-          )
+          facet_wrap(~region, ncol = 5) +
+          theme(strip.text = element_text(size = 8))
       }
     }
     
@@ -290,11 +323,15 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
           labs(
             x = NULL,
             y = plotconf$y_var_name,
-            fill = plotconf$cat_var_name
+            fill = NULL
           ) +
-          facet_wrap(~categorytxt) +
+          facet_wrap(
+            ~categorytxt, 
+            ncol = 5
+          ) +
           coord_flip() +
-          theme_bw()
+          theme_bw() +
+          theme(strip.text = element_text(size = 8))
         
       } else {
         plotdf <- distinct(plotdf, region, value, category, categorytxt)
@@ -312,18 +349,25 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
           labs(
             x = NULL,
             y = plotconf$y_var_name,
-            fill = plotconf$cat_var_name
+            fill = NULL
           ) +
           coord_flip() +
           scale_fill_manual(values = pal[c(1, length(pal))]) +
-          theme_bw()
+          theme_bw() +
+          theme(strip.text = element_text(size = 8))
       }
     }
     
     ## normalized plot: with horizontal reference line ----
     ## any of the first four plot types, with a y-intercept = 1 horizontal line
     ## or with horizontal reference line added using a specified column in the input data
-    
+    if(!is.na(plotconf$yint)){
+      if(!is.na(as.numeric(plotconf$yint))){
+        p <- p + geom_hline(aes(yintercept = as.numeric(plotconf$yint)), color = "blue")
+      } else {
+        p <- p + geom_hline(aes(yintercept = !!sym(plotconf$yint)), color = "blue")
+      }
+    }
     
     ## return the plot as an interactive plotly widget plot
     plotly::ggplotly(p, tooltip = c("text"))
