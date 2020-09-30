@@ -418,11 +418,11 @@ dashboardPage(
           )
         ),
         fluidRow(
-          tsplotCardUI(
+          addfigsCardUI(
             id = "ao_tsplot",
             title_text = "Visualizing Some of the Data Behind Artisanal Fishing Opportunity Scores",
             sub_title_text = "",
-            ht = 340,
+            ht = 700,
             select_choices = list(
               `Pressure associated with sea surface temperature` = "cc_sst_bhi2019",
               `Pressure associated with salinity of the surface layer` = "cc_sal_surf_bhi2019"
@@ -553,13 +553,14 @@ dashboardPage(
           )
         ),
         fluidRow(
-          tsplotCardUI(
+          addfigsCardUI(
             id = "bd_tsplot",
             title_text = "Visualizing Some of the Data Behind Biodiversity Scores",
             sub_title_text = "",
-            ht = 340,
+            ht = 700,
             select_choices = list(
-              
+              `Phosphorus Annual Inputs (tonnes, waterborne), line shows 3-Year Rolling Mean` = "phosphorus_load",
+              `Nitrogen Annual Inputs (tonnes, atmospheric and waterborne), line shows 3-Year Rolling Mean` = "nitrogen_load"
             )
           )
         ),
@@ -1108,11 +1109,11 @@ dashboardPage(
           )
         ),
         fluidRow(
-          tsplotCardUI(
+          addfigsCardUI(
             id = "eut_tsplot",
             title_text = "Visualizing Some of the Data Behind Eutrophication Scores",
             sub_title_text = "",
-            ht = 340,
+            ht = 700,
             select_choices = list(
               `Phosphorus Annual Inputs (tonnes, waterborne), line shows 3-Year Rolling Mean` = "phosphorus_load",
               `Nitrogen Annual Inputs (tonnes, atmospheric and waterborne), line shows 3-Year Rolling Mean` = "nitrogen_load"
@@ -1505,8 +1506,8 @@ dashboardPage(
               `Proportion of surveyed cod in length categories 20-60cm with Fulton's K greater than 0.8` = "fis_cod_penalty_bhi2019", 
               `Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_cod", 
               `Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_herring", 
-              `Cod biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_cod", 
-              `Herring biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_herring"
+              `Cod biomass at sea normalized by spawning stock biomass at max. sustainable yield` = "fis_bbmsy_bhi2019_cod", 
+              `Herring biomass at sea normalized by spawning stock biomass at max. sustainable yield` = "fis_bbmsy_bhi2019_herring"
             )
           )
         ),

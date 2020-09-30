@@ -149,19 +149,18 @@ function(input, output, session){
   })
   
   ## layers timeseries plot
-  # values <- reactiveValues(`ao_tsplot-select` = "cc_sst_bhi2019")
-  # observeEvent(
-  #   eventExpr = input$`ao_tsplot-select`, {
-  #     values$`ao_tsplot-select` <- input$`ao_tsplot-select`
-  #     callModule(
-  #       tsplotCard, 
-  #       "ao_tsplot",
-  #       plot_type = "boxplot",
-  #       layer_selected = reactive(values$`ao_tsplot-select`),
-  #       spatial_unit_selected = spatial_unit
-  #     )
-  #   }, ignoreNULL = FALSE
-  # )
+  values <- reactiveValues(`ao_tsplot-select` = "cc_sst_bhi2019")
+  observeEvent(
+    eventExpr = input$`ao_tsplot-select`, {
+      values$`ao_tsplot-select` <- input$`ao_tsplot-select`
+      callModule(
+        addfigsCard,
+        "ao_tsplot",
+        layer_selected = reactive(values$`ao_tsplot-select`),
+        spatial_unit_selected = spatial_unit
+      )
+    }, ignoreNULL = FALSE
+  )
   
   ## BD ----
   ## Biodiversity
@@ -223,20 +222,20 @@ function(input, output, session){
     )
   })
   
+  
   ## layers timeseries plot
-  # NA
-  # observeEvent(
-  #   eventExpr = input$`bd_tsplot-select`, {
-  #     values$`bd_tsplot-select` <- input$`bd_tsplot-select`
-  #     callModule(
-  #       tsplotCard, 
-  #       "bd_tsplot",
-  #       plot_type = "boxplot",
-  #       layer_selected = reactive(values$`bd_tsplot-select`),
-  #       spatial_unit_selected = spatial_unit
-  #     )
-  #   }, ignoreNULL = FALSE
-  # )
+  values <- reactiveValues(`eut_tsplot-select` = "phosphorus_load")
+  observeEvent(
+    eventExpr = input$`bd_tsplot-select`, {
+      values$`bd_tsplot-select` <- input$`bd_tsplot-select`
+      callModule(
+        addfigsCard,
+        "bd_tsplot",
+        layer_selected = reactive(values$`bd_tsplot-select`),
+        spatial_unit_selected = spatial_unit
+      )
+    }, ignoreNULL = FALSE
+  )
   
   ## CS ----
   ## Carbon Storage
@@ -502,15 +501,14 @@ function(input, output, session){
     )
   })
   
-  # layers timeseries plot
+  ## layers timeseries plot
   values <- reactiveValues(`eut_tsplot-select` = "phosphorus_load")
   observeEvent(
     eventExpr = input$`eut_tsplot-select`, {
       values$`eut_tsplot-select` <- input$`eut_tsplot-select`
       callModule(
-        tsplotCard,
+        addfigsCard,
         "eut_tsplot",
-        plot_type = "pointlinefaceted",
         layer_selected = reactive(values$`eut_tsplot-select`),
         spatial_unit_selected = spatial_unit
       )

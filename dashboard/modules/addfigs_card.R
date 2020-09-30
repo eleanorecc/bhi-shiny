@@ -180,23 +180,27 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
           alpha = 0.4, 
           size = 0.1
         ) +
-        facet_grid(
-          cols = vars(region),
-          labeller = label_wrap_gen(width = 18, multi_line = TRUE)
-        ) +
         scale_fill_viridis_c() +
         labs(
           x = NULL, 
           y = plotconf$y_var_name,
-          fill = NULL
+          fill = plotconf$y_var_name
         ) +
         theme_bw() +
-        theme(
-          strip.text.y = element_text(size = 4 + 8/length(unique(plotdf$category))),
-          axis.text.x = element_text(size = 7.5, angle = 90),
-          legend.background = element_rect(color = "grey"),
-          legend.justification = "top"
-        )
+        theme(legend.background = element_rect(color = "grey"))
+      if(plotconf$plot_type == "tsbarcountry"){
+        p <- p  +
+          facet_grid(cols = vars(region)) +
+          theme(
+            strip.text.x = element_text(size = 8),
+            strip.text.y = element_text(size = 4 + 8/length(unique(plotdf$category))),
+            axis.text.x = element_text(size = 7.5, angle = 90)
+          )
+      } else {
+        p <- p  +
+          facet_wrap(~region) +
+          theme(strip.text = element_text(size = 8))
+      }
     }
     
     ## tspointline: time-series plot with points and/or line ----
@@ -253,8 +257,7 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
           x = NULL, 
           y = plotconf$y_var_name
         ) +
-        theme_bw() +
-        theme(axis.text.x = element_text(size = 7.5, angle = 90))
+        theme_bw()
       
       if(str_detect(plotconf$point_and_line, "point")){
         p <- p +
@@ -286,12 +289,14 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
           facet_grid(
             cols = vars(region), 
             rows = vars(categorytxt)
-            # labeller = label_wrap_gen(width = 18, multi_line = TRUE)
-          )
+          ) +
+          theme(axis.text.x = element_text(size = 7.5, angle = 90))
       } else {
         p <- p + 
-          facet_wrap(~region, ncol = 5) +
-          theme(strip.text = element_text(size = 8))
+          facet_wrap(~region) +
+          # facet_wrap(~region, scales = "free_y") +
+          theme(strip.text = element_text(size = 8)) +
+          theme(axis.text.x = element_text(size = 7.5))
       }
     }
     
@@ -325,10 +330,7 @@ addfigsCard <- function(input, output, session, layer_selected, spatial_unit_sel
             y = plotconf$y_var_name,
             fill = NULL
           ) +
-          facet_wrap(
-            ~categorytxt, 
-            ncol = 5
-          ) +
+          facet_wrap(~categorytxt) +
           coord_flip() +
           theme_bw() +
           theme(strip.text = element_text(size = 8))
