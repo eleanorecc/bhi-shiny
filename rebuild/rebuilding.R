@@ -263,7 +263,7 @@ make_lyrs_menu <- function(str_match = "_bhi2015", print = FALSE){
 goalpage_from_template <- function(goal_code, replace_current = FALSE){	
   
   ## replacement info	
-  goalinfo <- read_csv(file.path(dir_main, "data", "plot_conf.csv"), col_types = cols()) %>%	
+  goalinfo <- read_csv(file.path(dir_main, "data", "plotconf.csv"), col_types = cols()) %>%	
     select(name, goal, parent) %>%	
     filter(goal == goal_code)	
   if(exists("shinytext", .GlobalEnv)){

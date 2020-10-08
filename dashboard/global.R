@@ -90,7 +90,7 @@ data_info <- readr::read_csv(file.path(dir_main, "data", "datasources.csv"))
 fig_info <- readr::read_csv(file.path(dir_main, "data", "datalayers.csv"))[, 4:16]
 
 prs_matrix <- goals_csv %>% 
-  filter(!is.na(parent)) %>% 
+  filter(!is.na(preindex_function)) %>% 
   select(goal, name) %>% 
   left_join(
     read_csv(sprintf("%s/conf/pressures_matrix.csv", gh_raw_bhi))[c(1, 4:15)],
@@ -102,7 +102,7 @@ prs_matrix <- goals_csv %>%
 
 
 res_matrix <- goals_csv %>% 
-  filter(!is.na(parent)) %>% 
+  filter(!is.na(preindex_function)) %>% 
   select(goal, name) %>% 
   left_join(
     read_csv(sprintf("%s/conf/resilience_matrix.csv", gh_raw_bhi))[c(1, 3:22)],

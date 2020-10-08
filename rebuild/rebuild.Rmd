@@ -72,7 +72,9 @@ bhiscores %>%
 ```{r spatial data wrangling}
 ## copy over original shapefiles wherever they are saved, currently BHI_share...
 ## make lower resolution files for visualization, don't need same high resolution as for analysis
-## also reproject to EPSG:3857 same as leaflet basemaps projection
+## also reproject to EPSG:4326 
+## Leaflet expects point/line/shape data to be specified in lat/long using WGS 84 (a.k.a. EPSG:4326)
+## https://rstudio.github.io/leaflet/projections.html
 ## save as rds files
 
 ## shapefiles currently saved at
@@ -88,10 +90,14 @@ if(!file.exists(file.path(dir_main, "data", "regions.rds"))){
       Subbasin == "Bothian Sea", 
       "Bothnian Sea", Subbasin
     )) %>% 
-    sf::st_transform(crs = 3857)
+    dplyr::mutate(Subbasin = ifelse(
+      Subbasin == "Aland Sea" & rgn_key == "FIN", 
+      "Archipelago Sea", Subbasin
+    )) %>% 
+    ## transform to EPSG:4326 crs
+    sf::st_transform(crs = 4326)
   
   ## spatial rather than simple features...
-  ## transform to EPSG:3857 crs
   bhi_rgns_shp_simp <- rmapshaper::ms_simplify(input = bhi_rgns_shp)
   sf::as_Spatial(bhi_rgns_shp_simp) %>% 
     saveRDS(file.path(dir_main, "data", "regions.rds"))
@@ -106,12 +112,12 @@ if(!file.exists(file.path(dir_main, "data", "regions.rds"))){
 if(!file.exists(file.path(dir_main, "data", "subbasins.rds"))){
   
   subbasins_shp <- sf::st_read(file.path(dir_shp, "HELCOM_subbasins_holasbasins")) %>% 
-    sf::st_transform(crs = 3857) %>% 
+    ## transform to EPSG:4326 crs
+    sf::st_transform(crs = 4326) %>% 
     mutate(subbasin_id = 500 + as.numeric(substr(HELCOM_ID, 5, 7))) %>% 
     select(subbasin_id, helcom_id = HELCOM_ID, subbasin_area_km2 = AreaKM2, Name)
 
   ## spatial rather than simple features...
-  ## transform to EPSG:3857 crs
   subbasins_shp_simp <- rmapshaper::ms_simplify(input = subbasins_shp) 
   sf::as_Spatial(subbasins_shp_simp) %>% 
     saveRDS(file.path(dir_main, "data", "subbasins.rds"))
@@ -130,7 +136,7 @@ if(!file.exists(file.path(dir_main, "data", "mpas.rds"))){
   ## spatial rather than simple features...
   ## transform to EPSG:3857 crs
   mpa_shp_simp <- rmapshaper::ms_simplify(input = mpa_shp) %>%
-    sf::st_transform(crs = 3857)
+    sf::st_transform(crs = 4326)
   sf::as_Spatial(mpa_shp_simp) %>%
     saveRDS(file.path(dir_main, "data", "mpas.rds"))
 
@@ -180,11 +186,30 @@ make_flower_plot(
 
 ## Revise select-input UI menus
 
-```{r recreate UI select menus for pressure and layers pages}
-## pressures timeseries plot, select 'pressure variable' menu options
+```{r recreate UI select menus for additional figures on goal pages}
+## select variable menu options for timeseries plots, rough outline...
+goal_tsplot_options <- function(goal_code, datalyrscsv){
+  
+  optns_df <- datalyrscsv %>% 
+    filter(str_detect(show_for_goals, goal_code), !is.na(plot_type)) %>% 
+    select(full_layer_name, categories, data_filename, plot_type) %>% 
+    mutate(categories = stringr::str_split(categories, "\\|")) %>% 
+    tidyr::unnest(cols = c(categories)) %>% 
+    mutate(data_filename = ifelse(
+      is.na(categories), 
+      stringr::str_replace(data_filename, "\\.csv", ""),
+      stringr::str_replace(data_filename, "\\.csv", sprintf("_%s", categories))
+    )) %>% 
+    mutate(optns = ifelse(
+      is.na(categories),
+      sprintf("`%s` = \\\"%s\\\"", full_layer_name, data_filename),
+      sprintf("`%s %s` = \\\"%s\\\"", str_to_sentence(categories), full_layer_name, data_filename)
+    ))
 
-## layers scatterplot, select variables menu options
-
+  return(optns_df)
+}
+optns_df <- goal_tsplot_options("FIS", readr::read_csv(file.path(dir_main, "data", "datalayers.csv")))
+cat(optns_df$optns, sep = "\", \n \"")
 ```
 
 <br>
@@ -198,6 +223,52 @@ filter(shinytext, goal == "CON")
 ## to edit text, make changes in shinytext.R script
 
 
+
+## pressures links section
+prs_links <- prs_matrix %>% 
+  left_join(
+    data.frame(
+      Pressure = prs_matrix$Pressure,
+      folder = c(
+        "invasive_spp", "climate_change", "climate_change", "oxygen_debt",
+        "illegal_oil", "bottom_trawling", "atmos_con", "atmos_con", 
+        "nutrient_load", "nutrient_load", "pressure_secchi", "wgi_social"
+      ),
+      doc = c(
+        "invasive_spp_prep", "climate_change_prep", "climate_change_prep", "oxygen_debt_pressure_prep",
+        "illegal_oil_prep", "bottom_trawling_prep", "atmos_con_prep", "atmos_con_prep",
+        "nutrient_load_prep", "nutrient_load_prep", "pressure_secchi_prep", "wgi_social_prep"
+      )
+    ),
+    by = "Pressure"
+  ) %>% 
+  mutate(url_suffix = sprintf("blob/master/prep/pressures/%s/%s/%s.md", folder, bhi_version, doc))
+
+prs_titles <- vector()
+for(i in 1:nrow(prs_links)){
+  prs_titles <- c(
+    prs_titles, 
+    read_lines(sprintf("%s/prep/pressures/%s/%s/%s.md", gh_raw_bhiprep, prs_links$folder[i], bhi_version, prs_links$doc[i]))[1]
+  )
+}
+prs_links <- cbind(prs_links, preptitle = prs_titles)
+
+prs_links_txt <- function(goalname){
+  df <- prs_links %>% 
+    filter(!is.na(!!!syms(goalname))) %>% 
+    distinct(url_suffix, preptitle)
+  for(i in 1:nrow(df)){
+    cat(paste0(
+      "h5(strong(a(\n \t paste('\\n', '", 
+      df$preptitle[i], 
+      "'),\n \t href = sprintf('%s/",  
+      df$url_suffix[i], 
+      "', gh_prep), \n \t target = '_blank'\n ))), \n"
+    ))
+  }
+}
+
+prs_links_txt("Fisheries")
 ```
 
 <br>

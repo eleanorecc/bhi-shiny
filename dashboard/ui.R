@@ -407,7 +407,7 @@ dashboardPage(
           )
         ),
         
-        ## plots and maps and links
+        ## plots and maps
         fluidRow(
           mapCardUI(
             id = "ao_map",
@@ -425,16 +425,38 @@ dashboardPage(
           )
         ),
         
-        ## key messages, timeseries plot, and data layers table
+        ## insights and discussion, pressures, additional plots
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "The target is reached in Kattegat (Danish coast), Bornholm Basin (Swedish coast), Eastern Gotland basin (Lithuanian coast), Northern Baltic Proper (Finnish coast), Bothnian Sea (Swedish coast), The Quark (Finnish coast) and Bothnian Bay. The more northern areas, where perch is used as the key species and is more abundant, are in better status compared to more southern areas, where flounder is used as the key species, but in now in lower abudance with respect to the target. Similarly, the status of piscivores is better in more northern areas, whereas the status of cyprinids in more north-eastern areas of the Baltic Sea is not good as a result of too high abundance. In particular, the status scores are low in the Gulf of Riga (Estonian coast), Bay of Mecklenburg (Danish coast), Great Belt, The Sound (Danish coast) and Arkona Basin (Danish coast), due to low abundance of key species and piscivores, and also due to increasing abundance for cyprinids in some coastal areas."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Climate Change Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
+        
         fluidRow(
           addfigsCardUI(
             id = "ao_tsplot",
@@ -447,6 +469,16 @@ dashboardPage(
             )
           )
         ),
+        
+        ## methods link, expert who provided guidance
+        fluidRow(
+          align = "center",
+          text_links(
+            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
+            "https://github.com/OHI-Science/bhi-prep/blob/master/prep/AO/v2019/ao_prep.md"
+          )
+        ),
+        
         fluidRow(
           box(
             width = 12, 
@@ -456,6 +488,8 @@ dashboardPage(
             "Jens Olsson,  ", tags$em(" Institute of Coastal Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Öregrund, Sweden")
           )
         ),
+        
+        ## data sources, considerations and improvements
         fluidRow(
           box(
             collapsible = TRUE,
@@ -463,15 +497,6 @@ dashboardPage(
             width = 12,
             title = "Data Sources", 
             DT::dataTableOutput("ao_datatable")
-          )
-        ),
-        
-        ## methods link, plus data considerations, improvements
-        fluidRow(
-          align = "center",
-          text_links(
-            "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
-            "https://github.com/OHI-Science/bhi-prep/blob/master/prep/AO/v2019/ao_prep.md"
           )
         ),
         fluidRow(
@@ -563,11 +588,47 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "In general, the northern Baltic Sea obtained relatively high biodiversity status scores (variability range 90-92) with the highest record in Bothnian Sea (92). Lowest scores were obtained for the Bornholm Basin (variability range 24 - 39) mainly due to low scores in benthic habitat, seals and fish. Central and eastern Baltic Sea is generally characterised by intermediate scores with the biological components often being above the target values of individual components. The lowest scoring across all subbasins was recorded for marine mammals, with the lowest values in the Bornholm and Western Gotland basins (10) and only reaching the target level in Kattegat. Generally, seabirds are in better condition than the other biodiversity components, though collectively they reach the target levels only in Bothnian Sea, Bothnian Bay, and The Quark, and very nearly in Kiel Bay. Benthic habitats score low in the south to central Baltic Sea and Gulf of Finland and the pelagic habitat score low in Gulf of Riga and Finland."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Invasive Species Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/invasive_spp/v2019/invasive_spp_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Climate Change Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Oxygen Debt Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/oxygen_debt/v2019/oxygen_debt_pressure_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Bottom Trawling Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/bottom_trawling/v2019/bottom_trawling_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -692,11 +753,32 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "The conspicuous salinity gradient influences the seagrass distribution in the Baltic Sea, and there is a decreasing seagrass abundance along with decreasing salinity towards the North-eastern Baltic areas. Hence, regions identified to be unsuitable for seagrass growth (north of the Åland Sea and the Archipelago Sea) have been assigned to no status score. A higher abundance of seagrass was observed in the Southern Baltic basins, especially in The Sound, where the score is higher compared to other areas. Our assessment of the carbon storage goal is hence likely an underestimation of the actual carbon storage potential which may have artificially decreased the overall BHI score in many sub-areas. Better data on distribution (depth limits and areal extent) and function (sequestration rates, transport and burial processes) of marine vegetation are required to accurately assess this goal in the future."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Climate Change Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -824,11 +906,32 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "The overall score for the Clean Waters goal is low, especially in south-eastern Baltic basins, where both the **Contaminants** and **Trash** sub-goal have low status scores."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Illegal Oil Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/illegal_oil/v2019/illegal_oil_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -975,11 +1078,27 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "Present-day concentrations of the three pollutants/pollutant groups included in the subgoal generally fall below their relative thresholds, particularly concentrations measured in biota (i.e., fish). The concentrations found in sediments (top 5cm) more often exceed their respective thresholds, reflecting the higher historic concentrations of the contaminants in the Baltic Sea mirrored in subsurface sediment. However, there are many persistent, bioaccumulative and toxic Substances of Very High Concern which are not  monitored across all regions of the Baltic Sea, which lowers the score. The level to which compounds known to be hazardous are monitored in the Baltic Sea is included as an indicator to illustrate that a proper assessment cannot be done due to lack of knowledge on occurrence of pollutants in the Baltic Sea."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Illegal Oil Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/illegal_oil/v2019/illegal_oil_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -1114,7 +1233,7 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
@@ -1124,6 +1243,17 @@ dashboardPage(
             p("The chl-a target threshold was exceeded in all basins, with exception of Kattegat. The trend in chl-a was negative for management (i.e., increase in chl-a) in Central Basins of the Baltic Sea, as well as in the Gulf of Finland. Positive development was seen in the Southern parts and Gulf of Riga."),
             p("Present-day oxygen debt is above the threshold both in the Baltic Proper and Bornholm Basin, indicating that the management target has not been met."),
             p("For DIN, the management target was only met (i.e., lower DIN values) at the entrance to the Baltic Sea. DIN values highest in comparison to the target were found in Gulfs of Riga and Finland. The future trend is weak, but positive (i.e., decreasing DIN) with the exception of most of the northern Baltic Basins. For DIP, the target threshold was clearly exceeded in most of the basins, and met only in the Bothnian Bay and close to the entrance to the Baltic Sea. The future trend for DIP was clearly negative (i.e., increasing DIP) in the North, while slight positive development was identified in the South.")
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -1247,11 +1377,22 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "Trash is a significant issue for the Baltic Sea, as waste in urban areas can find its way to the sea and becomes marine litter. The status is not good in most of the Baltic Sea basins. Despite efforts in clean-up projects at beaches around the Baltic Sea, there is currently lack of consistent Baltic Sea wide monitoring and assessment for litter. As marine litter can be found on beaches and shorelines, floating on the surface, submerged in the water column or sunk to the bottom, core indicators need to be developed and assessed accordingly."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Inverse of Worldwide Governance Indicator Scores (WGI) Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/wgi_social/v2019/wgi_social_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -1378,11 +1519,42 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "The overall score for the Food Provision goal is high (82), although none of the Baltic subbasin has reached the management target of sustainable fisheries. More detailed information are found in the Fisheries sub-goal descriptions."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Climate Change Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Oxygen Debt Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/oxygen_debt/v2019/oxygen_debt_pressure_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Illegal Oil Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/illegal_oil/v2019/illegal_oil_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -1501,11 +1673,42 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "The overall fisheries status is below 100 and has, therefore, not reached the sustainable fishery target. In particular, the Eastern and Western Baltic cod and the Western Baltic herring stock are below biomass limit reference points (ICES 2020). Central Baltic and Gulf of Riga herring in contrast are in a comparatively good state."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Climate Change Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Oxygen Debt Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/oxygen_debt/v2019/oxygen_debt_pressure_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Illegal Oil Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/illegal_oil/v2019/illegal_oil_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -1634,11 +1837,37 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "Despite the production of rainbow trouts in some Baltic countries (Denmark, Germany, Sweden and Finland), there is currently very limited data on nutrient discharge, and therefore the Mariculture sub-goal was not assessed and will not contribute to the overall Food Provision goal score."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Climate Change Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Illegal Oil Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/illegal_oil/v2019/illegal_oil_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -1757,11 +1986,22 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "The overall score for the Livelihoods and Economies goal is quite high across the entire Baltic Sea, especially along the Swedish basins, where the scores from both the **Livelihoods** and **Economies** sub-goals are quite high. However, the status is generally lower along German basins, where the **Economies** sub-goal scores are lower."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Inverse of Worldwide Governance Indicator Scores (WGI) Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/wgi_social/v2019/wgi_social_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -1896,11 +2136,22 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "Marine Non-living Resources is the sector with the most negative growth rate (>5% annual decrease), but only three countries have activities recorded in this category: Germany, Denmark, and Poland. This sector includes extraction and mining (and support activities for extraction) of natural gas and petroleum, salt, sand, clays and kaolin. Germany has negative growth rates also in Maritime Transport and Coastal Tourism which further decreases its score, while substantial growth in marine renewable energy for Denmark (the only country with revenue reported in this sector) largely offsets the contraction in its other sectors. Shipbuilding is a shrinking sector in Latvia, Finland, and Poland. Poland, however, has the highest growth rate in Coastal Tourism. "
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Inverse of Worldwide Governance Indicator Scores (WGI) Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/wgi_social/v2019/wgi_social_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -2033,11 +2284,22 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "Scores in the livelihoods goal are high across the entire Baltic Sea with low cross-section  variability, but still provide relevant insights, in particular if the development dimension over time is taken into account. Poland has the lowest score across the Baltic, occurring along the coast of Bornholm Basin, but has a much higher score associated with the areas around Gdansk. The Bornholm Basin region of Poland is the lowest scoring, but also the fastest growing."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Inverse of Worldwide Governance Indicator Scores (WGI) Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/wgi_social/v2019/wgi_social_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -2161,11 +2423,47 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "The overall score for the Sense of Place goal is quite low, mainly due to the overall status of MPAs, whose areal coverage is quite high but yet many need to be enforced. However, the status is generally higher in southern basins of the Baltic Sea, where both the **Iconic Species** and **Lasting Special Places** sub-goals scores are higher."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Invasive Species Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/invasive_spp/v2019/invasive_spp_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Climate Change Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Oxygen Debt Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/oxygen_debt/v2019/oxygen_debt_pressure_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Illegal Oil Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/illegal_oil/v2019/illegal_oil_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+              target = '_blank'
+            ))),
+            h5(strong(a(
+              paste('\n', 'Inverse of Worldwide Governance Indicator Scores (WGI) Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/wgi_social/v2019/wgi_social_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -2300,11 +2598,42 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "Status of iconic species is generally higher in southern basins of the Baltic Sea. More species from the iconic species list are present in the southern basins, including fish species such as flounder (Platichthys flesus) and sprat (Sprattus sprattus) which thrive in higher salinity and are classified on the IUCN scale as ‘least concern’. The different ranges of different seal species also contribute to the pattern of lower scores in the northern basins. Harbour seals (Phoca vitulina vitulina), which are classified as ‘least concern’, are present in the southern but not in the northern basins, while ringed seals (Pusa hispida) classified as ‘vulnerable’ are only present in the northern basins."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Invasive Species Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/invasive_spp/v2019/invasive_spp_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Climate Change Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Oxygen Debt Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/oxygen_debt/v2019/oxygen_debt_pressure_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Illegal Oil Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/illegal_oil/v2019/illegal_oil_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -2433,11 +2762,22 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "The areal coverage of MPAs is quite high in almost the whole Baltic Sea,  although many MPAs still need to be enforced. The overall sub-goal score is low as many MPAs are categorized as only “designated” or “partly managed”. However, a few regions with a full implemented management plan have reached the target, such as Åland Sea (Swedish region), Gulf of Finland (Estonian region), Northern Baltic Proper (Estonian region), and Arkona Basin (Swedish region)."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Inverse of Worldwide Governance Indicator Scores (WGI) Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/wgi_social/v2019/wgi_social_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -2564,11 +2904,37 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "The Natural Product score is high (85-94) and has a very low spatial variability, because the ICES sprat assessment unit is the whole Baltic Sea, so the small spatial variability is due to the different pressure and resilience scores in the different regions."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Oxygen Debt Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/oxygen_debt/v2019/oxygen_debt_pressure_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Illegal Oil Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/illegal_oil/v2019/illegal_oil_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
@@ -2689,11 +3055,32 @@ dashboardPage(
         ## key messages, timeseries plot, and data layers table
         fluidRow(
           box(
-            width = 12, 
+            width = 8, 
             title = "Additional Insights & Discussion",
             status = "primary", 
             solidHeader = TRUE,
             "Tourism potential as measured by this approach is fulfilled to a high degree in Sweden and Finland. The lowest values are associated with Lithuania and Poland, though Poland is catching up in the tourism sector – its economic growth rate in the Coastal Tourism sector is highest of any country around the Baltic Sea. Nights stayed in tourist accommodations per area in Germany is higher on average than for other countries, including Sweden and Finland, but the ratio of the national revenue from coastal tourism activities relative to this value is lower. While this metric reflects to a degree how much people value experiencing different coastal and ocean areas, the unexpectedly low values associated with the German coast could indicate saturation and greater competition driving down marginal returns from tourist accommodations . More research will be needed to evaluate such patterns and underlying causes and subsequently improve the Tourism goal model."
+          ),
+          box(
+            width = 4,
+            title = "Pressures acting on this Goal",
+            status = "primary", 
+            solidHeader = TRUE,
+            h5(strong(a(
+              paste('\n', 'Climate Change Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Secchi Depth Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/pressure_secchi/v2019/pressure_secchi_prep.md', gh_prep), 
+              target = '_blank'
+            ))), 
+            h5(strong(a(
+              paste('\n', 'Inverse of Worldwide Governance Indicator Scores (WGI) Pressure Layer Data Preparation'),
+              href = sprintf('%s/blob/master/prep/pressures/wgi_social/v2019/wgi_social_prep.md', gh_prep), 
+              target = '_blank'
+            )))
           )
         ),
         fluidRow(
