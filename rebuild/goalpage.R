@@ -36,7 +36,7 @@ tabItem(
     )
   ),
   
-  ## plots and maps and links
+  ## plots and maps
   fluidRow(
     mapCardUI(
       id = "goalcode_map",
@@ -54,16 +54,24 @@ tabItem(
     )
   ),
   
-  ## key messages, timeseries plot, and data layers table
+  ## insights and discussion, pressures, additional plots
   fluidRow(
     box(
-      width = 12, 
+      width = 8, 
       title = "Additional Insights & Discussion",
       status = "primary", 
       solidHeader = TRUE,
       "goaltext_key_messages"
+    ),
+    box(
+      width = 4,
+      title = "Pressures acting on this Goal",
+      status = "primary", 
+      solidHeader = TRUE,
+      ## paste links info here...
     )
   ),
+  
   fluidRow(
     tsplotCardUI(
       id = "goalcode_tsplot",
@@ -73,6 +81,15 @@ tabItem(
       select_choices = list(
         goal_ts_layer_choices
       )
+    )
+  ),
+  
+  ## methods link, expert who provided guidance
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
+      "goal_data_prep_link"
     )
   ),
   fluidRow(
@@ -85,16 +102,7 @@ tabItem(
     )
   ),
   
-  ## methods link 
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, SAMLING LOCATION MAPS, AS WELL AS CODE",
-      "goal_data_prep_link"
-    )
-  ),
-  
-  ## data sources, and data considerations, improvements
+  ## data sources, considerations and improvements
   fluidRow(
     box(
       collapsible = TRUE,
