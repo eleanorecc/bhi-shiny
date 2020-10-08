@@ -90,12 +90,31 @@ function(input, output, session){
   deleteFile = FALSE)
   
   
+  ## info table about pressures layers matching to goals
+  output$prs_matrix = renderDataTable({
+    datatable(
+      prs_matrix,
+      options = list(
+        dom = "t", 
+        pageLength = 14
+      ),
+      rownames = FALSE,
+      escape = FALSE
+    )
+  })
   
-  
-  
-  
-  
-  
+  ## info table about resilience components matching to goals
+  output$res_matrix = renderDataTable({
+    datatable(
+      res_matrix,
+      options = list(
+        dom = "t", 
+        pageLength = 14
+      ),
+      rownames = FALSE,
+      escape = FALSE
+    )
+  })
   
   
   

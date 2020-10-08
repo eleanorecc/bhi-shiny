@@ -89,6 +89,45 @@ goals_csv <- readr::read_csv(file.path(dir_main, "data", "plotconf.csv"))
 data_info <- readr::read_csv(file.path(dir_main, "data", "datasources.csv"))
 fig_info <- readr::read_csv(file.path(dir_main, "data", "datalayers.csv"))[, 4:16]
 
+prs_matrix <- goals_csv %>% 
+  filter(!is.na(parent)) %>% 
+  select(goal, name) %>% 
+  left_join(
+    read_csv(sprintf("%s/conf/pressures_matrix.csv", gh_raw_bhi))[c(1, 4:15)],
+    by = "goal"
+  ) %>% 
+  select(-goal) %>% 
+  tidyr::pivot_longer(cols = sp_invasives:ss_wgi, names_to = "Pressure", values_to = "prs_wgt") %>% 
+  tidyr::pivot_wider(names_from = "name", values_from = "prs_wgt")
+
+
+res_matrix <- goals_csv %>% 
+  filter(!is.na(parent)) %>% 
+  select(goal, name) %>% 
+  left_join(
+    read_csv(sprintf("%s/conf/resilience_matrix.csv", gh_raw_bhi))[c(1, 3:22)],
+    by = "goal"
+  ) %>% 
+  select(-goal) %>% 
+  tidyr::pivot_longer(cols = wgi_all:res_reg_pop, names_to = "layer", values_to = "res_wgt") %>% 
+  left_join(
+    read_csv(sprintf("%s/conf/resilience_categories.csv", gh_raw_bhi)),
+    by  = "layer"
+  ) %>% 
+  mutate(res_wgt = ifelse(is.na(res_wgt), NA, weight)) %>% 
+  tidyr::pivot_wider(names_from = "name", values_from = "res_wgt") %>% 
+  mutate(`Resilience Component` = case_when(
+    str_detect(layer, "res_reg") ~ str_to_upper(substr(layer, 9, str_length(layer))),
+    str_detect(layer, "biodiversity") ~ "Biodiversity",
+    str_detect(layer, "wgi") ~ "World Governance Indicator"
+  )) %>% 
+  mutate(Category = case_when(
+    str_detect(subcategory, "goal") ~ str_to_title(category_type),
+    !str_detect(subcategory, "goal") ~ str_to_title(sprintf("%s, %s", category_type, str_replace(subcategory, "_", " ")))
+  )) %>% 
+  select(`Resilience Component`, Category, Fisheries:Contaminants)
+  
+
 
 regions_df <- readr::read_csv(file.path(dir_main, "data", "regions.csv"))
 subbasins_df <- readr::read_csv(file.path(dir_main, "data", "basins.csv"))

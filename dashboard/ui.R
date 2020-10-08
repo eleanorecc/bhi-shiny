@@ -16,7 +16,7 @@ dashboardPage(
       ## welcome ----
       menuItem("WELCOME", tabName = "welcome"),
       
-      ## overall index scores ----
+      ## index calculation ----
       menuItem("INDEX CALCULATION", tabName = "indexcalculation"),
       
       
@@ -348,6 +348,24 @@ dashboardPage(
               p(strong("Resilience:"), " Elements or actions that can reduce pressures, and maintain or raise future benefits (e.g. treaties, laws, enforcement, habitat protection).", br())
             ),
             width = 4
+          )
+        ),
+        fluidRow(
+          box(
+            collapsible = TRUE,
+            collapsed = TRUE,
+            width = 12,
+            title = "How Pressures are Connected to Different Goals", 
+            DT::dataTableOutput("prs_matrix")
+          )
+        ),
+        fluidRow(
+          box(
+            collapsible = TRUE,
+            collapsed = TRUE,
+            width = 12,
+            title = "Resilience Components' Relevance to Different Goals", 
+            DT::dataTableOutput("res_matrix")
           )
         )
       ), 
@@ -2885,15 +2903,15 @@ dashboardPage(
       
       ## § SHARE FEEDBACK ----
       tabItem(
-        tabName = "feedback",
+        tabName = "feedback"
         
         ## header
-        fluidRow(
-          box(
-            htmlOutput("iframe"),
-            width = 12
-          )
-        )
+        # fluidRow(
+        #   box(
+        #     htmlOutput("iframe"),
+        #     width = 12
+        #   )
+        # )
       ) # end feedback tab
     ) # end tabItems
   ) # end dashboardBody
