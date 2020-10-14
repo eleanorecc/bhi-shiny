@@ -94,6 +94,7 @@ function(input, output, session){
   output$prs_matrix = renderDataTable({
     datatable(
       prs_matrix,
+      class = "compact order-column strip row-border",
       options = list(
         dom = "t", 
         pageLength = 14
@@ -107,6 +108,7 @@ function(input, output, session){
   output$res_matrix = renderDataTable({
     datatable(
       res_matrix,
+      class = "compact order-column strip row-border",
       options = list(
         dom = "t", 
         pageLength = 14
