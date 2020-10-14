@@ -174,8 +174,40 @@ dashboardPage(
   ## DASHBOARD BODY ----
   dashboardBody(
     tags$head(
-      tags$link(rel = "stylesheet", type = "text/css", href = "style.css")),
+      tags$link(rel = "stylesheet", type = "text/css", href = "style.css"),
+      tags$style(
+        HTML("
+          .column_eight {
+             border-top-color: #3c8dbc;
+             border-top-width: 4px;
+             border-top-style: solid;
+             margin: 15px;
+             margin-right: 0px;
+             width: 100%;
+             padding: 12px;
+             background-color: #f6f9f0;
+          }
+          .column_four {
+             border-top-color: #3c8dbc;
+             border-top-width: 4px;
+             border-top-style: solid;
+             margin: 15px;
+             margin-left: 0px;
+             width: 96%;
+             padding: 12px;
+             background-color: #f6f9f0;
+          }
+          .columns_container {
+             display: grid;
+             grid-auto-flow: column;
+             grid-template-columns: 8fr 4fr;
+             gap: 45px;
+          } 
+        ")
+      )
+    ),
     tags$script(HTML("$('body').addClass('fixed');")), # lock side and top bars
+    
     
     ## color overrides ----
     ## most of these apply to goal score boxes
@@ -248,7 +280,7 @@ dashboardPage(
       sprintf(
         ".bg-%s {background-color: %s!important; }",
         "light-blue",
-        "#c0d8cba1" # "#ecf0f6"
+        "#ece4ebbd" # "#ecf0f6" # "#c0d8cba1"
       )
     ),
     
@@ -259,14 +291,14 @@ dashboardPage(
         tabName = "welcome",
         
         ## header and intro
-        fluidRow(
-          box(
-            h1("Ocean Health Dashboard for the Baltic Sea"),
-            # h1("Ocean Health Dashboard for the Baltic Sea", style = "color:#9b363d"),
-            # h1("(Under Construction! Not to be used or cited)", style = "color:#9b363d"),
-            width = 12
-          )
-        ),
+        # fluidRow(
+        #   box(
+        #     h1("Ocean Health Dashboard for the Baltic Sea"),
+        #     # h1("Ocean Health Dashboard for the Baltic Sea", style = "color:#9b363d"),
+        #     # h1("(Under Construction! Not to be used or cited)", style = "color:#9b363d"),
+        #     width = 12
+        #   )
+        # ),
         fluidRow(
           box(
             title = tagList(tags$h3("Measuring the Health of our Oceans")),
@@ -331,20 +363,29 @@ dashboardPage(
         tabName = "indexcalculation",
         fluidRow(
           box(
-            h1("An Index Calculated with Multiple Dimensions"),
-            # h1("Index Calculation"),
-            width = 12
+            title = tagList(tags$h3("An Index Calculated with Multiple Dimensions")),
+            status = "primary",
+            width = 12,
+            height = 100,
+            collapsible = FALSE
           ),
+          # box(
+          #   h1("An Index Calculated with Multiple Dimensions"),
+          #   h1("Index Calculation"),
+          #   width = 12
+          # )
           box(
+            solidHeader = TRUE,
             imageOutput("method_figure", height = 580),
             width = 8
           ),
           box(
+            solidHeader = TRUE,
             list(
-              p("The spatial assessment units used (BHI regions) are countries' Exclusive Economic Zones (EEZ) intersected with the sub-basins used by HELCOM. Sub-basin level data may be used where finer resolution is not available or too few data points fall within each BHI region.", br()), 
-              p("The score calculation framework accounts for current status, but also short-term trends (based on 5 previous years, or 10 years for slow-changing variables), as well as cumulative pressures and measures that buffer the system's resilience.", br(), br()), 
+              p(strong("Assessment Units:"), " The spatial assessment units used (BHI regions) are countries' Exclusive Economic Zones (EEZ) intersected with the sub-basins used by HELCOM. Sub-basin level data may be used where finer resolution is not available or too few data points fall within each BHI region.", br()), 
+              p(strong("Framework:"), " The score calculation framework accounts for current status, but also short-term trends (based on 5 previous years, or 10 years for slow-changing variables), as well as cumulative pressures and measures that buffer the system's resilience.", br()), 
               p(strong("Trend:"), " The average rate of change in status during the most recent years; as such, the trend calculation is not trying to predict (or model) the future, but only indicates likely condition based on a linear relationship.", br()),
-              p(strong("Pressures:"), " Social and ecological elements that negatively affect the status of a goal.", br()),
+              p(strong("Pressure:"), " Social and ecological elements that negatively affect the status of a goal.", br()),
               p(strong("Resilience:"), " Elements or actions that can reduce pressures, and maintain or raise future benefits (e.g. treaties, laws, enforcement, habitat protection).", br())
             ),
             width = 4
@@ -356,7 +397,7 @@ dashboardPage(
             collapsed = TRUE,
             width = 12,
             title = "How Pressures are Connected to Different Goals", 
-            DT::dataTableOutput("prs_matrix")
+            div(DT::dataTableOutput("prs_matrix"), style = "font-size: 80%")
           )
         ),
         fluidRow(
@@ -365,7 +406,8 @@ dashboardPage(
             collapsed = TRUE,
             width = 12,
             title = "Resilience Components' Relevance to Different Goals", 
-            DT::dataTableOutput("res_matrix")
+            div(DT::dataTableOutput("res_matrix"), style = "font-size: 80%")
+            # DT::dataTableOutput("res_matrix")
           )
         )
       ), 
@@ -379,32 +421,50 @@ dashboardPage(
         fluidRow(
           box(
             h1("Artisanal Fishing Opportunity"),
+            solidHeader = TRUE,
             width = 8
           ),
           scoreBoxUI(id = "ao_infobox"),
           box(
             # h4(filter(goals_csv, goal == "AO")$short_def),
             h4(filter(goals_csv, goal == "AO")$description),
+            solidHeader = TRUE,
             width = 12
           )
         ),
         
         ## target info and key information
         fluidRow(
-          box(
-            title = "Background Information", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "This goal has three sub-components: stock, access, and need. For the BHI, the focus is on the coastal fish stock sub-component and will use this as a proxy for the entire goal. For this, we used two HELCOM core indicators: (1) abundance of coastal fish key functional groups (Catch-per-unit effort (CPUE) of cyprinids/mesopredators and CPUE of piscivores); (2) abundance of key coastal fish species (CPUE of perch, cod or flounder, depending on the area).",
-            width = 8
-          ),
-          box(
-            title = "Scoring Criteria", 
-            status = "primary", 
-            solidHeader = TRUE,
-            "Target values for the status assessments are identified based on site-specific time-series data for each indicator (same as in HELCOM HOLAS II), as coastal fish generally have local population structures, limited migration, and show local responses to environmental change.",
-            width = 4
+          tags$div(
+            class = "columns_container",
+            column(
+              class = "column_eight",
+              width = 8,
+              h4("Background Information"),
+              p("This goal has three sub-components: stock, access, and need. For the BHI, the focus is on the coastal fish stock sub-component and will use this as a proxy for the entire goal. For this, we used two HELCOM core indicators: (1) abundance of coastal fish key functional groups (Catch-per-unit effort (CPUE) of cyprinids/mesopredators and CPUE of piscivores); (2) abundance of key coastal fish species (CPUE of perch, cod or flounder, depending on the area).")
+            ),
+            column(
+              class = "column_four",
+              width = 4,
+              h4("Scoring Criteria"),
+              p("Target values for the status assessments are identified based on site-specific time-series data for each indicator (same as in HELCOM HOLAS II), as coastal fish generally have local population structures, limited migration, and show local responses to environmental change.")
+            )
           )
+          
+          # box(
+          #   title = "Background Information", 
+          #   status = "primary", 
+          #   solidHeader = TRUE,
+          #   "This goal has three sub-components: stock, access, and need. For the BHI, the focus is on the coastal fish stock sub-component and will use this as a proxy for the entire goal. For this, we used two HELCOM core indicators: (1) abundance of coastal fish key functional groups (Catch-per-unit effort (CPUE) of cyprinids/mesopredators and CPUE of piscivores); (2) abundance of key coastal fish species (CPUE of perch, cod or flounder, depending on the area).",
+          #   width = 8
+          # ),
+          # box(
+          #   title = "Scoring Criteria", 
+          #   status = "primary", 
+          #   solidHeader = TRUE,
+          #   "Target values for the status assessments are identified based on site-specific time-series data for each indicator (same as in HELCOM HOLAS II), as coastal fish generally have local population structures, limited migration, and show local responses to environmental change.",
+          #   width = 4
+          # )
         ),
         
         ## plots and maps
@@ -427,6 +487,18 @@ dashboardPage(
         
         ## insights and discussion, pressures, additional plots
         fluidRow(
+          addfigsCardUI(
+            id = "ao_tsplot",
+            title_text = "Visualizing more Data Behind the Scores",
+            sub_title_text = "",
+            ht = 700,
+            select_choices = list(
+              `Pressure associated with sea surface temperature` = "cc_sst_bhi2019",
+              `Pressure associated with salinity of the surface layer` = "cc_sal_surf_bhi2019"
+            )
+          )
+        ),
+        fluidRow(
           box(
             width = 8, 
             title = "Additional Insights & Discussion",
@@ -439,38 +511,34 @@ dashboardPage(
             title = "Pressures acting on this Goal",
             status = "primary", 
             solidHeader = TRUE,
-            h5(strong(a(
+            h5(a(
               paste('\n', 'Climate Change Pressure Layer Data Preparation'),
               href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
               target = '_blank'
-            ))), 
-            h5(strong(a(
+            )), 
+            h5(a(
               paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
               href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
               target = '_blank'
-            ))), 
-            h5(strong(a(
+            )), 
+            h5(a(
               paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
               href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
               target = '_blank'
-            )))
-          )
-        ),
-        
-        fluidRow(
-          addfigsCardUI(
-            id = "ao_tsplot",
-            title_text = "Visualizing Some of the Data Behind Artisanal Fishing Opportunity Scores",
-            sub_title_text = "",
-            ht = 700,
-            select_choices = list(
-              `Pressure associated with sea surface temperature` = "cc_sst_bhi2019",
-              `Pressure associated with salinity of the surface layer` = "cc_sal_surf_bhi2019"
-            )
+            ))
           )
         ),
         
         ## methods link, expert who provided guidance
+        fluidRow(
+          box(
+            width = 12, 
+            title = "Experts who guided us in the Goal Preparation and Calculation",
+            status = "primary", 
+            solidHeader = TRUE,
+            "Jens Olsson,  ", tags$em(" Institute of Coastal Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Öregrund, Sweden")
+          )
+        ), 
         fluidRow(
           align = "center",
           text_links(
@@ -479,21 +547,12 @@ dashboardPage(
           )
         ),
         
-        fluidRow(
-          box(
-            width = 12, 
-            title = "Experts who guided us in the goal prep and calculation",
-            status = "primary", 
-            solidHeader = TRUE,
-            "Jens Olsson,  ", tags$em(" Institute of Coastal Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Öregrund, Sweden")
-          )
-        ),
-        
         ## data sources, considerations and improvements
         fluidRow(
           box(
             collapsible = TRUE,
             collapsed = TRUE,
+            solidHeader = TRUE,
             width = 12,
             title = "Data Sources", 
             DT::dataTableOutput("ao_datatable")
@@ -503,6 +562,7 @@ dashboardPage(
           box(
             collapsible = TRUE,
             collapsed = TRUE,
+            solidHeader = TRUE,
             width = 12,
             title = "Data Considerations & Potential Improvements",
             "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
@@ -563,7 +623,8 @@ dashboardPage(
             status = "primary", 
             solidHeader = TRUE,
             "For the seabirds, the HELCOM core indicator threshold of 0.75 abundance, decided by HELCOM, was used as good status (corresponding to a status score of 100 in BHI). For the other four components (benthic habitats, pelagic habitats, fish, and mammals), a biological quality ratio (BQR) of 0.6 was developed by HELCOM with the aim to represent good status and was used as here as the target.",
-            width = 4
+            width = 4,
+            height = "100%"
           )
         ),
         
@@ -3244,9 +3305,13 @@ dashboardPage(
         ## header
         fluidRow(
           box(
-            h3("Read and learn more about the Ocean Health Index and the Baltic Sea"),
-            br(),
-            width = 12
+            title = tagList(tags$h3("Read and learn more about the Ocean Health Index and the Baltic Sea")),
+            # h3("Read and learn more about the Ocean Health Index and the Baltic Sea"),
+            # br(),
+            width = 12,
+            height = 100,
+            collapsible = FALSE,
+            status = "primary"
           )
         ),
         ## references list
