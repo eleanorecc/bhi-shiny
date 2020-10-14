@@ -213,7 +213,7 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
           stat = "identity",
           size = 0.2, 
           color = thm$cols$med_grey3, 
-          fill = "white"
+          fill = "#fbfcfd" # "white"
         ) +
         geom_bar(
           stat = "identity",
@@ -339,7 +339,8 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
     if(labels %in% c("curved", "arc")){
       temp_plot <- file.path(
         dir_main, "figures", 
-        sprintf("flowerplot%s_%s.png", name_and_title$region_id, name_and_title$name)
+        # sprintf("flowerplot%s_%s.png", name_and_title$region_id, name_and_title$name)
+        sprintf("flowerplot%sbase_%s.png", name_and_title$region_id, name_and_title$name)
       )
       # temp_plot <- file.path(
       #   dir_main, "figures", 
@@ -403,8 +404,8 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
               CELL_META$xcenter, 
               CELL_META$ycenter,
               circ_df$f1[circ_df$order_hierarchy == as.numeric(CELL_META$sector.index)][1],
-              cex = 7,
-              col = thm$cols$med_grey3, 
+              cex = 7.5,
+              col = "grey10", # thm$cols$med_grey3, 
               adj = c(0.4, 1),
               facing = "bending.inside", 
               niceFacing = TRUE
@@ -421,8 +422,8 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
               CELL_META$xcenter, 
               CELL_META$ycenter,
               circ_df$f2[circ_df$order_hierarchy == as.numeric(CELL_META$sector.index)][1],
-              cex = 7,
-              col = thm$cols$med_grey3, 
+              cex = 7.5,
+              col = "grey10", # thm$cols$med_grey3, 
               adj = c(0.5, 0),
               facing = "bending.inside", 
               niceFacing = TRUE
@@ -437,8 +438,8 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
           unique(circ_df$order_hierarchy[circ_df$name_supra == "Food Provision" & !is.na(circ_df$name_supra)]),
           track.index = 1, 
           text = "Food Provision", 
-          cex = 8.5, 
-          text.col = thm$cols$light_grey2, 
+          cex = 9.5, # 8.5, 
+          text.col = "grey50", # thm$cols$light_grey2, 
           col = NA,
           facing = "bending.outside", 
           niceFacing = TRUE
@@ -447,8 +448,8 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
           unique(circ_df$order_hierarchy[circ_df$name_supra == "Coastal Livelihoods & Economies" & !is.na(circ_df$name_supra)]),
           track.index = 1, 
           text = "Coastal Livelihoods & Economies", 
-          cex = 8.5, 
-          text.col = thm$cols$light_grey2, 
+          cex = 9.5, # 8.5, 
+          text.col = "grey50", # thm$cols$light_grey2, 
           col = NA,
           facing = "bending.outside",
           niceFacing = TRUE
@@ -457,8 +458,8 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
           unique(circ_df$order_hierarchy[circ_df$name_supra == "Sense of Place" & !is.na(circ_df$name_supra)]),
           track.index = 1, 
           text = "Sense of Place", 
-          cex = 8.5, 
-          text.col = thm$cols$light_grey2, 
+          cex = 9.5, # 8.5, 
+          text.col = "grey50", # thm$cols$light_grey2, 
           col = NA,
           facing = "bending.outside",
           niceFacing = TRUE
@@ -467,8 +468,8 @@ make_flower_plot <- function(rgn_scores, rgns, plot_year, dim, labels, color_pal
           unique(circ_df$order_hierarchy[circ_df$name_supra == "Clean Waters" & !is.na(circ_df$name_supra)]),
           track.index = 1, 
           text = "Clean Waters",
-          cex = 8.5, 
-          text.col = thm$cols$light_grey2, 
+          cex = 9.5, # 8.5, 
+          text.col = "grey50", # thm$cols$light_grey2, 
           col = NA,
           facing = "bending.outside", 
           niceFacing = TRUE
