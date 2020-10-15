@@ -76,7 +76,7 @@ tabItem(
         class = "column_eight",
         width = 8,
         h4("Additional Insights & Discussion"),
-        p()
+        p("goaltext_key_messages")
       ),
       column(
         class = "column_four",

@@ -64,7 +64,7 @@ convertMenuItem <- function(mi, tabName){
 text_links <- function(title = NULL, url = NULL, box_width = 12){
   box(
     class = "text_link_button",
-    h4(strong(a(paste("\n", title), href = url, target = "_blank", style = "color:#a2535c"))), 
+    h4(strong(a(paste("\n", title), href = url, target = "_blank", style = "color:#b12737"))), 
     width = box_width,
     height = 65,
     background = "light-blue",
