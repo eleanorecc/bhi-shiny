@@ -178,8 +178,10 @@ dashboardPage(
       tags$style(
         HTML("
           .column_eight {
-             border-top-color: #3c8dbc;
-             border-top-width: 4px;
+             border-color: #3c8dbc;
+             border-width: 1px;
+             border-top-width: 6px;
+             border-style: solid;
              border-top-style: solid;
              margin: 15px;
              margin-right: 0px;
@@ -188,8 +190,10 @@ dashboardPage(
              background-color: #f6f9f0;
           }
           .column_four {
-             border-top-color: #3c8dbc;
-             border-top-width: 4px;
+             border-color: #3c8dbc;
+             border-width: 1px;
+             border-top-width: 6px;
+             border-style: solid;
              border-top-style: solid;
              margin: 15px;
              margin-left: 0px;
@@ -499,35 +503,69 @@ dashboardPage(
           )
         ),
         fluidRow(
-          box(
-            width = 8, 
-            title = "Additional Insights & Discussion",
-            status = "primary", 
-            solidHeader = TRUE,
-            "The target is reached in Kattegat (Danish coast), Bornholm Basin (Swedish coast), Eastern Gotland basin (Lithuanian coast), Northern Baltic Proper (Finnish coast), Bothnian Sea (Swedish coast), The Quark (Finnish coast) and Bothnian Bay. The more northern areas, where perch is used as the key species and is more abundant, are in better status compared to more southern areas, where flounder is used as the key species, but in now in lower abudance with respect to the target. Similarly, the status of piscivores is better in more northern areas, whereas the status of cyprinids in more north-eastern areas of the Baltic Sea is not good as a result of too high abundance. In particular, the status scores are low in the Gulf of Riga (Estonian coast), Bay of Mecklenburg (Danish coast), Great Belt, The Sound (Danish coast) and Arkona Basin (Danish coast), due to low abundance of key species and piscivores, and also due to increasing abundance for cyprinids in some coastal areas."
-          ),
-          box(
-            width = 4,
-            title = "Pressures acting on this Goal",
-            status = "primary", 
-            solidHeader = TRUE,
-            h5(a(
-              paste('\n', 'Climate Change Pressure Layer Data Preparation'),
-              href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
-              target = '_blank'
-            )), 
-            h5(a(
-              paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
-              href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
-              target = '_blank'
-            )), 
-            h5(a(
-              paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
-              href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
-              target = '_blank'
-            ))
+          tags$div(
+            class = "columns_container",
+            column(
+              class = "column_eight",
+              width = 8,
+              h4("Additional Insights & Discussion"),
+              p("The target is reached in Kattegat (Danish coast), Bornholm Basin (Swedish coast), Eastern Gotland basin (Lithuanian coast), Northern Baltic Proper (Finnish coast), Bothnian Sea (Swedish coast), The Quark (Finnish coast) and Bothnian Bay. The more northern areas, where perch is used as the key species and is more abundant, are in better status compared to more southern areas, where flounder is used as the key species, but in now in lower abudance with respect to the target. Similarly, the status of piscivores is better in more northern areas, whereas the status of cyprinids in more north-eastern areas of the Baltic Sea is not good as a result of too high abundance. In particular, the status scores are low in the Gulf of Riga (Estonian coast), Bay of Mecklenburg (Danish coast), Great Belt, The Sound (Danish coast) and Arkona Basin (Danish coast), due to low abundance of key species and piscivores, and also due to increasing abundance for cyprinids in some coastal areas.")
+            ),
+            column(
+              class = "column_four",
+              width = 4,
+              h4("Pressures acting on this Goal"),
+              h5(a(
+                paste('\n', 'Climate Change Pressure Layer Data Preparation'),
+                href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
+                target = '_blank'
+              )), 
+              h5(a(
+                paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+                href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+                target = '_blank'
+              )), 
+              h5(a(
+                paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
+                href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
+                target = '_blank'
+              ))
+            )
           )
         ),
+          
+        
+        
+        # fluidRow(
+        #   box(
+        #     width = 8, 
+        #     title = "Additional Insights & Discussion",
+        #     status = "primary", 
+        #     solidHeader = TRUE,
+        #     "The target is reached in Kattegat (Danish coast), Bornholm Basin (Swedish coast), Eastern Gotland basin (Lithuanian coast), Northern Baltic Proper (Finnish coast), Bothnian Sea (Swedish coast), The Quark (Finnish coast) and Bothnian Bay. The more northern areas, where perch is used as the key species and is more abundant, are in better status compared to more southern areas, where flounder is used as the key species, but in now in lower abudance with respect to the target. Similarly, the status of piscivores is better in more northern areas, whereas the status of cyprinids in more north-eastern areas of the Baltic Sea is not good as a result of too high abundance. In particular, the status scores are low in the Gulf of Riga (Estonian coast), Bay of Mecklenburg (Danish coast), Great Belt, The Sound (Danish coast) and Arkona Basin (Danish coast), due to low abundance of key species and piscivores, and also due to increasing abundance for cyprinids in some coastal areas."
+        #   ),
+        #   box(
+        #     width = 4,
+        #     title = "Pressures acting on this Goal",
+        #     status = "primary", 
+        #     solidHeader = TRUE,
+        #     h5(a(
+        #       paste('\n', 'Climate Change Pressure Layer Data Preparation'),
+        #       href = sprintf('%s/blob/master/prep/pressures/climate_change/v2019/climate_change_prep.md', gh_prep), 
+        #       target = '_blank'
+        #     )), 
+        #     h5(a(
+        #       paste('\n', 'Atmospheric Contaminants Pressure Layer Data Preparation'),
+        #       href = sprintf('%s/blob/master/prep/pressures/atmos_con/v2019/atmos_con_prep.md', gh_prep), 
+        #       target = '_blank'
+        #     )), 
+        #     h5(a(
+        #       paste('\n', 'Nutrients Loads Pressure Layer Data Preparation'),
+        #       href = sprintf('%s/blob/master/prep/pressures/nutrient_load/v2019/nutrient_load_prep.md', gh_prep), 
+        #       target = '_blank'
+        #     ))
+        #   )
+        # ),
         
         ## methods link, expert who provided guidance
         fluidRow(

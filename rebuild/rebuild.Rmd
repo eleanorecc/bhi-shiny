@@ -259,11 +259,11 @@ prs_links_txt <- function(goalname){
     distinct(url_suffix, preptitle)
   for(i in 1:nrow(df)){
     cat(paste0(
-      "h5(strong(a(\n \t paste('\\n', '", 
+      "h5(a(\n \t paste('\\n', '", 
       df$preptitle[i], 
       "'),\n \t href = sprintf('%s/",  
       df$url_suffix[i], 
-      "', gh_prep), \n \t target = '_blank'\n ))), \n"
+      "', gh_prep), \n \t target = '_blank'\n )), \n"
     ))
   }
 }

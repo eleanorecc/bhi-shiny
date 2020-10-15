@@ -9,30 +9,33 @@ tabItem(
   fluidRow(
     box(
       h1("GOALNAME"),
+      solidHeader = TRUE,
       width = 8
     ),
     scoreBoxUI(id = "goalcode_infobox"),
     box(
       h4(filter(goals_csv, goal == "GOALCODE")$description),
+      solidHeader = TRUE,
       width = 12
     )
   ),
   
   ## target info and key information
   fluidRow(
-    box(
-      title = "Background Information", 
-      status = "primary", 
-      solidHeader = TRUE,
-      "goaltext_key_information",
-      width = 8
-    ),
-    box(
-      title = "Scoring Criteria", 
-      status = "primary", 
-      solidHeader = TRUE,
-      "goaltext_target",
-      width = 4
+    tags$div(
+      class = "columns_container",
+      column(
+        class = "column_eight",
+        width = 8,
+        h4("Background Information"),
+        p("goaltext_key_information")
+      ),
+      column(
+        class = "column_four",
+        width = 4,
+        h4("Scoring Criteria"),
+        p("goaltext_target")
+      )
     )
   ),
   
@@ -56,49 +59,50 @@ tabItem(
   
   ## insights and discussion, pressures, additional plots
   fluidRow(
-    box(
-      width = 8, 
-      title = "Additional Insights & Discussion",
-      status = "primary", 
-      solidHeader = TRUE,
-      "goaltext_key_messages"
-    ),
-    box(
-      width = 4,
-      title = "Pressures acting on this Goal",
-      status = "primary", 
-      solidHeader = TRUE,
-      ## paste links info here...
-    )
-  ),
-  
-  fluidRow(
     tsplotCardUI(
       id = "goalcode_tsplot",
-      title_text = "Visualizing Some of the Data Behind GOALNAME Scores",
+      title_text = "Visualizing more Data Behind the Scores",
       sub_title_text = "",
-      ht = 340,
+      ht = 700,
       select_choices = list(
         goal_ts_layer_choices
       )
     )
   ),
+  fluidRow(
+    tags$div(
+      class = "columns_container",
+      column(
+        class = "column_eight",
+        width = 8,
+        h4("Additional Insights & Discussion"),
+        p()
+      ),
+      column(
+        class = "column_four",
+        width = 4,
+        h4("Pressures acting on this Goal"),
+        ## paste links info here...
+      )
+    )
+  ),
+  
   
   ## methods link, expert who provided guidance
   fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES & MAPS, CODE",
-      "goal_data_prep_link"
-    )
-  ),
-  fluidRow(
     box(
       width = 12, 
-      title = "Experts who guided us in the goal prep and calculation",
+      title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
       goal_expert_info
+    )
+  ),
+  fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "goal_data_prep_link"
     )
   ),
   
@@ -107,6 +111,7 @@ tabItem(
     box(
       collapsible = TRUE,
       collapsed = TRUE,
+      solidHeader = TRUE,
       width = 12,
       title = "Data Sources", 
       DT::dataTableOutput("goalcode_datatable")
@@ -116,6 +121,7 @@ tabItem(
     box(
       collapsible = TRUE,
       collapsed = TRUE,
+      solidHeader = TRUE,
       width = 12,
       title = "Data Considerations & Potential Improvements",
       "There is always opportunity to improve data quality and availability. Below we have identified where improving data and/or methods could improve our understanding of regional marine health and provisioning.",
