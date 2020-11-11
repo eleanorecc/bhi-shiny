@@ -4,6 +4,7 @@ library(shinydashboard)
 library(shinyjs)
 library(shinyWidgets)
 library(DT)
+library(DBI)
 library(stringr)
 
 
@@ -76,7 +77,9 @@ text_links <- function(title = NULL, url = NULL, box_width = 12){
 
 ## Shiny Global Data ----
 
-full_scores_csv <- readr::read_csv(file.path(dir_main, "data", "scores.csv"))
+bhidbconn <- dbConnect(RSQLite::SQLite(), dbname = file.path(dir_main, "data/bhi.db"))
+
+full_scores_csv <- dbReadTable(bhidbconn, "IndexScores")
 full_scores_lst <- list()
 for(g in unique(full_scores_csv$goal)){
   for(d in unique(full_scores_csv$dimension)){
@@ -86,52 +89,18 @@ for(g in unique(full_scores_csv$goal)){
     }
   }
 }
-goals_csv <- readr::read_csv(file.path(dir_main, "data", "plotconf.csv"))
-data_info <- readr::read_csv(file.path(dir_main, "data", "datasources.csv"))
-fig_info <- readr::read_csv(file.path(dir_main, "data", "datalayers.csv"))[, 4:16]
+goals_csv <- dbReadTable(bhidbconn, "Goals")
+data_info <- dbReadTable(bhidbconn, "DataSources")
+regions_df <- dbReadTable(bhidbconn, "Regions")
+subbasins_df <- dbReadTable(bhidbconn, "Subbasins") %>% 
+  rename(subbasin_id = region_id)
 
-prs_matrix <- goals_csv %>% 
-  filter(!is.na(preindex_function)) %>% 
-  select(goal, name) %>% 
-  left_join(
-    read_csv(sprintf("%s/conf/pressures_matrix.csv", gh_raw_bhi))[c(1, 4:15)],
-    by = "goal"
-  ) %>% 
-  select(-goal) %>% 
-  tidyr::pivot_longer(cols = sp_invasives:ss_wgi, names_to = "Pressure", values_to = "prs_wgt") %>% 
-  tidyr::pivot_wider(names_from = "name", values_from = "prs_wgt")
+prs_matrix <- dbReadTable(bhidbconn, "Pressures") %>% 
+  tidyr::pivot_wider(names_from = "goal_name", values_from = "weight")
+res_matrix <- dbFetch(dbSendQuery(bhidbconn, "SELECT goal_name, layer, weight FROM Resilience")) %>% 
+  tidyr::pivot_wider(names_from = "goal_name", values_from = "weight")
 
-
-res_matrix <- goals_csv %>% 
-  filter(!is.na(preindex_function)) %>% 
-  select(goal, name) %>% 
-  left_join(
-    read_csv(sprintf("%s/conf/resilience_matrix.csv", gh_raw_bhi))[c(1, 3:22)],
-    by = "goal"
-  ) %>% 
-  select(-goal) %>% 
-  tidyr::pivot_longer(cols = wgi_all:res_reg_pop, names_to = "layer", values_to = "res_wgt") %>% 
-  left_join(
-    read_csv(sprintf("%s/conf/resilience_categories.csv", gh_raw_bhi)),
-    by  = "layer"
-  ) %>% 
-  mutate(res_wgt = ifelse(is.na(res_wgt), NA, weight)) %>% 
-  tidyr::pivot_wider(names_from = "name", values_from = "res_wgt") %>% 
-  mutate(`Resilience Component` = case_when(
-    str_detect(layer, "res_reg") ~ str_to_upper(substr(layer, 9, str_length(layer))),
-    str_detect(layer, "biodiversity") ~ "Biodiversity",
-    str_detect(layer, "wgi") ~ "World Governance Indicator"
-  )) %>% 
-  mutate(Category = case_when(
-    str_detect(subcategory, "goal") ~ str_to_title(category_type),
-    !str_detect(subcategory, "goal") ~ str_to_title(sprintf("%s, %s", category_type, str_replace(subcategory, "_", " ")))
-  )) %>% 
-  select(`Resilience Component`, Category, Fisheries:Contaminants)
-  
-
-
-regions_df <- readr::read_csv(file.path(dir_main, "data", "regions.csv"))
-subbasins_df <- readr::read_csv(file.path(dir_main, "data", "basins.csv"))
+dbDisconnect(bhidbconn)
 
 
 rgns_shp <- make_rgn_sf(

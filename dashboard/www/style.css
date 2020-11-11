@@ -25,7 +25,7 @@
 
 .skin-blue .treeview-menu>li>a {
     color: #8db1a8;
-    background-color: #132320cc;
+    background-color: #09100f;
 }
 
 h1, h2, h3{
@@ -38,5 +38,5 @@ h4{
   font-weight: 500;
   line-height: 1.5em;
   margin-top: 7px;
-  color: #053b67;
+  color: #3c8dbc;
 }

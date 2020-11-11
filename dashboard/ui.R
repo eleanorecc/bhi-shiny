@@ -176,30 +176,36 @@ dashboardPage(
     tags$head(
       tags$link(rel = "stylesheet", type = "text/css", href = "style.css"),
       tags$style(
+        # border-color: #3c8dbc;  
+        # background-color: #f6f9f0; 
         HTML("
           .column_eight {
-             border-color: #3c8dbc;
+             border-color: #599089;
              border-width: 1px;
              border-top-width: 6px;
              border-style: solid;
              border-top-style: solid;
              margin: 15px;
              margin-right: 0px;
+             margin-top: 0px;
              width: 100%;
              padding: 12px;
-             background-color: #f6f9f0;
+             background-color: #081010;
+             color: #ecf9f6;
           }
           .column_four {
-             border-color: #3c8dbc;
+             border-color: #599089;
              border-width: 1px;
              border-top-width: 6px;
              border-style: solid;
              border-top-style: solid;
              margin: 15px;
              margin-left: 0px;
+             margin-top: 0px;
              width: 96%;
              padding: 12px;
-             background-color: #f6f9f0;
+             background-color: #081010;
+             color: #ecf9f6;
           }
           .columns_container {
              display: grid;
@@ -210,6 +216,7 @@ dashboardPage(
         ")
       )
     ),
+    tags$head(tags$style("h4 {color:#3c8dbc;}")),
     tags$script(HTML("$('body').addClass('fixed');")), # lock side and top bars
     
     
@@ -335,19 +342,6 @@ dashboardPage(
             ),
             width = 6
           ))
-          
-          # tagList(box(
-          #   collapsible = TRUE,
-          #   title = "Calculated with Multiple Dimensions",
-          #   list(
-          #     p("The framework accounts for current status, but also short-term trends (based on 5 previous years, or 10 years for slow-changing variables), as well as cumulative pressures and measures that buffer the system's resilience.", br()),
-          #     p(strong("Trend:"), " The average rate of change in status during the most recent years; as such, the trend calculation is not trying to predict (or model) the future, but only indicates likely condition based on a linear relationship.", br()),
-          #     p(strong("Pressures:"), " Social and ecological elements that negatively affect the status of a goal.", br()),
-          #     p(strong("Resilience:"), " Elements or actions that can reduce pressures, and maintain or raise future benefits (e.g. treaties, laws, enforcement, habitat protection).", br()),
-          #     list(plotOutput("dims_diagram", height = 420))
-          #   ),
-          #   width = 6
-          # ))
         ),
         
         fluidRow(
@@ -373,11 +367,6 @@ dashboardPage(
             height = 100,
             collapsible = FALSE
           ),
-          # box(
-          #   h1("An Index Calculated with Multiple Dimensions"),
-          #   h1("Index Calculation"),
-          #   width = 12
-          # )
           box(
             solidHeader = TRUE,
             imageOutput("method_figure", height = 580),
@@ -411,7 +400,6 @@ dashboardPage(
             width = 12,
             title = "Resilience Components' Relevance to Different Goals", 
             div(DT::dataTableOutput("res_matrix"), style = "font-size: 80%")
-            # DT::dataTableOutput("res_matrix")
           )
         )
       ), 
@@ -521,21 +509,22 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
-    box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
-      solidHeader = TRUE,
-       "Jens Olsson,  ", tags$em(" Institute of Coastal Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Öregrund, Sweden"), 
-    )
-  ),
-  fluidRow(
     align = "center",
     text_links(
       "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
       "https://github.com/OHI-Science/bhi-prep/blob/master/prep/AO/v2019/ao_prep.md"
     )
   ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+       "Jens Olsson,  ", tags$em(" Institute of Coastal Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Öregrund, Sweden") 
+    )
+  ),
+
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -561,17 +550,17 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Missing country data:"),
-	 "Missing data for Germany, Poland and Russia (and only key species data for Denmark) which is why there is no scoring for their respective basins. " 
-	),
-tags$li(
-	 tags$b("Multiple facets of opportunity:"),
-	 "Including ‘need’ and ‘access’ sub-components of this goal alongside the condition of coastal fisheries will give a more complete overview of artisanal fishing opportunity. " 
-	),
-tags$li(
-	 tags$b("Sparce Data in some areas:"),
-	 "In some basins there is very few monitoring stations and scaling up from monitoring station to subbasin does likely not provide a fully representative assessment." 
-	)
+          tags$b("Missing country data:"),
+          "Missing data for Germany, Poland and Russia (and only key species data for Denmark) which is why there is no scoring for their respective basins. " 
+        ),
+        tags$li(
+          tags$b("Multiple facets of opportunity:"),
+          "Including ‘need’ and ‘access’ sub-components of this goal alongside the condition of coastal fisheries will give a more complete overview of artisanal fishing opportunity. " 
+        ),
+        tags$li(
+          tags$b("Sparce Data in some areas:"),
+          "In some basins there is very few monitoring stations and scaling up from monitoring station to subbasin does likely not provide a fully representative assessment." 
+        )
       )
     )
   )
@@ -606,9 +595,8 @@ tabItem(
         width = 8,
         h4("Background Information"),
         p("This goal consists of five components: benthic habitats, pelagic habitats, fish, mammals (seals), and seabirds. It has been evaluated using the biological quality ratios and seabird abundance, derived in the integrated biodiversity assessments from HELCOM (the HELCOM assessment tool: https://github.com/NIVA-Denmark/BalticBOOST). These are based on core indicators for key species and species groups, including abundance, distribution, productivity, physiological and demographic characteristics. 
-  
- 
-  Statuses of these five biodiversity components are aggregated first within each component, combining coastal area values with area-weighted averages, then combining the values for coastal and offshore areas of each BHI region with equal weight. A single biodiversity status score per region is calculated as geometric mean of the five components. More detailed information on the indicators and the biodiversity assessment can be found at HELCOM (http://stateofthebalticsea.helcom.fi/biodiversity-and-its-status/).")
+
+          Statuses of these five biodiversity components are aggregated first within each component, combining coastal area values with area-weighted averages, then combining the values for coastal and offshore areas of each BHI region with equal weight. A single biodiversity status score per region is calculated as geometric mean of the five components. More detailed information on the indicators and the biodiversity assessment can be found at HELCOM (http://stateofthebalticsea.helcom.fi/biodiversity-and-its-status/).")
       ),
       column(
         class = "column_four",
@@ -704,7 +692,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "Andrea Belgrano ,  ", tags$em(" Institute of Marine Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Lysekil, Sweden"), br(), "Henn Ojaveer,  ", tags$em(" Pärnu College, University of Tartu, Pärnu, Estonia and National Institute of Aquatic Resources, Technical University of Denmark, Lyngby, Denmark"), 
+       "Andrea Belgrano ,  ", tags$em(" Institute of Marine Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Lysekil, Sweden"), br(), "Henn Ojaveer,  ", tags$em(" Pärnu College, University of Tartu, Pärnu, Estonia and National Institute of Aquatic Resources, Technical University of Denmark, Lyngby, Denmark") 
     )
   ),
   fluidRow(
@@ -739,13 +727,13 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Temporal data:"),
-	 "The data used here consists of an integrated assessment period (2011-2016), so no trend  was calculated from the same data used in status calculations. The trend dimension included is from the global OHI assessment, which employs a different status calculation approach. " 
-	),
-tags$li(
-	 tags$b("Varied habitats and functions:"),
-	 "Including a greater range of more specific habitat types and functional types (in a transparent way), could help make the goal more actionable for managers at local scales." 
-	)
+          tags$b("Temporal data:"),
+          "The data used here consists of an integrated assessment period (2011-2016), so no trend  was calculated from the same data used in status calculations. The trend dimension included is from the global OHI assessment, which employs a different status calculation approach. " 
+        ),
+        tags$li(
+          tags$b("Varied habitats and functions:"),
+          "Including a greater range of more specific habitat types and functional types (in a transparent way), could help make the goal more actionable for managers at local scales." 
+        )
       )
     )
   )
@@ -860,7 +848,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "Christoffer Boström ,  ", tags$em(" Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland"), br(), "Markku Viitasalo,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland"), 
+       "Christoffer Boström ,  ", tags$em(" Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland"), br(), "Markku Viitasalo,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland") 
     )
   ),
   fluidRow(
@@ -895,17 +883,17 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Missing data:"),
-	 "-	Limited availability of seagrass extent data, only spatial distribution models. " 
-	),
-tags$li(
-	 tags$b("Spatial data:"),
-	 "Include spatial data from remote sensing for saltmarshes, sheltered shallow bays, lagoons and reed belts. " 
-	),
-tags$li(
-	 tags$b("Inclusion of other indicators:"),
-	 "Include freshwater macrophyte distribution and monitoring data for the northern Baltic areas." 
-	)
+          tags$b("Missing data:"),
+          "-	Limited availability of seagrass extent data, only spatial distribution models. " 
+        ),
+        tags$li(
+          tags$b("Spatial data:"),
+          "Include spatial data from remote sensing for saltmarshes, sheltered shallow bays, lagoons and reed belts. " 
+        ),
+        tags$li(
+          tags$b("Inclusion of other indicators:"),
+          "Include freshwater macrophyte distribution and monitoring data for the northern Baltic areas." 
+        )
       )
     )
   )
@@ -977,21 +965,21 @@ tabItem(
       ht = 700,
       select_choices = list(
         `Secchi depth indicator scores` = "secchi_indicator_status",
-	`Secchi depth indicator scores` = "secchi_indicator_trend",
-	`PFOS indicator scores` = "pfos_indicator_status",
-	`PFOS indicator scores` = "pfos_indicator_trend",
-	`PCBs indicator scores` = "pcb_indicator_status",
-	`PCBs indicator scores` = "pcb_indicator_trend",
-	`Oxygen debt indicator scores` = "oxyg_indicator_status",
-	`Oxygen debt indicator scores` = "oxyg_indicator_trend",
-	`Dissolved Inorganic Phosphorus indicator scores` = "dip_indicator_status",
-	`Dissolved Inorganic Phosphorus indicator scores` = "dip_indicator_trend",
-	`Dioxin indicator scores` = "dioxin_indicator_status",
-	`Dioxin indicator scores` = "dioxin_indicator_trend",
-	`Dissolved Inorganic Nitrogen indicator scores` = "din_indicator_status",
-	`Dissolved Inorganic Nitrogen indicator scores` = "din_indicator_trend",
-	`Chlorophyll a indicator scores` = "chla_indicator_status",
-	`Chlorophyll a indicator scores` = "chla_indicator_trend"
+        `Secchi depth indicator scores` = "secchi_indicator_trend",
+        `PFOS indicator scores` = "pfos_indicator_status",
+        `PFOS indicator scores` = "pfos_indicator_trend",
+        `PCBs indicator scores` = "pcb_indicator_status",
+        `PCBs indicator scores` = "pcb_indicator_trend",
+        `Oxygen debt indicator scores` = "oxyg_indicator_status",
+        `Oxygen debt indicator scores` = "oxyg_indicator_trend",
+        `Dissolved Inorganic Phosphorus indicator scores` = "dip_indicator_status",
+        `Dissolved Inorganic Phosphorus indicator scores` = "dip_indicator_trend",
+        `Dioxin indicator scores` = "dioxin_indicator_status",
+        `Dioxin indicator scores` = "dioxin_indicator_trend",
+        `Dissolved Inorganic Nitrogen indicator scores` = "din_indicator_status",
+        `Dissolved Inorganic Nitrogen indicator scores` = "din_indicator_trend",
+        `Chlorophyll a indicator scores` = "chla_indicator_status",
+        `Chlorophyll a indicator scores` = "chla_indicator_trend"
       )
     )
   ),
@@ -1070,21 +1058,21 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Missing aspects:"),
-	 "Including data on microplastics and sea floor litter would result in a more complete assessment for the Trash sub-goal, but these data are not currently available. Harmonized data and standardized indicators for marine litter are currently under development, and their inclusion will also help give a more complete picture of Clean Waters in the Baltic Sea. " 
-	),
-tags$li(
-	 tags$b("Substances of Very High Concern:"),
-	 "The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea which is used as one of the indicators in the Contaminants sub-goal to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea, can be developed further to better combine aspects current health and lack of data in the Index. " 
-	),
-tags$li(
-	 tags$b("Spatial variability:"),
-	 "Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty and therefore the confidence of the scores differs substantially across regions. " 
-	),
-tags$li(
-	 tags$b("Target:"),
-	 "The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty." 
-	)
+          tags$b("Missing aspects:"),
+          "Including data on microplastics and sea floor litter would result in a more complete assessment for the Trash sub-goal, but these data are not currently available. Harmonized data and standardized indicators for marine litter are currently under development, and their inclusion will also help give a more complete picture of Clean Waters in the Baltic Sea. " 
+        ),
+        tags$li(
+          tags$b("Substances of Very High Concern:"),
+          "The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea which is used as one of the indicators in the Contaminants sub-goal to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea, can be developed further to better combine aspects current health and lack of data in the Index. " 
+        ),
+        tags$li(
+          tags$b("Spatial variability:"),
+          "Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty and therefore the confidence of the scores differs substantially across regions. " 
+        ),
+        tags$li(
+          tags$b("Target:"),
+          "The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty." 
+        )
       )
     )
   )
@@ -1200,7 +1188,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "Anna Sobek,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden"), 
+       "Anna Sobek,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden")
     )
   ),
   fluidRow(
@@ -1235,17 +1223,17 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Substances of Very High Concern:"),
-	 "The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea is used as one of the indicators to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea. This indicator and how it is used to calculate the score can be developed further to better combine the two aspects of the contaminant goal: current health of the Baltic Sea, and lack of data. " 
-	),
-tags$li(
-	 tags$b("Spatial variability:"),
-	 "Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores differs substantially across regions. Generally, there is less data on pollutants/pollutant groups from the southeast near the Baltic states and Poland and Russia. " 
-	),
-tags$li(
-	 tags$b("Thresholds:"),
-	 "The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty." 
-	)
+          tags$b("Substances of Very High Concern:"),
+          "The proportion of persistent, bioaccumulative and toxic Substances of Very High Concern monitored in the Baltic Sea is used as one of the indicators to highlight the general lack of knowledge on occurrence of emerging contaminants in the Baltic Sea. This indicator and how it is used to calculate the score can be developed further to better combine the two aspects of the contaminant goal: current health of the Baltic Sea, and lack of data. " 
+        ),
+        tags$li(
+          tags$b("Spatial variability:"),
+          "Some of the assessment regions have many more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores differs substantially across regions. Generally, there is less data on pollutants/pollutant groups from the southeast near the Baltic states and Poland and Russia. " 
+        ),
+        tags$li(
+          tags$b("Thresholds:"),
+          "The threshold values that are used to compare environmental concentrations are crucial for the assessment. Existing threshold values are generated in different ways and have different sources and thus there might be some uncertainty." 
+        )
       )
     )
   )
@@ -1369,7 +1357,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland"), 
+       "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland")
     )
   ),
   fluidRow(
@@ -1404,13 +1392,13 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Spatial variability:"),
-	 "Some of the assessment regions have more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores can differ across regions. " 
-	),
-tags$li(
-	 tags$b("Thresholds:"),
-	 "The threshold values that are the same as used by HELCOM 2018. " 
-	)
+          tags$b("Spatial variability:"),
+          "Some of the assessment regions have more data points upon which to base the calculation. As a result, the statistical uncertainty of the scores can differ across regions. " 
+        ),
+        tags$li(
+          tags$b("Thresholds:"),
+          "The threshold values that are the same as used by HELCOM 2018. " 
+        )
       )
     )
   )
@@ -1515,7 +1503,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       ",  ", tags$em(" No expert for this particular sub-goal"), 
+      tags$em(" No expert for this particular sub-goal")
     )
   ),
   fluidRow(
@@ -1550,17 +1538,17 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Standardization:"),
-	 "The majority of litter monitoring methods are not standardized specifically for the Baltic Sea. Data collection needs to be harmonized, to improve comparability of results and thus allow benchmarking. " 
-	),
-tags$li(
-	 tags$b("Microplastics:"),
-	 "Including data on microplastics would result in a more complete  picture, but these data are not currently available. " 
-	),
-tags$li(
-	 tags$b("Work-in-progress:"),
-	 "In HELCOM, assessment approaches based on core indicators are currently underway for beach litter, litter on the seafloor and microlitter. Threshold values for the assessment are being developed in an EU-process which can be used in the next BHI iteration." 
-	)
+          tags$b("Standardization:"),
+          "The majority of litter monitoring methods are not standardized specifically for the Baltic Sea. Data collection needs to be harmonized, to improve comparability of results and thus allow benchmarking. " 
+        ),
+        tags$li(
+          tags$b("Microplastics:"),
+          "Including data on microplastics would result in a more complete  picture, but these data are not currently available. " 
+        ),
+        tags$li(
+          tags$b("Work-in-progress:"),
+          "In HELCOM, assessment approaches based on core indicators are currently underway for beach litter, litter on the seafloor and microlitter. Threshold values for the assessment are being developed in an EU-process which can be used in the next BHI iteration." 
+        )
       )
     )
   )
@@ -1680,7 +1668,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "Christian Möllmann **Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany**,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany"), 
+       "Christian Möllmann**,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany")
     )
   ),
   fluidRow(
@@ -1715,9 +1703,9 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Complementary data:"),
-	 "Use survey and effort data to improve future goal calculations for fisheries and collect more information and data on mariculture and its sustainable production" 
-	)
+          tags$b("Complementary data:"),
+          "Use survey and effort data to improve future goal calculations for fisheries and collect more information and data on mariculture and its sustainable production" 
+        )
       )
     )
   )
@@ -1789,11 +1777,11 @@ tabItem(
       ht = 700,
       select_choices = list(
         `Cod biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_cod",
-	`Herring biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_herring",
-	`Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_cod",
-	`Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_herring",
-	`Cod landings (tonnes)` = "fis_landings_bhi2019_cod",
-	`Herring landings (tonnes)` = "fis_landings_bhi2019_herring"
+        `Herring biomass at sea normalized by spawning stock biomass` = "fis_bbmsy_bhi2019_herring",
+        `Cod fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_cod",
+        `Herring fishing mortality normalized by fishing mortality at max. sustainable yield` = "fis_ffmsy_bhi2019_herring",
+        `Cod landings (tonnes)` = "fis_landings_bhi2019_cod",
+        `Herring landings (tonnes)` = "fis_landings_bhi2019_herring"
       )
     )
   ),
@@ -1847,7 +1835,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "Christian Möllmann **Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany**,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany"), 
+       "Christian Möllmann,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany") 
     )
   ),
   fluidRow(
@@ -1882,9 +1870,9 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Additional data:"),
-	 "In the future, we aim to use survey and effort data to improve the goal calculations." 
-	)
+          tags$b("Additional data:"),
+          "In the future, we aim to use survey and effort data to improve the goal calculations." 
+        )
       )
     )
   )
@@ -2004,7 +1992,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       ",  ", tags$em(" No expert for this particular sub-goal"), 
+      tags$em(" No expert for this particular sub-goal")
     )
   ),
   fluidRow(
@@ -2039,9 +2027,9 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Data consistency:"),
-	 "Collect more consistent information and data on mariculture and its sustainable production." 
-	)
+          tags$b("Data consistency:"),
+          "Collect more consistent information and data on mariculture and its sustainable production." 
+        )
       )
     )
   )
@@ -2146,7 +2134,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany"), 
+       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany") 
     )
   ),
   fluidRow(
@@ -2181,25 +2169,25 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Marine sector-specific employment data:"),
-	 "Difficulty in obtaining data on sector-specific employment at a fine enough spatial resolution (Eurostat NUTS3 which distinguishes coastal vs non-coastal regions) has prevented a more focused assessment of marine livelihoods, beyond the current approach’s rough estimation of livelihoods in coastal areas. " 
-	),
-tags$li(
-	 tags$b("Working conditions and Job satisfaction:"),
-	 "Ideally, this goal would also reflect working conditions and job satisfaction associated with livelihoods in marine sectors. " 
-	),
-tags$li(
-	 tags$b("•	Inclusion of Sustainability Information:"),
-	 "Incorporating information on the sustainability of the different marine sectors and/or activities would help counterbalance penalization for negative economic growth (contraction) associated unsustainable economic activities such as natural gas, petroleum, or sediments extraction. " 
-	),
-tags$li(
-	 tags$b("Economic Activities as Pressures:"),
-	 "Extractive economic activities measured in this goal could be included in the index as minor pressures on other goals, in which case the contraction of these sectors would potentially correspond to increases in scores of other goals such as biodiversity or sense of place. " 
-	),
-tags$li(
-	 tags$b("Data timeseries:"),
-	 "Data only for years 2009 and 2018 were available by distinct sub-sectors and economic activities in the 2020 EU Blue Economy Report; since the status calculation uses growth rate as a target and only one annual growth rate (CAGR) could be approximated using the two years of data, the OHI trend dimension capturing short-term changes in status (i.e. changes in growth rates for this goal) short-term could not be calculated." 
-	)
+          tags$b("Marine sector-specific employment data:"),
+          "Difficulty in obtaining data on sector-specific employment at a fine enough spatial resolution (Eurostat NUTS3 which distinguishes coastal vs non-coastal regions) has prevented a more focused assessment of marine livelihoods, beyond the current approach’s rough estimation of livelihoods in coastal areas. " 
+        ),
+        tags$li(
+          tags$b("Working conditions and Job satisfaction:"),
+          "Ideally, this goal would also reflect working conditions and job satisfaction associated with livelihoods in marine sectors. " 
+        ),
+        tags$li(
+          tags$b("•	Inclusion of Sustainability Information:"),
+          "Incorporating information on the sustainability of the different marine sectors and/or activities would help counterbalance penalization for negative economic growth (contraction) associated unsustainable economic activities such as natural gas, petroleum, or sediments extraction. " 
+        ),
+        tags$li(
+          tags$b("Economic Activities as Pressures:"),
+          "Extractive economic activities measured in this goal could be included in the index as minor pressures on other goals, in which case the contraction of these sectors would potentially correspond to increases in scores of other goals such as biodiversity or sense of place. " 
+        ),
+        tags$li(
+          tags$b("Data timeseries:"),
+          "Data only for years 2009 and 2018 were available by distinct sub-sectors and economic activities in the 2020 EU Blue Economy Report; since the status calculation uses growth rate as a target and only one annual growth rate (CAGR) could be approximated using the two years of data, the OHI trend dimension capturing short-term changes in status (i.e. changes in growth rates for this goal) short-term could not be calculated." 
+        )
       )
     )
   )
@@ -2271,12 +2259,12 @@ tabItem(
       ht = 700,
       select_choices = list(
         `Gross Value Added (GVA, M€) from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Coastal tourism",
-	`Gross Value Added (GVA, M€) from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Marine living resources",
-	`Gross Value Added (GVA, M€) from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Marine non-living resources",
-	`Gross Value Added (GVA, M€) from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Marine renewable energy",
-	`Gross Value Added (GVA, M€) from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Maritime transport",
-	`Gross Value Added (GVA, M€) from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Port activities",
-	`Gross Value Added (GVA, M€ from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Shipbuilding and repair"
+        `Gross Value Added (GVA, M€) from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Marine living resources",
+        `Gross Value Added (GVA, M€) from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Marine non-living resources",
+        `Gross Value Added (GVA, M€) from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Marine renewable energy",
+        `Gross Value Added (GVA, M€) from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Maritime transport",
+        `Gross Value Added (GVA, M€) from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Port activities",
+        `Gross Value Added (GVA, M€ from Blue Economy sectors` = "le_eco_yearly_gva_bhi2019_Shipbuilding and repair"
       )
     )
   ),
@@ -2310,7 +2298,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany"), 
+       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
     )
   ),
   fluidRow(
@@ -2345,17 +2333,17 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Inclusion of Sustainability Information:"),
-	 "Incorporating information on the sustainability of the different marine sectors and/or activities would help counterbalance penalization for negative economic growth (contraction) associated unsustainable economic activities such as natural gas, petroleum, or sediments extraction. " 
-	),
-tags$li(
-	 tags$b("Economic Activities as Pressures:"),
-	 "Extractive economic activities measured in this goal could be included in the index as minor pressures on other goals, in which case the contraction of these sectors would potentially correspond to increases in scores of other goals such as biodiversity or sense of place. " 
-	),
-tags$li(
-	 tags$b("Data timeseries:"),
-	 "Data only for years 2009 and 2018 were available by distinct sub-sectors and economic activities in the 2020 EU Blue Economy Report; since the status calculation uses growth rate as a target and only one annual growth rate (CAGR) could be approximated using the two years of data, the OHI trend dimension capturing short-term changes in status (i.e. changes in growth rates for this goal) short-term could not be calculated." 
-	)
+          tags$b("Inclusion of Sustainability Information:"),
+          "Incorporating information on the sustainability of the different marine sectors and/or activities would help counterbalance penalization for negative economic growth (contraction) associated unsustainable economic activities such as natural gas, petroleum, or sediments extraction. " 
+        ),
+        tags$li(
+          tags$b("Economic Activities as Pressures:"),
+          "Extractive economic activities measured in this goal could be included in the index as minor pressures on other goals, in which case the contraction of these sectors would potentially correspond to increases in scores of other goals such as biodiversity or sense of place. " 
+        ),
+        tags$li(
+          tags$b("Data timeseries:"),
+          "Data only for years 2009 and 2018 were available by distinct sub-sectors and economic activities in the 2020 EU Blue Economy Report; since the status calculation uses growth rate as a target and only one annual growth rate (CAGR) could be approximated using the two years of data, the OHI trend dimension capturing short-term changes in status (i.e. changes in growth rates for this goal) short-term could not be calculated." 
+        )
       )
     )
   )
@@ -2427,7 +2415,7 @@ tabItem(
       ht = 700,
       select_choices = list(
         `Estimates of average regional employment rates in the coastal zone, within 25km of the coast` = "le_liv_regional_employ_bhi2019",
-	`National employment rates in countries bordering the Baltic Sea` = "le_liv_national_employ_bhi2019"
+        `National employment rates in countries bordering the Baltic Sea` = "le_liv_national_employ_bhi2019"
       )
     )
   ),
@@ -2461,7 +2449,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany"), 
+       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
     )
   ),
   fluidRow(
@@ -2496,13 +2484,13 @@ tabItem(
       ## data considerations and improvements bullets
       tags$ul(
         tags$li(
-	 tags$b("Marine sector-specific employment data:"),
-	 "Difficulty in obtaining data on sector-specific employment at a fine enough spatial resolution (Eurostat NUTS3 which distinguishes coastal vs non-coastal regions) has prevented a more focused assessment of marine livelihoods,  beyond the current approach’s rough estimation of livelihoods in coastal areas. " 
-	),
-tags$li(
-	 tags$b("Working conditions and Job satisfaction:"),
-	 "Ideally, this goal would also reflect working conditions and job satisfaction associated with livelihoods in marine sectors." 
-	)
+          tags$b("Marine sector-specific employment data:"),
+          "Difficulty in obtaining data on sector-specific employment at a fine enough spatial resolution (Eurostat NUTS3 which distinguishes coastal vs non-coastal regions) has prevented a more focused assessment of marine livelihoods,  beyond the current approach’s rough estimation of livelihoods in coastal areas. " 
+        ),
+        tags$li(
+          tags$b("Working conditions and Job satisfaction:"),
+          "Ideally, this goal would also reflect working conditions and job satisfaction associated with livelihoods in marine sectors." 
+        )
       )
     )
   )
@@ -2632,7 +2620,7 @@ tabItem(
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden"), 
+       "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden")
     )
   ),
   fluidRow(
@@ -3477,15 +3465,15 @@ tags$li(
       
       ## § SHARE FEEDBACK ----
       tabItem(
-        tabName = "feedback"
+        tabName = "feedback",
         
         ## header
-        # fluidRow(
-        #   box(
-        #     htmlOutput("iframe"),
-        #     width = 12
-        #   )
-        # )
+        fluidRow(
+          box(
+            htmlOutput("iframe"),
+            width = 12
+          )
+        )
       ) # end feedback tab
     ) # end tabItems
   ) # end dashboardBody

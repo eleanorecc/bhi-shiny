@@ -90,19 +90,19 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "goal_data_prep_link"
+    )
+  ),
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
       goal_expert_info
-    )
-  ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "goal_data_prep_link"
     )
   ),
   

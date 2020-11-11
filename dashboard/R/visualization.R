@@ -163,7 +163,7 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins",
   if(basins_or_rgns == "subbasins"){
     
     order_df <- subbasins_df %>%
-      dplyr::select(name = subbasin, order) %>%
+      dplyr::select(name = subbasin, order = subbasin_order) %>%
       dplyr::mutate(order = as.factor(order))
     
     plot_df <- full_scores_lst[[goal_code]][[dim]][[as.character(year)]] %>%
@@ -184,7 +184,7 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins",
   } else {
     
     order_df <- regions_df %>%
-      dplyr::select(name = region_id, order) %>%
+      dplyr::select(name = region_id, order = region_order) %>%
       dplyr::mutate(order = as.factor(order))
     
     plot_df <- full_scores_lst[[goal_code]][[dim]][[as.character(year)]] %>%

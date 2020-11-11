@@ -202,7 +202,7 @@ make_data_table <- function(gh_raw_bhiprep, bhi_version){
     mutate(goal = list(c(goal, subgoal))) %>% 
     tidyr::unnest(cols = c(goal)) %>% 
     dplyr::filter(!is.na(goal)) %>% 
-    dplyr::select(goal, `Goal/Subgoal`, Dataset = layer, Description = description, Source)
+    dplyr::select(goal, goal_subgoal = `Goal/Subgoal`, dataset = layer, description, source = Source)
   
   
   ## keep only sprat for NP and only cod and herring for FIS/FP

@@ -1,8 +1,0 @@
-show_for_goals,intermediate_or_layers,full_layer_name,data_filename,plot_type,point_and_line,x_var,x_var_name,y_var,y_var_name,yline_var,yline_var_name,yint,yint_name,cat_var,cat_var_name,categories,map
-FIS,layers,Fishing mortality normalized by fishing mortality at max. sustainable yield,fis_ffmsy_bhi2019.csv,tsbar,,year,Year,value,F/FMSY,,,1,F equals FMSY,stock,Stock,cod|herring,polygons
-FIS,layers,Proportion of surveyed cod in length categories 20-60cm with Fulton's K greater than 0.8,fis_cod_penalty_bhi2019.csv,tspointlineregion,pointline,year,Year,penalty_factor,Proportion of Cod with Fulton's K > 0.8,,,,,,,,polygons
-FIS,layers,Biomass at sea normalized by spawning stock biomass,fis_bbmsy_bhi2019.csv,tsbar,,year,Year,value,B/BMSY,,,1,B equals BMSY,stock,Stock,cod|herring,polygons
-AO,layers,Pressure associated with sea surface temperature,cc_sst_bhi2019.csv,tsbarbasin,,year,Year,surf_temp_pressure,Pressure Score,,,,,,,,polygons
-AO,layers,Pressure associated with salinity of the surface layer,cc_sal_surf_bhi2019.csv,tsbarbasin,,year,Year,surf_sal_pressure,Pressure Score,,,,,,,,polygons
-EUT|BD|CS|ICO,intermediate,"Nitrogen Annual Inputs (tonnes, atmospheric and waterborne), line shows 3-Year Rolling Mean",nitrogen_load.csv,tspointlinebasin,point,year,Year,input_n_tonnes,Annual Input (Tonnes),rollmean3yr_input,3-Year Rolling Mean,maximum_allowable_input,Basin Max. Allowable Input (MAI),,,,
-EUT|BD|CS|ICO,intermediate,"Phosphorus Annual Inputs (tonnes, waterborne), line shows 3-Year Rolling Mean",phosphorus_load.csv,tspointlinebasin,point,year,Year,input_p_tonnes,Annual Input (Tonnes),rollmean3yr_input,3-Year Rolling Mean,maximum_allowable_input,Basin Max. Allowable Input (MAI),,,,

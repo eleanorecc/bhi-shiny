@@ -2,5 +2,8 @@
 .Rhistory
 .RData
 .Ruserdata
+.sqlite
+.db
 .DS_Store
 dashboard.dcf
+.httr-oauth

@@ -10,6 +10,9 @@ library(stringr)
 library(dplyr)
 library(tidyr)
 library(sp)
+library(RSQLite)
+library(DBI)
+
 
 assess_year <- 2019
 bhi_version <- "v2019"
@@ -30,39 +33,135 @@ source(here::here("rebuild", "rebuilding.R"))
 
 <br>
 
-## Get Most-Recent Data for Dashboard
+## Make Database
 
-```{r extract other relevant data from bhiprep github repo and write to data folder}
-## assessment raw datasets metadata for data layers tables
-data_info <- make_data_table(gh_raw_bhiprep, bhi_version)
-write_csv(data_info, file.path(dir_main, "data", "data_info.csv"))
+```{r creating or recreating bhi database for shinyapp}
+## creating bhi database structure ----
 
-## 
+## in R console:
+bhidbconn <- dbConnect(SQLite(), dbname = "dashboard/data/bhi.db")
+sql <- read_lines("rebuild/bhidb.sql") %>% 
+  str_remove("\t") %>% 
+  paste(collapse = "") %>% 
+  str_split("(?<=;)") %>% 
+  unlist()
+for(s in sql[str_length(sql) > 1]){
+  dbExecute(bhidbconn, s)
+}
+## in terminal:
+## cd dashboard/data
+## pwd
+## sqlite3 bhi.db
+## .read bhidb.sql
+## .schema
+## .exit
+
+
+## static database tables, create once in db ----
+goals <- read_csv(sprintf("%s/%s/conf/goals.csv", gh_raw_bhi, scenario_folder)) %>% 
+  select(goal_name = goal, name, description)
+
+flowerConf <- read_csv(sprintf("%s/%s/conf/goals.csv", gh_raw_bhi, scenario_folder)) %>% 
+  select(goal, parent, name_flower, petalweight = weight, order_hierarchy)
+
+regions <- read_csv(sprintf("%s/%s/layers/rgns_complete.csv", gh_raw_bhi, scenario_folder)) %>% 
+  select(region_id, subbasin, eez, region_name, area_km2 = region_area_km2, region_order)
+
+subbasins <- read_csv(sprintf("%s/%s/layers/rgns_complete.csv", gh_raw_bhi, scenario_folder)) %>% 
+  distinct(helcom_id, region_id = subbasin_id, subbasin, area_km2 = subbasin_area_km2, subbasin_order)
+
+
+pressures <- read_csv(sprintf("%s%s/conf/goals.csv", gh_raw_bhi, scenario_folder)) %>% 
+  filter(!is.na(preindex_function)) %>%
+  select(goal, goal_name = name) %>%
+  left_join(read_csv(sprintf("%s%s/conf/pressures_matrix.csv", gh_raw_bhi, scenario_folder))) %>%
+  select(-goal, -element, -element_name) %>%
+  tidyr::pivot_longer(cols = sp_invasives:ss_wgi, names_to = "layer", values_to = "weight")
+
+resilience <- read_csv(sprintf("%s%s/conf/goals.csv", gh_raw_bhi, scenario_folder)) %>% 
+  filter(!is.na(preindex_function)) %>%
+  select(goal, goal_name = name) %>%
+  left_join(read_csv(sprintf("%s%s/conf/resilience_matrix.csv", gh_raw_bhi, scenario_folder))) %>%
+  select(-goal, -element) %>% 
+  tidyr::pivot_longer(cols = wgi_all:res_reg_pop, names_to = "layer", values_to = "weighted") %>%
+  left_join(read_csv(sprintf("%s%s/conf/resilience_categories.csv", gh_raw_bhi, scenario_folder))) %>%
+  mutate(weight = ifelse(is.na(weighted), NA, weight)) %>% 
+  select(goal_name, layer, weight, category, category_type, subcategory)
+
+
+for(tab in c(goals, flowerConf, regions, subbasins)){
+  dbWriteTable(
+    conn = bhidbconn,
+    name = stringr::str_to_upper(tab),
+    value = get(tab),
+    row.names = FALSE,
+    append = TRUE,
+    binary = TRUE
+  )
+}
+dbDisconnect(bhidbconn)
 ```
 
+<br>
 
-```{r extract scores data from bhi github repo}
-## assessment scores
-bhiscores <- read_csv(paste0(gh_raw_bhi, "/scores.csv"), col_types = cols())
+## Update Data
+
+```{r data from bhiprep and bhi github repos}
+## data sources ----
+## assessment raw datasets metadata for data sources tables
+dataSources <- make_data_table(gh_raw_bhiprep, bhi_version) %>% 
+  distinct(goal = `Goal/Subgoal`, dataset = Dataset, description = Description, source = Source)
+
+
+## assessment scores ----
+scores <- read_csv(sprintf("%s%s/scores.csv", gh_raw_bhi, scenario_folder), col_types = cols())
+
 
 ## check if layers in bhi-prep repo match those registered in bhi/layers.csv
-## if not scores.csv may need to be recalculated, but could be extra layers were calculated but not used
+## if not scores.csv may need to be recalculated, 
+## but also could be that extra layers were calculated but not used
 ghlayers <- sort(list_prep_layers(gh_api_bhiprep))
 lyrcsvfiles <- sort(readr::read_csv(paste0(gh_raw_bhi, "/layers.csv"))$filename)
 all(lyrcsvfiles %in% paste0(ghlayers, ".csv"))
  
 ## need year column
-## save data to dashboard data folder
-bhiscores %>% 
-  select(goal, dimension, region_id, score) %>% 
-  mutate(year = ifelse("year" %in% names(bhiscores), year, assess_year))
-```
+## save data to dashboard database
+indexScores <- scores %>% 
+  mutate(year = ifelse("year" %in% names(bhiscores), year, assess_year)) %>% 
+  select(region_id, dimension, goal, score, year)
 
-<br>
 
-## Configuration
 
-```{r make sure everything is synced with main bhi repos}
+## additional figures config info ----
+## note: do not cache oauth access credentials between sessions
+# library(googlesheets4)
+# shinyfigssheet <- "https://docs.google.com/spreadsheets_url_replace_here"
+# addfigsconf <- read_sheet(shinyfigssheet) %>%
+#   select(show_for_goals:max_year) %>% 
+#   filter()
+
+
+
+## entering data in bhi database ----
+
+## 1. connect to database
+## 2. clean datasets when entering them into the database
+## 3. disconnect from database
+
+bhidbconn <- dbConnect(SQLite(), dbname = "dashboard/data/bhi.db")
+
+for(tab in c("dataSources", "indexScores")){
+# for(tab in c("dataSources", "indexScores", "additionalFigs")){
+  dbWriteTable(
+    conn = bhidbconn,
+    name = stringr::str_to_title(tab),
+    value = get(tab),
+    row.names = FALSE,
+    append = TRUE,
+    binary = TRUE
+  )
+}
+dbDisconnect(bhidbconn)
 ```
 
 <br>
@@ -145,11 +244,6 @@ if(!file.exists(file.path(dir_main, "data", "mpas.rds"))){
     "mpas.rds already exists. if you really want to replace it, manually select/run relevant lines above"
   )
 )
-
-## check regions and subbasins dataframes,
-## load also for next step-- creating flowerplots
-regions_df <- readr::read_csv(file.path(dir_main, "data", "regions.csv"))
-subbasins_df <- readr::read_csv(file.path(dir_main, "data", "basins.csv"))
 ```
 
 <br>
@@ -160,7 +254,8 @@ subbasins_df <- readr::read_csv(file.path(dir_main, "data", "basins.csv"))
 source(here::here("rebuild", "flowerplot.R"))
 source(file.path(dir_main, "R", "theme.R"))
 
-flower_data <- readr::read_csv(file.path(dir_main, "data", "scores.csv"))
+bhidbconn <- dbConnect(SQLite(), dbname = "dashboard/data/bhi.db")
+flower_data <- dbReadTable(bhidbconn, "IndexScores")
 
 ## need approx fish vs mariculture contribution to food provision
 ## read in intermediate layer saved from fp scores
@@ -272,12 +367,4 @@ prs_links_txt("Fisheries")
 ```
 
 <br>
-
-## Update/Repair Links
-
-```{r update links to dataprep documents}
-```
-
-```{r check for any broken links}
-```
 
