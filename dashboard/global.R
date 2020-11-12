@@ -90,7 +90,17 @@ for(g in unique(full_scores_csv$goal)){
   }
 }
 goals_csv <- dbReadTable(bhidbconn, "Goals")
-data_info <- dbReadTable(bhidbconn, "DataSources")
+data_info <- tbl(bhidbconn, "DataSources") %>% 
+  left_join(tbl(bhidbconn, "FlowerConf")) %>% 
+  collect() %>% 
+  left_join(select(goals_csv, goal, goal_name)) %>% 
+  rowwise() %>% 
+  mutate(goal = list(c(goal, parent))) %>% 
+  tidyr::unnest(cols = c(goal)) %>% 
+  dplyr::filter(!is.na(goal)) %>% 
+  ungroup() %>% 
+  select(goal, `Goal/Subgoal` = goal_name, Dataset = dataset, Source = source)
+
 regions_df <- dbReadTable(bhidbconn, "Regions")
 subbasins_df <- dbReadTable(bhidbconn, "Subbasins") %>% 
   rename(subbasin_id = region_id)

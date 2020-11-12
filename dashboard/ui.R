@@ -178,6 +178,8 @@ dashboardPage(
       tags$style(
         # border-color: #3c8dbc;  
         # background-color: #f6f9f0; 
+        # background-color: #1c3549;
+        # background-color: #081010;
         HTML("
           .column_eight {
              border-color: #599089;
@@ -190,7 +192,7 @@ dashboardPage(
              margin-top: 0px;
              width: 100%;
              padding: 12px;
-             background-color: #081010;
+             background-color: #061521;
              color: #ecf9f6;
           }
           .column_four {
@@ -204,7 +206,7 @@ dashboardPage(
              margin-top: 0px;
              width: 96%;
              padding: 12px;
-             background-color: #081010;
+             background-color: #061521;
              color: #ecf9f6;
           }
           .columns_container {
@@ -687,6 +689,13 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/BD/v2019/bd_prep.md"
+    )
+  ),
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
@@ -695,13 +704,7 @@ tabItem(
        "Andrea Belgrano ,  ", tags$em(" Institute of Marine Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Lysekil, Sweden"), br(), "Henn Ojaveer,  ", tags$em(" Pärnu College, University of Tartu, Pärnu, Estonia and National Institute of Aquatic Resources, Technical University of Denmark, Lyngby, Denmark") 
     )
   ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/BD/v2019/bd_prep.md"
-    )
-  ),
+
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -767,7 +770,7 @@ tabItem(
         class = "column_eight",
         width = 8,
         h4("Background Information"),
-        p("Seagrass (**Zostera marina**) is an important macrophyte species occurring on shallow sandy bottoms in the Baltic Sea, and observations of **Zostera marina** were used as an indicator for carbon storage for the Baltic Sea area from HELCOM Red List species list.")
+        p("Seagrass (Zostera marina) is an important macrophyte species occurring on shallow sandy bottoms in the Baltic Sea, and observations of Zostera marina were used as an indicator for carbon storage for the Baltic Sea area from HELCOM Red List species list.")
       ),
       column(
         class = "column_four",
@@ -843,6 +846,13 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CS/v2019/cs_prep.md"
+    )
+  ),
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
@@ -851,14 +861,7 @@ tabItem(
        "Christoffer Boström ,  ", tags$em(" Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland"), br(), "Markku Viitasalo,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland") 
     )
   ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CS/v2019/cs_prep.md"
-    )
-  ),
-  
+
   ## data sources, considerations and improvements
   fluidRow(
     box(
@@ -927,7 +930,7 @@ tabItem(
         class = "column_eight",
         width = 8,
         h4("Background Information"),
-        p("Three sub-goals for the Clean Waters goal were deemed important for the Baltic Sea: **Contaminants**, **Eutrophication**, and **Trash**. Each of these sub-goals has a status calculated that is equally averaged with the others for an overall goal status, and each sub-goal has a unique set of resilience and pressures.")
+        p("Three sub-goals for the Clean Waters goal were deemed important for the Baltic Sea: Contaminants, Eutrophication, and Trash. Each of these sub-goals has a status calculated that is equally averaged with the others for an overall goal status, and each sub-goal has a unique set of resilience and pressures.")
       ),
       column(
         class = "column_four",
@@ -990,7 +993,7 @@ tabItem(
         class = "column_eight",
         width = 8,
         h4("Additional Insights & Discussion"),
-        p("The overall score for the Clean Waters goal is low, especially in south-eastern Baltic basins, where both the **Contaminants** and **Trash** sub-goal have low status scores.")
+        p("The overall score for the Clean Waters goal is low, especially in south-eastern Baltic basins, where both the Contaminants and Trash sub-goal have low status scores.")
       ),
       column(
         class = "column_four",
@@ -1018,19 +1021,19 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/tree/master/prep/CW"
+    )
+  ),
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
        "Anna Sobek ,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden"), br(), "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland"), 
-    )
-  ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/tree/master/prep/CW"
     )
   ),
   
@@ -1183,6 +1186,13 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/contaminants/v2019/con_prep.md"
+    )
+  ),
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
@@ -1191,13 +1201,7 @@ tabItem(
        "Anna Sobek,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden")
     )
   ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/contaminants/v2019/con_prep.md"
-    )
-  ),
+
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -1352,6 +1356,13 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/eutrophication/v2019/eut_prep.md"
+    )
+  ),
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
@@ -1360,13 +1371,7 @@ tabItem(
        "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland")
     )
   ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/eutrophication/v2019/eut_prep.md"
-    )
-  ),
+  
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -1498,6 +1503,13 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/trash/v2019/tra_prep.md"
+    )
+  ),
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
@@ -1506,13 +1518,7 @@ tabItem(
       tags$em(" No expert for this particular sub-goal")
     )
   ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/CW/trash/v2019/tra_prep.md"
-    )
-  ),
+  
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -1582,13 +1588,13 @@ tabItem(
         class = "column_eight",
         width = 8,
         h4("Background Information"),
-        p("The Food Provision goal is divided into two sub-goals: **Wild-Caught Fisheries** and **Mariculture**. The more seafood harvested or farmed sustainably, the higher the goal score. Due to limited information and data the **Mariculture** sub-goal could not be assessed.")
+        p("The Food Provision goal is divided into two sub-goals: Wild-Caught Fisheries and Mariculture. The more seafood harvested or farmed sustainably, the higher the goal score. Due to limited information and data the Mariculture sub-goal could not be assessed.")
       ),
       column(
         class = "column_four",
         width = 4,
         h4("Scoring Criteria"),
-        p("The target used for the **Wild-Caught Fisheries** sub-goal is based on the Maximum Sustainable Yield (MSY) principle. For the the **Mariculture** sub-goal the aim was to use the maximum nutrient discharge for both phosphorus (P) and nitrogen (N), but due to limited information this sub-goal could not be assessed.")
+        p("The target used for the Wild-Caught Fisheries sub-goal is based on the Maximum Sustainable Yield (MSY) principle. For the the Mariculture sub-goal the aim was to use the maximum nutrient discharge for both phosphorus (P) and nitrogen (N), but due to limited information this sub-goal could not be assessed.")
       )
     )
   ),
@@ -1662,22 +1668,23 @@ tabItem(
   
   
   ## methods link, expert who provided guidance
-  fluidRow(
-    box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
-      solidHeader = TRUE,
-       "Christian Möllmann**,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany")
-    )
-  ),
-  fluidRow(
+   fluidRow(
     align = "center",
     text_links(
       "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
       ""
     )
   ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+       "Christian Möllmann,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany")
+    )
+  ),
+ 
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -1830,6 +1837,13 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md"
+    )
+  ),  
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
@@ -1838,13 +1852,7 @@ tabItem(
        "Christian Möllmann,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany") 
     )
   ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md"
-    )
-  ),
+
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -1986,6 +1994,13 @@ tabItem(
   
   
   ## methods link, expert who provided guidance
+    fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/MAR/v2019/mar_prep.md"
+    )
+  ),
   fluidRow(
     box(
       width = 12, 
@@ -1995,13 +2010,7 @@ tabItem(
       tags$em(" No expert for this particular sub-goal")
     )
   ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/MAR/v2019/mar_prep.md"
-    )
-  ),
+
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -2063,13 +2072,13 @@ tabItem(
         class = "column_eight",
         width = 8,
         h4("Background Information"),
-        p("The jobs and revenue produced from marine-related industries directly benefit those who are employed, but also have important indirect value for community identity, tax revenue, and other related economic and social aspects of a stable coastal economy. The Livelihoods and Economies goal is divided into two sub-goals: **Livelihoods** and **Economies**. Each is measured separately as the number and quality of jobs and the amount of revenue produced are both of considerable interest to stakeholders and governments, and can have different patterns in some cases.")
+        p("The jobs and revenue produced from marine-related industries directly benefit those who are employed, but also have important indirect value for community identity, tax revenue, and other related economic and social aspects of a stable coastal economy. The Livelihoods and Economies goal is divided into two sub-goals: 'Livelihoods' and 'Economies'. Each is measured separately as the number and quality of jobs and the amount of revenue produced are both of considerable interest to stakeholders and governments, and can have different patterns in some cases.")
       ),
       column(
         class = "column_four",
         width = 4,
         h4("Scoring Criteria"),
-        p("The target used for **Livelihoods** sub-goal is the maximum Region-to-Country employment ratio of the past five years, and highest country employment rate in the last fifteen years, whereas for the **Economies** sub-goal is having all marine economic sectors achieve an average annual growth rate of 1.5%.")
+        p("The target used for Livelihoods sub-goal is the maximum Region-to-Country employment ratio of the past five years, and highest country employment rate in the last fifteen years, whereas for the Economies sub-goal is having all marine economic sectors achieve an average annual growth rate of 1.5%.")
       )
     )
   ),
@@ -2128,6 +2137,13 @@ tabItem(
   
   
   ## methods link, expert who provided guidance
+    fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      ""
+    )
+  ),
   fluidRow(
     box(
       width = 12, 
@@ -2137,13 +2153,7 @@ tabItem(
        "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany") 
     )
   ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      ""
-    )
-  ),
+
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -2293,19 +2303,19 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ECO/v2019/eco_prep.md"
+    )
+  ),
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
        "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
-    )
-  ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ECO/v2019/eco_prep.md"
     )
   ),
   
@@ -2444,19 +2454,19 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/LIV/v2019/liv_prep.md"
+    )
+  ),
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
        "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
-    )
-  ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/blob/master/prep/LIV/v2019/liv_prep.md"
     )
   ),
   
@@ -2524,13 +2534,13 @@ tabItem(
         class = "column_eight",
         width = 8,
         h4("Background Information"),
-        p("The Sense of Place goal is divided into two sub-goals: **Iconic Species** and **Lasting Special Places**. In particular, the status of **Iconic Species** was evaluated using species observational data from the HELCOM database, whereas the **Lasting Special Places** sub-goal assesses the status of MPAs in the Baltic Sea.")
+        p("The Sense of Place goal is divided into two sub-goals: Iconic Species and Lasting Special Places. In particular, the status of Iconic Species was evaluated using species observational data from the HELCOM database, whereas the Lasting Special Places sub-goal assesses the status of MPAs in the Baltic Sea.")
       ),
       column(
         class = "column_four",
         width = 4,
         h4("Scoring Criteria"),
-        p("The target used for the **Iconic Species** sub-goal is achieved in case all species are categorised as of ’least concern’, whereas for the **Lasting Special Places** sub-goal the designation of at least 10% of each BHI region as MPAs with a full implemented management plan is used.")
+        p("The target used for the Iconic Species sub-goal is achieved in case all species are categorised as of ’least concern’, whereas for the Lasting Special Places sub-goal the designation of at least 10% of each BHI region as MPAs with a full implemented management plan is used.")
       )
     )
   ),
@@ -2615,19 +2625,19 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      ""
+    )
+  ),
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
        "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden")
-    )
-  ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      ""
     )
   ),
   
@@ -2794,22 +2804,23 @@ tabItem(
   
   
   ## methods link, expert who provided guidance
-  fluidRow(
-    box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
-      solidHeader = TRUE,
-       ",  ", tags$em(" No expert for this particular sub-goal"), 
-    )
-  ),
-  fluidRow(
+    fluidRow(
     align = "center",
     text_links(
       "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
       "https://github.com/OHI-Science/bhi-prep/blob/master/prep/ICO/v2019/ico_prep.md"
     )
   ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+      tags$em(" No expert for this particular sub-goal")
+    )
+  ),
+
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -2945,21 +2956,22 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
-    box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
-      solidHeader = TRUE,
-       "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden"), 
-    )
-  ),
-  fluidRow(
     align = "center",
     text_links(
       "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
       "https://github.com/OHI-Science/bhi-prep/blob/master/prep/LSP/v2019/lsp_prep.md"
     )
   ),
+  fluidRow(
+    box(
+      width = 12, 
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      status = "primary", 
+      solidHeader = TRUE,
+       "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden") 
+    )
+  ),
+  
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -3112,19 +3124,19 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md"
+    )
+  ),
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "**No expert for this particular goal (some advisement from fisheries goal expert, as used similar models)**,  ", tags$em(" No expert for this particular goal (some advisement from fisheries goal expert, as used similar models)"), 
-    )
-  ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/tree/master/prep/FIS/v2019/fis_np_prep.md"
+      tags$em("No expert for this particular goal (some advisement from fisheries goal expert, as used similar models)") 
     )
   ),
   
@@ -3266,19 +3278,19 @@ tabItem(
   
   ## methods link, expert who provided guidance
   fluidRow(
+    align = "center",
+    text_links(
+      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
+      "https://github.com/OHI-Science/bhi-prep/tree/master/prep/TR/v2019/tr_prep.md"
+    )
+  ), 
+  fluidRow(
     box(
       width = 12, 
       title = "Experts who guided us in the Goal Preparation and Calculation",
       status = "primary", 
       solidHeader = TRUE,
-       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany"), 
-    )
-  ),
-  fluidRow(
-    align = "center",
-    text_links(
-      "CLICK HERE FOR DETAILED METHODS, ADDITIONAL FIGURES, MAPS, & CODE",
-      "https://github.com/OHI-Science/bhi-prep/tree/master/prep/TR/v2019/tr_prep.md"
+       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany") 
     )
   ),
   

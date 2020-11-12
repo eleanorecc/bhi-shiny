@@ -131,7 +131,6 @@ indexScores <- scores %>%
   select(region_id, dimension, goal, score, year)
 
 
-
 ## additional figures config info ----
 ## note: do not cache oauth access credentials between sessions
 # library(googlesheets4)
