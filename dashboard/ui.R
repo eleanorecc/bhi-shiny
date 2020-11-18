@@ -526,11 +526,12 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Jens Olsson,  ", tags$em(" Institute of Coastal Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Öregrund, Sweden") 
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Jens Olsson,  ", tags$em(" Institute of Coastal Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Öregrund, Sweden") 
     )
   ),
 
@@ -704,11 +705,12 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Andrea Belgrano ,  ", tags$em(" Institute of Marine Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Lysekil, Sweden"), br(), "Henn Ojaveer,  ", tags$em(" Pärnu College, University of Tartu, Pärnu, Estonia and National Institute of Aquatic Resources, Technical University of Denmark, Lyngby, Denmark") 
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Andrea Belgrano ,  ", tags$em(" Institute of Marine Research, Department of Aquatic Resources, Swedish University of Agricultural Sciences, Lysekil, Sweden"), br(), "Henn Ojaveer,  ", tags$em(" Pärnu College, University of Tartu, Pärnu, Estonia and National Institute of Aquatic Resources, Technical University of Denmark, Lyngby, Denmark") 
     )
   ),
 
@@ -861,11 +863,12 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Christoffer Boström ,  ", tags$em(" Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland"), br(), "Markku Viitasalo,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland") 
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Christoffer Boström ,  ", tags$em(" Environmental and Marine Biology, Åbo Akademi University, Åbo, Finland"), br(), "Markku Viitasalo,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland") 
     )
   ),
 
@@ -1036,13 +1039,23 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Anna Sobek ,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden"), br(), "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland"), 
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Anna Sobek ,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden"), br(), "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland")
     )
   ),
+  # fluidRow(
+  #   box(
+  #     width = 12, 
+  #     title = "Experts who guided us in the Goal Preparation and Calculation",
+  #     status = "primary", 
+  #     solidHeader = TRUE,
+  #     "Anna Sobek ,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden"), br(), "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland")
+  #   )
+  # ),
   
   ## data sources, considerations and improvements
   fluidRow(
@@ -1201,11 +1214,12 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Anna Sobek,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden")
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Anna Sobek,  ", tags$em(" Department of Environmental Science, Stockholm University, Stockholm, Sweden")
     )
   ),
 
@@ -1371,11 +1385,12 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland")
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Vivi Fleming,  ", tags$em(" Finnish Environment Institute SYKE, Helsinki, Finland")
     )
   ),
   
@@ -1518,10 +1533,11 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
       tags$em(" No expert for this particular sub-goal")
     )
   ),
@@ -1684,11 +1700,12 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Christian Möllmann,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany")
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Christian Möllmann,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany")
     )
   ),
  
@@ -1852,11 +1869,12 @@ tabItem(
   ),  
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Christian Möllmann,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany") 
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Christian Möllmann,  ", tags$em(" Institute for Marine Ecosystem and Fisheries Science, Center for Earth System Research and Sustainability (CEN), University of Hamburg, Hamburg, Germany") 
     )
   ),
 
@@ -2010,10 +2028,11 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
       tags$em(" No expert for this particular sub-goal")
     )
   ),
@@ -2153,11 +2172,12 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany") 
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany") 
     )
   ),
 
@@ -2318,11 +2338,12 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
     )
   ),
   
@@ -2469,11 +2490,12 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
     )
   ),
   
@@ -2640,11 +2662,12 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden")
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden")
     )
   ),
   
@@ -2820,10 +2843,11 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
       tags$em(" No expert for this particular sub-goal")
     )
   ),
@@ -2971,11 +2995,12 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden") 
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Sofia Wikström,  ", tags$em(" Baltic Sea Centre, Stockholm University, Stockholm, Sweden") 
     )
   ),
   
@@ -3139,10 +3164,11 @@ tabItem(
   ),
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
       tags$em("No expert for this particular goal (some advisement from fisheries goal expert, as used similar models)") 
     )
   ),
@@ -3293,11 +3319,12 @@ tabItem(
   ), 
   fluidRow(
     box(
-      width = 12, 
-      title = "Experts who guided us in the Goal Preparation and Calculation",
-      status = "primary", 
+      collapsible = TRUE,
+      collapsed = TRUE,
       solidHeader = TRUE,
-       "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany") 
+      width = 12,
+      title = "Experts who guided us in the Goal Preparation and Calculation",
+      "Wilfried Rickels,  ", tags$em(" Kiel Institute for the World Economy, Kiel, Germany")
     )
   ),
   
