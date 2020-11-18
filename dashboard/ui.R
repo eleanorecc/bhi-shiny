@@ -397,7 +397,7 @@ dashboardPage(
             title = "How Pressures are Connected to Different Goals", 
             p("This table shows how different pressures are related to different goals. Pressures usually act on multiple goals, and some goals may have more or fewers relevant pressures than others. The values indicate different levels of effect: 1 is the smallest effect, 2 is a moderate effect, 3 is the largest effect."),
             br(),
-            div(DT::dataTableOutput("prs_matrix"), style = "font-size: 80%")
+            div(DT::dataTableOutput("prs_matrix"), style = "font-size: 68%")
           )
         ),
         fluidRow(
@@ -408,7 +408,7 @@ dashboardPage(
             title = "Resilience Components' Relevance to Different Goals", 
             p("This table shows how different resilience elements are related to different goals. The values indicate different levels of effect: 1 is the smallest effect, 2 is a larger effect."),
             br(),
-            div(DT::dataTableOutput("res_matrix"), style = "font-size: 80%")
+            div(DT::dataTableOutput("res_matrix"), style = "font-size: 68%")
           )
         )
       ), 

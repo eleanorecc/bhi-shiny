@@ -135,7 +135,14 @@ indexScores <- scores %>%
 ## note: do not cache oauth access credentials between sessions
 # library(googlesheets4)
 # shinyfigssheet <- "https://docs.google.com/spreadsheets_url_replace_here"
-# addfigsconf <- read_sheet(shinyfigssheet) %>%
+# addfigsconf <- read_sheet(shinyfigssheet)
+# layersnameinfo <- addfigsconf %>%
+#   mutate(
+#     description = full_layer_name,
+#     layer = str_remove(str_remove(data_filename, "_bhi[0-9]{4}"), ".csv")
+#   ) %>%
+#   select(full_layer_name, layer, description)
+# addfigsconf <- addfigsconf %>% 
 #   select(show_for_goals:max_year) %>% 
 #   filter()
 

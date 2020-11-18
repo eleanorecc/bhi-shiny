@@ -106,9 +106,16 @@ regions_df <- dbReadTable(bhidbconn, "Regions")
 subbasins_df <- dbReadTable(bhidbconn, "Subbasins") %>% 
   rename(subbasin_id = region_id)
 
-prs_matrix <- dbReadTable(bhidbconn, "Pressures") %>% 
+prs_matrix <- tbl(bhidbconn, "Pressures") %>% 
+  left_join(tbl(bhidbconn, "DataLayers")) %>% 
+  mutate(full_layer_name = ifelse(is.na(full_layer_name), "Inverse of World Governance Indicator", full_layer_name)) %>% 
+  select(Layer = full_layer_name, weight, goal_name) %>% 
+  collect() %>% 
   tidyr::pivot_wider(names_from = "goal_name", values_from = "weight")
-res_matrix <- dbFetch(dbSendQuery(bhidbconn, "SELECT goal_name, layer, weight FROM Resilience")) %>% 
+res_matrix <- tbl(bhidbconn, "Resilience") %>% 
+  left_join(tbl(bhidbconn, "DataLayers")) %>% 
+  select(Layer = full_layer_name, weight, goal_name) %>% 
+  collect() %>% 
   tidyr::pivot_wider(names_from = "goal_name", values_from = "weight")
 
 dbDisconnect(bhidbconn)
