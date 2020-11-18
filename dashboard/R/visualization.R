@@ -209,7 +209,14 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins",
   
   ## create plot ----
   plot_obj <- ggplot(
-    data = plot_df,
+    # data = plot_df,
+    data = plot_df %>% 
+      mutate(sign = case_when(
+        score_unrounded > 0 ~ "Positive Trend", 
+        score_unrounded == 0 ~ "No Change",
+        score_unrounded < 0 ~ "Negative Trend"
+      )) %>% 
+      mutate(score_unrounded = abs(score_unrounded)),
     aes(
       x = pos, y = score_unrounded,
       text =  sprintf("%s:\n%s", gsub(pattern = ", ", replacement = "\n", Name), Score),
@@ -235,36 +242,50 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins",
       alpha = 0,
       fill = NA,
       show.legend = FALSE
-    ) +
-    geom_col(
-      # stat = "identity",
-      size = 0.2,
-      color = "#acb9b6",
-      alpha = 0.8,
-      show.legend = FALSE
-    ) +
-    scale_y_continuous(limits = c(ifelse(dim == "trend", -1.1, 0), ifelse(dim == "trend", 1.1, 101)))
+    )
   
-  if(dim == "pressures"){
+  if(dim == "trend"){
     plot_obj <- plot_obj +
-      scale_fill_gradientn(
-        colours = rev(c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#457da1")),
-        values = rev(1 - c(0, 0.2, 0.42, 0.6, 0.8, 0.95, 1)),
-        # breaks = c(15, 40, 60, 75, 90, 100),
-        limits = c(ifelse(dim == "trend", -1, 0), ifelse(dim == "trend", 1, 101)),
-        na.value = "black"
-      )
+      geom_col(
+        aes(fill = sign),
+        size = 0.2,
+        color = "#acb9b6",
+        alpha = 0.8,
+        show.legend = FALSE
+      ) +
+      scale_y_continuous(limits = c(0, 1.1)) +
+      scale_fill_manual(values = c("#b9181d", "#0a56c7", "#0a56c7"))
+      # scale_fill_manual(values = c("#8c031a", "#457da1", "#457da1"))
+    
   } else {
     plot_obj <- plot_obj +
-      scale_fill_gradientn(
-        colours = c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#457da1"),
-        values = c(0, 0.2, 0.42, 0.6, 0.8, 0.95, 1),
-        # breaks = c(15, 40, 60, 75, 90, 100),
-        limits = c(ifelse(dim == "trend", -1, 0), ifelse(dim == "trend", 1, 101)),
-        na.value = "black"
-      )
+      geom_col(
+        size = 0.2,
+        color = "#acb9b6",
+        alpha = 0.8,
+        show.legend = FALSE
+      ) +
+      scale_y_continuous(limits = c(0, 101))
+    
+    if(dim == "pressures"){
+      plot_obj <- plot_obj +
+        scale_fill_gradientn(
+          colours = rev(c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#457da1")),
+          values = rev(1 - c(0, 0.2, 0.42, 0.6, 0.8, 0.95, 1)),
+          limits = c(0, 101),
+          na.value = "black"
+        )
+    } else {
+      plot_obj <- plot_obj +
+        scale_fill_gradientn(
+          colours = c("#8c031a", "#cc0033", "#fff78a", "#f6ffb3", "#009999", "#457da1"),
+          values = c(0, 0.2, 0.42, 0.6, 0.8, 0.95, 1),
+          limits = c(0, 101),
+          na.value = "black"
+        )
+    }
   }
-  
+ 
   ## overlay light grey for NAs
   if(any(!is.na(plot_df$plotNAs))){
     plot_obj <- plot_obj +
@@ -276,10 +297,21 @@ scores_barplot <- function(scores_csv, basins_or_rgns = "subbasins",
         fill = "#fcfcfd"
       )
   }
+  
   ## some formatting
   plot_obj <- plot_obj +
-    geom_hline(data = NULL, aes(yintercept = ifelse(dim == "trend", 1, 100)), color = "royalblue", size = 0.8) +
-    geom_hline(data = NULL, aes(yintercept = ifelse(dim == "trend", -1, 0)), color = "darkred", size = 0.2) +
+    geom_hline(
+      data = NULL, 
+      aes(yintercept = ifelse(dim == "trend", 1, 100)), 
+      color = ifelse(dim == "trend", "#061521", "royalblue"), 
+      size = 0.8
+    ) +
+    geom_hline(
+      data = NULL, 
+      aes(yintercept = 0), 
+      color = ifelse(dim == "trend", "#acb9b6", "darkred"), 
+      size = 0.3
+    ) +
     labs(x = NULL, y = NULL) +
     coord_flip() +
     theme(axis.text.y = element_blank())

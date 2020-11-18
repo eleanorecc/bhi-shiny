@@ -42,7 +42,7 @@ mapCard <- function(input, output, session,
       goal_code, 
       dim = dimension_selected(), 
       year = year_selected(),
-      legend_title
+      legend_title = str_to_upper(legend_title())
     )
     
     ## create and add popup text

@@ -5,24 +5,28 @@
 #' \code{flowerplotCard} generates the flowerplot shown in a card
 
 ## flowerplot card ui function ----
-flowerplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL){
+flowerplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL, additional_text = NULL){
   
   ## make namespace for the id-specific object
   ns <- shiny::NS(id)
   
   ## put together in box and return box
   tagList(box(
+    solidHeader = TRUE,
     width = 6,
-    title = title_text,
+    h4(title_text),
     
     list(
       p(sub_title_text, br()),
+      p(additional_text, br()),
+      br(),
       addSpinner(
-        imageOutput(ns("flowerplot"), height = 440),
+        imageOutput(ns("flowerplot"), height = 435),
         spin = "rotating-plane",
         color = "#d7e5e8"
       ),
       
+      br(),
       br(),
       
       ## input region ----
@@ -126,7 +130,7 @@ flowerplotCardUI <- function(id, title_text = NULL, sub_title_text = NULL){
             `Western Gotland Basin, Sweden` = 26
           )
         )
-      )
+      ) # end region input select menu
     )
   ))
 }

@@ -1,8 +1,9 @@
 ## Setting up Dashboard
 dashboardPage(
   dashboardHeader(
-    title = "Ocean Health Index for the Baltic Sea",
-    titleWidth = 380
+    title = "Ocean Health Index for the Baltic Sea, 2019 Assessment",
+    # titleWidth = 380
+    titleWidth = 548
   ),
   
   ## DASHBOARD SIDEBAR ----
@@ -133,7 +134,7 @@ dashboardPage(
         startExpanded = FALSE,
         
         ## input year ----
-        sliderInput("view_year", "Year", min = 2012, max = 2019, value = 2019, step = 1, sep = ""),
+        sliderInput("view_year", "Year", min = 2019, max = 2019, value = 2019, step = 1, sep = ""),
         
         ## input spatial unit ----
         selectInput(
@@ -302,16 +303,7 @@ dashboardPage(
       ## § welcome ----
       tabItem(
         tabName = "welcome",
-        
-        ## header and intro
-        # fluidRow(
-        #   box(
-        #     h1("Ocean Health Dashboard for the Baltic Sea"),
-        #     # h1("Ocean Health Dashboard for the Baltic Sea", style = "color:#9b363d"),
-        #     # h1("(Under Construction! Not to be used or cited)", style = "color:#9b363d"),
-        #     width = 12
-        #   )
-        # ),
+
         fluidRow(
           box(
             title = tagList(tags$h3("Measuring the Health of our Oceans")),
@@ -331,19 +323,29 @@ dashboardPage(
           ## flowerplot
           flowerplotCardUI(
             id = "baltic_flowerplot",
-            title_text = "Plot of Index Scores",
-            sub_title_text = "Ocean Health Index scores are calculated for individual goals and then combined to get an overall score on a scale of 0-100, where 100 indicates management thresholds are achieved (not necessarily pristine condition). Anything less than a score of 100 represents failure to reach the 'acceptable' level. Individual goal scores are represented by the length of the petals in a flower plot below, and the overall Index score for the region is in the center."
+            title_text = "Aggregated Index Scores",
+            sub_title_text = "Individual goal scores are represented by the lengths of the petals in the flowerplot below, and the overall Index score for the region is in the center. Scores under 100 indicate failure to reach the 'acceptable' levels decided upon by the relevant governing bodies, and science experts.",
+            additional_text = "Ocean Health Index scores are calculated for individual goals and then combined to get an overall score on a scale of 0-100, where 100 indicates management thresholds are achieved (not necessarily pristine condition)."
           ),
-          
+
           ## map of overall scores
-          tagList(box(
-            title = "Map of Index Scores",
-            list(
-              p("A score of 100 indicates management thresholds are achieved (not necessarily pristine condition), while anything less represents failure to reach the 'acceptable' level."),
-              list(addSpinner(leafletOutput("index_map", height = 600), spin = "rotating-plane", color = "#d7e5e8"))
-            ),
-            width = 6
-          ))
+          tagList(
+
+            box(
+              solidHeader = TRUE,
+              list(
+                ## video
+                htmlOutput("iframe_video"),
+                br(),
+                ## index scores map
+                h4("Index Scores around the Baltic Sea"),
+                list(
+                  list(addSpinner(leafletOutput("index_map", height = 390), spin = "rotating-plane", color = "#d7e5e8"))
+                )
+              ),
+              width = 6
+            )
+          )
         ),
         
         fluidRow(
@@ -371,13 +373,14 @@ dashboardPage(
           ),
           box(
             solidHeader = TRUE,
-            imageOutput("method_figure", height = 580),
+            br(),
+            imageOutput("method_figure", height = 595),
             width = 8
           ),
           box(
             solidHeader = TRUE,
             list(
-              p(strong("Assessment Units:"), " The spatial assessment units used (BHI regions) are countries' Exclusive Economic Zones (EEZ) intersected with the sub-basins used by HELCOM. Sub-basin level data may be used where finer resolution is not available or too few data points fall within each BHI region.", br()), 
+              imageOutput("ohi_dims_figure", height = 280),
               p(strong("Framework:"), " The score calculation framework accounts for current status, but also short-term trends (based on 5 previous years, or 10 years for slow-changing variables), as well as cumulative pressures and measures that buffer the system's resilience.", br()), 
               p(strong("Trend:"), " The average rate of change in status during the most recent years; as such, the trend calculation is not trying to predict (or model) the future, but only indicates likely condition based on a linear relationship.", br()),
               p(strong("Pressure:"), " Social and ecological elements that negatively affect the status of a goal.", br()),
@@ -392,6 +395,8 @@ dashboardPage(
             collapsed = TRUE,
             width = 12,
             title = "How Pressures are Connected to Different Goals", 
+            p("This table shows how different pressures are related to different goals. Pressures usually act on multiple goals, and some goals may have more or fewers relevant pressures than others. The values indicate different levels of effect: 1 is the smallest effect, 2 is a moderate effect, 3 is the largest effect."),
+            br(),
             div(DT::dataTableOutput("prs_matrix"), style = "font-size: 80%")
           )
         ),
@@ -401,6 +406,8 @@ dashboardPage(
             collapsed = TRUE,
             width = 12,
             title = "Resilience Components' Relevance to Different Goals", 
+            p("This table shows how different resilience elements are related to different goals. The values indicate different levels of effect: 1 is the smallest effect, 2 is a larger effect."),
+            br(),
             div(DT::dataTableOutput("res_matrix"), style = "font-size: 80%")
           )
         )

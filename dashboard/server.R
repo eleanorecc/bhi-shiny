@@ -3,6 +3,7 @@ function(input, output, session){
   spatial_unit <- reactive({input$spatial_unit})
   dimension <- reactive({input$dimension})
   view_year <- reactive({input$view_year})
+  # legend_title <- 
   
   ## WELCOME ----
   
@@ -21,6 +22,13 @@ function(input, output, session){
       )
     }, ignoreNULL = FALSE
   )
+  
+  ## video intro
+  output$iframe_video <- renderUI({
+    src = "https://www.youtube.com/embed/3g6Xfq9FOrU"
+    tags$iframe(src=src, width="515", height="290", frameborder="0", allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture")
+  })
+ 
   
   ## map with reactivity
   output$index_map <- renderLeaflet({
@@ -83,8 +91,18 @@ function(input, output, session){
     list(
       src = file.path(dir_main, "figures", "method_figure.png"),
       contentType = "image/jpeg", 
-      width = "650px",
-      height = "500px"
+      width = "675px",
+      height = "515px"
+    )
+  },
+  deleteFile = FALSE)
+  
+  output$ohi_dims_figure <- renderImage({
+    list(
+      src = file.path(dir_main, "figures", "ohi_dimensions.png"),
+      contentType = "image/jpeg", 
+      width = "320px",
+      height = "270px"
     )
   },
   deleteFile = FALSE)
@@ -139,7 +157,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -203,7 +221,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -266,7 +284,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -330,7 +348,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -394,7 +412,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -457,7 +475,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -521,7 +539,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -584,7 +602,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -648,7 +666,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -712,7 +730,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -776,7 +794,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -840,7 +858,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -903,7 +921,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -967,7 +985,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -1031,7 +1049,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -1095,7 +1113,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -1158,7 +1176,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",
@@ -1222,7 +1240,7 @@ callModule(
   dimension_selected = dimension,
   spatial_unit_selected = spatial_unit,
   year_selected = view_year,
-  legend_title = "Scores",
+  legend_title = dimension,
   lyrs_latlon = c(), 
   lyrs_polygons = list(),
   popup_title = "Score:",

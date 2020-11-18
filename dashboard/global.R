@@ -5,6 +5,7 @@ library(shinyjs)
 library(shinyWidgets)
 library(DT)
 library(DBI)
+library(dbplyr)
 library(stringr)
 
 
