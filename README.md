@@ -13,13 +13,11 @@ The Dashboard is a data exploration tool, for visualizing the results as well as
 
 [baltic-ohi.shinyapps.io](https://baltic-ohi.shinyapps.io/dashboard/)
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/OHI-Baltic/bhi-shiny/master?urlpath=shiny%2Fdashboard%2F)
-
 <br>
 
 ---
 
-### `BHI 2.0` 
+### `BHI 2.1` 
 
 The Baltic Health Index is a regional study under the global Ocean Health Index framework. The aim is to maintain and continually improve a fully-transparent tool that can be used by decision-makers to guide management of the Baltic Sea region towards increased sustainability. We strive to use the best open source tools available, to make our data preparation, results, calculations, reference levels and underlying data easily accessible and entirely transparent (read more about this: [Better Science in Less Time](https://www.nature.com/articles/s41559-017-0160)).
 

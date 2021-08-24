@@ -1,16 +1,16 @@
 @import url('//fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Lato|Raleway&display=swap');
 
 .skin-blue .main-header .logo {
-    background-color: #1c3548;
-    color: #f3ffe2;
+    background-color: #629ec1;
+    color: #42435a;
     border-bottom: 4 solid;
     font-family: "Open Sans Condensed";
     font-weight: 200;
-    font-size: 29px;
+    font-size: 30px;
 }
 
 .skin-blue .main-header .navbar {
-    background-color: #1c3548;
+    background-color: #83adc5;
 }
 
 .main-header .logo {
@@ -20,23 +20,55 @@
 }
 
 .skin-blue .main-sidebar, .skin-blue .wrapper {
-    background-color: #111b19;
+    background-color: #0c1d1f;
 }
 
 .skin-blue .treeview-menu>li>a {
-    color: #8db1a8;
-    background-color: #09100f;
+    color: #a3c1ba;
+    background-color: #050c0c;
 }
 
-h1, h2, h3{
-  font-family: 'Open+Sans', 'Lato', sans-serif;
-  font-weight: 500;
+h1 {
+  font-weight: 300;
+  font-size: 36px;
+  color: #83adc5;
 }
 
-h4{
-  font-family: 'Lato', Helvetica, Arial, sans-serif;
-  font-weight: 500;
-  line-height: 1.5em;
-  margin-top: 7px;
-  color: #3c8dbc;
+h4 {
+  color: #90acbd;
+}
+
+/*  main map */ 
+/*  from https://github.com/rstudio/shiny-examples/tree/master/063-superzip-example */ 
+
+#index_map {
+  height: calc(100vh - 80px) !important;  
+}
+
+#mapcontrols {
+  background-color: white;
+  padding: 0 20px 20px 20px;
+  cursor: move;
+  opacity: 0.65;
+  zoom: 0.9;
+  transition: opacity 500ms 1s;
+}
+
+#mapcontrols:hover {
+  opacity: 0.95;
+  transition-delay: 0;
+}
+
+#mappopups {
+  background-color: white;
+  padding: 0 20px 20px 20px;
+  cursor: move;
+  opacity: 0.65;
+  zoom: 0.9;
+  transition: opacity 500ms 1s;
+}
+
+#mappopups:hover {
+  opacity: 0.95;
+  transition-delay: 0;
 }

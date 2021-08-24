@@ -3,17 +3,15 @@ library(shiny)
 library(shinydashboard)
 library(shinyjs)
 library(shinyWidgets)
+library(leaflet)
 library(DT)
 library(DBI)
 library(dbplyr)
 library(stringr)
+library(ggplot2)
+library(sp)
+library(dplyr)
 
-
-assess_year <- 2019
-
-gh_raw_bhi <- "https://raw.githubusercontent.com/OHI-Science/bhi/master/baltic2019draft/"
-gh_raw_bhiprep <- "https://raw.githubusercontent.com/OHI-Science/bhi-prep/master/"
-gh_prep <- "https://github.com/OHI-Science/bhi-prep"
 
 ## Set main App Directory ----
 dir_main <- here::here()
@@ -21,121 +19,93 @@ if(length(grep("dashboard", dir_main, value = TRUE)) == 0){
   dir_main <- here::here("dashboard")
 }
 
+
+## Assessment Info ----
+## global variables/values to be used throughout the app
+assess_year <- 2020
+bhi_version <- "v2021"
+## folder in bhi repo where assessment scores are located
+scenario_folder <- "index"
+
+## these urls should point to the most recent versions of everything
+## note the raw github urls are invalid; these are used to construct longer, valid urls 
+## eg for making data source tables for each goal page from the raw goal prep docs
+gh_api_bhiprep <- "https://api.github.com/repos/OHI-Baltic/bhi-prep/git/trees/master?recursive=1"
+gh_raw_bhi <- "https://raw.githubusercontent.com/OHI-Baltic/bhi/master"
+gh_raw_bhi <- "https://raw.githubusercontent.com/OHI-Baltic/bhi/master"
+gh_prep <- "https://github.com/OHI-Baltic/bhi-prep"
+
+
 ## Creating Shiny content Functions ----
-source(file.path(dir_main, "R", "theme.R"))
-source(file.path(dir_main, "R", "mapping.R"))
-source(file.path(dir_main, "R", "visualization.R"))
-
-source(file.path(dir_main, "modules", "map_card.R"))
-source(file.path(dir_main, "modules", "barplot_card.R"))
-source(file.path(dir_main, "modules", "flowerplot_card.R"))
+source(file.path(dir_main, "theme.R"))
+source(file.path(dir_main, "R", "map.R"))
 source(file.path(dir_main, "modules", "scorebox_card.R"))
-source(file.path(dir_main, "modules", "tsplot_card.R"))
-source(file.path(dir_main, "modules", "addfigs_card.R"))
 
 
-## Functions for Shiny App UI ----
-
-#' expand contract menu sidebar subitems
-#'
-#' ui function to expand and contract subitems in menu sidebar
+#' expand contract menu sidebar sub-items
+#' 
+#' ui function to expand and contract sub-items in menu sidebar
 #' from convertMenuItem by Jamie Afflerbach https://github.com/OHI-Northeast/ne-dashboard/tree/master/functions
-#'
-#' @param mi menu item as created by menuItem function, including subitems from nested menuSubItem function
+#' @param mi menu item as created by menuItem function, including sub-items from nested menuSubItem function
 #' @param tabName name of the tab that correspond to the mi menu item
-#'
 #' @return expanded or contracted menu item
-
 convertMenuItem <- function(mi, tabName){
   mi$children[[1]]$attribs['data-toggle'] = "tab"
   mi$children[[1]]$attribs['data-value'] = tabName
   if(length(mi$attribs$class) > 0 && mi$attribs$class == "treeview"){
     mi$attribs$class = NULL
   }
+  if(tabName != "explore"){
+    mi$children[[1]]$attribs$onclick = "event.stopPropagation()"
+  }
   mi
 }
 
 #' create text boxes with links
-#'
+#' 
 #' @param title the text to be displayed in the box
 #' @param url url the box should link to
-#' @param box_width width of box, see shinydashboard::box 'width' arguement specifications
-#'
-#' @return
-
+#' @param box_width width of box, see shinydashboard::box 'width' argument specifications
 text_links <- function(title = NULL, url = NULL, box_width = 12){
   box(
     class = "text_link_button",
-    h4(strong(a(paste("\n", title), href = url, target = "_blank", style = "color:#b12737"))), 
+    h4(a(paste("\n", title), href = url, target = "_blank", style = "color:#ecf0f5")), 
     width = box_width,
-    height = 65,
+    height = 63,
     background = "light-blue",
-    status = "danger",
+    status = "info",
     solidHeader = TRUE
   )
 }
 
 
-## Shiny Global Data ----
 
+## Data ----
+## goals, scores, spatial look ups from database
 bhidbconn <- dbConnect(RSQLite::SQLite(), dbname = file.path(dir_main, "data/bhi.db"))
+df_goals <- dbReadTable(bhidbconn, "Goals")
+df_scores <- dbReadTable(bhidbconn, "IndexScores")
+df_subbasins <- dbReadTable(bhidbconn, "Subbasins")
+df_regions <- dbReadTable(bhidbconn, "Regions")
+dbDisconnect(bhidbconn)
 
-full_scores_csv <- dbReadTable(bhidbconn, "IndexScores")
-full_scores_lst <- list()
-for(g in unique(full_scores_csv$goal)){
-  for(d in unique(full_scores_csv$dimension)){
-    for(y in as.character(unique(full_scores_csv$year))){
-      full_scores_lst[[g]][[d]][[y]] <- full_scores_csv %>% 
-        filter(goal == g, dimension == d, year == y)
+## helpful in some cases to have scores as a list...
+## used in map functions currenty
+lst_scores <- list()
+for(g in unique(df_scores$goal)){
+  for(d in unique(df_scores$dimension)){
+    for(y in as.character(unique(df_scores$year))){
+      lst_scores[[g]][[d]][[y]] <- dplyr::filter(df_scores, goal == g, dimension == d, year == y)
     }
   }
 }
-goals_csv <- dbReadTable(bhidbconn, "Goals")
-data_info <- tbl(bhidbconn, "DataSources") %>% 
-  left_join(tbl(bhidbconn, "FlowerConf")) %>% 
-  collect() %>% 
-  left_join(select(goals_csv, goal, goal_name)) %>% 
-  rowwise() %>% 
-  mutate(goal = list(c(goal, parent))) %>% 
-  tidyr::unnest(cols = c(goal)) %>% 
-  dplyr::filter(!is.na(goal)) %>% 
-  ungroup() %>% 
-  select(goal, `Goal/Subgoal` = goal_name, Dataset = dataset, Source = source)
 
-regions_df <- dbReadTable(bhidbconn, "Regions")
-subbasins_df <- dbReadTable(bhidbconn, "Subbasins") %>% 
-  rename(subbasin_id = region_id)
-
-prs_matrix <- tbl(bhidbconn, "Pressures") %>% 
-  left_join(tbl(bhidbconn, "DataLayers")) %>% 
-  mutate(full_layer_name = ifelse(is.na(full_layer_name), "Inverse of World Governance Indicator", full_layer_name)) %>% 
-  select(Layer = full_layer_name, weight, goal_name) %>% 
-  collect() %>% 
-  tidyr::pivot_wider(names_from = "goal_name", values_from = "weight")
-res_matrix <- tbl(bhidbconn, "Resilience") %>% 
-  left_join(tbl(bhidbconn, "DataLayers")) %>% 
-  select(Layer = full_layer_name, weight, goal_name) %>% 
-  collect() %>% 
-  tidyr::pivot_wider(names_from = "goal_name", values_from = "weight")
-
-dbDisconnect(bhidbconn)
+## spatial data as spatial polygons not simple features
+bhi_rgn_shp <- readr::read_rds(file.path(dir_main, "data", "regions.rds"))
+subbasins_shp <- readr::read_rds(file.path(dir_main, "data", "subbasins.rds"))
+mpa_shp <- readr::read_rds(file.path(dir_main, "data", "mpas.rds"))
 
 
-rgns_shp <- make_rgn_sf(
-  bhi_rgns_shp = read_rds(file.path(dir_main, "data", "regions.rds")), 
-  scores_lst = full_scores_lst, 
-  goal = "Index", 
-  dim = "score", 
-  year = assess_year
-)
-subbasins_shp <- make_subbasin_sf(
-  subbasins_shp = read_rds(file.path(dir_main, "data", "subbasins.rds")), 
-  scores_lst = full_scores_lst, 
-  dim = "score", 
-  year = assess_year
-)
-mpa_shp <- read_rds(file.path(dir_main, "data", "mpas.rds"))
-
-
-## theme for shinydash and visualizations
+## Theme for shiny dashboard and visualizations ----
 thm <- apply_bhi_theme()
+
