@@ -104,6 +104,11 @@ Subbasins <- read_csv(sprintf("%s/%s/layers/rgns_complete.csv", gh_raw_bhi, scen
 Goals <- read_csv(sprintf("%s/%s/conf/goals.csv", gh_raw_bhi, scenario_folder)) %>% 
   select(goal, goal_name = name, description)
 
+## flowerplot configuration table
+FlowerConf <- read_csv(sprintf("%s/%s/conf/plot_config.csv", gh_raw_bhi, scenario_folder)) %>% 
+  select(goal, parent, name, name_flower, weight, order_hierarchy)
+
+
 ## data sources table
 ## see rebuild.R for make_data_table function
 DataSources <- make_data_table(gh_raw_bhiprep, bhi_version)
