@@ -1,10 +1,13 @@
 function(input, output, session){
   
-  rgn_set <- reactive({input$rgn_set})
-  idx_dim <- reactive({input$idx_dim})
-  gl_code <- reactive({input$gl_code})
-  
   values <- reactiveValues()
+  
+  ## to make things reactive to whether sidebar is collapsed or not
+  ## https://github.com/RinteRface/shinydashboardPlus/issues/57
+  values$collapsed <- FALSE
+  observeEvent(input$sidebar_col_react, {
+    values$collapsed =! values$collapsed
+  })
   
   
   ## welcome page ----
@@ -25,22 +28,38 @@ function(input, output, session){
       allowtransparency="true"
     )
   })
-  output$flowerplot <- renderImage({
-    
+  ## flowerplot
+  values$flower_rgn <- 0
+  values$flowerwidth <- "85%"
+  flowerListen <- reactive({
+    list(input$flower_rgn, input$sidebar_col_react)
   })
+  observeEvent(
+    eventExpr = flowerListen(), {
+      values$flower_rgn <- input$flower_rgn
+      values$flowerwidth <- ifelse(isTRUE(values$collapsed), "63%", "90%")
+      callModule(
+        flowerplotCard, 
+        "baltic_flowerplot",
+        flower_rgn_selected = reactive(values$flower_rgn),
+        flowerwidth = reactive(values$flowerwidth)
+      )
+    }, ignoreNULL = FALSE
+  )
   
   
-  ## map ----
+  ## map options ----
+  
+  ## set initial inputs, and then observe changes in selected inputs
+  ## not using just input 'selected' argument because would reset map when sidebar collapses
+  values$gl_code <- "Index"
+  values$rgn_set <- "regions"
+  values$idx_dim <- "score"
+  values$mappopups_buttons <- "popupscore"
   
   ## put map options 'absolute' panel on the left
   ## but make reactive to whether sidebar is collapsed or not
   ## https://github.com/RinteRface/shinydashboardPlus/issues/57
-  values$collapsed <- FALSE
-  observeEvent(input$sidebar_col_react, {
-    values$collapsed =! values$collapsed
-    ## still not resetting to single map when collapsing...
-    if(isFALSE(values$collapsed)){values$map_data_alt <- NULL}
-  })
   mapcontrols_pos <- reactive({
     if(values$collapsed){x <- 75} else {x <- 400}
     return(x)
@@ -49,12 +68,12 @@ function(input, output, session){
     absolutePanel(
       id = "mapcontrols", class = "panel panel-default", fixed = TRUE, draggable = TRUE,
       top = 83, left = mapcontrols_pos(), right = "auto", bottom = "auto",
-      ## width of pane set to 276 so two action buttons fit side-by-side
-      width = 276, height = "auto",
+      ## width of pane set to 304 so two action buttons fit side-by-side
+      width = 304, height = "auto",
       br(),
       selectInput(
         "gl_code",
-        "Goal",
+        label = NULL,
         choices = c(
           `Index` = "Index",
           `Artisanal Fishing Opportunity (AO)` = "AO",
@@ -63,33 +82,33 @@ function(input, output, session){
           `Clean Waters (CW)` = "CW",
           `Contaminants (CON)` = "CON",
           `Eutrophication (EUT)` = "EUT",
-          `Trash (TRE)` = "TRA",
+          `Trash (TRA)` = "TRA",
           `Food Provision (FP)` = "FP",
           `Wildcaught Fisheries (FIS)` = "FIS",
           `Mariculture (MAR)` = "MAR",
-          `Coastal Livelihoods and Economies (LE)` = "LE",
-          `Economies (ECO)` = "ECO",
-          `Livelihoods (LIV)` = "LIV",
+          `Livelihoods & Economy (LE)` = "LE",
+          `Blue Economy (ECO)` = "ECO",
+          `Coastal Livelihoods (LIV)` = "LIV",
           `Sense of Place (LSP)` = "SP",
           `Iconic Species (ICO)` = "ICO",
           `Lasting Special Places (LSP)` = "LSP",
           `Natural Products (NP)` = "NP",
           `Tourism (TR)` = "TR"
         ),
-        selected = "Index"
+        selected = values$gl_code
       ),
       selectInput(
         "rgn_set",
-        "Region Set",
+        label = NULL,
         choices = c(
           `BHI Regions` = "regions",
           `Subbasins` = "subbasins"
         ),
-        selected = "regions"
+        selected = values$rgn_set
       ),
       selectInput(
         "idx_dim",
-        "Index Dimension",
+        label = NULL,
         choices = c(
           `Score` = "score",
           `Likely Future` = "future",
@@ -98,86 +117,89 @@ function(input, output, session){
           `Current Status` = "status",
           `Short Term Trend` = "trend"
         ),
-        selected = "score"
+        selected = values$idx_dim
       ),
-      actionButton("splitmap", "Duplicate Map"),
-      actionButton("unsplitmap", "Single Map View")
-    )
-  })
-  mappopups_pos <- reactive({
-    if(values$collapsed){x <- 360} else {x <- 680}
-    return(x)
-  })
-  output$mappopups_panel <- renderUI({
-    absolutePanel(
-      id = "mappopups", class = "panel panel-default", fixed = TRUE, draggable = TRUE,
-      top = 83, left = mappopups_pos(), right = "auto", bottom = "auto",
-      width = 135, height = "auto",
-      br(),
-      radioButtons(
-        "mappopups_buttons", 
-        "Pop-up", 
+      selectInput(
+        "mappopups_buttons",
+        label = NULL,
         choices = c(
-          `Score Value` = "mappopscore",
-          `Bar Plot` = "mappopbar",
-          `Flower Plot` = "mappopflower"
+          `Pop-up with Score Value` = "mappopscore",
+          `Pop-up with Flower Plot` = "mappopflower",
+          `View with Bar Plot` = "mappopbar"
         ),
-        selected = "mappopscore"
-      )
-    )
-  })
-  ## make the map itself, based on inputs defined above
-  ## still have an issue with duplicate/single view and collapsing/uncollapsing reset...
-  observeEvent(input$splitmap, {
-    values$map_data_alt <- wrangle_mapdata(
-      df_scores,
-      rgn_set = rgn_set(),
-      goal_code = gl_code(),
-      dim = idx_dim(),
-      year = assess_year
-    )
-    updateRadioButtons(
-      session, 
-      "mappopups_buttons", 
-      "Pop-up", 
-      choices = c(`Score Value` = "mappopscore"),
-      selected = "mappopscore"
-    )
-  })
-  observeEvent(input$unsplitmap, {
-    values$map_data_alt <- NULL
-    updateRadioButtons(
-      session,
-      "mappopups_buttons", 
-      "Pop-up", 
-      choices = c(
-        `Score Value` = "mappopscore",
-        `Bar Plot` = "mappopbar",
-        `Flower Plot` = "mappopflower"
+        selected = values$mappopups_buttons
       ),
-      selected = "mappopscore"
+      actionButton("split_unsplit_map", "Duplicate / Return to Single View"),
+      actionButton("refresh_map", icon("sync"))
     )
   })
-  output$index_map <- renderLeaflet({
-    map_data <- wrangle_mapdata(
-      df_scores, 
-      rgn_set = rgn_set(), 
-      goal_code = gl_code(), 
-      dim = idx_dim(), 
-      year = assess_year
-    )
-    leafletmap <- make_map(map_data)
-    if(!is.null(values$map_data_alt)){
-      leafletmap <- split_map(leafletmap, values$map_data_alt)
+  mapcontrolsListen <- reactive({
+    list(input$gl_code, input$rgn_set, input$idx_dim, input$mappopups_buttons)
+  })
+  observeEvent(
+    eventExpr = mapcontrolsListen(), {
+      values$rgn_set <- input$rgn_set
+      values$gl_code <- input$gl_code
+      values$idx_dim <- input$idx_dim
+      values$mappopups_buttons <- input$mappopups_buttons
     }
-    return(leafletmap)
+  )
+  
+  ## map ----
+  
+  ## map split/duplicate/return to single view
+  ## if either split/un-split or refresh_map buttons are clicked 
+  ## calculate secondary polygons layer for duplicate view
+  values$mapsplit <- FALSE
+  observeEvent(input$split_unsplit_map, {
+    values$mapsplit =! values$mapsplit
   })
+  mapListen <- reactive({
+    list(input$split_unsplit_map, input$refresh_map)
+  })
+  observeEvent(
+    eventExpr = mapListen(), {
+      if(isTRUE(values$mapsplit)){
+        values$map_data_alt <- wrangle_mapdata(
+          df_scores,
+          rgn_set = values$rgn_set,
+          goal_code = values$gl_code,
+          dim = values$idx_dim,
+          year = assess_year
+        )
+      } else {values$map_data_alt <- NULL}
+    }, ignoreNULL = FALSE
+  )
+  
+  # make the map itself, based on inputs defined above
+  output$index_map <- renderLeaflet({leafletmap <- make_basemap()})
+  # observeEvent({
+  #   
+  # })
+  #   leafletmap <- make_basemap()
+  #   map_data <- wrangle_mapdata(
+  #     df_scores,
+  #     rgn_set = values$rgn_set,
+  #     goal_code = values$gl_code,
+  #     dim = values$idx_dim,
+  #     year = assess_year
+  #   )
+  #   leafletmap <- make_map(leafletmap, map_data)
+  #   leafletmap <- add_popup(leafletmap, map_data, values$mappopups_buttons)
+  #   if(isTRUE(values$mapsplit)){
+  #     leafletmap <- make_map(leafletmap, values$map_data_alt, second_map = TRUE)
+  #     leafletmap <- add_popup(leafletmap, values$map_data_alt, values$mappopups_buttons, second_map = TRUE)
+  #   }
+  #   
+  #   
+  #   return(leafletmap)
+  # })
 
 
   ## AO ----
   
   ## overall score box in top right
-  callModule(scoreBox, "ao_infobox", goal_code = "AO")
+  callModule(scoreBox, "ao_infobox", goal_code = "AO", goal_confidence = "HIGH")
   
   ## BD ----
   

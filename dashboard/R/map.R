@@ -17,7 +17,7 @@ wrangle_mapdata <- function(df_scores, rgn_set = "subbasins", goal_code = "Index
     subbasins_shp@data <- subbasins_shp@data %>% 
       select(region_id) %>% 
       left_join(mapping_data, by = "region_id")
-    mapsp <- subbasins_shp
+    df <- subbasins_shp
   }
   if(rgn_set == "regions"){
     mapping_data <- df_regions %>% 
@@ -26,40 +26,20 @@ wrangle_mapdata <- function(df_scores, rgn_set = "subbasins", goal_code = "Index
     bhi_rgn_shp@data <- bhi_rgn_shp@data %>% 
       select(region_id) %>% 
       left_join(mapping_data, by = "region_id")
-    mapsp <- bhi_rgn_shp
+    df <- bhi_rgn_shp
   }
   
   ## return sp object to make map as well as options
   return(list(
-    mapsp = mapsp, 
+    df = df, 
     optn = list(rgn_set = rgn_set, goal_code = goal_code, dim = dim, year = year)
   ))
 }
 
-#' make bhi dash leaflet map
-#'
-#' @param mapsp_base object created using wrangle_mapdata function
-make_map <- function(mapsp_base){
-  
-  ## handling different dimensions
-  ## adjust or flip palettes
-  if(mapsp_base$optn$dim == "trend"){paldomain = c(-1, 1)} else {paldomain = c(0, 100)}
-  if(mapsp_base$optn$dim == "pressures"){
-    pal <- leaflet::colorNumeric(
-      palette = rev(thm$palettes$mappal),
-      domain = paldomain,
-      na.color = thm$cols$map_background1
-    )
-  } else {
-    pal <- leaflet::colorNumeric(
-      palette = thm$palettes$mappal,
-      domain = paldomain,
-      na.color = thm$cols$map_background1
-    )
-  }
+make_basemap <- function(){
   
   ## create basemap
-  map <- leaflet::leaflet() %>%
+  map <- leaflet() %>%
     addMapPane("right", zIndex = 0) %>%
     addMapPane("left", zIndex = 0) %>%
     addProviderTiles(
@@ -67,42 +47,7 @@ make_map <- function(mapsp_base){
       layerId = "baseid",
       options = pathOptions(pane = "right")
     ) %>%
-    setView(19, 60, zoom = 5)
-  
-  ## scores polygons
-  map <- map %>% 
-    addPolygons(
-      data = mapsp_base$mapsp,
-      stroke = TRUE,
-      opacity = 0.5,
-      weight = 2,
-      fillOpacity = 0.8,
-      smoothFactor = 0.5,
-      color = thm$cols$map_polygon_border1,
-      fillColor = ~pal(score),
-      highlightOptions = highlightOptions(
-        color = "steelblue", weight = 1,
-        bringToFront = TRUE
-      ),
-      group = "base",
-      options = pathOptions(pane = "right")
-    )
-  
-  ## minimap, easybuttons, legend
-  map <- map %>% 
-    addLegend(
-      "bottomright",
-      pal = pal,
-      values = c(paldomain[1]:paldomain[2]),
-      title = paste(
-        str_to_upper(mapsp_base$optn$dim), 
-        "<br>",
-        str_to_upper(mapsp_base$optn$year),
-        str_to_upper(mapsp_base$optn$goal_code)
-      ),
-      opacity = 0.8,
-      layerId = "colorLegend_base"
-    ) %>% 
+    setView(20, 60, zoom = 5) %>% 
     addMiniMap(
       tiles = providers$Esri.NatGeoWorldMap,
       zoomLevelOffset = -4,
@@ -131,7 +76,12 @@ make_map <- function(mapsp_base){
         icon="fa-database", title="Get the data",
         onClick=JS("function(){window.location.href = 'https://github.com/OHI-Baltic/bhi-shiny/tree/master/dashboard/data';}")
       )
-    ) %>%
+    ) %>% 
+    # addMeasure(
+    #   position = "topleft", primaryLengthUnit = "meters", 
+    #   primaryAreaUnit = "acres", secondaryAreaUnit = "sqmeters",
+    #   activeColor = "#ff6f69", completedColor = "#00a9ff"
+    # ) %>%
     ## https://github.com/trafficonese/leaflet.extras2/blob/master/inst/examples/easyprint_app.R
     leaflet.extras2::addEasyprint(
       options = leaflet.extras2::easyprintOptions(
@@ -141,19 +91,32 @@ make_map <- function(mapsp_base){
         filename = "mymap-baltic-health-index"
       )
     )
-  return(map)
 }
 
-#' split leaflet map
+#' make bhi dash leaflet map
 #'
-#' @param leaflet_map leaflet map created using the make_map function above
-#' @param mapsp_alt object created using wrangle_mapdata function
-split_map <- function(leaflet_map, mapsp_alt){
+#'#@param leaflet_map leaflet map created using make_basemap function
+#' @param df object created using wrangle_mapdata function
+#' @param duplicatemap
+make_map <- function(leaflet_map, df, second_map = FALSE){
+  
+  ## vars to indicate which pane to add polygons to
+  if(isFALSE(second_map)){
+    add_to_group <- "base"
+    add_to_pane <- "right"
+    new_legend_pos <- "bottomright"
+    new_legend_id <- "colorLegend_base"
+  } else {
+    add_to_group <- "alt"
+    add_to_pane <- "left"
+    new_legend_pos <- "bottomleft"
+    new_legend_id <- "colorLegend_alt"
+  }
   
   ## handling different dimensions
   ## adjust or flip palettes
-  if(mapsp_alt$optn$dim == "trend"){paldomain = c(-1, 1)} else {paldomain = c(0, 100)}
-  if(mapsp_alt$optn$dim == "pressures"){
+  if(df$optn$dim == "trend"){paldomain = c(-1, 1)} else {paldomain = c(0, 100)}
+  if(df$optn$dim == "pressures"){
     pal <- leaflet::colorNumeric(
       palette = rev(thm$palettes$mappal),
       domain = paldomain,
@@ -167,15 +130,10 @@ split_map <- function(leaflet_map, mapsp_alt){
     )
   }
   
-  ## add second pane to basemap
-  map <- leaflet_map %>%
-    addProviderTiles(
-      providers$Esri.WorldGrayCanvas,
-      layerId = "altid",
-      options = pathOptions(pane = "left")
-    ) %>%
+  ## add scores polygons
+  map <- leaflet_map %>% 
     addPolygons(
-      data = mapsp_alt$mapsp,
+      data = df$df,
       stroke = TRUE,
       opacity = 0.5,
       weight = 2,
@@ -187,23 +145,145 @@ split_map <- function(leaflet_map, mapsp_alt){
         color = "steelblue", weight = 1,
         bringToFront = TRUE
       ),
-      group = "alt",
-      options = pathOptions(pane = "left")
+      group = add_to_group,
+      options = pathOptions(pane = add_to_pane)
     ) %>% 
     addLegend(
-      "bottomleft",
+      new_legend_pos,
       pal = pal,
       values = c(paldomain[1]:paldomain[2]),
       title = paste(
-        str_to_upper(mapsp_alt$optn$dim), 
+        str_to_upper(df$optn$dim), 
         "<br>",
-        str_to_upper(mapsp_alt$optn$year),
-        str_to_upper(mapsp_alt$optn$goal_code)
+        str_to_upper(df$optn$year),
+        str_to_upper(df$optn$goal_code),
+        "<br>",
+        str_to_upper(df$optn$rgn_set)
       ),
       opacity = 0.8,
-      layerId = "colorLegend_alt"
-    ) %>% 
-    leaflet.extras2::addSidebyside(layerId = "sidecontrols", rightId = "baseid", leftId = "altid")
+      layerId = new_legend_id
+    )  
   
+  if(isTRUE(second_map)){
+    map <- map %>% 
+      addProviderTiles(
+        providers$Esri.WorldGrayCanvas,
+        layerId = "altid",
+        options = pathOptions(pane = "left")
+      ) %>%
+      leaflet.extras2::addSidebyside(
+        layerId = "sidecontrols", 
+        rightId = "baseid", 
+        leftId = "altid"
+      )
+  }
+  return(map)
+}
+
+add_popup <- function(leaflet_map, df, popup_type, second_map = FALSE){
+  
+  ## vars to indicate which pane to add pop-ups to
+  if(isFALSE(second_map)){
+    add_to_group <- "base"
+    add_to_pane <- "right"
+  } else {
+    add_to_group <- "alt"
+    add_to_pane <- "left"
+  }
+  
+  if(popup_type == "mappopscore"){
+    p <- paste(
+      "<h5><strong>", paste(df$optn$goal_code, df$optn$dim), "</strong>",
+      df$df[["score"]], "</h5>",
+      "<h5><strong>", "Name", "</strong>",
+      df$df[["Name"]], "</h5>", sep = " "
+    )
+    map <- leaflet_map %>%
+      addPolygons(
+        data = df$df, 
+        popup = p,
+        fillOpacity = 0,
+        stroke = FALSE,
+        group = add_to_group,
+        options = pathOptions(pane = add_to_pane)
+      )
+  }
+  if(popup_type == "mappopflower"){
+    figs <- "https://raw.githubusercontent.com/OHI-Baltic/bhi-shiny/update/dashboard/figures/"
+    map <- leaflet_map %>% 
+      addPolygons(
+        data = df$df, 
+        popup = paste0("<img src = ", figs, "flowerplot", substr(df$df$region_id, 5, 7), ".png width=300>"), 
+        fillOpacity = 0,
+        stroke = FALSE,
+        group = add_to_group,
+        options = pathOptions(pane = add_to_pane)
+      )
+  }
+  if(popup_type == "mappopbar"){
+    
+    ## palette to match the map
+    ## handling different dimensions, adjust or flip palettes
+    pal <- thm$palettes$mappal
+    if(df$optn$dim == "trend"){paldomain = c(-1, 1)} else {paldomain = c(0, 100)}
+    if(df$optn$dim == "pressures"){pal <- rev(pal)}
+    
+    ## get data and reorder factor levels so arranged roughly north to south
+    plotdf <- df$df@data
+    if(df$optn$rgn_set == "regions"){
+      plotdf$region_id <- factor(plotdf$region_id, levels = rev(arrange(df_regions, region_order)$region_id))
+    } else {
+      plotdf$region_id <- factor(plotdf$region_id, levels = rev(arrange(df_subbasins, subbasin_order)$region_id))
+    }
+    
+    
+    ## make and save plot
+    barplot <- ggplot(plotdf) + 
+      geom_col(
+        aes(x = region_id, y = score, fill = score), 
+        color = "dimgrey", size = 0.1, show.legend = FALSE
+      ) +
+      geom_hline(yintercept = 100) +
+      geom_text(
+        aes(x = region_id, y = score, label = Name), 
+        size = 1.7, alpha = 0.7, nudge_y = 10
+      ) +
+      coord_flip() +
+      scale_fill_gradientn(
+        colors = pal,
+        na.value = thm$cols$map_background1, 
+        limits = paldomain
+      ) +
+      theme_linedraw() +
+      theme(
+        axis.text = element_blank(),
+        axis.ticks = element_blank(), 
+        panel.grid = element_line(color = "gainsboro")
+      ) +
+      labs(x = NULL, y = NULL)
+    
+    ggsave(
+      filename = file.path(dir_main, "www", "barplot.png"), 
+      plot = barplot, 
+      width = 2.3, height = 3.8, dpi = 400
+    )
+    p <- tags$div(HTML(
+      "<div id='map'><div id='logoContainer'>
+          <img src='barplot.png' width='300'>
+          </div></div>"
+    ))
+    
+    ## don't include bar plot when having split map
+    ## because otherwise would have to resize, and there's not really room for it...
+    if(isFALSE(second_map)){
+      map <- leaflet_map %>%
+        removeControl(layerId = "barplot") %>% 
+        addControl(p, position = "topright", layerId = "barplot")
+    } else {
+      map <- leaflet_map %>%
+        removeControl(layerId = "barplot")
+    }
+  }
+
   return(map)
 }

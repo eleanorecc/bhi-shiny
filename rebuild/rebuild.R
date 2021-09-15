@@ -216,7 +216,7 @@ make_flower_plot <- function(rgn_scores, rgns, plotconf, plot_year = NA){
             CELL_META$ycenter,
             circ_df$f1[circ_df$order_hierarchy == as.numeric(CELL_META$sector.index)][1],
             cex = 7.5,
-            col = "grey10", # thm$cols$med_grey3, 
+            col = "grey10", 
             adj = c(0.4, 1),
             facing = "bending.inside", 
             niceFacing = TRUE
@@ -234,7 +234,7 @@ make_flower_plot <- function(rgn_scores, rgns, plotconf, plot_year = NA){
             CELL_META$ycenter,
             circ_df$f2[circ_df$order_hierarchy == as.numeric(CELL_META$sector.index)][1],
             cex = 7.5,
-            col = "grey10", # thm$cols$med_grey3, 
+            col = "grey10", 
             adj = c(0.5, 0),
             facing = "bending.inside", 
             niceFacing = TRUE
@@ -249,8 +249,8 @@ make_flower_plot <- function(rgn_scores, rgns, plotconf, plot_year = NA){
         unique(circ_df$order_hierarchy[circ_df$name_supra == "Food Provision" & !is.na(circ_df$name_supra)]),
         track.index = 1, 
         text = "Food Provision", 
-        cex = 9.5, # 8.5, 
-        text.col = "grey50", # thm$cols$light_grey2, 
+        cex = 9.5,
+        text.col = "grey50",
         col = NA,
         facing = "bending.outside", 
         niceFacing = TRUE
@@ -259,8 +259,8 @@ make_flower_plot <- function(rgn_scores, rgns, plotconf, plot_year = NA){
         unique(circ_df$order_hierarchy[circ_df$name_supra == "Coastal Livelihoods & Economies" & !is.na(circ_df$name_supra)]),
         track.index = 1, 
         text = "Coastal Livelihoods & Economies", 
-        cex = 9.5, # 8.5, 
-        text.col = "grey50", # thm$cols$light_grey2, 
+        cex = 9.5, 
+        text.col = "grey50", 
         col = NA,
         facing = "bending.outside",
         niceFacing = TRUE
@@ -269,8 +269,8 @@ make_flower_plot <- function(rgn_scores, rgns, plotconf, plot_year = NA){
         unique(circ_df$order_hierarchy[circ_df$name_supra == "Sense of Place" & !is.na(circ_df$name_supra)]),
         track.index = 1, 
         text = "Sense of Place", 
-        cex = 9.5, # 8.5, 
-        text.col = "grey50", # thm$cols$light_grey2, 
+        cex = 9.5,
+        text.col = "grey50", 
         col = NA,
         facing = "bending.outside",
         niceFacing = TRUE
@@ -279,8 +279,8 @@ make_flower_plot <- function(rgn_scores, rgns, plotconf, plot_year = NA){
         unique(circ_df$order_hierarchy[circ_df$name_supra == "Clean Waters" & !is.na(circ_df$name_supra)]),
         track.index = 1, 
         text = "Clean Waters",
-        cex = 9.5, # 8.5, 
-        text.col = "grey50", # thm$cols$light_grey2, 
+        cex = 9.5,
+        text.col = "grey50",
         col = NA,
         facing = "bending.outside", 
         niceFacing = TRUE
@@ -321,7 +321,6 @@ make_flower_plot <- function(rgn_scores, rgns, plotconf, plot_year = NA){
   ## note this will only return the last plot
   return(invisible(plot_obj))
 }
-
 
 #' make data layers table
 #'

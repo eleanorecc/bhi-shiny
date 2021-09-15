@@ -40,6 +40,7 @@ gh_prep <- "https://github.com/OHI-Baltic/bhi-prep"
 source(file.path(dir_main, "theme.R"))
 source(file.path(dir_main, "R", "map.R"))
 source(file.path(dir_main, "modules", "scorebox_card.R"))
+source(file.path(dir_main, "modules", "flowerplot_card.R"))
 
 
 #' expand contract menu sidebar sub-items
@@ -66,14 +67,17 @@ convertMenuItem <- function(mi, tabName){
 #' @param title the text to be displayed in the box
 #' @param url url the box should link to
 #' @param box_width width of box, see shinydashboard::box 'width' argument specifications
-text_links <- function(title = NULL, url = NULL, box_width = 12){
+text_links <- function(title, style, url){
   box(
     class = "text_link_button",
-    h4(a(paste("\n", title), href = url, target = "_blank", style = "color:#ecf0f5")), 
-    width = box_width,
-    height = 63,
+    list(
+      h4(a(paste("\n", title), href = url, target = "_blank", style = paste(style, "font-weight:800;"))),
+      p(a("Click for detailed methods, additional figures, and code.", href = url, target = "_blank", style = style))
+    ),
+    width = 12,
+    height = 100,
     background = "light-blue",
-    status = "info",
+    status = "primary",
     solidHeader = TRUE
   )
 }

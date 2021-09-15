@@ -11,7 +11,7 @@ scoreBoxUI <- function(id){
 }
 
 ## score-box server function ----
-scoreBox <- function(input, output, session, goal_code){
+scoreBox <- function(input, output, session, goal_code, goal_confidence){
   
   scores <- df_scores %>%
     dplyr::filter(goal == goal_code, dimension == "score") %>% 
@@ -19,13 +19,17 @@ scoreBox <- function(input, output, session, goal_code){
   
   output$goal_scorebox <- renderInfoBox(
     infoBox(
-      title = "",
+      title = HTML(paste(
+        tags$h4(
+          "GOAL SCORE:", strong(filter(scores, region_id == "BHI-000")$score, style = "font-weight:800;"),
+          style = "color:#f8f9fb; font-size: 200%; font-weight:400; text-align:right; padding-top:0px; padding-bottom:0px;"
+        ),
+        tags$h4(
+          "CONFIDENCE:", goal_confidence,
+          style = "color:#8099af; font-size: 125%; text-align:right; padding-top:0px; padding-bottom:0px;"
+        )
+      )),
       icon = icon(thm$icons[[goal_code]]),
-      tags$p(
-        "Current Score", 
-        strong(filter(scores, region_id == "BHI-000")$score),
-        style = "font-size: 180%; text-align:right; font-weight:100; padding-top:18px; padding-bottom:0px;"
-      ),
       color = filter(thm$palettes$goalpal_shiny, goal == goal_code)$color,
       fill = TRUE
     )
